@@ -1,4 +1,7 @@
 class foreman_proxy::params {
+
+  include tftp::params
+
   # variables
   $dir  = '/usr/share/foreman-proxy'
   $user = 'foreman-proxy'
@@ -15,7 +18,6 @@ class foreman_proxy::params {
   $puppetrun_cmd = '/usr/sbin/puppetrun'
 
   # TFTP settings
-  require 'tftp'  # ensures we can access tftp module parameters
   $tftp           = true
   $syslinux_root  = '/usr/share/syslinux'
   $syslinux_files = ['pxelinux.0','menu.c32','chain.c32']
