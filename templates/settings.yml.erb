@@ -53,6 +53,7 @@
 
 # enable Puppet management
 :puppet: <%= scope.lookupvar("foreman_proxy::params::puppetrun") %>
+:puppet_conf: /etc/puppet/puppet.conf
 
 # Where our proxy log files are stored
 # filename or STDOUT
