@@ -8,7 +8,7 @@ class foreman_proxy::config {
     require => Class['foreman_proxy::install'],
     notify  => Class['foreman_proxy::service'],
   }
-
+ 
   file{'/etc/foreman-proxy/settings.yml':
     content => template('foreman_proxy/settings.yml.erb'),
     owner   => $foreman_proxy::params::user,
@@ -33,7 +33,9 @@ class foreman_proxy::config {
 
   if $foreman_proxy::params::puppetca  { include foreman_proxy::puppetca }
   if $foreman_proxy::params::tftp      { include foreman_proxy::tftp }
-  #if $foreman_proxy::params::dhcp      { include foreman_proxy::dhcp }
-  #if $foreman_proxy::params::dns       { include foreman_proxy::dns }
+
+  # Somehow, calling these DHCP and DNS seems to conflict. So, they get a prefix...
+  if $foreman_proxy::params::dhcp      { include foreman_proxy::proxydhcp }
+  if $foreman_proxy::params::dns       { include foreman_proxy::proxydns }
 
 }
