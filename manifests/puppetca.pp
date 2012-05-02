@@ -4,7 +4,7 @@ class foreman_proxy::puppetca {
     ensure  => present,
     owner   => $foreman_proxy::params::user,
     group   => $foreman_proxy::params::puppet_group,
-    mode    => '0644',
+    mode    => '0664',
     require => Class['foreman_proxy::install'],
   }
 

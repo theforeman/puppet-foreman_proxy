@@ -23,17 +23,23 @@
 # Enable TFTP management
 :tftp: <%= scope.lookupvar("foreman_proxy::params::tftp") %>
 :tftproot: <%= scope.lookupvar("foreman_proxy::params::tftproot") %>
+:tftp_servername: <%= scope.lookupvar("foreman_proxy::params::servername") %>
 # Defines the TFTP Servername to use, overrides the name in the subnet declaration
 #:tftp_servername: tftp.domain.com
 
 # Enable DNS management
 :dns: <%= scope.lookupvar("foreman_proxy::params::dns") %>
-#:dns_key: /etc/rndc.key
+:dns_key: <%= scope.lookupvar("foreman_proxy::params::keyfile") %>
 # use this setting if you are managing a dns server which is not localhost though this proxy
 #:dns_server: dns.domain.com
 
 # Enable DHCP management
 :dhcp: <%= scope.lookupvar("foreman_proxy::params::dhcp") %>
+<% if scope.lookupvar("foreman_proxy::params::dhcp") == true -%>
+:dhcp_vendor: <%= scope.lookupvar("foreman_proxy::params::dhcp_vendor") %>
+:dhcp_config: <%= scope.lookupvar("foreman_proxy::params::dhcp_config") %>
+:dhcp_leases: <%= scope.lookupvar("foreman_proxy::params::dhcp_leases") %>
+<% else -%>
 # The vendor can be either isc or native_ms
 :dhcp_vendor: isc
 # dhcp_subnets is a Native MS implementation setting. It restricts the subnets queried to a
@@ -47,6 +53,7 @@
 #:dhcp_leases: /var/lib/dhcpd/dhcpd.leases
 #:dhcp_key_name: secret_key_name
 #:dhcp_key_secret: secret_key
+<% end -%>
 
 # enable PuppetCA management
 :puppetca: <%= scope.lookupvar("foreman_proxy::params::puppetca") %>
