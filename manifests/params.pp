@@ -34,9 +34,11 @@ class foreman_proxy::params {
   $servername     = $ipaddress_eth0
 
   # DHCP settings - requires optional DHCP puppet module
-  $dhcp = false
-  $gateway = '192.168.100.1'
-  $range   = '192.168.100.50 192.168.100.200'
+  $dhcp           = false
+  $dhcp_interface = 'eth0'
+  $dhcp_reverse   = '100.168.192.in-addr.arpa'
+  $gateway        = '192.168.100.1'
+  $range          = '192.168.100.50 192.168.100.200'
   case $::operatingsystem {
     Debian: {
       $dhcp_vendor = 'isc'
@@ -56,7 +58,9 @@ class foreman_proxy::params {
   }
  
   # DNS settings - requires optional DNS puppet module
-  $dns  = false
+  $dns           = false
+  $dns_interface = 'eth0'
+  $dns_reverse   = '100.168.192.in-addr.arpa'
   case $::operatingsystem {
     Debian: {
       $keyfile = '/etc/bind/rndc.key'
