@@ -1,11 +1,6 @@
 class foreman_proxy::proxydhcp {
   include foreman_proxy::params
 
-  package { "net-ping":
-    ensure   => installed,
-    provider => 'gem',
-  }
-
   class { 'dhcp':
     dnsdomain    => [
       "${::domain}",
