@@ -2,15 +2,18 @@ class foreman_proxy::proxydns {
   include foreman_proxy::params
   include dns
 
+  $ip_temp = "::ipaddress_${foreman_proxy::params::dns_interface}"
+  $ip      = inline_template("<%= scope.lookupvar(ip_temp) %>")
+
   dns::zone { "${::domain}":
     soa     => "${::fqdn}",
     reverse => "false",
-    soaip   => "${::ipaddress}",
+    soaip   => "${ip}",
   }
 
-  dns::zone { "100.168.192.in-addr.arpa":
+  dns::zone { "${foreman_proxy::params::dns_reverse}":
     soa     => "${::fqdn}",
     reverse => "true",
-    soaip   => "${::ipaddress}",
+    soaip   => "${ip}",
   }
 }

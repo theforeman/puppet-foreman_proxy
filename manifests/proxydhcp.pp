@@ -1,29 +1,32 @@
 class foreman_proxy::proxydhcp {
   include foreman_proxy::params
 
-  package { "net-ping":
-    ensure   => installed,
-    provider => 'gem',
-  }
+  $ip_temp   = "ipaddress_${foreman_proxy::params::dhcp_interface}"
+  $ip        = inline_template("<%= scope.lookupvar(ip_temp) %>")
+
+  $net_temp  = "::network_${foreman_proxy::params::dhcp_interface}"
+  $net       = inline_template("<%= scope.lookupvar(net_temp) %>")
+
+  $mask_temp = "::netmask_${foreman_proxy::params::dhcp_interface}"
+  $mask      = inline_template("<%= scope.lookupvar(mask_temp) %>")
 
   class { 'dhcp':
     dnsdomain    => [
       "${::domain}",
-      "100.168.192.in-addr.arpa",
+      "${foreman_proxy::params::dhcp_reverse}",
     ],
-    nameservers  => ["${::ipaddress}"],
+    nameservers  => ["${ip}"],
     ntpservers   => ['us.pool.ntp.org'],
-    interfaces   => ['eth0'],
+    interfaces   => ["${foreman_proxy::params::dhcp_interface}"],
     #dnsupdatekey => "/etc/bind/keys.d/foreman",
     #require      => Bind::Key[ 'foreman' ],
-    pxeserver    => "${::ipaddress}",
+    pxeserver    => "${ip}",
     pxefilename  => 'pxelinux.0',
-    dhcp_monitor => false,
   }
 
   dhcp::pool{ "${::domain}":
-    network => "${::network_eth0}",
-    mask    => "${::netmask_eth0}",
+    network => "${net}",
+    mask    => "${mask}",
     range   => "${foreman_proxy::params::range}",
     gateway => "${foreman_proxy::params::gateway}",
   }
