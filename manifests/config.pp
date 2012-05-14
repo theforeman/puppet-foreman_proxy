@@ -23,8 +23,8 @@ class foreman_proxy::config {
     changes => [
       "set spec[user = '${foreman_proxy::params::user}']/user ${foreman_proxy::params::user}",
       "set spec[user = '${foreman_proxy::params::user}']/host_group/host ALL",
-      "set spec[user = '${foreman_proxy::params::user}']/host_group/command[1] ${foreman_proxy::params::puppetca_cmd}",
-      "set spec[user = '${foreman_proxy::params::user}']/host_group/command[2] ${foreman_proxy::params::puppetrun_cmd}",
+      "set spec[user = '${foreman_proxy::params::user}']/host_group/command[1] '${foreman_proxy::params::puppetca_cmd}'",
+      "set spec[user = '${foreman_proxy::params::user}']/host_group/command[2] '${foreman_proxy::params::puppetrun_cmd}'",
       "set spec[user = '${foreman_proxy::params::user}']/host_group/command[1]/tag NOPASSWD",
       "set Defaults[type = ':${foreman_proxy::params::user}']/type :${foreman_proxy::params::user}",
       "set Defaults[type = ':${foreman_proxy::params::user}']/requiretty/negate ''",
