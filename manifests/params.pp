@@ -2,6 +2,8 @@ class foreman_proxy::params {
 
   include tftp::params
 
+  $use_testing = true
+
   # variables
   $dir  = '/usr/share/foreman-proxy'
   $user = 'foreman-proxy'
