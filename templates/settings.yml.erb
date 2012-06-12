@@ -21,24 +21,24 @@
 :port: 8443
 
 # Enable TFTP management
-:tftp: <%= scope.lookupvar("foreman_proxy::params::tftp") %>
-:tftproot: <%= scope.lookupvar("foreman_proxy::params::tftproot") %>
-:tftp_servername: <%= scope.lookupvar("foreman_proxy::params::servername") %>
+:tftp: <%= scope.lookupvar("foreman_proxy::tftp") %>
+:tftproot: <%= scope.lookupvar("foreman_proxy::tftproot") %>
+:tftp_servername: <%= scope.lookupvar("foreman_proxy::servername") %>
 # Defines the TFTP Servername to use, overrides the name in the subnet declaration
 #:tftp_servername: tftp.domain.com
 
 # Enable DNS management
-:dns: <%= scope.lookupvar("foreman_proxy::params::dns") %>
-:dns_key: <%= scope.lookupvar("foreman_proxy::params::keyfile") %>
+:dns: <%= scope.lookupvar("foreman_proxy::dns") %>
+:dns_key: <%= scope.lookupvar("foreman_proxy::keyfile") %>
 # use this setting if you are managing a dns server which is not localhost though this proxy
 #:dns_server: dns.domain.com
 
 # Enable DHCP management
-:dhcp: <%= scope.lookupvar("foreman_proxy::params::dhcp") %>
-<% if scope.lookupvar("foreman_proxy::params::dhcp") == true -%>
-:dhcp_vendor: <%= scope.lookupvar("foreman_proxy::params::dhcp_vendor") %>
-:dhcp_config: <%= scope.lookupvar("foreman_proxy::params::dhcp_config") %>
-:dhcp_leases: <%= scope.lookupvar("foreman_proxy::params::dhcp_leases") %>
+:dhcp: <%= scope.lookupvar("foreman_proxy::dhcp") %>
+<% if scope.lookupvar("foreman_proxy::dhcp") == true -%>
+:dhcp_vendor: <%= scope.lookupvar("foreman_proxy::dhcp_vendor") %>
+:dhcp_config: <%= scope.lookupvar("foreman_proxy::dhcp_config") %>
+:dhcp_leases: <%= scope.lookupvar("foreman_proxy::dhcp_leases") %>
 <% else -%>
 # The vendor can be either isc or native_ms
 :dhcp_vendor: isc
@@ -56,15 +56,15 @@
 <% end -%>
 
 # enable PuppetCA management
-:puppetca: <%= scope.lookupvar("foreman_proxy::params::puppetca") %>
+:puppetca: <%= scope.lookupvar("foreman_proxy::puppetca") %>
 
 # enable Puppet management
-:puppet: <%= scope.lookupvar("foreman_proxy::params::puppetrun") %>
+:puppet: <%= scope.lookupvar("foreman_proxy::puppetrun") %>
 :puppet_conf: /etc/puppet/puppet.conf
 
 # Where our proxy log files are stored
 # filename or STDOUT
-:log_file: <%= scope.lookupvar("foreman_proxy::params::log") %>
+:log_file: <%= scope.lookupvar("foreman_proxy::log") %>
 # valid options are
 # WARN, DEBUG, Error, Fatal, INFO, UNKNOWN
 #:log_level: DEBUG

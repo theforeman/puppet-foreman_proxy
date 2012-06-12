@@ -1,5 +1,5 @@
 class foreman_proxy::install {
-  class { '::foreman::install::repos': use_testing => $foreman_proxy::params::use_testing }
+  class { '::foreman::install::repos': use_testing => $foreman_proxy::use_testing }
 
   package {'foreman-proxy':
     ensure  => present,
