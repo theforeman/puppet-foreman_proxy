@@ -2,7 +2,9 @@ class foreman_proxy::params {
 
   include tftp::params
 
-  $use_testing = true
+  # Packaging
+  $use_testing    = true
+  $package_source = 'stable'
 
   # variables
   $dir  = '/usr/share/foreman-proxy'
