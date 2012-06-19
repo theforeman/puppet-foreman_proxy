@@ -1,6 +1,6 @@
 class foreman_proxy::install {
   class { '::foreman::install::repos':
-    use_testing => $foreman_proxy::use_testing,
+    use_testing    => $foreman_proxy::use_testing,
     package_source => $foreman_proxy::package_source,
   }
 
