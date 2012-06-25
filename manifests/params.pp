@@ -51,8 +51,8 @@ class foreman_proxy::params {
     }
     Ubuntu: {
       $dhcp_vendor = 'isc'
-      $dhcp_config = '/etc/dhcp3/dhcpd.conf'
-      $dhcp_leases = '/var/lib/dhcp3/dhcpd.leases'
+      $dhcp_config = '/etc/dhcp/dhcpd.conf'
+      $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
     }
     default: {
       $dhcp_vendor = 'isc'
