@@ -4,7 +4,7 @@ class foreman_proxy::params {
 
   # Packaging
   $use_testing    = true
-  $package_source = 'stable'
+  $package_source = 'testing'
 
   # variables
   $dir  = '/usr/share/foreman-proxy'
