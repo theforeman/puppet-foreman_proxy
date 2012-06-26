@@ -60,7 +60,7 @@ class foreman_proxy::params {
       $dhcp_leases = '/var/lib/dhcpd/dhcpd.leases'
     }
   }
- 
+
   # DNS settings - requires optional DNS puppet module
   $dns           = false
   $dns_interface = 'eth0'

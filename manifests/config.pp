@@ -8,7 +8,7 @@ class foreman_proxy::config {
     require => Class['foreman_proxy::install'],
     notify  => Class['foreman_proxy::service'],
   }
- 
+
   file{'/etc/foreman-proxy/settings.yml':
     content => template('foreman_proxy/settings.yml.erb'),
     owner   => $foreman_proxy::user,
