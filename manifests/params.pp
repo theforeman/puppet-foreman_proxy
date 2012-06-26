@@ -66,7 +66,7 @@ class foreman_proxy::params {
   $dns_interface = 'eth0'
   $dns_reverse   = '100.168.192.in-addr.arpa'
   case $::operatingsystem {
-    Debian: {
+    Debian,Ubuntu: {
       $keyfile = '/etc/bind/rndc.key'
     }
     default: {
