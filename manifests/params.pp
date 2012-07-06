@@ -43,6 +43,7 @@ class foreman_proxy::params {
   $dhcp_reverse   = '100.168.192.in-addr.arpa'
   $gateway        = '192.168.100.1'
   $range          = '192.168.100.50 192.168.100.200'
+  $ntpservers     = ['us.pool.ntp.org']
   case $::operatingsystem {
     Debian: {
       $dhcp_vendor = 'isc'

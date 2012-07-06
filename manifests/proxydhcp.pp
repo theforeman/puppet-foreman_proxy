@@ -14,7 +14,7 @@ class foreman_proxy::proxydhcp {
       $foreman_proxy::dhcp_reverse,
     ],
     nameservers  => [$::ip],
-    ntpservers   => ['us.pool.ntp.org'],
+    ntpservers   => $foreman_proxy::ntpservers,
     interfaces   => [$foreman_proxy::dhcp_interface],
     #dnsupdatekey => /etc/bind/keys.d/foreman,
     #require      => Bind::Key[ 'foreman' ],
