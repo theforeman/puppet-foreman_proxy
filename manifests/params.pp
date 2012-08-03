@@ -76,10 +76,12 @@ class foreman_proxy::params {
     Debian,Ubuntu: {
       $keyfile = '/etc/bind/rndc.key'
       $nsupdate = 'dnsutils'
+      $dns_group = 'bind'
     }
     default: {
       $keyfile = '/etc/rndc.key'
       $nsupdate = 'bind-utils'
+      $dns_group = 'named'
     }
   }
 
