@@ -14,4 +14,8 @@ class foreman_proxy::tftp {
     target_path => $foreman_proxy::tftproot,
     require     => Class['tftp::install'];
   }
+
+  package { 'wget':
+    ensure => installed,
+  }
 }
