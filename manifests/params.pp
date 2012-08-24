@@ -43,20 +43,27 @@ class foreman_proxy::params {
   $dhcp_reverse   = '100.168.192.in-addr.arpa'
   $gateway        = '192.168.100.1'
   $range          = '192.168.100.50 192.168.100.200'
+  $ntpservers     = ['us.pool.ntp.org']
+
+  # DHCP server settings
   case $::operatingsystem {
-    Debian: {
+    Debian,Ubuntu: {
       $dhcp_vendor = 'isc'
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
     }
-    Ubuntu: {
+    RedHat,CentOS: {
       $dhcp_vendor = 'isc'
-      $dhcp_config = '/etc/dhcp/dhcpd.conf'
-      $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
+      if ($::lsbmajdistrelease == 5) {
+        $dhcp_config = '/etc/dhcpd.conf'
+      } else {
+        $dhcp_config = '/etc/dhcp/dhcpd.conf'
+      }
+      $dhcp_leases = '/var/lib/dhcpd/dhcpd.leases'
     }
     default: {
       $dhcp_vendor = 'isc'
-      $dhcp_config = '/etc/dhcpd.conf'
+      $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcpd/dhcpd.leases'
     }
   }
@@ -65,12 +72,18 @@ class foreman_proxy::params {
   $dns           = false
   $dns_interface = 'eth0'
   $dns_reverse   = '100.168.192.in-addr.arpa'
+  # localhost can resolve to ipv6 which ruby doesn't handle well
+  $dns_server    = '127.0.0.1'
   case $::operatingsystem {
     Debian,Ubuntu: {
       $keyfile = '/etc/bind/rndc.key'
+      $nsupdate = 'dnsutils'
+      $dns_group = 'bind'
     }
     default: {
       $keyfile = '/etc/rndc.key'
+      $nsupdate = 'bind-utils'
+      $dns_group = 'named'
     }
   }
 
