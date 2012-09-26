@@ -1,6 +1,10 @@
 class foreman_proxy::proxydns {
   include dns
 
+  package { $foreman_proxy::params::nsupdate:
+    ensure => installed,
+  }
+
   $ip_temp = "::ipaddress_${foreman_proxy::dns_interface}"
   $ip      = inline_template('<%= scope.lookupvar(ip_temp) %>')
 
