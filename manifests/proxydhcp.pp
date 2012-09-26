@@ -4,7 +4,7 @@ class foreman_proxy::proxydhcp {
       $::domain,
       $foreman_proxy::dhcp_reverse,
     ],
-    nameservers  => [$foreman_proxy::ip],
+    nameservers  => $foreman_proxy::dhcp_nameservers,
     interfaces   => [$foreman_proxy::dhcp_interface],
     #dnsupdatekey => /etc/bind/keys.d/foreman,
     #require      => Bind::Key[ 'foreman' ],
