@@ -15,4 +15,8 @@ class foreman_proxy::proxydns {
     reverse => true,
     soaip   => $ip,
   }
+
+  group {$foreman_proxy::params::dns_group:
+    members => 'foreman-proxy',
+  }
 }

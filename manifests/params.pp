@@ -68,9 +68,11 @@ class foreman_proxy::params {
   case $::operatingsystem {
     Debian,Ubuntu: {
       $keyfile = '/etc/bind/rndc.key'
+      $dns_group = 'bind'
     }
     default: {
       $keyfile = '/etc/rndc.key'
+      $dns_group = 'named'
     }
   }
 
