@@ -68,9 +68,11 @@ class foreman_proxy::params {
   case $::operatingsystem {
     Debian,Ubuntu: {
       $keyfile = '/etc/bind/rndc.key'
+      $nsupdate = 'dnsutils'
     }
     default: {
       $keyfile = '/etc/rndc.key'
+      $nsupdate = 'bind-utils'
     }
   }
 
