@@ -31,6 +31,16 @@ class foreman_proxy::config {
     ],
   }
 
+  # Network config
+  $ip_temp   = "ipaddress_${foreman_proxy::dhcp_interface}"
+  $ip        = inline_template('<%= scope.lookupvar(ip_temp) %>')
+
+  $net_temp  = "::network_${foreman_proxy::dhcp_interface}"
+  $net       = inline_template('<%= scope.lookupvar(net_temp) %>')
+
+  $mask_temp = "::netmask_${foreman_proxy::dhcp_interface}"
+  $mask      = inline_template('<%= scope.lookupvar(mask_temp) %>')
+
   if $foreman_proxy::puppetca  { include foreman_proxy::puppetca }
   if $foreman_proxy::tftp      { include foreman_proxy::tftp }
 

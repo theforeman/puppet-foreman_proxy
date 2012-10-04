@@ -21,12 +21,14 @@ class foreman_proxy (
   $dhcp_reverse      = $foreman_proxy::params::dhcp_reverse,
   $gateway           = $foreman_proxy::params::gateway,
   $range             = $foreman_proxy::params::range,
+  $dhcp_nameservers  = [$foreman_proxy::params::ip],
   $dhcp_vendor       = $foreman_proxy::params::dhcp_vendor,
   $dhcp_config       = $foreman_proxy::params::dhcp_config,
   $dhcp_leases       = $foreman_proxy::params::dhcp_leases,
   $dns               = $foreman_proxy::params::dns,
   $dns_interface     = $foreman_proxy::params::dns_interface,
   $dns_reverse       = $foreman_proxy::params::dns_reverse,
+  $dns_server        = $foreman_proxy::params::dns_server,
   $keyfile           = $foreman_proxy::params::keyfile
 ) inherits foreman_proxy::params {
   class { 'foreman_proxy::install': } ~>
