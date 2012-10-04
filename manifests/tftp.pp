@@ -5,7 +5,7 @@ class foreman_proxy::tftp {
     ensure  => directory,
     owner   => $foreman_proxy::user,
     mode    => '0644',
-    require => Class['foreman_proxy::install'],
+    require => Class['foreman_proxy::install', 'tftp::install'],
     recurse => true;
   }
 
