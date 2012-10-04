@@ -8,12 +8,20 @@ class foreman_proxy::proxydhcp {
   $mask_temp = "::netmask_${foreman_proxy::dhcp_interface}"
   $mask      = inline_template('<%= scope.lookupvar(mask_temp) %>')
 
+  if $foreman_proxy::dhcp_nameservers == 'default' {
+    $nameservers = [$ip]
+  } else {
+    $nameservers = split($foreman_proxy::dhcp_nameservers,',')
+  }
+
+  notify { $nameservers: }
+
   class { 'dhcp':
     dnsdomain    => [
       $::domain,
       $foreman_proxy::dhcp_reverse,
     ],
-    nameservers  => [$ip],
+    nameservers  => $nameservers,
     interfaces   => [$foreman_proxy::dhcp_interface],
     #dnsupdatekey => /etc/bind/keys.d/foreman,
     #require      => Bind::Key[ 'foreman' ],
