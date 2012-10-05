@@ -31,7 +31,7 @@
 :dns: <%= scope.lookupvar("foreman_proxy::dns") %>
 :dns_key: <%= scope.lookupvar("foreman_proxy::keyfile") %>
 # use this setting if you are managing a dns server which is not localhost though this proxy
-#:dns_server: dns.domain.com
+:dns_server: <%= scope.lookupvar("foreman_proxy::dns_server") %>
 
 # Enable DHCP management
 :dhcp: <%= scope.lookupvar("foreman_proxy::dhcp") %>

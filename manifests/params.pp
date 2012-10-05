@@ -43,6 +43,10 @@ class foreman_proxy::params {
   $dhcp_reverse   = '100.168.192.in-addr.arpa'
   $gateway        = '192.168.100.1'
   $range          = '192.168.100.50 192.168.100.200'
+  # This will use the IP of the interface in $dhcp_interface, override
+  # if you need to. You can make this a comma-separated string too - it
+  # will be split into an array
+  $nameservers    = 'default'
 
   # DHCP server settings
   case $::operatingsystem {
@@ -71,6 +75,8 @@ class foreman_proxy::params {
   $dns           = false
   $dns_interface = 'eth0'
   $dns_reverse   = '100.168.192.in-addr.arpa'
+  # localhost can resolve to ipv6 which ruby doesn't handle well
+  $dns_server    = '127.0.0.1'
   case $::operatingsystem {
     Debian,Ubuntu: {
       $keyfile = '/etc/bind/rndc.key'
