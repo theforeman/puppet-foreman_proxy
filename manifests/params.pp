@@ -14,7 +14,10 @@ class foreman_proxy::params {
   # puppetca settings
   $puppetca          = true
   $autosign_location = '/etc/puppet/autosign.conf'
-  $puppetca_cmd      = '/usr/sbin/puppetca'
+  $puppetca_cmd      = $::puppetversion ? {
+    /(2\.[6-9].*|3.*)/ => '/usr/sbin/puppet cert',
+    default            => '/usr/sbin/puppetca',
+  }
   $puppet_group      = 'puppet'
 
   # puppetrun settings
