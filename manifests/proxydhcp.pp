@@ -14,8 +14,6 @@ class foreman_proxy::proxydhcp {
     $nameservers = split($foreman_proxy::dhcp_nameservers,',')
   }
 
-  notify { $nameservers: }
-
   class { 'dhcp':
     dnsdomain    => [
       $::domain,
