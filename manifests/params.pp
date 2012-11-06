@@ -1,6 +1,7 @@
 class foreman_proxy::params {
 
   include tftp::params
+  include puppet::params
 
   # Packaging
   $use_testing    = false
@@ -13,7 +14,7 @@ class foreman_proxy::params {
   # puppetca settings
   $puppetca          = true
   $autosign_location = '/etc/puppet/autosign.conf'
-  $puppetca_cmd      = '/usr/sbin/puppetca'
+  $puppetca_cmd      = $puppet::params::puppetca_cmd
   $puppet_group      = 'puppet'
 
   # puppetrun settings
