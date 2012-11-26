@@ -17,7 +17,6 @@ class foreman_proxy (
   $servername        = $foreman_proxy::params::servername,
   $dhcp              = $foreman_proxy::params::dhcp,
   $dhcp_interface    = $foreman_proxy::params::dhcp_interface,
-  $dhcp_reverse      = $foreman_proxy::params::dhcp_reverse,
   $gateway           = $foreman_proxy::params::gateway,
   $range             = $foreman_proxy::params::range,
   $dhcp_nameservers  = $foreman_proxy::params::nameservers,
