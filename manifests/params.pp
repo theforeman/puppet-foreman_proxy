@@ -40,7 +40,6 @@ class foreman_proxy::params {
   # DHCP settings - requires optional DHCP puppet module
   $dhcp           = false
   $dhcp_interface = 'eth0'
-  $dhcp_reverse   = '100.168.192.in-addr.arpa'
   $gateway        = '192.168.100.1'
   $range          = '192.168.100.50 192.168.100.200'
   # This will use the IP of the interface in $dhcp_interface, override
