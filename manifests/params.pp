@@ -87,4 +87,6 @@ class foreman_proxy::params {
     }
   }
 
+  $dns_forwarders = []
+
 }

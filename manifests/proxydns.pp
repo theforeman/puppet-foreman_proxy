@@ -1,5 +1,7 @@
 class foreman_proxy::proxydns {
-  include dns
+  class { dns:
+    forwarders => $dns_forwarders,
+  }
 
   package { $foreman_proxy::params::nsupdate:
     ensure => installed,
