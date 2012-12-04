@@ -26,13 +26,12 @@ class foreman_proxy::params {
   case $::operatingsystem {
     Debian,Ubuntu: {
       $syslinux_root  = '/usr/lib/syslinux'
-      $syslinux_files = ['pxelinux.0','menu.c32','chain.c32']
     }
     default: {
       $syslinux_root  = '/usr/share/syslinux'
-      $syslinux_files = ['pxelinux.0','menu.c32','chain.c32']
     }
   }
+  $syslinux_files = ['pxelinux.0','menu.c32','chain.c32']
   $tftproot       = $tftp::params::root
   $tftp_dir       = ["${tftproot}/pxelinux.cfg","${tftproot}/boot"]
   $servername     = $ipaddress_eth0
