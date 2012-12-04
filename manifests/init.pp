@@ -27,6 +27,7 @@ class foreman_proxy (
   $dns_interface     = $foreman_proxy::params::dns_interface,
   $dns_reverse       = $foreman_proxy::params::dns_reverse,
   $dns_server        = $foreman_proxy::params::dns_server,
+  $dns_forwarders    = $foreman_proxy::params::dns_forwarders,
   $keyfile           = $foreman_proxy::params::keyfile
 ) inherits foreman_proxy::params {
   class { 'foreman_proxy::install': } ~>
