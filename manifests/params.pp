@@ -7,6 +7,7 @@ class foreman_proxy::params {
   $use_testing    = false
 
   # variables
+  $port = "8443"
   $dir  = '/usr/share/foreman-proxy'
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'

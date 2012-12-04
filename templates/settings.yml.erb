@@ -23,7 +23,7 @@
 :daemon_pid: /var/run/foreman-proxy/foreman-proxy.pid
 
 # port used by the proxy
-:port: 8443
+:port: <%= scope.lookupvar("foreman_proxy::port") %>
 
 # Enable TFTP management
 :tftp: <%= scope.lookupvar("foreman_proxy::tftp") %>
