@@ -38,14 +38,14 @@ class foreman_proxy::params {
   $tftp_servername     = $ipaddress_eth0
 
   # DHCP settings - requires optional DHCP puppet module
-  $dhcp           = false
-  $dhcp_interface = 'eth0'
-  $gateway        = '192.168.100.1'
-  $range          = '192.168.100.50 192.168.100.200'
+  $dhcp             = false
+  $dhcp_interface   = 'eth0'
+  $dhcp_gateway     = '192.168.100.1'
+  $dhcp_range       = '192.168.100.50 192.168.100.200'
   # This will use the IP of the interface in $dhcp_interface, override
   # if you need to. You can make this a comma-separated string too - it
   # will be split into an array
-  $nameservers    = 'default'
+  $dhcp_nameservers = 'default'
 
   # DHCP server settings
   case $::operatingsystem {
