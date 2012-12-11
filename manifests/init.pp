@@ -4,6 +4,7 @@ class foreman_proxy (
   $dir                 = $foreman_proxy::params::dir,
   $user                = $foreman_proxy::params::user,
   $log                 = $foreman_proxy::params::log,
+  $use_sudoersd        = $foreman_proxy::params::use_sudoersd,
   $puppetca            = $foreman_proxy::params::puppetca,
   $autosign_location   = $foreman_proxy::params::autosign_location,
   $puppetca_cmd        = $foreman_proxy::params::puppetca_cmd,

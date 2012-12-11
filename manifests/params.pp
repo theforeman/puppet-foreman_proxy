@@ -12,6 +12,20 @@ class foreman_proxy::params {
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
 
+  # Should we assume a sudoers.d dir exists ( 'false' will use augeas instead )
+  case $::operatingsystem {
+    redhat,centos,Scientific: {
+      if $::operatingsystemrelease >= 6 {
+        $use_sudoersd = true
+      } else {
+        $use_sudoersd = false
+      }
+    }
+    default: {
+      $use_sudoersd = true
+    }
+  }
+
   # puppetca settings
   $puppetca          = true
   $autosign_location = '/etc/puppet/autosign.conf'
