@@ -12,6 +12,9 @@ class foreman_proxy::params {
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
 
+  # Should we assume a sudoers.d dir exists ( 'false' will use augeas instead )
+  $use_sudoersd = true
+
   # puppetca settings
   $puppetca          = true
   $autosign_location = '/etc/puppet/autosign.conf'
