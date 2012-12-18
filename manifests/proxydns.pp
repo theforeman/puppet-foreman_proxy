@@ -1,6 +1,6 @@
 class foreman_proxy::proxydns {
   class { dns:
-    forwarders => $dns_forwarders,
+    forwarders => $foreman_proxy::dns_forwarders,
   }
 
   package { $foreman_proxy::params::nsupdate:
