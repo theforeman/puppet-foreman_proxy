@@ -1,5 +1,5 @@
 class foreman_proxy (
-  $use_testing         = $foreman_proxy::params::use_testing,
+  $repo                = $foreman_proxy::params::repo,
   $port                = $foreman_proxy::params::port,
   $dir                 = $foreman_proxy::params::dir,
   $user                = $foreman_proxy::params::user,

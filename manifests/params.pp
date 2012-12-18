@@ -4,7 +4,7 @@ class foreman_proxy::params {
   include puppet::params
 
   # Packaging
-  $use_testing    = false
+  $repo = stable
 
   # variables
   $port = "8443"
