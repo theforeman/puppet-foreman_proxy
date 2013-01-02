@@ -39,7 +39,7 @@ class foreman_proxy::config {
       owner   => 'root',
       group   => 'root',
       mode    => 0440,
-      content => "foreman-proxy ALL = NOPASSWD : ${foreman_proxy::puppetca_cmd} *, ${foreman_proxy::puppetrun_cmd}
+      content => "foreman-proxy ALL = NOPASSWD : ${foreman_proxy::puppetca_cmd} *, ${foreman_proxy::puppetrun_cmd} *
 Defaults:foreman-proxy !requiretty\n",
     }
   } else {
@@ -48,8 +48,8 @@ Defaults:foreman-proxy !requiretty\n",
       changes => [
         "set spec[user = '${foreman_proxy::user}']/user ${foreman_proxy::user}",
         "set spec[user = '${foreman_proxy::user}']/host_group/host ALL",
-        "set spec[user = '${foreman_proxy::user}']/host_group/command[1] '${foreman_proxy::puppetca_cmd}'",
-        "set spec[user = '${foreman_proxy::user}']/host_group/command[2] '${foreman_proxy::puppetrun_cmd}'",
+        "set spec[user = '${foreman_proxy::user}']/host_group/command[1] '${foreman_proxy::puppetca_cmd} *'",
+        "set spec[user = '${foreman_proxy::user}']/host_group/command[2] '${foreman_proxy::puppetrun_cmd} *'",
         "set spec[user = '${foreman_proxy::user}']/host_group/command[1]/tag NOPASSWD",
         "set Defaults[type = ':${foreman_proxy::user}']/type :${foreman_proxy::user}",
         "set Defaults[type = ':${foreman_proxy::user}']/requiretty/negate ''",
