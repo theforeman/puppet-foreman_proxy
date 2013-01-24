@@ -12,6 +12,19 @@ class foreman_proxy::params {
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
 
+  $puppet_home = '/var/lib/puppet'
+
+  # Enable SSL, ensure proxy is added with "https://" protocol if true
+  $ssl = true
+  # If CA is specified, remote Foreman host will be verified
+  $ssl_ca = "${puppet_home}/ssl/certs/ca.pem"
+  # Used to communicate to Foreman
+  $ssl_cert = "${puppet_home}/ssl/certs/${fqdn}.pem"
+  $ssl_key = "${puppet_home}/ssl/private_keys/${fqdn}.pem"
+
+  # Only hosts listed will be permitted, empty array to disable authorization
+  $trusted_hosts = []
+
   # Should we assume a sudoers.d dir exists ( 'false' will use augeas instead )
   case $::operatingsystem {
     redhat,centos,Scientific: {

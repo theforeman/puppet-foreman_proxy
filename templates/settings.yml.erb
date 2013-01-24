@@ -9,14 +9,34 @@
 # if enabled, all communication would be verfied via SSL
 # NOTE that both certificates need to be signed by the same CA in order for this to work
 # see http://theforeman.org/projects/smart-proxy/wiki/SSL for more information
-#:ssl_certificate: ssl/certs/fqdn.pem
+<% if scope.lookupvar("foreman_proxy::ssl_ca") -%>
+:ssl_ca_file: <%= scope.lookupvar("foreman_proxy::ssl_ca") %>
+<% else -%>
 #:ssl_ca_file: ssl/certs/ca.pem
+<% end -%>
+<% if scope.lookupvar("foreman_proxy::ssl_cert") -%>
+:ssl_certificate: <%= scope.lookupvar("foreman_proxy::ssl_cert") %>
+<% else -%>
+#:ssl_certificate: ssl/certs/fqdn.pem
+<% end -%>
+<% if scope.lookupvar("foreman_proxy::ssl_key") -%>
+:ssl_private_key: <%= scope.lookupvar("foreman_proxy::ssl_key") %>
+<% else -%>
 #:ssl_private_key: ssl/private_keys/fqdn.key
+<% end -%>
+
 # the hosts which the proxy accepts connections from
 # commenting the following lines would mean every verified SSL connection allowed
+<% if thosts = scope.lookupvar("foreman_proxy::trusted_hosts") and thosts.any? -%>
+:trusted_hosts:
+<% thosts.each do |h| -%>
+<%= "  - #{h}" %>
+<% end -%>
+<% else -%>
 #:trusted_hosts:
 #- foreman.prod.domain
 #- foreman.dev.domain
+<% end -%>
 
 # enable the daemon to run in the background
 :daemon: true
