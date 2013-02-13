@@ -40,18 +40,10 @@ class foreman_proxy::config {
   }
 
   if $foreman_proxy::use_sudoersd {
-    file { '/etc/sudoers.d':
-      ensure => directory,
-    }
-
-    file { '/etc/sudoers.d/foreman-proxy':
-      ensure  => present,
-      owner   => 'root',
-      group   => 'root',
-      mode    => 0440,
+    sudo::directive {'foreman-proxy':
+      ensure => present,
       content => "foreman-proxy ALL = NOPASSWD : ${foreman_proxy::puppetca_cmd} *, ${foreman_proxy::puppetrun_cmd} *
 Defaults:foreman-proxy !requiretty\n",
-      require => File['/etc/sudoers.d'],
     }
   } else {
     augeas { 'sudo-foreman-proxy':
