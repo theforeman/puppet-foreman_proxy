@@ -25,6 +25,10 @@ class foreman_proxy::params {
   # Only hosts listed will be permitted, empty array to disable authorization
   $trusted_hosts = []
 
+  # Whether to manage sudo rules or not.  When reusing this module, this may be
+  # disabled to use a dedicated sudo module instead.
+  $manage_sudoers = true
+
   # Should we assume a sudoers.d dir exists ( 'false' will use augeas instead )
   case $::operatingsystem {
     redhat,centos,Scientific: {
