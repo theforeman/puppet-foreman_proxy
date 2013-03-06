@@ -5,6 +5,9 @@ class foreman_proxy::params {
 
   # Packaging
   $repo = stable
+  # if set to true, no repo will be added by this module, letting you to
+  # set it to some custom location.
+  $custom_repo = false
 
   # variables
   $port = "8443"
