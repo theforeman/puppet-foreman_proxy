@@ -10,7 +10,7 @@ class foreman_proxy (
   $ssl_cert            = $foreman_proxy::params::ssl_cert,
   $ssl_key             = $foreman_proxy::params::ssl_key,
   $trusted_hosts       = $foreman_proxy::params::trusted_hosts,
-  $manage_sudoers      = $foreman_proxy::params::manage_sudoers,
+  $manage_sudoersd     = $foreman_proxy::params::manage_sudoersd,
   $use_sudoersd        = $foreman_proxy::params::use_sudoersd,
   $puppetca            = $foreman_proxy::params::puppetca,
   $autosign_location   = $foreman_proxy::params::autosign_location,
