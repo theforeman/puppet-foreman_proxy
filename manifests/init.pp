@@ -32,6 +32,8 @@ class foreman_proxy (
   $dhcp_vendor         = $foreman_proxy::params::dhcp_vendor,
   $dhcp_config         = $foreman_proxy::params::dhcp_config,
   $dhcp_leases         = $foreman_proxy::params::dhcp_leases,
+  $dhcp_key_name       = $foreman_proxy::params::dhcp_key_name,
+  $dhcp_key_secret     = $foreman_proxy::params::dhcp_key_secret,
   $dns                 = $foreman_proxy::params::dns,
   $dns_interface       = $foreman_proxy::params::dns_interface,
   $dns_reverse         = $foreman_proxy::params::dns_reverse,

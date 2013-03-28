@@ -64,6 +64,10 @@
 :dhcp_vendor: <%= scope.lookupvar("foreman_proxy::dhcp_vendor") %>
 :dhcp_config: <%= scope.lookupvar("foreman_proxy::dhcp_config") %>
 :dhcp_leases: <%= scope.lookupvar("foreman_proxy::dhcp_leases") %>
+<% if scope.lookupvar("foreman_proxy::dhcp_key_name") && scope.lookupvar("foreman_proxy::dhcp_key_secret") -%>
+:dhcp_key_name: <%= scope.lookupvar("foreman_proxy::dhcp_key_name") %>
+:dhcp_key_secret: <%= scope.lookupvar("foreman_proxy::dhcp_key_secret") %>
+<% end -%>
 <% else -%>
 # The vendor can be either isc or native_ms
 :dhcp_vendor: isc
@@ -76,8 +80,6 @@
 # Settings for Redhat ISC
 #:dhcp_config: /etc/dhcpd.conf
 #:dhcp_leases: /var/lib/dhcpd/dhcpd.leases
-#:dhcp_key_name: secret_key_name
-#:dhcp_key_secret: secret_key
 <% end -%>
 
 # enable PuppetCA management
