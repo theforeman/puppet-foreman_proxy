@@ -10,7 +10,7 @@ class foreman_proxy::config {
   if $foreman_proxy::tftp      { include foreman_proxy::tftp }
 
   # Somehow, calling these DHCP and DNS seems to conflict. So, they get a prefix...
-  if $foreman_proxy::dhcp      { include foreman_proxy::proxydhcp }
+  if $foreman_proxy::dhcp and $foreman_proxy::dhcp_managed { include foreman_proxy::proxydhcp }
 
   if $foreman_proxy::dns {
     include foreman_proxy::proxydns

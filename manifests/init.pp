@@ -25,6 +25,7 @@ class foreman_proxy (
   $tftp_dirs           = $foreman_proxy::params::tftp_dirs,
   $tftp_servername     = $foreman_proxy::params::tftp_servername,
   $dhcp                = $foreman_proxy::params::dhcp,
+  $dhcp_managed        = $foreman_proxy::params::dhcp_managed,
   $dhcp_interface      = $foreman_proxy::params::dhcp_interface,
   $dhcp_gateway        = $foreman_proxy::params::dhcp_gateway,
   $dhcp_range          = $foreman_proxy::params::dhcp_range,

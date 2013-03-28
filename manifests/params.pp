@@ -73,6 +73,7 @@ class foreman_proxy::params {
 
   # DHCP settings - requires optional DHCP puppet module
   $dhcp             = false
+  $dhcp_managed     = true
   $dhcp_interface   = 'eth0'
   $dhcp_gateway     = '192.168.100.1'
   $dhcp_range       = '192.168.100.50 192.168.100.200'
