@@ -80,6 +80,9 @@ class foreman_proxy::params {
   # if you need to. You can make this a comma-separated string too - it
   # will be split into an array
   $dhcp_nameservers = 'default'
+  # Omapi settings
+  $dhcp_key_name       = ''
+  $dhcp_key_secret     = ''
 
   # DHCP server settings
   case $::operatingsystem {
