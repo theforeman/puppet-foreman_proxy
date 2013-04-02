@@ -67,6 +67,9 @@
 <% if scope.lookupvar("foreman_proxy::dhcp_key_name") && scope.lookupvar("foreman_proxy::dhcp_key_secret") -%>
 :dhcp_key_name: <%= scope.lookupvar("foreman_proxy::dhcp_key_name") %>
 :dhcp_key_secret: <%= scope.lookupvar("foreman_proxy::dhcp_key_secret") %>
+<% else -%>
+#:dhcp_key_name: secret_key_name
+#:dhcp_key_secret: secret_key
 <% end -%>
 <% else -%>
 # The vendor can be either isc or native_ms
