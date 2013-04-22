@@ -1,0 +1,6 @@
+fixtures:
+  repositories:
+    puppet: 'git://github.com/theforeman/puppet-puppet'
+
+  symlinks:
+    foreman_proxy: "#{source_dir}"
