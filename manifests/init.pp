@@ -1,3 +1,28 @@
+# == Class: foreman_proxy
+#
+# Installs and configures the foreman-proxy
+#
+# === Parameters:
+#
+# $ssl::          Should we enable ssl within foreman-proxy.
+#                 Defaults to 'true'.
+#
+# $ssl_ca::       Override the ca certificate to use.
+#                 Defaults to either what is configured in puppet::server
+#                 or uses a sane default (see foreman_proxy::params).
+#
+# $ssl_cert::     Override the (signed) ssl certificate to use.
+#                 Defaults to either what is configured in puppet::server
+#                 or uses a sane default (see foreman_proxy::params).
+#
+# $ssl_key::      Override the (private) ssl key to use.
+#                 Defaults to either what is configured in puppet::server
+#                 or uses a sane default (see foreman_proxy::params).
+#
+# === Todo:
+#
+# TODO: Document more parameters.
+#
 class foreman_proxy (
   $repo                = $foreman_proxy::params::repo,
   $custom_repo         = $foreman_proxy::params::custom_repo,
@@ -6,9 +31,10 @@ class foreman_proxy (
   $user                = $foreman_proxy::params::user,
   $log                 = $foreman_proxy::params::log,
   $ssl                 = $foreman_proxy::params::ssl,
-  $ssl_ca              = $foreman_proxy::params::ssl_ca,
-  $ssl_cert            = $foreman_proxy::params::ssl_cert,
-  $ssl_key             = $foreman_proxy::params::ssl_key,
+  # ssl defaults require a little bit more logic.
+  $ssl_ca              = undef,
+  $ssl_cert            = undef,
+  $ssl_key             = undef,
   $trusted_hosts       = $foreman_proxy::params::trusted_hosts,
   $manage_sudoersd     = $foreman_proxy::params::manage_sudoersd,
   $use_sudoersd        = $foreman_proxy::params::use_sudoersd,
