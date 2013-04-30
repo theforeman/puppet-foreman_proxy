@@ -51,6 +51,8 @@ class foreman_proxy::params {
   $autosign_location = '/etc/puppet/autosign.conf'
   $puppetca_cmd      = $puppet::params::puppetca_cmd
   $puppet_group      = 'puppet'
+  $ssldir            = '/var/lib/puppet/ssl'
+  $puppetdir         = '/etc/puppet'
 
   # puppetrun settings
   $puppetrun     = true
