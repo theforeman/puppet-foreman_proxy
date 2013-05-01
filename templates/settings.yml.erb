@@ -87,6 +87,8 @@
 
 # enable PuppetCA management
 :puppetca: <%= scope.lookupvar("foreman_proxy::puppetca") %>
+:ssldir: <%= scope.lookupvar("foreman_proxy::ssldir") %>
+:puppetdir: <%= scope.lookupvar("foreman_proxy::puppetdir") %>
 
 # enable Puppet management
 :puppet: <%= scope.lookupvar("foreman_proxy::puppetrun") %>

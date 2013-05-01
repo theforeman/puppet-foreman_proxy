@@ -15,7 +15,7 @@ class foreman_proxy::params {
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
 
-  $puppet_home = '/var/lib/puppet'
+  $puppet_home = $puppet::params::puppet_vardir
 
   # Enable SSL, ensure proxy is added with "https://" protocol if true
   $ssl = true
@@ -51,6 +51,8 @@ class foreman_proxy::params {
   $autosign_location = '/etc/puppet/autosign.conf'
   $puppetca_cmd      = $puppet::params::puppetca_cmd
   $puppet_group      = 'puppet'
+  $ssldir            = "${puppet_home}/ssl"
+  $puppetdir         = $puppet::params::confdir
 
   # puppetrun settings
   $puppetrun     = true
