@@ -1,12 +1,7 @@
 class foreman_proxy::proxydhcp {
-  $ip_temp   = "ipaddress_${foreman_proxy::dhcp_interface}"
-  $ip        = inline_template('<%= scope.lookupvar(ip_temp) %>')
-
-  $net_temp  = "::network_${foreman_proxy::dhcp_interface}"
-  $net       = inline_template('<%= scope.lookupvar(net_temp) %>')
-
-  $mask_temp = "::netmask_${foreman_proxy::dhcp_interface}"
-  $mask      = inline_template('<%= scope.lookupvar(mask_temp) %>')
+  $ip   = inline_template("<%= scope.lookupvar('::ipaddress_${foreman_proxy::dhcp_interface}') %>")
+  $net  = inline_template("<%= scope.lookupvar('::network_${foreman_proxy::dhcp_interface}') %>")
+  $mask = inline_template("<%= scope.lookupvar('::netmask_${foreman_proxy::dhcp_interface}') %>")
 
   if $foreman_proxy::dhcp_nameservers == 'default' {
     $nameservers = [$ip]
