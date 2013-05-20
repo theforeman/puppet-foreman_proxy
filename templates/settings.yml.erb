@@ -9,19 +9,13 @@
 # if enabled, all communication would be verfied via SSL
 # NOTE that both certificates need to be signed by the same CA in order for this to work
 # see http://theforeman.org/projects/smart-proxy/wiki/SSL for more information
-<% if scope.lookupvar("foreman_proxy::ssl_ca") -%>
-:ssl_ca_file: <%= scope.lookupvar("foreman_proxy::ssl_ca") %>
+<% if @ssl -%>
+:ssl_ca_file: <%= @ssl_ca %>
+:ssl_certificate: <%= @ssl_cert %>
+:ssl_private_key: <%= @ssl_key %>
 <% else -%>
 #:ssl_ca_file: ssl/certs/ca.pem
-<% end -%>
-<% if scope.lookupvar("foreman_proxy::ssl_cert") -%>
-:ssl_certificate: <%= scope.lookupvar("foreman_proxy::ssl_cert") %>
-<% else -%>
 #:ssl_certificate: ssl/certs/fqdn.pem
-<% end -%>
-<% if scope.lookupvar("foreman_proxy::ssl_key") -%>
-:ssl_private_key: <%= scope.lookupvar("foreman_proxy::ssl_key") %>
-<% else -%>
 #:ssl_private_key: ssl/private_keys/fqdn.key
 <% end -%>
 

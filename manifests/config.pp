@@ -2,8 +2,30 @@ class foreman_proxy::config {
 
   # Ensure SSL certs from the puppetmaster are available
   # Relationship is duplicated there as defined() is parse-order dependent
-  if $foreman_proxy::ssl and defined(Class['puppet::server::config']) {
+  $ssl = $::foreman_proxy::ssl
+  if $ssl and defined(Class['puppet::server::config']) {
     Class['puppet::server::config'] -> Class['foreman_proxy::config']
+    $default_ssl_ca = $::puppet::server::ssl_ca
+    $default_ssl_cert = $::puppet::server::ssl_cert
+    $default_ssl_key = $::puppet::server::ssl_key
+  }
+  else {
+    $default_ssl_ca = $::foreman_proxy::params::default_ssl_ca
+    $default_ssl_cert = $::foreman_proxy::params::default_ssl_cert
+    $default_ssl_key = $::foreman_proxy::params::default_ssl_key
+  }
+
+  $ssl_ca = $::foreman_proxy::ssl_ca ? {
+    undef   => $default_ssl_ca,
+    default => $::foreman_proxy::ssl_ca,
+  }
+  $ssl_cert = $::foreman_proxy::ssl_cert ? {
+    undef   => $default_ssl_cert,
+    default => $::foreman_proxy::ssl_cert,
+  }
+  $ssl_key  = $::foreman_proxy::ssl_key ? {
+    undef   => $default_ssl_key,
+    default => $::foreman_proxy::ssl_key,
   }
 
   if $foreman_proxy::puppetca  { include foreman_proxy::puppetca }

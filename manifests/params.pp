@@ -1,6 +1,5 @@
 class foreman_proxy::params {
 
-  include tftp::params
   include puppet::params
 
   # Packaging
@@ -20,10 +19,10 @@ class foreman_proxy::params {
   # Enable SSL, ensure proxy is added with "https://" protocol if true
   $ssl = true
   # If CA is specified, remote Foreman host will be verified
-  $ssl_ca = "${puppet_home}/ssl/certs/ca.pem"
+  $default_ssl_ca = "${puppet_home}/ssl/certs/ca.pem"
   # Used to communicate to Foreman
-  $ssl_cert = "${puppet_home}/ssl/certs/${fqdn}.pem"
-  $ssl_key = "${puppet_home}/ssl/private_keys/${fqdn}.pem"
+  $default_ssl_cert = "${puppet_home}/ssl/certs/${fqdn}.pem"
+  $default_ssl_key = "${puppet_home}/ssl/private_keys/${fqdn}.pem"
 
   # Only hosts listed will be permitted, empty array to disable authorization
   $trusted_hosts = []
@@ -69,8 +68,9 @@ class foreman_proxy::params {
     }
   }
   $tftp_syslinux_files = ['pxelinux.0','menu.c32','chain.c32']
-  $tftp_root           = $tftp::params::root
-  $tftp_dirs           = ["${tftp_root}/pxelinux.cfg","${tftp_root}/boot"]
+  # tftp_root and tftp_dirs are initialized in foreman_proxy::tftp.
+  $tftp_root           = undef
+  $tftp_dirs           = undef
   $tftp_servername     = $ipaddress_eth0
 
   # DHCP settings - requires optional DHCP puppet module
