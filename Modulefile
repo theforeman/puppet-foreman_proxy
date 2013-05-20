@@ -1,0 +1,13 @@
+name    'theforeman-foreman_proxy'
+version '1.2.0-rc1'
+source 'git://github.com/theforeman/puppet-foreman_proxy'
+author 'theforeman'
+license 'GPLv3+'
+summary 'Foreman Smart Proxy configuration'
+description 'Module for configuring the Foreman Smart Proxy and other services'
+project_page 'http://github.com/theforeman/foreman-installer'
+
+dependency 'theforeman/dns', '>= 1.2.0-rc1'
+dependency 'theforeman/dhcp', '>= 1.2.0-rc1'
+dependency 'theforeman/puppet', '>= 1.2.0-rc1'
+dependency 'theforeman/tftp', '>= 1.2.0-rc1'
