@@ -13,6 +13,8 @@ class foreman_proxy (
   $manage_sudoersd     = $foreman_proxy::params::manage_sudoersd,
   $use_sudoersd        = $foreman_proxy::params::use_sudoersd,
   $puppetca            = $foreman_proxy::params::puppetca,
+  $ssldir              = $foreman_proxy::params::ssldir,
+  $puppetdir           = $foreman_proxy::params::puppetdir,
   $autosign_location   = $foreman_proxy::params::autosign_location,
   $puppetca_cmd        = $foreman_proxy::params::puppetca_cmd,
   $puppet_group        = $foreman_proxy::params::puppet_group,

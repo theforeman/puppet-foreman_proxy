@@ -15,7 +15,7 @@ class foreman_proxy::params {
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
 
-  $puppet_home = '/var/lib/puppet'
+  $puppet_home = $puppet::params::puppet_vardir
 
   # Enable SSL, ensure proxy is added with "https://" protocol if true
   $ssl = true
@@ -51,6 +51,8 @@ class foreman_proxy::params {
   $autosign_location = '/etc/puppet/autosign.conf'
   $puppetca_cmd      = $puppet::params::puppetca_cmd
   $puppet_group      = 'puppet'
+  $ssldir            = "${puppet_home}/ssl"
+  $puppetdir         = $puppet::params::dir
 
   # puppetrun settings
   $puppetrun     = true
@@ -76,7 +78,7 @@ class foreman_proxy::params {
   $dhcp_managed     = true
   $dhcp_interface   = 'eth0'
   $dhcp_gateway     = '192.168.100.1'
-  $dhcp_range       = '192.168.100.50 192.168.100.200'
+  $dhcp_range       = false
   # This will use the IP of the interface in $dhcp_interface, override
   # if you need to. You can make this a comma-separated string too - it
   # will be split into an array
