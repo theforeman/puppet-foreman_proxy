@@ -4,7 +4,7 @@ class foreman_proxy::params {
   include puppet::params
 
   # Packaging
-  $repo = stable
+  $repo = 'rc'
   # if set to true, no repo will be added by this module, letting you to
   # set it to some custom location.
   $custom_repo = false
