@@ -15,7 +15,7 @@ class foreman_proxy::params {
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
 
-  $puppet_home = $puppet::params::puppet_vardir
+  $puppet_home = $puppet::params::vardir
 
   # Enable SSL, ensure proxy is added with "https://" protocol if true
   $ssl = true
