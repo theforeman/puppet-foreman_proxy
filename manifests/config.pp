@@ -12,7 +12,7 @@ class foreman_proxy::config {
   # Somehow, calling these DHCP and DNS seems to conflict. So, they get a prefix...
   if $foreman_proxy::dhcp and $foreman_proxy::dhcp_managed { include foreman_proxy::proxydhcp }
 
-  if $foreman_proxy::dns {
+  if $foreman_proxy::dns and $foreman_proxy::dns_managed {
     include foreman_proxy::proxydns
     include dns::params
     $groups = [$dns::params::group,$foreman_proxy::puppet_group]
