@@ -10,7 +10,7 @@ class foreman_proxy::params {
   $custom_repo = false
 
   # variables
-  $port = "8443"
+  $port = '8443'
   $dir  = '/usr/share/foreman-proxy'
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
@@ -22,14 +22,14 @@ class foreman_proxy::params {
   # If CA is specified, remote Foreman host will be verified
   $ssl_ca = "${puppet_home}/ssl/certs/ca.pem"
   # Used to communicate to Foreman
-  $ssl_cert = "${puppet_home}/ssl/certs/${fqdn}.pem"
-  $ssl_key = "${puppet_home}/ssl/private_keys/${fqdn}.pem"
+  $ssl_cert = "${puppet_home}/ssl/certs/${::fqdn}.pem"
+  $ssl_key = "${puppet_home}/ssl/private_keys/${::fqdn}.pem"
 
   # Only hosts listed will be permitted, empty array to disable authorization
   $trusted_hosts = []
 
-  # Whether to manage File['/etc/sudoers.d'] or not.  When reusing this module, this may be
-  # disabled to let a dedicated sudo module manage it instead.
+  # Whether to manage File['/etc/sudoers.d'] or not.  When reusing this module,
+  # this may be disabled to let a dedicated sudo module manage it instead.
   $manage_sudoersd = true
 
   # Should we assume a sudoers.d dir exists ( 'false' will use augeas instead )
