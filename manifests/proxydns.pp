@@ -1,5 +1,6 @@
+# Configure the DNS component
 class foreman_proxy::proxydns {
-  class { dns:
+  class { 'dns':
     forwarders => $foreman_proxy::dns_forwarders,
   }
 

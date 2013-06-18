@@ -1,3 +1,4 @@
+# Configure puppet CA component
 class foreman_proxy::puppetca {
 
   file { $foreman_proxy::autosign_location:
