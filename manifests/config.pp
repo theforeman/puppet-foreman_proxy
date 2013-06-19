@@ -1,3 +1,4 @@
+# Configure the foreman proxy
 class foreman_proxy::config {
 
   # Ensure SSL certs from the puppetmaster are available
@@ -50,7 +51,7 @@ class foreman_proxy::config {
       ensure  => present,
       owner   => 'root',
       group   => 'root',
-      mode    => 0440,
+      mode    => '0440',
       content => "foreman-proxy ALL = NOPASSWD : ${foreman_proxy::puppetca_cmd} *, ${foreman_proxy::puppetrun_cmd} *
 Defaults:foreman-proxy !requiretty\n",
       require => File['/etc/sudoers.d'],

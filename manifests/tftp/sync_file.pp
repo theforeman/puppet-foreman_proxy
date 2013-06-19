@@ -1,3 +1,4 @@
+# Sync a TFTP file
 define foreman_proxy::tftp::sync_file(
   $source_path,
   $target_path

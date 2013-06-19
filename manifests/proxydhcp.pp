@@ -1,3 +1,4 @@
+# Configure the DHCP component
 class foreman_proxy::proxydhcp {
   $ip   = inline_template("<%= scope.lookupvar('::ipaddress_${foreman_proxy::dhcp_interface}') %>")
   $net  = inline_template("<%= scope.lookupvar('::network_${foreman_proxy::dhcp_interface}') %>")

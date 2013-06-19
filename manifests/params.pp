@@ -1,3 +1,4 @@
+# The default parameters for the foreman proxy
 class foreman_proxy::params {
 
   include tftp::params
@@ -10,7 +11,7 @@ class foreman_proxy::params {
   $custom_repo = false
 
   # variables
-  $port = "8443"
+  $port = '8443'
   $dir  = '/usr/share/foreman-proxy'
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
@@ -22,8 +23,8 @@ class foreman_proxy::params {
   # If CA is specified, remote Foreman host will be verified
   $ssl_ca = "${puppet_home}/ssl/certs/ca.pem"
   # Used to communicate to Foreman
-  $ssl_cert = "${puppet_home}/ssl/certs/${fqdn}.pem"
-  $ssl_key = "${puppet_home}/ssl/private_keys/${fqdn}.pem"
+  $ssl_cert = "${puppet_home}/ssl/certs/${::fqdn}.pem"
+  $ssl_key = "${puppet_home}/ssl/private_keys/${::fqdn}.pem"
 
   # Only hosts listed will be permitted, empty array to disable authorization
   $trusted_hosts = []

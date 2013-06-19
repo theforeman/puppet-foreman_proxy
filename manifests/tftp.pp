@@ -1,3 +1,4 @@
+# Set up the tftp component
 class foreman_proxy::tftp {
   include ::tftp
 

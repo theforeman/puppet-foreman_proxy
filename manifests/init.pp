@@ -1,3 +1,4 @@
+# Install, configure and run a foreman proxy
 class foreman_proxy (
   $repo                = $foreman_proxy::params::repo,
   $custom_repo         = $foreman_proxy::params::custom_repo,
