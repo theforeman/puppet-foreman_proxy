@@ -132,4 +132,20 @@ class foreman_proxy::params {
 
   $dns_forwarders = []
 
+  # Proxy can register itself within a Foreman instance
+  $register_in_foreman = true
+  # Foreman instance URL for registration
+  $foreman_base_url = "https://${::fqdn}"
+  # Proxy URL to be regestered
+  $registered_proxy_url = "https://${::fqdn}:${port}"
+  # User to be used for registration
+  $oauth_effective_user = 'admin'
+  # OAuth credentials
+  $oauth_consumer_key = cache_data('oauth_consumer_key', random_password(32))
+  $oauth_consumer_secret = cache_data('oauth_consumer_secret', random_password(32))
+
+  $foreman_api_package = $osfamily ? {
+    Debian  => 'ruby-foreman-api',
+    default => 'rubygem-foreman_api',
+  }
 }
