@@ -30,8 +30,8 @@ class foreman_proxy::params {
   # Only hosts listed will be permitted, empty array to disable authorization
   $trusted_hosts = []
 
-  # Whether to manage File['/etc/sudoers.d'] or not.  When reusing this module, this may be
-  # disabled to let a dedicated sudo module manage it instead.
+  # Whether to manage File['/etc/sudoers.d'] or not.  When reusing this module,
+  # this may be disabled to let a dedicated sudo module manage it instead.
   $manage_sudoersd = true
 
   # Should we assume a sudoers.d dir exists ( 'false' will use augeas instead )
@@ -114,6 +114,7 @@ class foreman_proxy::params {
 
   # DNS settings - requires optional DNS puppet module
   $dns           = false
+  $dns_managed   = true
   $dns_interface = 'eth0'
   $dns_reverse   = '100.168.192.in-addr.arpa'
   # localhost can resolve to ipv6 which ruby doesn't handle well
