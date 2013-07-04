@@ -16,4 +16,14 @@ class foreman_proxy::install {
     ensure  => present,
     require => $repo,
   }
+
+  $foreman_api_package = $osfamily ? {
+    Debian  => "ruby-foreman-api",
+    default => "rubygem-foreman_api",
+  }
+
+  package { $foreman_api_package:
+    ensure  => present,
+    require => $repo,
+  }
 }
