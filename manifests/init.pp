@@ -45,6 +45,25 @@ class foreman_proxy (
   $dns_forwarders      = $foreman_proxy::params::dns_forwarders,
   $keyfile             = $foreman_proxy::params::keyfile
 ) inherits foreman_proxy::params {
+  # Validate misc params
+  validate_bool($ssl, $manage_sudoersd, $use_sudoersd)
+  validate_array($trusted_hosts)
+
+  # Validate puppet params
+  validate_bool($puppetca, $puppetrun)
+  validate_string($ssldir, $puppetdir, $autosign_location, $puppetca_cmd, $puppetrun_cmd)
+
+  # Validate tftp params
+  validate_bool($tftp)
+
+  # Validate dhcp params
+  validate_bool($dhcp, $dhcp_managed)
+
+  # Validate dns params
+  validate_bool($dns)
+  validate_string($dns_interface, $dns_reverse, $dns_server, $keyfile)
+  validate_array($dns_forwarders)
+
   class { 'foreman_proxy::install': } ~>
   class { 'foreman_proxy::config': } ~>
   class { 'foreman_proxy::service': }

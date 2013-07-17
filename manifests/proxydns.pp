@@ -7,8 +7,7 @@ class foreman_proxy::proxydns {
     ensure => installed,
   }
 
-  $ip_temp = "::ipaddress_${foreman_proxy::dns_interface}"
-  $ip      = inline_template('<%= scope.lookupvar(ip_temp) %>')
+  $ip = inline_template("<%= scope.lookupvar('::ipaddress_${foreman_proxy::dns_interface}') %>")
 
   dns::zone { $::domain:
     soa     => $::fqdn,

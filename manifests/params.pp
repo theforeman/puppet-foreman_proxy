@@ -4,7 +4,7 @@ class foreman_proxy::params {
   include puppet::params
 
   # Packaging
-  $repo = stable
+  $repo = 'rc'
   # if set to true, no repo will be added by this module, letting you to
   # set it to some custom location.
   $custom_repo = false
@@ -68,7 +68,7 @@ class foreman_proxy::params {
       $tftp_syslinux_root = '/usr/share/syslinux'
     }
   }
-  $tftp_syslinux_files = ['pxelinux.0','menu.c32','chain.c32']
+  $tftp_syslinux_files = ['pxelinux.0','menu.c32','chain.c32','memdisk']
   $tftp_root           = $tftp::params::root
   $tftp_dirs           = ["${tftp_root}/pxelinux.cfg","${tftp_root}/boot"]
   $tftp_servername     = $ipaddress_eth0
