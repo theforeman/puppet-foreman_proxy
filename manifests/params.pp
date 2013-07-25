@@ -34,7 +34,7 @@ class foreman_proxy::params {
   # this may be disabled to let a dedicated sudo module manage it instead.
   $manage_sudoersd = true
 
-  # Should we assume a sudoers.d dir exists ( 'false' will use augeas instead )
+  # Add a file to /etc/sudoers.d (true) or uses augeas (false)
   case $::operatingsystem {
     redhat,centos,Scientific: {
       if $::operatingsystemrelease >= 6 {

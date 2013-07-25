@@ -1,4 +1,120 @@
 # Install, configure and run a foreman proxy
+#
+# === Parameters:
+#
+# $repo::                   This can be stable, rc, or nightly
+#                           type:array
+#
+# $gpgcheck::               Turn on/off gpg check in repo files (effective only on RedHat family systems)
+#                           type:boolean
+#
+# $custom_repo::            No need to change anything here by default
+#                           if set to true, no repo will be added by this module, letting you to
+#                           set it to some custom location.
+#                           type:boolean
+#
+# $port::                   Port on which will foreman proxy listen
+#                           type:integer
+#
+# $dir::                    Foreman proxy install directory
+#
+# $user::                   User under which foreman proxy will run
+#
+# $log::                    Foreman proxy log file
+#
+# $ssl::                    Enable SSL, ensure proxy is added with "https://" protocol if true
+#                           type:boolean
+#
+# $ssl_ca::                 If CA is specified, remote Foreman host will be verified
+#
+# $ssl_cert::               Used to communicate to Foreman
+#
+# $ssl_key::                Corresponding key to a certificate
+#
+# $trusted_hosts::          Only hosts listed will be permitted, empty array to disable authorization
+#                           type:array
+#
+# $manage_sudoersd::        Whether to manage File['/etc/sudoers.d'] or not.  When reusing this module, this may be
+#                           disabled to let a dedicated sudo module manage it instead.
+#                           type:boolean
+#
+# $use_sudoersd::           Add a file to /etc/sudoers.d (true) or uses augeas (false)
+#                           type:boolean
+#
+# $puppetca::               Use Puppet CA
+#                           type:boolean
+#
+# $ssldir::                 Puppet CA ssl directory
+#
+# $puppetdir::              Puppet var directory
+#
+# $autosign_location::      Path to autosign configuration file
+#
+# $puppetca_cmd::           Puppet CA command to be allowed in sudoers
+#
+# $puppet_group::           Groups of Foreman proxy user
+#
+# $puppetrun::              Enable puppet run/kick management
+#                           type:boolean
+#
+# $puppetrun_cmd::          Puppet run/kick command to be allowed in sudoers
+#
+# $tftp::                   Use TFTP
+#                           type:boolean
+#
+# $tftp_syslinux_root::     Directory that hold syslinux files
+#
+# $tftp_syslinux_files::    Syslinux files to install on TFTP (copied from $tftp_syslinux_root)
+#                           type:array
+#
+# $tftp_root::              TFTP root directory
+#
+# $tftp_dirs::              Directories to be create in $tftp_root
+#                           type:array
+#
+# $tftp_servername::        Defines the TFTP Servername to use, overrides the name in the subnet declaration
+#
+# $dhcp::                   Use DHCP
+#                           type:boolean
+#
+# $dhcp_managed::           DHCP is managed by Foreman proxy
+#                           type:boolean
+#
+# $dhcp_interface::         DHCP listen interface
+#
+# $dhcp_gateway::           DHCP pool gateway
+#
+# $dhcp_range::             Space-separated DHCP pool range
+#
+# $dhcp_nameservers::       DHCP nameservers
+#
+# $dhcp_vendor::            DHCP vendor
+#
+# $dhcp_config::            DHCP config file path
+#
+# $dhcp_leases::            DHCP leases file
+#
+# $dhcp_key_name::          DHCP key name
+#
+# $dhcp_key_secret::        DHCP password
+#
+# $dns::                    Use DNS
+#                           type:boolean
+#
+# $dns_managed::            DNS is managed by Foreman proxy
+#                           type:boolean
+#
+# $dns_interface::          DNS interface
+#
+# $dns_reverse::            DNS reverse zone name
+#
+# $dns_server::             Address of DNS server to manage
+#
+# $dns_forwarders::         DNS forwarders
+#                           type:array
+#
+# $keyfile::                DNS server keyfile path
+#
 class foreman_proxy (
   $repo                = $foreman_proxy::params::repo,
   $gpgcheck            = $foreman_proxy::params::gpgcheck,
