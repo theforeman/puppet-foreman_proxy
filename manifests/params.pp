@@ -90,13 +90,13 @@ class foreman_proxy::params {
   $dhcp_key_secret     = ''
 
   # DHCP server settings
-  case $::operatingsystem {
-    Debian,Ubuntu: {
+  case $::osfamily {
+    Debian: {
       $dhcp_vendor = 'isc'
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
     }
-    RedHat,CentOS: {
+    RedHat: {
       $dhcp_vendor = 'isc'
       if ($::lsbmajdistrelease == 5) {
         $dhcp_config = '/etc/dhcpd.conf'
