@@ -136,7 +136,9 @@ class foreman_proxy::params {
   $register_in_foreman = true
   # Foreman instance URL for registration
   $foreman_base_url = "https://${::fqdn}"
-  # Proxy URL to be regestered
+  # Name the proxy should be registered with
+  $registered_name = $::fqdn
+  # Proxy URL to be registered
   $registered_proxy_url = "https://${::fqdn}:${port}"
   # User to be used for registration
   $oauth_effective_user = 'admin'
