@@ -147,7 +147,7 @@ class foreman_proxy::params {
   $oauth_consumer_key = cache_data('oauth_consumer_key', random_password(32))
   $oauth_consumer_secret = cache_data('oauth_consumer_secret', random_password(32))
 
-  $foreman_api_package = $osfamily ? {
+  $foreman_api_package = $::osfamily ? {
     Debian  => 'ruby-foreman-api',
     default => 'rubygem-foreman_api',
   }
