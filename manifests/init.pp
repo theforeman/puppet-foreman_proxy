@@ -117,6 +117,8 @@
 #
 # $register_in_foreman::    Register proxy back in Foreman
 #
+# $registered_name::        Proxy name which is registered in Foreman
+#
 # $registered_proxy_url::   Proxy URL which is registered in Foreman
 #
 # $foreman_base_url::       Base Foreman URL used for REST interaction
