@@ -3,7 +3,6 @@
 # === Parameters:
 #
 # $repo::                   This can be stable, rc, or nightly
-#                           type:array
 #
 # $gpgcheck::               Turn on/off gpg check in repo files (effective only on RedHat family systems)
 #                           type:boolean
