@@ -105,6 +105,8 @@
 #
 # $dns_interface::          DNS interface
 #
+# $dns_zone::               DNS zone name
+#
 # $dns_reverse::            DNS reverse zone name
 #
 # $dns_server::             Address of DNS server to manage
@@ -171,6 +173,7 @@ class foreman_proxy (
   $dns                   = $foreman_proxy::params::dns,
   $dns_managed           = $foreman_proxy::params::dns_managed,
   $dns_interface         = $foreman_proxy::params::dns_interface,
+  $dns_zone              = $foreman_proxy::params::dns_zone,
   $dns_reverse           = $foreman_proxy::params::dns_reverse,
   $dns_server            = $foreman_proxy::params::dns_server,
   $dns_forwarders        = $foreman_proxy::params::dns_forwarders,
