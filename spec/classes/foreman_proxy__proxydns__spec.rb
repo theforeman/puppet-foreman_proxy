@@ -5,11 +5,12 @@ describe 'foreman_proxy::proxydns' do
   context 'on RedHat' do
     let :facts do
       {
-        :fqdn            => 'localhost',
-        :domain          => 'example.org',
-        :ipaddress_eth0  => '127.0.1.1',
-        :operatingsystem => 'CentOS',
-        :osfamily        => 'RedHat',
+        :fqdn                   => 'localhost',
+        :domain                 => 'example.org',
+        :ipaddress_eth0         => '127.0.1.1',
+        :operatingsystem        => 'CentOS',
+        :operatingsystemrelease => '6',
+        :osfamily               => 'RedHat',
       }
     end
 
