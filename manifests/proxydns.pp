@@ -10,7 +10,7 @@ class foreman_proxy::proxydns {
 
   $ip = inline_template("<%= scope.lookupvar('::ipaddress_${foreman_proxy::dns_interface}') %>")
 
-  dns::zone { $::domain:
+  dns::zone { $foreman_proxy::dns_zone:
     soa     => $::fqdn,
     reverse => false,
     soaip   => $ip,
