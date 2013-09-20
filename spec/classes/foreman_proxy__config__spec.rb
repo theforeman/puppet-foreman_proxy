@@ -61,6 +61,8 @@ describe 'foreman_proxy::config' do
         with_content(%r{^:puppetdir: /etc/puppet$}).
         with_content(%r{^:puppet: true$}).
         with_content(%r{^:puppet_conf: /etc/puppet/puppet.conf$}).
+        with_content(%r{^:bmc: false$}).
+        with_content(%r{^:bmc_default_provider: freeipmi$}).
         with_content(%r{^:log_file: /var/log/foreman-proxy/proxy.log$}).
         with({
           :owner   => 'foreman-proxy',
@@ -83,6 +85,22 @@ describe 'foreman_proxy::config' do
         :content => "foreman-proxy ALL = NOPASSWD : /usr/sbin/puppetca *, /usr/sbin/puppetrun *\nDefaults:foreman-proxy !requiretty\n",
         :require => 'File[/etc/sudoers.d]',
       })
+    end
+  end
+
+  context 'with bmc' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        bmc                  => true,
+        bmc_default_provider => "shell",
+      }'
+    end
+
+    it 'should enable bmc with shell' do
+      should contain_file('/etc/foreman-proxy/settings.yml').
+        with_content(%r{^:bmc: true$}).
+        with_content(%r{^:bmc_default_provider: shell$}).
+        with({})
     end
   end
 end

@@ -93,6 +93,13 @@
 :puppet: <%= scope.lookupvar("foreman_proxy::puppetrun") %>
 :puppet_conf: <%= scope.lookupvar("foreman_proxy::puppetdir") %>/puppet.conf
 
+# enable BMC management (Bare metal power and bios controls)
+# Available providers:
+# - freeipmi / ipmitool - requires the appropriate package installed, and the rubyipmi gem
+# - shell - for local reboot control (requires sudo access to /sbin/shutdown for the proxy user)
+:bmc: <%= scope.lookupvar("foreman_proxy::bmc") %>
+:bmc_default_provider: <%= scope.lookupvar("foreman_proxy::bmc_default_provider") %>
+
 # Where our proxy log files are stored
 # filename or STDOUT
 :log_file: <%= scope.lookupvar("foreman_proxy::log") %>

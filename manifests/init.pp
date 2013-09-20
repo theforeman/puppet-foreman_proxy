@@ -114,6 +114,11 @@
 # $dns_forwarders::         DNS forwarders
 #                           type:array
 #
+# $bmc::                    Use BMC
+#                           type:boolean
+#
+# $bmc_default_provider::   BMC default provider.
+#
 # $keyfile::                DNS server keyfile path
 #
 # $register_in_foreman::    Register proxy back in Foreman
@@ -177,6 +182,8 @@ class foreman_proxy (
   $dns_reverse           = $foreman_proxy::params::dns_reverse,
   $dns_server            = $foreman_proxy::params::dns_server,
   $dns_forwarders        = $foreman_proxy::params::dns_forwarders,
+  $bmc                   = $foreman_proxy::params::bmc,
+  $bmc_default_provider  = $foreman_proxy::params::bmc_default_provider,
   $keyfile               = $foreman_proxy::params::keyfile,
   $register_in_foreman   = $foreman_proxy::params::register_in_foreman,
   $foreman_base_url      = $foreman_proxy::params::foreman_base_url,
@@ -205,6 +212,10 @@ class foreman_proxy (
   validate_bool($dns)
   validate_string($dns_interface, $dns_reverse, $dns_server, $keyfile)
   validate_array($dns_forwarders)
+
+  # Validate bmc params
+  validate_bool($bmc)
+  validate_re($bmc_default_provider, '^(freeipmi|ipmitool|shell)$')
 
   class { 'foreman_proxy::install': } ~>
   class { 'foreman_proxy::config': } ~>
