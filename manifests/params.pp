@@ -152,4 +152,15 @@ class foreman_proxy::params {
     Debian  => 'ruby-foreman-api',
     default => 'rubygem-foreman_api',
   }
+
+  #BMC settings
+  $bmc = false
+  $bmc_default_provider = 'ipmitool' # 'freeipmi' is a valid option as well
+
+  # Install the default provider
+  if $bmc {
+    package { $bmc_default_provider:
+      ensure => present,
+    }
+  }
 }
