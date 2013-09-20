@@ -159,4 +159,19 @@ describe 'foreman_proxy::config' do
         })
     end
   end
+
+  context 'ssl disabled' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        ssl => false,
+      }'
+    end
+
+    it 'should comment out ssl configuration files' do
+      should contain_file('/etc/foreman-proxy/settings.yml').
+        with_content(%r{^#:ssl_ca_file: ssl/certs/ca.pem$}).
+        with_content(%r{^#:ssl_certificate: ssl/certs/fqdn.pem$}).
+        with_content(%r{^#:ssl_private_key: ssl/private_keys/fqdn.key$})
+    end
+  end
 end
