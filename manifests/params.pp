@@ -133,6 +133,10 @@ class foreman_proxy::params {
 
   $dns_forwarders = []
 
+  # BMC options
+  $bmc = false
+  $bmc_default_provider = 'ipmitool'
+
   # Proxy can register itself within a Foreman instance
   $register_in_foreman = true
   # Foreman instance URL for registration
