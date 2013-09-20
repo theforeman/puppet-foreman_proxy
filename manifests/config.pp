@@ -52,8 +52,8 @@ class foreman_proxy::config {
       owner   => 'root',
       group   => 'root',
       mode    => '0440',
-      content => "foreman-proxy ALL = NOPASSWD : ${foreman_proxy::puppetca_cmd} *, ${foreman_proxy::puppetrun_cmd} *
-Defaults:foreman-proxy !requiretty\n",
+      content => "${foreman_proxy::user} ALL = NOPASSWD : ${foreman_proxy::puppetca_cmd} *, ${foreman_proxy::puppetrun_cmd} *
+Defaults:${foreman_proxy::user} !requiretty\n",
       require => File['/etc/sudoers.d'],
     }
   } else {

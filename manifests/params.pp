@@ -17,7 +17,7 @@ class foreman_proxy::params {
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
 
-  $puppet_home = $puppet::params::puppet_vardir
+  $puppet_home = $puppet::params::server_vardir
 
   # Enable SSL, ensure proxy is added with "https://" protocol if true
   $ssl = true
@@ -132,6 +132,10 @@ class foreman_proxy::params {
   }
 
   $dns_forwarders = []
+
+  # BMC options
+  $bmc = false
+  $bmc_default_provider = 'freeipmi'
 
   # Proxy can register itself within a Foreman instance
   $register_in_foreman = true
