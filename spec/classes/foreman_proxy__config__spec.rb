@@ -62,7 +62,7 @@ describe 'foreman_proxy::config' do
         with_content(%r{^:puppet: true$}).
         with_content(%r{^:puppet_conf: /etc/puppet/puppet.conf$}).
         with_content(%r{^:bmc: false$}).
-        with_content(%r{^:bmc_default_provider: freeipmi$}).
+        with_content(%r{^:bmc_default_provider: ipmitool$}).
         with_content(%r{^:log_file: /var/log/foreman-proxy/proxy.log$}).
         with({
           :owner   => 'foreman-proxy',
