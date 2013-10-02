@@ -122,6 +122,7 @@
 # $keyfile::                DNS server keyfile path
 #
 # $register_in_foreman::    Register proxy back in Foreman
+#                           type:boolean
 #
 # $registered_name::        Proxy name which is registered in Foreman
 #
