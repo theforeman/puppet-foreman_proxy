@@ -196,7 +196,7 @@ class foreman_proxy (
 ) inherits foreman_proxy::params {
 
   # Validate misc params
-  validate_bool($ssl, $manage_sudoersd, $use_sudoersd)
+  validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman)
   validate_array($trusted_hosts)
 
   # Validate puppet params
