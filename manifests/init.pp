@@ -205,6 +205,7 @@ class foreman_proxy (
 
   # Validate tftp params
   validate_bool($tftp)
+  validate_string($tftp_servername)
 
   # Validate dhcp params
   validate_bool($dhcp, $dhcp_managed)
