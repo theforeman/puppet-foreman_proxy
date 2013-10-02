@@ -103,4 +103,29 @@ describe 'foreman_proxy::config' do
         with({})
     end
   end
+
+  context 'with TFTP and no $ipaddress_eth0 fact' do
+    let :facts do
+      {
+        :fqdn                   => 'host.example.org',
+        :ipaddress              => '127.0.1.2',
+        :operatingsystem        => 'RedHat',
+        :operatingsystemrelease => '6',
+        :osfamily               => 'RedHat',
+      }
+    end
+
+    let :pre_condition do
+      'class {"foreman_proxy":
+        tftp => true,
+      }'
+    end
+
+    it 'should set tftp_servername to $ipaddress' do
+      should contain_file('/etc/foreman-proxy/settings.yml').
+        with_content(%r{^:tftp: true$}).
+        with_content(%r{^:tftp_servername: 127.0.1.2$}).
+        with({})
+    end
+  end
 end
