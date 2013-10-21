@@ -92,6 +92,9 @@
 # enable Puppet management
 :puppet: <%= scope.lookupvar("foreman_proxy::puppetrun") %>
 :puppet_conf: <%= scope.lookupvar("foreman_proxy::puppetdir") %>/puppet.conf
+<% if scope.lookupvar("foreman_proxy::puppetrun_provider") != '' -%>
+:puppet_provider: <%= scope.lookupvar("foreman_proxy::puppetrun_provider") %>
+<% end -%>
 
 # enable BMC management (Bare metal power and bios controls)
 # Available providers:

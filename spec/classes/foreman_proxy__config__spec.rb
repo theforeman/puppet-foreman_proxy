@@ -128,4 +128,35 @@ describe 'foreman_proxy::config' do
         with({})
     end
   end
+
+  context 'with pupppetrun_provider set to mcollective' do
+    let :facts do
+      {
+        :fqdn                   => 'host.example.org',
+        :ipaddress              => '127.0.1.2',
+        :operatingsystem        => 'RedHat',
+        :operatingsystemrelease => '6',
+        :osfamily               => 'RedHat',
+      }
+    end
+
+    let :pre_condition do
+      'class {"foreman_proxy":
+        puppetrun          => true,
+        puppetrun_provider => "mcollective",
+      }'
+    end
+
+    it 'should contain mcollective as puppet_provider' do
+      should contain_file('/etc/foreman-proxy/settings.yml').
+        with_content(%r{^:puppet_provider: mcollective$}).
+        with({
+          :owner   => 'foreman-proxy',
+          :group   => 'foreman-proxy',
+          :mode    => '0644',
+          :require => 'Class[Foreman_proxy::Install]',
+          :notify  => 'Class[Foreman_proxy::Service]',
+        })
+    end
+  end
 end
