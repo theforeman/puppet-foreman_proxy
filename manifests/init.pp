@@ -56,6 +56,8 @@
 # $puppetrun::              Enable puppet run/kick management
 #                           type:boolean
 #
+# $puppetrun_provider:      Set puppet_provider to handle puppet run/kick via mcollective
+#
 # $puppetrun_cmd::          Puppet run/kick command to be allowed in sudoers
 #
 # $tftp::                   Use TFTP
@@ -159,6 +161,7 @@ class foreman_proxy (
   $puppet_group          = $foreman_proxy::params::puppet_group,
   $puppetrun             = $foreman_proxy::params::puppetrun,
   $puppetrun_cmd         = $foreman_proxy::params::puppetrun_cmd,
+  $puppetrun_provider    = $foreman_proxy::params::puppetrun_provider,
   $tftp                  = $foreman_proxy::params::tftp,
   $tftp_syslinux_root    = $foreman_proxy::params::tftp_syslinux_root,
   $tftp_syslinux_files   = $foreman_proxy::params::tftp_syslinux_files,
