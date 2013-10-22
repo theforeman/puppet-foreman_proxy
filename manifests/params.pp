@@ -59,7 +59,7 @@ class foreman_proxy::params {
   # puppetrun settings
   $puppetrun          = true
   $puppetrun_cmd      = $puppet::params::puppetrun_cmd
-  $puppetrun_provider = false
+  $puppetrun_provider = ''
 
   # TFTP settings - requires optional TFTP puppet module
   $tftp           = true
