@@ -149,13 +149,13 @@ describe 'foreman_proxy::config' do
 
     it 'should contain mcollective as puppet_provider' do
       should contain_file('/etc/foreman-proxy/settings.yml').
-        with_content(%r{:puppet_provider: mcollective$}).
+        with_content(%r{^:puppet_provider: mcollective$}).
         with({
-          :owner              => 'foreman-proxy',
-          :group              => 'foreman-proxy',
-          :mode               => '0644',
-          :require            => 'Class[Foreman_proxy::Install]',
-          :notify             => 'Class[Foreman_proxy::Service]',
+          :owner   => 'foreman-proxy',
+          :group   => 'foreman-proxy',
+          :mode    => '0644',
+          :require => 'Class[Foreman_proxy::Install]',
+          :notify  => 'Class[Foreman_proxy::Service]',
         })
     end
   end
