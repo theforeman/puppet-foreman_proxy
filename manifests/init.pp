@@ -56,7 +56,7 @@
 # $puppetrun::              Enable puppet run/kick management
 #                           type:boolean
 #
-# $puppetrun_provider:      Set puppet_provider to handle puppet run/kick via mcollective
+# $puppetrun_provider::     Set puppet_provider to handle puppet run/kick via mcollective
 #
 # $puppetrun_cmd::          Puppet run/kick command to be allowed in sudoers
 #
