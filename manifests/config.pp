@@ -7,6 +7,13 @@ class foreman_proxy::config {
     Class['puppet::server::config'] -> Class['foreman_proxy::config']
   }
 
+  if $foreman_proxy::ssl and !defined(Class['puppet::server::config']) {
+    file { $foreman_proxy::ssl_key:
+      group => $puppet::server_group,
+      mode  => '0640',
+    }
+  }
+
   if $foreman_proxy::puppetca  { include foreman_proxy::puppetca }
   if $foreman_proxy::tftp      { include foreman_proxy::tftp }
 
