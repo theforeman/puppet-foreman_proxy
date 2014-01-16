@@ -7,7 +7,7 @@ summary 'Foreman Smart Proxy configuration'
 description 'Module for configuring the Foreman Smart Proxy and other services'
 project_page 'http://github.com/theforeman/foreman-installer'
 
-dependency 'puppetlabs/stdlib'
+dependency 'puppetlabs/stdlib', '>= 0'
 dependency 'theforeman/dns', '>= 1.3.0'
 dependency 'theforeman/dhcp', '>= 1.3.0'
 dependency 'theforeman/puppet', '>= 1.3.0'
