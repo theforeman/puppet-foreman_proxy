@@ -53,6 +53,7 @@
 
 # Enable DNS management
 :dns: <%= scope.lookupvar("foreman_proxy::dns") %>
+:dns_provider: <%= scope.lookupvar("foreman_proxy::dns_provider") %>
 :dns_key: <%= scope.lookupvar("foreman_proxy::keyfile") %>
 # use this setting if you are managing a dns server which is not localhost though this proxy
 :dns_server: <%= scope.lookupvar("foreman_proxy::dns_server") %>

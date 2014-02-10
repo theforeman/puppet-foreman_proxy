@@ -105,6 +105,8 @@
 # $dns_managed::            DNS is managed by Foreman proxy
 #                           type:boolean
 #
+# $dns_provider::           DNS provider
+#
 # $dns_interface::          DNS interface
 #
 # $dns_zone::               DNS zone name
@@ -181,6 +183,7 @@ class foreman_proxy (
   $dhcp_key_secret       = $foreman_proxy::params::dhcp_key_secret,
   $dns                   = $foreman_proxy::params::dns,
   $dns_managed           = $foreman_proxy::params::dns_managed,
+  $dns_provider          = $foreman_proxy::params::dns_provider,
   $dns_interface         = $foreman_proxy::params::dns_interface,
   $dns_zone              = $foreman_proxy::params::dns_zone,
   $dns_reverse           = $foreman_proxy::params::dns_reverse,
@@ -215,7 +218,7 @@ class foreman_proxy (
 
   # Validate dns params
   validate_bool($dns)
-  validate_string($dns_interface, $dns_reverse, $dns_server, $keyfile)
+  validate_string($dns_interface, $dns_provider, $dns_reverse, $dns_server, $keyfile)
   validate_array($dns_forwarders)
 
   # Validate bmc params
