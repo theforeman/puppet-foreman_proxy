@@ -119,6 +119,7 @@ class foreman_proxy::params {
   # DNS settings - requires optional DNS puppet module
   $dns           = false
   $dns_managed   = true
+  $dns_provider  = 'nsupdate'
   $dns_interface = 'eth0'
   $dns_zone      = $::domain
   $dns_reverse   = '100.168.192.in-addr.arpa'
