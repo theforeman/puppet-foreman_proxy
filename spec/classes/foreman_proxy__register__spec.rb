@@ -15,7 +15,7 @@ describe 'foreman_proxy::register' do
     end
 
     it 'should register the proxy' do
-      should include_class('foreman_proxy::register')
+      should contain_class('foreman_proxy::register')
       should contain_foreman_smartproxy(facts[:fqdn]).with({
         'ensure'          => 'present',
         'base_url'        => "https://#{facts[:fqdn]}",
@@ -41,7 +41,7 @@ describe 'foreman_proxy::register' do
     end
 
     it 'should register the proxy' do
-      should include_class('foreman_proxy::register')
+      should contain_class('foreman_proxy::register')
       should contain_foreman_smartproxy('my_proxy').with({
         'ensure'          => 'present',
         'base_url'        => 'my_base',
@@ -59,7 +59,7 @@ describe 'foreman_proxy::register' do
     end
 
     it 'should not register the proxy' do
-      should include_class('foreman_proxy::register')
+      should contain_class('foreman_proxy::register')
       should_not contain_foreman_smartproxy(facts[:fqdn])
     end
   end
