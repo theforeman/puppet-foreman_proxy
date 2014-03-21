@@ -109,9 +109,11 @@
 #
 # $dns_interface::          DNS interface
 #
-# $dns_zone::               DNS zone name
+# $dns_zone::               Array of DNS zone names
+#                           type:array
 #
-# $dns_reverse::            DNS reverse zone name
+# $dns_reverse::            Array of DNS reverse zone names
+#                           type:array
 #
 # $dns_server::             Address of DNS server to manage
 #
@@ -218,8 +220,8 @@ class foreman_proxy (
 
   # Validate dns params
   validate_bool($dns)
-  validate_string($dns_interface, $dns_provider, $dns_reverse, $dns_server, $keyfile)
-  validate_array($dns_forwarders)
+  validate_string($dns_interface, $dns_provider, $dns_server, $keyfile)
+  validate_array($dns_zone, $dns_forwarders, $dns_reverse)
 
   # Validate bmc params
   validate_bool($bmc)

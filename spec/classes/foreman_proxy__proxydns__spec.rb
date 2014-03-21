@@ -48,7 +48,7 @@ describe 'foreman_proxy::proxydns' do
 
       context 'with dns_zone overridden' do
         let :pre_condition do
-          "class {'foreman_proxy': dns_zone => 'something.example.com' }"
+          "class {'foreman_proxy': dns_zone => ['something.example.com'] }"
         end
 
         it 'should include the forward zone' do
