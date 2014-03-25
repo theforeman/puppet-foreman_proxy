@@ -60,6 +60,21 @@
 #
 # $puppetrun_cmd::          Puppet run/kick command to be allowed in sudoers
 #
+# $customrun_cmd::          Puppet customrun command
+#
+# $customrun_args::         Puppet customrun command arguments
+#
+# $puppetssh_sudo::         Whether to use sudo before commands when using puppetrun_provider puppetssh
+#                           type:boolean
+#
+# $puppetssh_command::      The command used by puppetrun_provider puppetssh
+#
+# $puppetssh_user::         The user for puppetrun_provider puppetssh
+#
+# $puppetssh_keyfile::      The keyfile for puppetrun_provider puppetssh commands
+#
+# $puppet_user::            Which user to invoke sudo as to run puppet commands
+#
 # $tftp::                   Use TFTP
 #                           type:boolean
 #
@@ -115,8 +130,16 @@
 #
 # $dns_server::             Address of DNS server to manage
 #
+# $dns_ttl::                DNS default TTL override
+#
+# $dns_tsig_keytab::        Kerberos keytab for DNS updates using GSS-TSIG authentication
+#
+# $dns_tsig_principal::     Kerberos principal for DNS updates using GSS-TSIG authentication
+#
 # $dns_forwarders::         DNS forwarders
 #                           type:array
+#
+# $virsh_network::          Network for virsh DNS/DHCP provider
 #
 # $bmc::                    Use BMC
 #                           type:boolean
@@ -164,6 +187,13 @@ class foreman_proxy (
   $puppetrun             = $foreman_proxy::params::puppetrun,
   $puppetrun_cmd         = $foreman_proxy::params::puppetrun_cmd,
   $puppetrun_provider    = $foreman_proxy::params::puppetrun_provider,
+  $customrun_cmd         = $foreman_proxy::params::customrun_cmd,
+  $customrun_args        = $foreman_proxy::params::customrun_args,
+  $puppetssh_sudo        = $foreman_proxy::params::puppetssh_sudo,
+  $puppetssh_command     = $foreman_proxy::params::puppetssh_command,
+  $puppetssh_user        = $foreman_proxy::params::puppetssh_user,
+  $puppetssh_keyfile     = $foreman_proxy::params::puppetssh_keyfile,
+  $puppet_user           = $foreman_proxy::params::puppet_user,
   $tftp                  = $foreman_proxy::params::tftp,
   $tftp_syslinux_root    = $foreman_proxy::params::tftp_syslinux_root,
   $tftp_syslinux_files   = $foreman_proxy::params::tftp_syslinux_files,
@@ -188,7 +218,11 @@ class foreman_proxy (
   $dns_zone              = $foreman_proxy::params::dns_zone,
   $dns_reverse           = $foreman_proxy::params::dns_reverse,
   $dns_server            = $foreman_proxy::params::dns_server,
+  $dns_ttl               = $foreman_proxy::params::dns_ttl,
+  $dns_tsig_keytab       = $foreman_proxy::params::dns_tsig_keytab,
+  $dns_tsig_principal    = $foreman_proxy::params::dns_tsig_principal,
   $dns_forwarders        = $foreman_proxy::params::dns_forwarders,
+  $virsh_network         = $foreman_proxy::params::virsh_network,
   $bmc                   = $foreman_proxy::params::bmc,
   $bmc_default_provider  = $foreman_proxy::params::bmc_default_provider,
   $keyfile               = $foreman_proxy::params::keyfile,

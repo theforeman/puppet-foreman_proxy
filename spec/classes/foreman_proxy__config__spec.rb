@@ -4,6 +4,7 @@ describe 'foreman_proxy::config' do
   let :facts do
     {
       :fqdn                   => 'host.example.org',
+      :domain                 => 'example.org',
       :ipaddress_eth0         => '127.0.1.1',
       :operatingsystem        => 'RedHat',
       :operatingsystemrelease => '6',
@@ -46,24 +47,6 @@ describe 'foreman_proxy::config' do
 
     it 'should create the configuration' do
       should contain_file('/etc/foreman-proxy/settings.yml').
-        with_content(%r{^:ssl_ca_file: /var/lib/puppet/ssl/certs/ca.pem$}).
-        with_content(%r{^:ssl_certificate: /var/lib/puppet/ssl/certs/#{facts[:fqdn]}.pem$}).
-        with_content(%r{^:ssl_private_key: /var/lib/puppet/ssl/private_keys/#{facts[:fqdn]}.pem$}).
-        with_content(%r{^:port: 8443$}).
-        with_content(%r{^:tftp: true$}).
-        with_content(%r{^:tftproot: /var/lib/tftpboot/$}).
-        with_content(%r{^:tftp_servername: 127\.0\.1\.1$}).
-        with_content(%r{^:dns: false$}).
-        with_content(%r{^:dns_server: 127\.0\.0\.1$}).
-        with_content(%r{^:dhcp: false$}).
-        with_content(%r{^:puppetca: true$}).
-        with_content(%r{^:ssldir: /var/lib/puppet/ssl$}).
-        with_content(%r{^:puppetdir: /etc/puppet$}).
-        with_content(%r{^:puppet: true$}).
-        with_content(%r{^:puppet_conf: /etc/puppet/puppet.conf$}).
-        with_content(%r{^:bmc: false$}).
-        with_content(%r{^:bmc_default_provider: ipmitool$}).
-        with_content(%r{^:log_file: /var/log/foreman-proxy/proxy.log$}).
         with({
           :owner   => 'foreman-proxy',
           :group   => 'foreman-proxy',
@@ -71,6 +54,42 @@ describe 'foreman_proxy::config' do
           :require => 'Class[Foreman_proxy::Install]',
           :notify  => 'Class[Foreman_proxy::Service]',
         })
+    end
+
+    it do
+      content = subject.resource('file', '/etc/foreman-proxy/settings.yml').send(:parameters)[:content]
+      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+        '---',
+        ':ssl_ca_file: /var/lib/puppet/ssl/certs/ca.pem',
+        ":ssl_certificate: /var/lib/puppet/ssl/certs/#{facts[:fqdn]}.pem",
+        ":ssl_private_key: /var/lib/puppet/ssl/private_keys/#{facts[:fqdn]}.pem",
+        ':daemon: true',
+        ':daemon_pid: /var/run/foreman-proxy/foreman-proxy.pid',
+        ':port: 8443',
+        ':tftp: true',
+        ':tftproot: /var/lib/tftpboot/',
+        ':tftp_servername: 127.0.1.1',
+        ':dns: false',
+        ':dns_provider: nsupdate',
+        ':dns_key: /etc/rndc.key',
+        ':dns_server: 127.0.0.1',
+        ':dns_ttl: 86400',
+        ':dhcp: false',
+        ':dhcp_vendor: isc',
+        ':virsh_network: default',
+        ':puppetca: true',
+        ':ssldir: /var/lib/puppet/ssl',
+        ':puppetdir: /etc/puppet',
+        ':puppet: true',
+        ':puppet_conf: /etc/puppet/puppet.conf',
+        ':customrun_cmd: /bin/false',
+        ':customrun_args: -ay -f -s',
+        ':puppetssh_sudo: false',
+        ':puppetssh_command: /usr/bin/puppet agent --onetime --no-usecacheonfailure',
+        ':bmc: false',
+        ':bmc_default_provider: ipmitool',
+        ':log_file: /var/log/foreman-proxy/proxy.log',
+      ]
     end
 
     it 'should set up sudo rules' do
@@ -97,10 +116,10 @@ describe 'foreman_proxy::config' do
     end
 
     it 'should enable bmc with shell' do
-      should contain_file('/etc/foreman-proxy/settings.yml').
-        with_content(%r{^:bmc: true$}).
-        with_content(%r{^:bmc_default_provider: shell$}).
-        with({})
+      verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+        ':bmc: true',
+        ':bmc_default_provider: shell',
+      ])
     end
   end
 
@@ -122,10 +141,10 @@ describe 'foreman_proxy::config' do
     end
 
     it 'should set tftp_servername to $ipaddress' do
-      should contain_file('/etc/foreman-proxy/settings.yml').
-        with_content(%r{^:tftp: true$}).
-        with_content(%r{^:tftp_servername: 127.0.1.2$}).
-        with({})
+      verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+        ':tftp: true',
+        ':tftp_servername: 127.0.1.2',
+      ])
     end
   end
 
@@ -147,16 +166,11 @@ describe 'foreman_proxy::config' do
       }'
     end
 
-    it 'should contain mcollective as puppet_provider' do
-      should contain_file('/etc/foreman-proxy/settings.yml').
-        with_content(%r{^:puppet_provider: mcollective$}).
-        with({
-          :owner   => 'foreman-proxy',
-          :group   => 'foreman-proxy',
-          :mode    => '0644',
-          :require => 'Class[Foreman_proxy::Install]',
-          :notify  => 'Class[Foreman_proxy::Service]',
-        })
+    it 'should contain mcollective as puppet_provider and puppet_user as root' do
+      verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+        ':puppet_provider: mcollective',
+        ':puppet_user: root',
+      ])
     end
   end
 
@@ -168,10 +182,56 @@ describe 'foreman_proxy::config' do
     end
 
     it 'should comment out ssl configuration files' do
-      should contain_file('/etc/foreman-proxy/settings.yml').
-        with_content(%r{^#:ssl_ca_file: ssl/certs/ca.pem$}).
-        with_content(%r{^#:ssl_certificate: ssl/certs/fqdn.pem$}).
-        with_content(%r{^#:ssl_private_key: ssl/private_keys/fqdn.key$})
+      verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+        '#:ssl_ca_file: ssl/certs/ca.pem',
+        '#:ssl_certificate: ssl/certs/fqdn.pem',
+        '#:ssl_private_key: ssl/private_keys/fqdn.key',
+      ])
+    end
+  end
+
+  context 'when dns_provider => nsupdate_gss' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        dns_provider => "nsupdate_gss",
+      }'
+    end
+
+    it 'should contain dns_tsig_* settings' do
+      verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+        ':dns_tsig_keytab: /etc/foreman-proxy/dns.keytab',
+        ':dns_tsig_principal: foremanproxy/host.example.org@EXAMPLE.ORG',
+      ])
+    end
+  end
+
+  context 'when puppetrun_provider => puppetrun' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        puppetrun_provider => "puppetrun",
+      }'
+    end
+
+    it 'should contain puppetrun as puppet_provider and puppet_user as root' do
+      verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+        ':puppet_provider: puppetrun',
+        ':puppet_user: root',
+      ])
+    end
+  end
+
+  context 'when puppetrun_provider => puppetssh' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        puppetrun_provider => "puppetssh",
+      }'
+    end
+
+    it 'should set puppetssh_user and puppetssh_keyfile' do
+      verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+        ':puppetssh_user: root',
+        ':puppetssh_keyfile: /etc/foreman-proxy/id_rsa',
+      ])
     end
   end
 end

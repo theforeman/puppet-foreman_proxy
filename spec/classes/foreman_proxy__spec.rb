@@ -10,10 +10,10 @@ describe 'foreman_proxy' do
   } end
 
   it 'should include classes' do
-    should include_class('foreman_proxy::install')
-    should include_class('foreman_proxy::config')
-    should include_class('foreman_proxy::service')
-    should include_class('foreman_proxy::register')
+    should contain_class('foreman_proxy::install')
+    should contain_class('foreman_proxy::config')
+    should contain_class('foreman_proxy::service')
+    should contain_class('foreman_proxy::register')
   end
 
 end
