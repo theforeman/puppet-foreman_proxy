@@ -88,6 +88,11 @@ describe 'foreman_proxy::config' do
         ':puppetssh_command: /usr/bin/puppet agent --onetime --no-usecacheonfailure',
         ':bmc: false',
         ':bmc_default_provider: ipmitool',
+        ':realm: false',
+        ':realm_provider: freeipa',
+        ':realm_keytab: /etc/foreman-proxy/freeipa.keytab',
+        ':realm_principal: realm-proxy@EXAMPLE.COM',
+        ':freeipa_remove_dns: true',
         ':log_file: /var/log/foreman-proxy/proxy.log',
       ]
     end

@@ -148,6 +148,18 @@
 #
 # $keyfile::                DNS server keyfile path
 #
+# $realm::                  Use realm management
+#                           type:boolean
+#
+# $realm_provider::         Realm management provider
+#
+# $realm_keytab::           Kerberos keytab path to authenticate realm updates
+#
+# $realm_principal::        Kerberos principal for realm updates
+#
+# $freeipa_remove_dns::     Remove DNS entries from FreeIPA when deleting hosts from realm
+#                           type:boolean
+#
 # $register_in_foreman::    Register proxy back in Foreman
 #                           type:boolean
 #
@@ -225,6 +237,11 @@ class foreman_proxy (
   $virsh_network         = $foreman_proxy::params::virsh_network,
   $bmc                   = $foreman_proxy::params::bmc,
   $bmc_default_provider  = $foreman_proxy::params::bmc_default_provider,
+  $realm                 = $foreman_proxy::params::realm,
+  $realm_provider        = $foreman_proxy::params::realm_provider,
+  $realm_keytab          = $foreman_proxy::params::realm_keytab,
+  $realm_principal       = $foreman_proxy::params::realm_principal,
+  $freeipa_remove_dns    = $foreman_proxy::params::freeipa_remove_dns,
   $keyfile               = $foreman_proxy::params::keyfile,
   $register_in_foreman   = $foreman_proxy::params::register_in_foreman,
   $foreman_base_url      = $foreman_proxy::params::foreman_base_url,
@@ -258,6 +275,11 @@ class foreman_proxy (
   # Validate bmc params
   validate_bool($bmc)
   validate_re($bmc_default_provider, '^(freeipmi|ipmitool|shell)$')
+
+  # Validate realm params
+  validate_bool($realm, $freeipa_remove_dns)
+  validate_string($realm_provider, $realm_principal)
+  validate_absolute_path($realm_keytab)
 
   class { 'foreman_proxy::install': } ~>
   class { 'foreman_proxy::config': } ~>
