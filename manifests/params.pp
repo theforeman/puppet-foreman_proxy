@@ -156,6 +156,13 @@ class foreman_proxy::params {
   $bmc = false
   $bmc_default_provider = 'ipmitool'
 
+  # Realm management options
+  $realm = false
+  $realm_provider = 'freeipa'
+  $realm_keytab = '/etc/foreman-proxy/freeipa.keytab'
+  $realm_principal = 'realm-proxy@EXAMPLE.COM'
+  $freeipa_remove_dns = true
+
   # Proxy can register itself within a Foreman instance
   $register_in_foreman = true
   # Foreman instance URL for registration
