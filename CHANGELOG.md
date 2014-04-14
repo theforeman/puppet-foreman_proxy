@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.6.0
+* Add parameters for all Foreman 1.4 and realm (1.5) features
+
 ## 1.5.0
 * Add dns_provider parameter
 * Use ensure_packages for non-core wget package
