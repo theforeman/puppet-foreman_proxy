@@ -36,7 +36,7 @@ describe 'foreman_proxy::config' do
     it 'should create the foreman-proxy user' do
       should contain_user('foreman-proxy').with({
         :ensure  => 'present',
-        :shell   => '/sbin/nologin',
+        :shell   => '/bin/false',
         :comment => 'Foreman Proxy account',
         :groups  => ['puppet'],
         :home    => '/usr/share/foreman-proxy',

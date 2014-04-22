@@ -23,7 +23,7 @@ class foreman_proxy::config {
 
   user { $foreman_proxy::user:
     ensure  => 'present',
-    shell   => '/sbin/nologin',
+    shell   => '/bin/false',
     comment => 'Foreman Proxy account',
     groups  => $groups,
     home    => $foreman_proxy::dir,
