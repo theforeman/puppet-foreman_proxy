@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.6.1
+* Fix user shell path so it's valid on Debian (#5390)
+
 ## 1.6.0
 * Add parameters for all Foreman 1.4 and realm (1.5) features
 
