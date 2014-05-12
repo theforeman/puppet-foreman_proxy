@@ -19,7 +19,7 @@ class foreman_proxy::install {
 
   if $foreman_proxy::register_in_foreman {
     package { $foreman_proxy::params::foreman_api_package:
-      ensure  => present,
+      ensure  => $foreman_proxy::version,
       require => $repo,
     }
   }
