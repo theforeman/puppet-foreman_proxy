@@ -13,7 +13,7 @@ class foreman_proxy::install {
   }
 
   package {'foreman-proxy':
-    ensure  => present,
+    ensure  => $foreman_proxy::version,
     require => $repo,
   }
 
@@ -26,7 +26,7 @@ class foreman_proxy::install {
 
   if $foreman_proxy::bmc and $foreman_proxy::bmc_default_provider != 'shell' {
     package { $foreman_proxy::bmc_default_provider:
-      ensure => present,
+      ensure => $foreman_proxy::version,
     }
   }
 
