@@ -19,14 +19,14 @@ class foreman_proxy::install {
 
   if $foreman_proxy::register_in_foreman {
     package { $foreman_proxy::params::foreman_api_package:
-      ensure  => $foreman_proxy::version,
+      ensure  => present,
       require => $repo,
     }
   }
 
   if $foreman_proxy::bmc and $foreman_proxy::bmc_default_provider != 'shell' {
     package { $foreman_proxy::bmc_default_provider:
-      ensure => $foreman_proxy::version,
+      ensure => present,
     }
   }
 
