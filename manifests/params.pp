@@ -10,6 +10,7 @@ class foreman_proxy::params {
   # if set to true, no repo will be added by this module, letting you to
   # set it to some custom location.
   $custom_repo = false
+  $version     = 'present'
 
   # variables
   $port = '8443'
