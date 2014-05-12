@@ -13,7 +13,7 @@ class foreman_proxy::install {
   }
 
   package {'foreman-proxy':
-    ensure  => present,
+    ensure  => $foreman_proxy::version,
     require => $repo,
   }
 

@@ -12,6 +12,9 @@
 #                           set it to some custom location.
 #                           type:boolean
 #
+# $version::                foreman package version, it's passed to ensure parameter of package resource
+#                           can be set to specific version number, 'latest', 'present' etc.
+#
 # $port::                   Port on which will foreman proxy listen
 #                           type:integer
 #
@@ -179,6 +182,7 @@ class foreman_proxy (
   $repo                  = $foreman_proxy::params::repo,
   $gpgcheck              = $foreman_proxy::params::gpgcheck,
   $custom_repo           = $foreman_proxy::params::custom_repo,
+  $version               = $foreman_proxy::params::version,
   $port                  = $foreman_proxy::params::port,
   $dir                   = $foreman_proxy::params::dir,
   $user                  = $foreman_proxy::params::user,
