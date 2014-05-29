@@ -31,14 +31,14 @@ class foreman_proxy::config {
     notify  => Class['foreman_proxy::service'],
   }
 
-  file{'/etc/foreman-proxy/settings.yml':
-    content => template('foreman_proxy/settings.yml.erb'),
-    owner   => $foreman_proxy::user,
-    group   => $foreman_proxy::user,
-    mode    => '0644',
-    require => Class['foreman_proxy::install'],
-    notify  => Class['foreman_proxy::service'],
-  }
+  foreman_proxy::settings_file { 'settings': path => '/etc/foreman-proxy/settings.yml' }
+  foreman_proxy::settings_file { 'bmc': }
+  foreman_proxy::settings_file { 'dhcp': }
+  foreman_proxy::settings_file { 'dns': }
+  foreman_proxy::settings_file { 'puppet': }
+  foreman_proxy::settings_file { 'puppetca': }
+  foreman_proxy::settings_file { 'tftp': }
+  foreman_proxy::settings_file { 'realm': }
 
   if $foreman_proxy::use_sudoersd {
     if $foreman_proxy::manage_sudoersd {

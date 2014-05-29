@@ -2,6 +2,8 @@
 ### File managed with puppet ###
 ## Module:           '<%= scope.to_hash['module_name'] %>'
 
+:settings_directory: /etc/foreman-proxy/settings.d
+
 # SSL Setup
 
 # if enabled, all communication would be verfied via SSL
@@ -36,145 +38,27 @@
 #- foreman.dev.domain
 <% end -%>
 
-# enable the daemon to run in the background
+# by default smart_proxy runs in the foreground. To enable running as a daemon, uncomment 'daemon' setting
 :daemon: true
-:daemon_pid: /var/run/foreman-proxy/foreman-proxy.pid
+# Only used when 'daemon' is set to true.
+# Uncomment and modify if you want to change the default pid file '/var/run/foreman-proxy/foreman-proxy.pid'
+#:daemon_pid: /var/run/foreman-proxy/foreman-proxy.pid
 
-# port used by the proxy
-:port: <%= scope.lookupvar("foreman_proxy::port") %>
-
-# Enable TFTP management
-:tftp: <%= scope.lookupvar("foreman_proxy::tftp") %>
-:tftproot: <%= scope.lookupvar("foreman_proxy::tftp_root") %>
-:tftp_servername: <%= scope.lookupvar("foreman_proxy::tftp_servername") %>
-# Defines the TFTP Servername to use, overrides the name in the subnet declaration
-#:tftp_servername: tftp.domain.com
-
-# Enable DNS management
-:dns: <%= scope.lookupvar("foreman_proxy::dns") %>
-# valid providers:
-#   dnscmd (Microsoft Windows native implementation)
-#   nsupdate
-#   nsupdate_gss (for GSS-TSIG support)
-#   virsh (simple implementation for libvirt)
-:dns_provider: <%= scope.lookupvar("foreman_proxy::dns_provider") %>
-:dns_key: <%= scope.lookupvar("foreman_proxy::keyfile") %>
-# use this setting if you are managing a dns server which is not localhost though this proxy
-:dns_server: <%= scope.lookupvar("foreman_proxy::dns_server") %>
-# use this setting if you want to override default TTL setting (86400)
-:dns_ttl: <%= scope.lookupvar("foreman_proxy::dns_ttl") %>
-# use dns_tsig_* for GSS-TSIG updates using Kerberos.  Required for Windows MS DNS with
-# Secure Dynamic Updates, or BIND as used in FreeIPA.  Set dns_provider to nsupdate_gss.
-<%if scope.lookupvar("foreman_proxy::dns_provider") == 'nsupdate_gss' -%>
-:dns_tsig_keytab: <%= scope.lookupvar("foreman_proxy::dns_tsig_keytab") %>
-:dns_tsig_principal: <%= scope.lookupvar("foreman_proxy::dns_tsig_principal") %>
+# HTTP ports configuration
+# http is disabled by default. To enable, uncomment 'http_port' setting
+# https is enabled if certificate, CA certificate, and private key are present in locations specifed by
+# ssl_certificate, ssl_ca_file, and ssl_private_key correspondingly
+# default values for https_port is 8443
+<% if ssl = scope.lookupvar("foreman_proxy::ssl") -%>
+#:http_port: 8000
+:https_port: <%= scope.lookupvar("foreman_proxy::port") %>
 <% else -%>
-#:dns_tsig_keytab: /usr/share/foreman-proxy/dns.keytab
-#:dns_tsig_principal: DNS/host.example.com@EXAMPLE.COM
-<% end -%>
-
-# Enable DHCP management
-:dhcp: <%= scope.lookupvar("foreman_proxy::dhcp") %>
-# valid vendors:
-#   - isc
-#   - native_ms (Microsoft native implementation)
-#   - virsh (simple implementation for libvirt)
-<% if scope.lookupvar("foreman_proxy::dhcp") == true -%>
-:dhcp_vendor: <%= scope.lookupvar("foreman_proxy::dhcp_vendor") %>
-:dhcp_config: <%= scope.lookupvar("foreman_proxy::dhcp_config") %>
-:dhcp_leases: <%= scope.lookupvar("foreman_proxy::dhcp_leases") %>
-<% if !scope.lookupvar("foreman_proxy::dhcp_key_name").empty? && !scope.lookupvar("foreman_proxy::dhcp_key_secret").empty? -%>
-:dhcp_key_name: <%= scope.lookupvar("foreman_proxy::dhcp_key_name") %>
-:dhcp_key_secret: <%= scope.lookupvar("foreman_proxy::dhcp_key_secret") %>
-<% else -%>
-#:dhcp_key_name: secret_key_name
-#:dhcp_key_secret: secret_key
-<% end -%>
-<% else -%>
-# The vendor can be either isc or native_ms
-:dhcp_vendor: isc
-# dhcp_subnets is a Native MS implementation setting. It restricts the subnets queried to a
-# subset, so as to reduce the query time.
-#:dhcp_subnets: [192.168.205.0/255.255.255.128, 192.168.205.128/255.255.255.128]
-# Settings for Ubuntu ISC
-#:dhcp_config: /etc/dhcp3/dhcpd.conf
-#:dhcp_leases: /var/lib/dhcp3/dhcpd.leases
-# Settings for Redhat ISC
-#:dhcp_config: /etc/dhcpd.conf
-#:dhcp_leases: /var/lib/dhcpd/dhcpd.leases
+#:https_port: 8443
+:http_port: <%= scope.lookupvar("foreman_proxy::port") %>
 <% end -%>
 
 # shared options for virsh DNS/DHCP provider
 :virsh_network: <%= scope.lookupvar("foreman_proxy::virsh_network") %>
-
-# enable PuppetCA management
-:puppetca: <%= scope.lookupvar("foreman_proxy::puppetca") %>
-:ssldir: <%= scope.lookupvar("foreman_proxy::ssldir") %>
-:puppetdir: <%= scope.lookupvar("foreman_proxy::puppetdir") %>
-
-# enable Puppet management
-:puppet: <%= scope.lookupvar("foreman_proxy::puppetrun") %>
-:puppet_conf: <%= scope.lookupvar("foreman_proxy::puppetdir") %>/puppet.conf
-# valid providers:
-#   puppetrun   (for puppetrun/kick, deprecated in Puppet 3)
-#   mcollective (uses mco puppet)
-#   puppetssh   (run puppet over ssh)
-#   salt        (uses salt puppet.run)
-#   customrun   (calls a custom command with args)
-<% if scope.lookupvar("foreman_proxy::puppetrun_provider") != '' -%>
-:puppet_provider: <%= scope.lookupvar("foreman_proxy::puppetrun_provider") %>
-<% else -%>
-#:puppet_provider: puppetrun
-<% end -%>
-
-# customrun command details
-# Set :customrun_cmd to the full path of the script you want to run, instead of /bin/false
-:customrun_cmd: <%= scope.lookupvar("foreman_proxy::customrun_cmd") %>
-# Set :customrun_args to any args you want to pass to your custom script. The hostname of the
-# system to run against will be appended after the custom commands.
-:customrun_args: <%= scope.lookupvar("foreman_proxy::customrun_args") %>
-
-# whether to use sudo before the ssh command
-:puppetssh_sudo: <%= scope.lookupvar("foreman_proxy::puppetssh_sudo") %>
-# the command which will be sent to the host
-:puppetssh_command: <%= scope.lookupvar("foreman_proxy::puppetssh_command") %>
-# With which user should the proxy connect
-<% if scope.lookupvar("foreman_proxy::puppetrun_provider") == 'puppetssh' -%>
-:puppetssh_user: <%= scope.lookupvar("foreman_proxy::puppetssh_user") %>
-:puppetssh_keyfile: <%= scope.lookupvar("foreman_proxy::puppetssh_keyfile") %>
-<% else -%>
-#:puppetssh_user: root
-#:puppetssh_keyfile: /etc/foreman-proxy/id_rsa
-<% end -%>
-
-# Which user to invoke sudo as to run puppet commands
-<% if scope.lookupvar("foreman_proxy::puppetrun_provider") =~ /(mcollective|puppetrun)/ -%>
-:puppet_user: <%= scope.lookupvar("foreman_proxy::puppet_user") %>
-<% else -%>
-#:puppet_user: root
-<% end -%>
-
-# enable BMC management (Bare metal power and bios controls)
-# Available providers:
-# - freeipmi / ipmitool - requires the appropriate package installed, and the rubyipmi gem
-# - shell - for local reboot control (requires sudo access to /sbin/shutdown for the proxy user)
-:bmc: <%= scope.lookupvar("foreman_proxy::bmc") %>
-:bmc_default_provider: <%= scope.lookupvar("foreman_proxy::bmc_default_provider") %>
-
-# Manage joining realms e.g. FreeIPA
-:realm: <%= scope.lookupvar("foreman_proxy::realm") %>
-
-# Available providers:
-#   freeipa
-:realm_provider: <%= scope.lookupvar("foreman_proxy::realm_provider") %>
-
-# Authentication for Kerberos-based Realms
-:realm_keytab: <%= scope.lookupvar("foreman_proxy::realm_keytab") %>
-:realm_principal: <%= scope.lookupvar("foreman_proxy::realm_principal") %>
-
-# FreeIPA specific settings
-# Remove from DNS when deleting the FreeIPA entry
-:freeipa_remove_dns: <%= scope.lookupvar("foreman_proxy::freeipa_remove_dns") %>
 
 # Where our proxy log files are stored
 # filename or STDOUT
