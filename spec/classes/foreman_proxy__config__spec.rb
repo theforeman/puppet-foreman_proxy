@@ -158,9 +158,16 @@ describe 'foreman_proxy::config' do
         :owner   => 'root',
         :group   => 'root',
         :mode    => '0440',
-        :content => "foreman-proxy ALL = NOPASSWD : /usr/sbin/puppetca *, /usr/sbin/puppetrun *\nDefaults:foreman-proxy !requiretty\n",
         :require => 'File[/etc/sudoers.d]',
       })
+    end
+
+    it 'should set valid content for /etc/sudoers.d/foreman-proxy' do
+      verify_contents(subject, '/etc/sudoers.d/foreman-proxy', [
+        'foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetca *',
+        'foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetrun *',
+        'Defaults:foreman-proxy !requiretty',
+      ])
     end
   end
 
@@ -291,6 +298,107 @@ describe 'foreman_proxy::config' do
         ':puppetssh_user: root',
         ':puppetssh_keyfile: /etc/foreman-proxy/id_rsa',
       ])
+    end
+  end
+
+  context 'when puppetrun_provider => puppetssh and puppet_user => "foo"' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        puppetrun_provider  => "puppetssh",
+        puppet_user         => "foo",
+      }'
+    end
+
+    it "should set puppet_user: root" do
+      verify_contents(subject, '/etc/foreman-proxy/settings.d/puppet.yml', [
+        ':puppetssh_user: root',
+      ])
+    end
+  end
+
+  context 'when manage_sudoersd => false' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        manage_sudoersd => false,
+      }'
+    end
+
+    it "should not manage /etc/sudoers.d" do
+      should_not contain_file('/etc/sudoers.d')
+    end
+
+    it "should manage /etc/sudoers.d/foreman-proxy" do
+      should contain_file('/etc/sudoers.d/foreman-proxy')
+    end
+  end
+
+  context 'when use_sudoersd => false' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        use_sudoersd => false,
+      }'
+    end
+
+    it "should not manage /etc/sudoers.d" do
+      should_not contain_file('/etc/sudoers.d')
+    end
+
+    it "should not manage /etc/sudoers.d/foreman-proxy" do
+      should_not contain_file('/etc/sudoers.d/foreman-proxy')
+    end
+
+    it "should modify /etc/sudoers" do
+      should contain_augeas('sudo-foreman-proxy').with({
+        :lens     => "Sudoers.lns",
+        :incl     => "/etc/sudoers",
+        :changes  => [
+          "set spec[user = 'foreman-proxy'][1]/user foreman-proxy",
+          "set spec[user = 'foreman-proxy'][1]/host_group/host ALL",
+          "set spec[user = 'foreman-proxy'][1]/host_group/command '/usr/sbin/puppetca *'",
+          "set spec[user = 'foreman-proxy'][1]/host_group/command/tag NOPASSWD",
+          "set spec[user = 'foreman-proxy'][1]/host_group/command/runas_user root",
+          "set spec[user = 'foreman-proxy'][2]/user foreman-proxy",
+          "set spec[user = 'foreman-proxy'][2]/host_group/host ALL",
+          "set spec[user = 'foreman-proxy'][2]/host_group/command '/usr/sbin/puppetrun *'",
+          "set spec[user = 'foreman-proxy'][2]/host_group/command/tag NOPASSWD",
+          "set spec[user = 'foreman-proxy'][2]/host_group/command/runas_user root",
+          "set Defaults[type = ':foreman-proxy']/type :foreman-proxy",
+          "set Defaults[type = ':foreman-proxy']/requiretty/negate ''",
+        ]
+      })
+    end
+  end
+
+  context 'when puppet_user => "foreman-proxy"' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        puppet_user => "foreman-proxy",
+      }'
+    end
+
+    it 'should set up sudo rules using puppet_user' do
+      verify_contents(subject, '/etc/sudoers.d/foreman-proxy', [
+        'foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetca *',
+        'foreman-proxy ALL = (foreman-proxy) NOPASSWD : /usr/sbin/puppetrun *',
+        'Defaults:foreman-proxy !requiretty',
+      ])
+    end
+
+    context 'when puppetrun_cmd => "/usr/bin/mco puppet runonce *"' do
+      let :pre_condition do
+        'class {"foreman_proxy":
+          puppet_user   => "foreman-proxy",
+          puppetrun_cmd => "/usr/bin/mco puppet runonce",
+        }'
+      end
+
+      it 'should set up sudo rules using puppet_user' do
+        verify_contents(subject, '/etc/sudoers.d/foreman-proxy', [
+          'foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetca *',
+          'foreman-proxy ALL = (foreman-proxy) NOPASSWD : /usr/bin/mco puppet runonce *',
+          'Defaults:foreman-proxy !requiretty',
+        ])
+      end
     end
   end
 end
