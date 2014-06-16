@@ -75,6 +75,9 @@
 #
 # $puppet_user::            Which user to invoke sudo as to run puppet commands
 #
+# $pulp::                   Pulp is installed on this host
+#                           type:boolean
+#
 # $tftp::                   Use TFTP
 #                           type:boolean
 #
@@ -249,11 +252,12 @@ class foreman_proxy (
   $registered_proxy_url  = $foreman_proxy::params::registered_proxy_url,
   $oauth_effective_user  = $foreman_proxy::params::oauth_effective_user,
   $oauth_consumer_key    = $foreman_proxy::params::oauth_consumer_key,
-  $oauth_consumer_secret = $foreman_proxy::params::oauth_consumer_secret
+  $oauth_consumer_secret = $foreman_proxy::params::oauth_consumer_secret,
+  $pulp                  = $foreman_proxy::params::pulp,
 ) inherits foreman_proxy::params {
 
   # Validate misc params
-  validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman)
+  validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman, $pulp)
   validate_array($trusted_hosts)
 
   # Validate puppet params

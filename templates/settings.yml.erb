@@ -182,3 +182,6 @@
 # valid options are
 # WARN, DEBUG, Error, Fatal, INFO, UNKNOWN
 #:log_level: DEBUG
+
+# If Pulp support is enabled
+:pulp: <%= scope.lookupvar("foreman_proxy::pulp") %>

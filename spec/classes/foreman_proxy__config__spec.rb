@@ -94,6 +94,7 @@ describe 'foreman_proxy::config' do
         ':realm_principal: realm-proxy@EXAMPLE.COM',
         ':freeipa_remove_dns: true',
         ':log_file: /var/log/foreman-proxy/proxy.log',
+        ':pulp: false',
       ]
     end
 
