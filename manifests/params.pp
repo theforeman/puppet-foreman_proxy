@@ -182,4 +182,7 @@ class foreman_proxy::params {
     Debian  => 'ruby-apipie-bindings',
     default => 'rubygem-apipie-bindings',
   }
+
+  # Pulp support
+  $pulp = false
 }
