@@ -14,9 +14,9 @@
 define foreman_proxy::settings_file (
     $path = "/etc/foreman-proxy/settings.d/${title}.yml",
     $template_path = "foreman_proxy/${title}.yml.erb",
-    $owner = $foreman_proxy::user,
-    $group = $foreman_proxy::user,
-    $mode = '0644',
+    $owner = 'root',
+    $group = $::foreman_proxy::user,
+    $mode = '0640',
   ) {
 
   file {$path:

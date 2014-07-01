@@ -51,9 +51,9 @@ describe 'foreman_proxy::config' do
         '/etc/foreman-proxy/settings.d/bmc.yml', '/etc/foreman-proxy/settings.d/realm.yml'].each do |cfile|
         should contain_file(cfile).
           with({
-            :owner   => 'foreman-proxy',
+            :owner   => 'root',
             :group   => 'foreman-proxy',
-            :mode    => '0644',
+            :mode    => '0640',
             :require => 'Class[Foreman_proxy::Install]',
             :notify  => 'Class[Foreman_proxy::Service]',
           })
