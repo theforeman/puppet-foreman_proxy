@@ -52,19 +52,26 @@ class foreman_proxy::config {
       owner   => 'root',
       group   => 'root',
       mode    => '0440',
-      content => "${foreman_proxy::user} ALL = NOPASSWD : ${foreman_proxy::puppetca_cmd} *, ${foreman_proxy::puppetrun_cmd} *
+      content => "${foreman_proxy::user} ALL = (root) NOPASSWD : ${foreman_proxy::puppetca_cmd} *
+${foreman_proxy::user} ALL = (${foreman_proxy::puppet_user}) NOPASSWD : ${foreman_proxy::puppetrun_cmd} *
 Defaults:${foreman_proxy::user} !requiretty\n",
       require => File['/etc/sudoers.d'],
     }
   } else {
     augeas { 'sudo-foreman-proxy':
-      context => '/files/etc/sudoers',
+      lens    => 'Sudoers.lns',
+      incl    => '/etc/sudoers',
       changes => [
-        "set spec[user = '${foreman_proxy::user}']/user ${foreman_proxy::user}",
-        "set spec[user = '${foreman_proxy::user}']/host_group/host ALL",
-        "set spec[user = '${foreman_proxy::user}']/host_group/command[1] '${foreman_proxy::puppetca_cmd} *'",
-        "set spec[user = '${foreman_proxy::user}']/host_group/command[2] '${foreman_proxy::puppetrun_cmd} *'",
-        "set spec[user = '${foreman_proxy::user}']/host_group/command[1]/tag NOPASSWD",
+        "set spec[user = '${foreman_proxy::user}'][1]/user ${foreman_proxy::user}",
+        "set spec[user = '${foreman_proxy::user}'][1]/host_group/host ALL",
+        "set spec[user = '${foreman_proxy::user}'][1]/host_group/command '${foreman_proxy::puppetca_cmd} *'",
+        "set spec[user = '${foreman_proxy::user}'][1]/host_group/command/tag NOPASSWD",
+        "set spec[user = '${foreman_proxy::user}'][1]/host_group/command/runas_user root",
+        "set spec[user = '${foreman_proxy::user}'][2]/user ${foreman_proxy::user}",
+        "set spec[user = '${foreman_proxy::user}'][2]/host_group/host ALL",
+        "set spec[user = '${foreman_proxy::user}'][2]/host_group/command '${foreman_proxy::puppetrun_cmd} *'",
+        "set spec[user = '${foreman_proxy::user}'][2]/host_group/command/tag NOPASSWD",
+        "set spec[user = '${foreman_proxy::user}'][2]/host_group/command/runas_user ${foreman_proxy::puppet_user}",
         "set Defaults[type = ':${foreman_proxy::user}']/type :${foreman_proxy::user}",
         "set Defaults[type = ':${foreman_proxy::user}']/requiretty/negate ''",
       ],
