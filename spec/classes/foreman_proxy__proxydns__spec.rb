@@ -9,7 +9,7 @@ describe 'foreman_proxy::proxydns' do
         :domain                 => 'example.org',
         :ipaddress_eth0         => '127.0.1.1',
         :operatingsystem        => 'CentOS',
-        :operatingsystemrelease => '6',
+        :operatingsystemrelease => '6.5',
         :osfamily               => 'RedHat',
       }
     end

@@ -37,7 +37,7 @@ class foreman_proxy::params {
   # Add a file to /etc/sudoers.d (true) or uses augeas (false)
   case $::operatingsystem {
     redhat,centos,Scientific: {
-      if $::operatingsystemrelease >= 6 {
+      if versioncmp($::operatingsystemrelease, '6.0') >= 0 {
         $use_sudoersd = true
       } else {
         $use_sudoersd = false

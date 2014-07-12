@@ -9,7 +9,7 @@ describe 'foreman_proxy::proxydhcp' do
       :netmask_eth0           => '255.0.0.0',
       :network_eth0           => '127.0.0.0',
       :operatingsystem        => 'CentOS',
-      :operatingsystemrelease => '6',
+      :operatingsystemrelease => '6.5',
       :osfamily               => 'RedHat',
     }
   end
