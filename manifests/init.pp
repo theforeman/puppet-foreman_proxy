@@ -287,6 +287,7 @@ class foreman_proxy (
 
   class { 'foreman_proxy::install': } ~>
   class { 'foreman_proxy::config': } ~>
+  Foreman_proxy::Plugin <| |> ~>
   class { 'foreman_proxy::service': } ~>
   class { 'foreman_proxy::register': } ->
   Class['foreman_proxy']
