@@ -182,4 +182,13 @@ class foreman_proxy::params {
     Debian  => 'ruby-apipie-bindings',
     default => 'rubygem-apipie-bindings',
   }
+
+  case $::osfamily {
+    'RedHat': {
+      $plugin_prefix = 'rubygem-smart_proxy_'
+    }
+    'Debian': {
+      $plugin_prefix = 'ruby-smart-proxy-'
+    }
+  }
 }
