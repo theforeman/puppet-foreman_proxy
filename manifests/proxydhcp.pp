@@ -1,8 +1,11 @@
 # Configure the DHCP component
 class foreman_proxy::proxydhcp {
-  $ip   = inline_template("<%= scope.lookupvar('::ipaddress_${foreman_proxy::dhcp_interface}') %>")
-  $net  = inline_template("<%= scope.lookupvar('::network_${foreman_proxy::dhcp_interface}') %>")
-  $mask = inline_template("<%= scope.lookupvar('::netmask_${foreman_proxy::dhcp_interface}') %>")
+  # puppet fact names are converted from ethX.X and ethX:X to ethX_X
+  # so for alias and vlan interfaces we have to modify the name accordingly
+  $interface_fact_name = regsubst($foreman_proxy::dhcp_interface, '[.:]', '_')
+  $ip   = inline_template("<%= scope.lookupvar('::ipaddress_${interface_fact_name}') %>")
+  $net  = inline_template("<%= scope.lookupvar('::network_${interface_fact_name}') %>")
+  $mask = inline_template("<%= scope.lookupvar('::netmask_${interface_fact_name}') %>")
 
   if $foreman_proxy::dhcp_nameservers == 'default' {
     $nameservers = [$ip]
