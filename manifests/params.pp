@@ -49,6 +49,10 @@ class foreman_proxy::params {
     }
   }
 
+  # puppet settings
+  $puppet_url = "https://${::fqdn}:8140"
+  $puppet_use_environment_api = undef
+
   # puppetca settings
   $puppetca          = true
   $autosign_location = '/etc/puppet/autosign.conf'
