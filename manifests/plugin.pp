@@ -1,3 +1,4 @@
+# Installs a smart proxy plugin package
 define foreman_proxy::plugin(
   $package = "${foreman_proxy::plugin_prefix}${title}",
 ) {

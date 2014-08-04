@@ -191,5 +191,8 @@ class foreman_proxy::params {
     'Debian': {
       $plugin_prefix = 'ruby-smart-proxy-'
     }
+    default: {
+      $plugin_prefix = 'smart_proxy_'
+    }
   }
 }

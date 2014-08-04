@@ -6,5 +6,5 @@ gem 'rake', rakeversion
 puppetversion = ENV.key?('PUPPET_VERSION') ? "~> #{ENV['PUPPET_VERSION']}" : ['>= 2.6']
 gem 'puppet', puppetversion
 
-gem 'puppetlabs_spec_helper'
+gem 'puppetlabs_spec_helper', '>= 0.8.0'
 gem 'puppet-lint'
