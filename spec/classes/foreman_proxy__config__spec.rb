@@ -115,6 +115,10 @@ describe 'foreman_proxy::config' do
         ':customrun_args: -ay -f -s',
         ':puppetssh_sudo: false',
         ':puppetssh_command: /usr/bin/puppet agent --onetime --no-usecacheonfailure',
+        ':puppet_url: https://host.example.org:8140',
+        ':puppet_ssl_ca: /var/lib/puppet/ssl/certs/ca.pem',
+        ":puppet_ssl_cert: /var/lib/puppet/ssl/certs/#{facts[:fqdn]}.pem",
+        ":puppet_ssl_key: /var/lib/puppet/ssl/private_keys/#{facts[:fqdn]}.pem",
       ]
     end
 
@@ -324,6 +328,20 @@ describe 'foreman_proxy::config' do
       verify_contents(subject, '/etc/foreman-proxy/settings.d/puppet.yml', [
         ':puppetssh_user: root',
         ':puppetssh_keyfile: /etc/foreman-proxy/id_rsa',
+      ])
+    end
+  end
+
+  context 'when puppet_use_environment_api set' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        puppet_use_environment_api => false,
+      }'
+    end
+
+    it 'should set puppet_use_environment_api' do
+      verify_contents(subject, '/etc/foreman-proxy/settings.d/puppet.yml', [
+        ':puppet_use_environment_api: false',
       ])
     end
   end
