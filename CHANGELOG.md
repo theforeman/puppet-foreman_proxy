@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.0.0
+* Deploy configuration files for Foreman 1.6 modular smart proxy
+* Add foreman_proxy::plugin define for installation of proxy plugins
+* Add foreman_proxy::plugin::pulp class for Pulp plugin
+* Ensure foreman_proxy::service is refreshed after SSL certs change
+* Install apipie-bindings package for foreman_smartproxy registration
+* Add $version parameter to control package version
+* Update puppet.yml config file for directory environment settings
+* Fix operatingsystemrelease comparison for CentOS 7
+* Fix handling of alias/VLAN interface fact names
+* Remove mocha test dependency
+* Fix lint issues
+
 ## 1.6.1
 * Fix user shell path so it's valid on Debian (#5390)
 
