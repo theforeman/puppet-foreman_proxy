@@ -4,27 +4,34 @@
 #
 # === Parameters:
 #
-# $group::        group owner of the configuration file
+# $group::            group owner of the configuration file
 #
-# $enabled::      enables/disables the plugin
+# $enabled::          enables/disables the pulp plugin
+#                     type:boolean
 #
-# $pulp_url::     pulp url to use
+# $pulpnode_enabled:: enables/disables the pulpnode plugin
+#                     type:boolean
+#
+# $pulp_url::         pulp url to use
 #
 class foreman_proxy::plugin::pulp (
-  $enabled  = $::foreman_proxy::plugin::pulp::params::enabled,
-  $group    = $::foreman_proxy::plugin::pulp::params::group,
-  $pulp_url = $::foreman_proxy::plugin::pulp::params::pulp_url,
+  $enabled          = $::foreman_proxy::plugin::pulp::params::enabled,
+  $pulpnode_enabled = $::foreman_proxy::plugin::pulp::params::pulpnode_enabled,
+  $group            = $::foreman_proxy::plugin::pulp::params::group,
+  $pulp_url         = $::foreman_proxy::plugin::pulp::params::pulp_url,
 ) inherits foreman_proxy::plugin::pulp::params {
-  $group_real = pick($group, $::foreman_proxy::user)
-  validate_string($group_real)
+
+  validate_bool($enabled)
+  validate_bool($pulpnode_enabled)
 
   foreman_proxy::plugin {'pulp':
   } ->
-  file {'/etc/foreman-proxy/settings.d/pulp.yml':
-    ensure  => file,
-    content => template('foreman_proxy/plugin/pulp.yml.erb'),
-    owner   => 'root',
-    group   => $group_real,
-    mode    => '0640',
+  foreman_proxy::settings_file { 'pulp':
+    template_path => 'foreman_proxy/plugin/pulp.yml.erb',
+    group         => $group,
+  } ->
+  foreman_proxy::settings_file { 'pulpnode':
+    template_path => 'foreman_proxy/plugin/pulpnode.yml.erb',
+    group         => $group,
   }
 }
