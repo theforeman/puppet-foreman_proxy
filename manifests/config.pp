@@ -4,7 +4,8 @@ class foreman_proxy::config {
   # Ensure SSL certs from the puppetmaster are available
   # Relationship is duplicated there as defined() is parse-order dependent
   if $foreman_proxy::ssl and defined(Class['puppet::server::config']) {
-    Class['puppet::server::config'] ~> Class['foreman_proxy::config', 'foreman_proxy::service']
+    Class['puppet::server::config'] ~> Class['foreman_proxy::config']
+    Class['puppet::server::config'] ~> Class['foreman_proxy::service']
   }
 
   if $foreman_proxy::puppetca  { include foreman_proxy::puppetca }
