@@ -14,13 +14,11 @@ class foreman_proxy::proxydhcp {
   }
 
   class { 'dhcp':
-    dnsdomain    => [$::domain],
-    nameservers  => $nameservers,
-    interfaces   => [$foreman_proxy::dhcp_interface],
-    #dnsupdatekey => /etc/bind/keys.d/foreman,
-    #require      => Bind::Key[ 'foreman' ],
-    pxeserver    => $ip,
-    pxefilename  => 'pxelinux.0',
+    dnsdomain   => [$::domain],
+    nameservers => $nameservers,
+    interfaces  => [$foreman_proxy::dhcp_interface],
+    pxeserver   => $ip,
+    pxefilename => 'pxelinux.0',
   }
 
   dhcp::pool{ $::domain:
