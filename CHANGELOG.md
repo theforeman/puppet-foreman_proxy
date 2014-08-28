@@ -1,7 +1,13 @@
 # Changelog
 
+## 2.0.1
+* Validate IP address facts used in DHCP/DNS templates (#7263)
+* Fix relationship specification for early Puppet 2.7 releases
+* Fix lint issue
+
 ## 2.0.0
 * Deploy configuration files for Foreman 1.6 modular smart proxy
+    * Compatible with 1.6 only, use 1.x versions for 1.5 or older
 * Add foreman_proxy::plugin define for installation of proxy plugins
 * Add foreman_proxy::plugin::pulp class for Pulp plugin
 * Ensure foreman_proxy::service is refreshed after SSL certs change

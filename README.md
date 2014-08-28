@@ -5,6 +5,14 @@ interact with, e.g. DNS, DHCP and Puppet and TFTP.
 
 Part of the Foreman installer: http://github.com/theforeman/foreman-installer
 
+## Compatibility
+
+This module only supports Smart Proxy 1.6 or higher as of version 2.0, as the
+configuration layout changed significantly.
+
+To configure older versions of the Smart Proxy (1.5 or older), use an older
+version of this module (1.x).
+
 # Contributing
 
 * Fork the project
