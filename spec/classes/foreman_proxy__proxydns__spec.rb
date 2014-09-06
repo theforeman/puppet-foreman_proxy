@@ -3,18 +3,21 @@ require 'spec_helper'
 describe 'foreman_proxy::proxydns' do
 
   context 'on RedHat' do
-    let :facts do
+    let :default_facts do
       {
         :fqdn                   => 'localhost',
         :domain                 => 'example.org',
-        :ipaddress_eth0         => '127.0.1.1',
         :operatingsystem        => 'CentOS',
-        :operatingsystemrelease => '6',
+        :operatingsystemrelease => '6.5',
         :osfamily               => 'RedHat',
       }
     end
 
     context 'without parameters' do
+      let :facts do
+        default_facts.merge({:ipaddress_eth0 => '127.0.1.1'})
+      end
+
       let :pre_condition do
         "class {'foreman_proxy':}"
       end
@@ -43,7 +46,6 @@ describe 'foreman_proxy::proxydns' do
           :reverse => true,
           :soaip   => '127.0.1.1',
         })
-
       end
 
       context 'with dns_zone overridden' do
@@ -58,6 +60,62 @@ describe 'foreman_proxy::proxydns' do
             :soaip   => '127.0.1.1',
           })
         end
+      end
+    end
+
+    context "with vlan interface" do
+      let :facts do
+        default_facts.merge({:ipaddress_eth0_0 => '127.0.1.1'})
+      end
+
+      let :pre_condition do
+        "class {'foreman_proxy':
+          dns_interface => 'eth0.0'
+        }"
+      end
+
+      it 'should include the forward zone' do
+        should contain_dns__zone('example.org').with({
+            :soa     => facts[:fqdn],
+            :reverse => false,
+            :soaip   => '127.0.1.1',
+        })
+      end
+
+      it 'should include the reverse zone' do
+        should contain_dns__zone('100.168.192.in-addr.arpa').with({
+            :soa     => facts[:fqdn],
+            :reverse => true,
+            :soaip   => '127.0.1.1',
+        })
+      end
+    end
+
+    context "with alias interface" do
+      let :facts do
+        default_facts.merge({:ipaddress_eth0_0 => '127.0.1.1'})
+      end
+
+      let :pre_condition do
+        "class {'foreman_proxy':
+          dns_interface => 'eth0:0'
+        }"
+      end
+
+      it 'should include the forward zone' do
+        should contain_dns__zone('example.org').with({
+                                                         :soa     => facts[:fqdn],
+                                                         :reverse => false,
+                                                         :soaip   => '127.0.1.1',
+                                                     })
+      end
+
+      it 'should include the reverse zone' do
+        should contain_dns__zone('100.168.192.in-addr.arpa').with({
+                                                                      :soa     => facts[:fqdn],
+                                                                      :reverse => true,
+                                                                      :soaip   => '127.0.1.1',
+                                                                  })
       end
     end
   end

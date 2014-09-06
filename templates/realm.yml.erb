@@ -1,0 +1,15 @@
+---
+# Manage joining realms e.g. FreeIPA
+:enabled: <%= scope.lookupvar("foreman_proxy::realm") %>
+
+# Available providers:
+#   freeipa
+:realm_provider: <%= scope.lookupvar("foreman_proxy::realm_provider") %>
+
+# Authentication for Kerberos-based Realms
+:realm_keytab: <%= scope.lookupvar("foreman_proxy::realm_keytab") %>
+:realm_principal: <%= scope.lookupvar("foreman_proxy::realm_principal") %>
+
+# FreeIPA specific settings
+# Remove from DNS when deleting the FreeIPA entry
+:freeipa_remove_dns: <%= scope.lookupvar("foreman_proxy::freeipa_remove_dns") %>

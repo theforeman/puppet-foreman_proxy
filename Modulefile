@@ -1,5 +1,5 @@
 name    'theforeman-foreman_proxy'
-version '1.6.1'
+version '2.0.1'
 source 'git://github.com/theforeman/puppet-foreman_proxy'
 author 'theforeman'
 license 'GPLv3+'

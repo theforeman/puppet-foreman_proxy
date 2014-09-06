@@ -5,7 +5,7 @@ describe 'foreman_proxy::register' do
   let :facts do {
     :osfamily               => 'RedHat',
     :operatingsystem        => 'CentOS',
-    :operatingsystemrelease => '6',
+    :operatingsystemrelease => '6.5',
     :fqdn                   => 'my.host.example.com',
   } end
 
