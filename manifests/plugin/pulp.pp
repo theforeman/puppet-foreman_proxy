@@ -11,10 +11,12 @@
 # $pulp_url::     pulp url to use
 #
 class foreman_proxy::plugin::pulp (
-  $enabled  = $foreman_proxy::plugin::pulp::params::enabled,
-  $group = $foreman_proxy::plugin::pulp::params::group,
-  $pulp_url = $foreman_proxy::plugin::pulp::params::pulp_url,
+  $enabled  = $::foreman_proxy::plugin::pulp::params::enabled,
+  $group    = $::foreman_proxy::plugin::pulp::params::group,
+  $pulp_url = $::foreman_proxy::plugin::pulp::params::pulp_url,
 ) inherits foreman_proxy::plugin::pulp::params {
+  $group_real = pick($group, $::foreman_proxy::user)
+  validate_string($group_real)
 
   foreman_proxy::plugin {'pulp':
   } ->
@@ -22,7 +24,7 @@ class foreman_proxy::plugin::pulp (
     ensure  => file,
     content => template('foreman_proxy/plugin/pulp.yml.erb'),
     owner   => 'root',
-    group   => $group,
+    group   => $group_real,
     mode    => '0640',
   }
 }
