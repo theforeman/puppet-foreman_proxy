@@ -166,9 +166,14 @@ describe 'foreman_proxy::config' do
         :owner   => 'root',
         :group   => 'root',
         :mode    => '0440',
-        :content => "foreman-proxy ALL = NOPASSWD : /usr/sbin/puppetca *, /usr/sbin/puppetrun *\nDefaults:foreman-proxy !requiretty\n",
         :require => 'File[/etc/sudoers.d]',
       })
+
+      verify_exact_contents(subject, '/etc/sudoers.d/foreman-proxy', [
+        "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetca *",
+        "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetrun *",
+        "Defaults:foreman-proxy !requiretty",
+      ])
     end
 
     context 'with custom foreman_ssl params' do
@@ -391,6 +396,181 @@ describe 'foreman_proxy::config' do
     it 'should generate foreman_url setting' do
       content = subject.resource('file', '/etc/foreman-proxy/settings.yml').send(:parameters)[:content]
       content.split("\n").select { |c| c =~ /foreman_url/ }.should == [':foreman_url: http://dummy']
+    end
+  end
+
+  context 'when puppetca_cmd set' do
+    let :pre_condition do
+      'class { "foreman_proxy":
+        puppetca_cmd => "puppet cert",
+      }'
+    end
+
+    it "should set puppetca_cmd" do
+      verify_exact_contents(subject, '/etc/sudoers.d/foreman-proxy', [
+        "foreman-proxy ALL = (root) NOPASSWD : puppet cert *",
+        "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetrun *",
+        "Defaults:foreman-proxy !requiretty",
+      ])
+    end
+  end
+
+  context 'when puppetrun_cmd set' do
+    let :pre_condition do
+      'class { "foreman_proxy":
+        puppetrun_cmd => "mco puppet runonce",
+      }'
+    end
+
+    it "should set puppetrun_cmd" do
+      verify_exact_contents(subject, '/etc/sudoers.d/foreman-proxy', [
+        "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetca *",
+        "foreman-proxy ALL = (root) NOPASSWD : mco puppet runonce *",
+        "Defaults:foreman-proxy !requiretty",
+      ])
+    end
+  end
+
+  context 'when puppet_user set' do
+    let :pre_condition do
+      'class { "foreman_proxy":
+        puppet_user => "foreman-proxy",
+      }'
+    end
+
+    it "should set puppetrun_cmd" do
+      verify_exact_contents(subject, '/etc/sudoers.d/foreman-proxy', [
+        "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetca *",
+        "foreman-proxy ALL = (foreman-proxy) NOPASSWD : /usr/sbin/puppetrun *",
+        "Defaults:foreman-proxy !requiretty",
+      ])
+    end
+  end
+
+  context 'when puppetca disabled' do
+    let :pre_condition do
+      'class { "foreman_proxy":
+        puppetca => false,
+      }'
+    end
+
+    it "should not set puppetca" do
+      verify_exact_contents(subject, '/etc/sudoers.d/foreman-proxy', [
+        "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetrun *",
+        "Defaults:foreman-proxy !requiretty",
+      ])
+    end
+  end
+
+  context 'when puppetrun disabled' do
+    let :pre_condition do
+      'class { "foreman_proxy":
+        puppetrun => false,
+      }'
+    end
+
+    it "should not set puppetrun" do
+      verify_exact_contents(subject, '/etc/sudoers.d/foreman-proxy', [
+        "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetca *",
+        "Defaults:foreman-proxy !requiretty",
+      ])
+    end
+  end
+
+  context 'when puppetca and puppetrun disabled' do
+    let :pre_condition do
+      'class { "foreman_proxy":
+        puppetca  => false,
+        puppetrun => false,
+      }'
+    end
+
+    it { should_not contain_file('/etc/sudoers.d') }
+    it { should_not contain_file('/etc/sudoers.d/foreman-proxy') }
+  end
+
+  context 'when use_sudoersd => false' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        use_sudoersd => false,
+      }'
+    end
+
+    it "should not manage /etc/sudoers.d" do
+      should_not contain_file('/etc/sudoers.d')
+    end
+
+    it "should not manage /etc/sudoers.d/foreman-proxy" do
+      should_not contain_file('/etc/sudoers.d/foreman-proxy')
+    end
+
+    it "should modify /etc/sudoers" do
+      should contain_augeas('sudo-foreman-proxy').with({
+        :context  => '/files/etc/sudoers',
+      })
+
+      changes = subject.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
+      changes.split("\n").should == [
+        "set spec[user = 'foreman-proxy'][1]/user foreman-proxy",
+        "set spec[user = 'foreman-proxy'][1]/host_group/host ALL",
+        "set spec[user = 'foreman-proxy'][1]/host_group/command '/usr/sbin/puppetca *'",
+        "set spec[user = 'foreman-proxy'][1]/host_group/command/runas_user root",
+        "set spec[user = 'foreman-proxy'][1]/host_group/command/tag NOPASSWD",
+        "set spec[user = 'foreman-proxy'][2]/user foreman-proxy",
+        "set spec[user = 'foreman-proxy'][2]/host_group/host ALL",
+        "set spec[user = 'foreman-proxy'][2]/host_group/command '/usr/sbin/puppetrun *'",
+        "set spec[user = 'foreman-proxy'][2]/host_group/command/runas_user root",
+        "set spec[user = 'foreman-proxy'][2]/host_group/command/tag NOPASSWD",
+        "rm spec[user = 'foreman-proxy'][1]/host_group/command[position() > 1]",
+        "set Defaults[type = ':foreman-proxy']/type :foreman-proxy",
+        "set Defaults[type = ':foreman-proxy']/requiretty/negate ''",
+      ]
+    end
+
+    context 'when puppetca => false' do
+      let :pre_condition do
+        'class {"foreman_proxy":
+          use_sudoersd => false,
+          puppetca     => false,
+        }'
+      end
+
+      it "should modify /etc/sudoers for puppetrun only" do
+        changes = subject.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
+        changes.split("\n").should == [
+          "set spec[user = 'foreman-proxy']/user foreman-proxy",
+          "set spec[user = 'foreman-proxy']/host_group/host ALL",
+          "set spec[user = 'foreman-proxy']/host_group/command '/usr/sbin/puppetrun *'",
+          "set spec[user = 'foreman-proxy']/host_group/command/runas_user root",
+          "set spec[user = 'foreman-proxy']/host_group/command/tag NOPASSWD",
+          "rm spec[user = 'foreman-proxy'][1]/host_group/command[position() > 1]",
+          "set Defaults[type = ':foreman-proxy']/type :foreman-proxy",
+          "set Defaults[type = ':foreman-proxy']/requiretty/negate ''",
+        ]
+      end
+    end
+
+    context 'when puppetrun => false' do
+      let :pre_condition do
+        'class {"foreman_proxy":
+          use_sudoersd => false,
+          puppetrun    => false,
+        }'
+      end
+
+      it "should modify /etc/sudoers for puppetca only" do
+        changes = subject.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
+        changes.split("\n").should == [
+          "set spec[user = 'foreman-proxy']/user foreman-proxy",
+          "set spec[user = 'foreman-proxy']/host_group/host ALL",
+          "set spec[user = 'foreman-proxy']/host_group/command '/usr/sbin/puppetca *'",
+          "set spec[user = 'foreman-proxy']/host_group/command/runas_user root",
+          "set spec[user = 'foreman-proxy']/host_group/command/tag NOPASSWD",
+          "rm spec[user = 'foreman-proxy'][1]/host_group/command[position() > 1]",
+          "set Defaults[type = ':foreman-proxy']/type :foreman-proxy",
+          "set Defaults[type = ':foreman-proxy']/requiretty/negate ''",
+        ]
+      end
     end
   end
 end

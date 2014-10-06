@@ -41,34 +41,27 @@ class foreman_proxy::config {
   foreman_proxy::settings_file { 'tftp': }
   foreman_proxy::settings_file { 'realm': }
 
-  if $foreman_proxy::use_sudoersd {
-    if $foreman_proxy::manage_sudoersd {
-      file { '/etc/sudoers.d':
-        ensure => directory,
+  if $foreman_proxy::puppetca or $foreman_proxy::puppetrun {
+    if $foreman_proxy::use_sudoersd {
+      if $foreman_proxy::manage_sudoersd {
+        file { '/etc/sudoers.d':
+          ensure => directory,
+        }
       }
-    }
 
-    file { '/etc/sudoers.d/foreman-proxy':
-      ensure  => present,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0440',
-      content => "${foreman_proxy::user} ALL = NOPASSWD : ${foreman_proxy::puppetca_cmd} *, ${foreman_proxy::puppetrun_cmd} *
-Defaults:${foreman_proxy::user} !requiretty\n",
-      require => File['/etc/sudoers.d'],
-    }
-  } else {
-    augeas { 'sudo-foreman-proxy':
-      context => '/files/etc/sudoers',
-      changes => [
-        "set spec[user = '${foreman_proxy::user}']/user ${foreman_proxy::user}",
-        "set spec[user = '${foreman_proxy::user}']/host_group/host ALL",
-        "set spec[user = '${foreman_proxy::user}']/host_group/command[1] '${foreman_proxy::puppetca_cmd} *'",
-        "set spec[user = '${foreman_proxy::user}']/host_group/command[2] '${foreman_proxy::puppetrun_cmd} *'",
-        "set spec[user = '${foreman_proxy::user}']/host_group/command[1]/tag NOPASSWD",
-        "set Defaults[type = ':${foreman_proxy::user}']/type :${foreman_proxy::user}",
-        "set Defaults[type = ':${foreman_proxy::user}']/requiretty/negate ''",
-      ],
+      file { '/etc/sudoers.d/foreman-proxy':
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0440',
+        content => template('foreman_proxy/sudo.erb'),
+        require => File['/etc/sudoers.d'],
+      }
+    } else {
+      augeas { 'sudo-foreman-proxy':
+        context => '/files/etc/sudoers',
+        changes => template('foreman_proxy/sudo_augeas.erb'),
+      }
     }
   }
 }
