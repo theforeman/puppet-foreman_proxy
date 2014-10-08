@@ -68,6 +68,8 @@ describe 'foreman_proxy::config' do
         ':ssl_ca_file: /var/lib/puppet/ssl/certs/ca.pem',
         ":ssl_certificate: /var/lib/puppet/ssl/certs/#{facts[:fqdn]}.pem",
         ":ssl_private_key: /var/lib/puppet/ssl/private_keys/#{facts[:fqdn]}.pem",
+        ':trusted_hosts:',
+        '  - host.example.org',
         ':daemon: true',
         ':https_port: 8443',
         ':virsh_network: default',
@@ -343,6 +345,18 @@ describe 'foreman_proxy::config' do
       verify_contents(subject, '/etc/foreman-proxy/settings.d/puppet.yml', [
         ':puppet_use_environment_api: false',
       ])
+    end
+  end
+
+  context 'when trusted_hosts is empty' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        trusted_hosts => [],
+      }'
+    end
+
+    it 'should not set trusted_hosts' do
+      should contain_file('/etc/foreman-proxy/settings.yml').without_content(/[^#]:trusted_hosts/)
     end
   end
 end

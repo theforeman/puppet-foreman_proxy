@@ -29,7 +29,7 @@ class foreman_proxy::params {
   $ssl_key = "${puppet_home}/ssl/private_keys/${::fqdn}.pem"
 
   # Only hosts listed will be permitted, empty array to disable authorization
-  $trusted_hosts = []
+  $trusted_hosts = [$::fqdn]
 
   # Whether to manage File['/etc/sudoers.d'] or not.  When reusing this module,
   # this may be disabled to let a dedicated sudo module manage it instead.
