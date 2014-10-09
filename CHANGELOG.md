@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.2
+* Set trusted_hosts default value to FQDN
+
 ## 2.0.1
 * Validate IP address facts used in DHCP/DNS templates (#7263)
 * Fix relationship specification for early Puppet 2.7 releases
