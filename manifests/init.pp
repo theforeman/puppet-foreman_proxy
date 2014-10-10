@@ -76,6 +76,10 @@
 #
 # $puppetssh_keyfile::          The keyfile for puppetrun_provider puppetssh commands
 #
+# $puppetssh_wait::             Whether to wait for completion of the Puppet command over SSH and return
+#                               the exit code
+#                               type:boolean
+#
 # $puppet_user::                Which user to invoke sudo as to run puppet commands
 #
 # $puppet_url::                 URL of the Puppet master itself for API requests
@@ -221,6 +225,7 @@ class foreman_proxy (
   $puppetssh_command          = $foreman_proxy::params::puppetssh_command,
   $puppetssh_user             = $foreman_proxy::params::puppetssh_user,
   $puppetssh_keyfile          = $foreman_proxy::params::puppetssh_keyfile,
+  $puppetssh_wait             = $foreman_proxy::params::puppetssh_wait,
   $puppet_user                = $foreman_proxy::params::puppet_user,
   $puppet_url                 = $foreman_proxy::params::puppet_url,
   $puppet_ssl_ca              = $foreman_proxy::params::ssl_ca,
@@ -278,7 +283,7 @@ class foreman_proxy (
   validate_array($trusted_hosts)
 
   # Validate puppet params
-  validate_bool($puppetca, $puppetrun)
+  validate_bool($puppetca, $puppetrun, $puppetssh_wait)
   validate_string($ssldir, $puppetdir, $autosign_location, $puppetca_cmd, $puppetrun_cmd)
   validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
 
