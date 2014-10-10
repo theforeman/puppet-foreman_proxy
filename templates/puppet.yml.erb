@@ -25,6 +25,10 @@
 :puppetssh_sudo: <%= scope.lookupvar("foreman_proxy::puppetssh_sudo") %>
 # the command which will be sent to the host
 :puppetssh_command: <%= scope.lookupvar("foreman_proxy::puppetssh_command") %>
+# wait for the command to finish (and capture exit code), or detach process and return 0
+# Note: enabling this option causes the Foreman web UI to be blocked when executing puppetrun,
+# with timeout from the Browser and/or Foreman's REST client after 60 seconds.
+:puppetssh_wait: <%= scope.lookupvar("foreman_proxy::puppetssh_wait") %>
 # With which user should the proxy connect
 <% if scope.lookupvar("foreman_proxy::puppetrun_provider") == 'puppetssh' -%>
 :puppetssh_user: <%= scope.lookupvar("foreman_proxy::puppetssh_user") %>

@@ -117,6 +117,7 @@ describe 'foreman_proxy::config' do
         ':customrun_args: -ay -f -s',
         ':puppetssh_sudo: false',
         ':puppetssh_command: /usr/bin/puppet agent --onetime --no-usecacheonfailure',
+        ':puppetssh_wait: false',
         ':puppet_url: https://host.example.org:8140',
         ':puppet_ssl_ca: /var/lib/puppet/ssl/certs/ca.pem',
         ":puppet_ssl_cert: /var/lib/puppet/ssl/certs/#{facts[:fqdn]}.pem",

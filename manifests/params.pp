@@ -71,6 +71,7 @@ class foreman_proxy::params {
   $puppetssh_command  = '/usr/bin/puppet agent --onetime --no-usecacheonfailure'
   $puppetssh_user     = 'root'
   $puppetssh_keyfile  = '/etc/foreman-proxy/id_rsa'
+  $puppetssh_wait     = false
   $puppet_user        = 'root'
 
   # TFTP settings - requires optional TFTP puppet module
