@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0
+* Add puppetssh_wait parameter (#7860)
+* Fix error referencing class that may not have been evaluted
+
 ## 2.0.2
 * Set trusted_hosts default value to FQDN
 
