@@ -16,7 +16,7 @@ describe 'foreman_proxy::plugin::openscap' do
 
         it 'should install configuration file' do
           should contain_foreman_proxy__settings_file('openscap')
-          content = subject.resource('file', '/etc/foreman-proxy/settings.d/openscap.yml').send(:parameters)[:content]
+          content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/openscap.yml').send(:parameters)[:content]
           content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
             '---',
             ':enabled: https',
@@ -39,7 +39,7 @@ describe 'foreman_proxy::plugin::openscap' do
 
         it 'should install configuration file' do
           should contain_foreman_proxy__settings_file('openscap')
-          content = subject.resource('file', '/etc/foreman-proxy/settings.d/openscap.yml').send(:parameters)[:content]
+          content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/openscap.yml').send(:parameters)[:content]
           content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
             '---',
             ':enabled: false',
