@@ -170,6 +170,25 @@ describe 'foreman_proxy::config' do
       })
     end
 
+    context 'with custom foreman_ssl params' do
+      let :pre_condition do
+        'class {"foreman_proxy":
+           foreman_ssl_ca   => "/etc/pki/ca.pem",
+           foreman_ssl_cert => "/etc/pki/cert.pem",
+           foreman_ssl_key => "/etc/pki/key.pem",
+         }'
+      end
+
+      it 'should generate correct settings.yml' do
+        content = subject.resource('file', '/etc/foreman-proxy/settings.yml').send(:parameters)[:content]
+        content.split("\n").select { |c| c =~ /foreman_ssl/ }.should == [
+          ":foreman_ssl_ca: /etc/pki/ca.pem",
+          ":foreman_ssl_cert: /etc/pki/cert.pem",
+          ":foreman_ssl_key: /etc/pki/key.pem"
+        ]
+      end
+    end
+
     context 'when operatingsystemrelease is 7.0.1406' do
       let :facts do
         {

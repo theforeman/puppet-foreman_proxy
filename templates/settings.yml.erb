@@ -38,6 +38,25 @@
 #- foreman.dev.domain
 <% end -%>
 
+# SSL settings for client authentication against Foreman. If undefined, the values
+# from general SSL options are used instead. Mainly useful when Foreman uses
+# different certificates for its web UI and for smart-proxy requests.
+<% unless [nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::foreman_ssl_ca")) -%>
+:foreman_ssl_ca: <%= scope.lookupvar("foreman_proxy::foreman_ssl_ca") %>
+<% else -%>
+#:foreman_ssl_ca: ssl/certs/ca.pem
+<% end -%>
+<% unless [nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::foreman_ssl_cert")) -%>
+:foreman_ssl_cert: <%= scope.lookupvar("foreman_proxy::foreman_ssl_cert") %>
+<% else -%>
+#:foreman_ssl_cert: ssl/certs/fqdn.pem
+<% end -%>
+<% unless [nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::foreman_ssl_key")) -%>
+:foreman_ssl_key: <%= scope.lookupvar("foreman_proxy::foreman_ssl_key") %>
+<% else -%>
+#:foreman_ssl_key: ssl/private_keys/fqdn.pem
+<% end -%>
+
 # by default smart_proxy runs in the foreground. To enable running as a daemon, uncomment 'daemon' setting
 :daemon: true
 # Only used when 'daemon' is set to true.

@@ -28,6 +28,10 @@ class foreman_proxy::params {
   $ssl_cert = "${puppet_home}/ssl/certs/${::fqdn}.pem"
   $ssl_key = "${puppet_home}/ssl/private_keys/${::fqdn}.pem"
 
+  $foreman_ssl_ca = undef
+  $foreman_ssl_cert = undef
+  $foreman_ssl_key = undef
+
   # Only hosts listed will be permitted, empty array to disable authorization
   $trusted_hosts = [$::fqdn]
 

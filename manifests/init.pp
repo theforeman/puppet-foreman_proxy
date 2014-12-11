@@ -27,11 +27,20 @@
 # $ssl::                        Enable SSL, ensure proxy is added with "https://" protocol if true
 #                               type:boolean
 #
-# $ssl_ca::                     If CA is specified, remote Foreman host will be verified
+# $ssl_ca::                     SSL CA to validate the client certificates used to access the proxy
 #
-# $ssl_cert::                   Used to communicate to Foreman
+# $ssl_cert::                   SSL certificate to be used to run the foreman proxy via https.
 #
-# $ssl_key::                    Corresponding key to a certificate
+# $ssl_key::                    Corresponding key to a ssl_cert certificate
+#
+# $foreman_ssl_ca::             SSL CA used to verify connections when accessing the Foreman API.
+#                               When not specified, the ssl_ca is used instead.
+#
+# $foreman_ssl_cert::           SSL client certificate used when accessing the Foreman API
+#                               When not specified, the ssl_cert is used instead.
+#
+# $foreman_ssl_key::            Corresponding key to a foreman_ssl_cert certificate
+#                               When not specified, the ssl_key is used instead.
 #
 # $trusted_hosts::              Only hosts listed will be permitted, empty array to disable authorization
 #                               type:array
@@ -207,6 +216,9 @@ class foreman_proxy (
   $ssl_ca                     = $foreman_proxy::params::ssl_ca,
   $ssl_cert                   = $foreman_proxy::params::ssl_cert,
   $ssl_key                    = $foreman_proxy::params::ssl_key,
+  $foreman_ssl_ca             = $foreman_proxy::params::foreman_ssl_ca,
+  $foreman_ssl_cert           = $foreman_proxy::params::foreman_ssl_cert,
+  $foreman_ssl_key            = $foreman_proxy::params::foreman_ssl_key,
   $trusted_hosts              = $foreman_proxy::params::trusted_hosts,
   $manage_sudoersd            = $foreman_proxy::params::manage_sudoersd,
   $use_sudoersd               = $foreman_proxy::params::use_sudoersd,
