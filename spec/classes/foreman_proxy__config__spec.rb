@@ -70,6 +70,7 @@ describe 'foreman_proxy::config' do
         ":ssl_private_key: /var/lib/puppet/ssl/private_keys/#{facts[:fqdn]}.pem",
         ':trusted_hosts:',
         '  - host.example.org',
+        ":foreman_url: https://#{facts[:fqdn]}",
         ':daemon: true',
         ':https_port: 8443',
         ':virsh_network: default',
@@ -377,6 +378,19 @@ describe 'foreman_proxy::config' do
 
     it 'should not set trusted_hosts' do
       should contain_file('/etc/foreman-proxy/settings.yml').without_content(/[^#]:trusted_hosts/)
+    end
+  end
+
+  context 'with custom foreman_base_url' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+         foreman_base_url => "http://dummy",
+       }'
+    end
+
+    it 'should generate foreman_url setting' do
+      content = subject.resource('file', '/etc/foreman-proxy/settings.yml').send(:parameters)[:content]
+      content.split("\n").select { |c| c =~ /foreman_url/ }.should == [':foreman_url: http://dummy']
     end
   end
 end

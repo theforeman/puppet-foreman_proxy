@@ -38,6 +38,9 @@
 #- foreman.dev.domain
 <% end -%>
 
+# Endpoint for reverse communication
+:foreman_url: <%= scope.lookupvar("foreman_proxy::foreman_base_url") %>
+
 # SSL settings for client authentication against Foreman. If undefined, the values
 # from general SSL options are used instead. Mainly useful when Foreman uses
 # different certificates for its web UI and for smart-proxy requests.
