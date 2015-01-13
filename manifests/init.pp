@@ -24,6 +24,8 @@
 #
 # $log::                        Foreman proxy log file
 #
+# $log_level::                  Foreman proxy log level, e.g. INFO, DEBUG, FATAL etc.
+#
 # $ssl::                        Enable SSL, ensure proxy is added with "https://" protocol if true
 #                               type:boolean
 #
@@ -212,6 +214,7 @@ class foreman_proxy (
   $dir                        = $foreman_proxy::params::dir,
   $user                       = $foreman_proxy::params::user,
   $log                        = $foreman_proxy::params::log,
+  $log_level                  = $foreman_proxy::params::log_level,
   $ssl                        = $foreman_proxy::params::ssl,
   $ssl_ca                     = $foreman_proxy::params::ssl_ca,
   $ssl_cert                   = $foreman_proxy::params::ssl_cert,
@@ -293,6 +296,7 @@ class foreman_proxy (
   # Validate misc params
   validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman)
   validate_array($trusted_hosts)
+  validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
 
   # Validate puppet params
   validate_bool($puppetca, $puppetrun, $puppetssh_wait)
