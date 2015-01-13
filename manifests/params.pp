@@ -11,6 +11,7 @@ class foreman_proxy::params {
   # set it to some custom location.
   $custom_repo = false
   $version     = 'present'
+  $plugin_version = 'installed'
 
   # variables
   $port = '8443'
