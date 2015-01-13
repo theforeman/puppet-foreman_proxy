@@ -75,6 +75,7 @@ describe 'foreman_proxy::config' do
         ':https_port: 8443',
         ':virsh_network: default',
         ':log_file: /var/log/foreman-proxy/proxy.log',
+        ':log_level: ERROR',
       ]
     end
 
@@ -573,4 +574,19 @@ describe 'foreman_proxy::config' do
       end
     end
   end
+
+  context 'when log_level => DEBUG' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        log_level => "DEBUG",
+      }'
+    end
+
+    it 'should set log_level to DEBUG in setting.yml' do
+      verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+        ':log_level: DEBUG',
+      ])
+    end
+  end
+
 end

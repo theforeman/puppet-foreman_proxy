@@ -87,4 +87,4 @@
 :log_file: <%= scope.lookupvar("foreman_proxy::log") %>
 # valid options are
 # WARN, DEBUG, Error, Fatal, INFO, UNKNOWN
-#:log_level: DEBUG
+:log_level: <%= scope.lookupvar("foreman_proxy::log_level") %>
