@@ -6,6 +6,9 @@
 #
 # $group::                      group owner of the configuration file
 #
+# $version::                    plugin package version, it's passed to ensure parameter of package resource
+#                               can be set to specific version number, 'latest', 'present' etc.
+#
 # $enabled::                    enables/disables the plugin
 #                               type:boolean
 #
@@ -30,7 +33,8 @@
 #
 class foreman_proxy::plugin::abrt (
   $enabled                 = $::foreman_proxy::plugin::abrt::params::enabled,
-  $group                   = $::foreman_proxy::plugin::abrt::params::group,
+  $version                 = $::foreman_proxy::plugin::version,
+  $group                   = $::foreman_proxy::user,
   $abrt_send_log_file      = $::foreman_proxy::plugin::abrt::params::abrt_send_log_file,
   $spooldir                = $::foreman_proxy::plugin::abrt::params::spooldir,
   $aggregate_reports       = $::foreman_proxy::plugin::abrt::params::aggregate_reports,
@@ -48,7 +52,9 @@ class foreman_proxy::plugin::abrt (
   $group_real = pick($group, $::foreman_proxy::user)
   validate_string($group_real)
 
-  foreman_proxy::plugin { 'abrt': } ->
+  foreman_proxy::plugin {
+    'abrt': version => $version
+  } ->
   file { '/etc/foreman-proxy/settings.d/abrt.yml':
     ensure  => file,
     content => template('foreman_proxy/plugin/abrt.yml.erb'),

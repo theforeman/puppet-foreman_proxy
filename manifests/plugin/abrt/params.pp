@@ -1,7 +1,6 @@
 # Default parameters for the Pulp smart proxy plugin
 class foreman_proxy::plugin::abrt::params {
   $enabled                 = true
-  $group                   = undef
   $abrt_send_log_file      = '/var/log/foreman-proxy/abrt-send.log'
   $spooldir                = '/var/spool/foreman-proxy-abrt'
   $aggregate_reports       = true
