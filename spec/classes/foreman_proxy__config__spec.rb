@@ -572,5 +572,24 @@ describe 'foreman_proxy::config' do
         ]
       end
     end
+
+    context 'with custom tftp_root param' do
+      let :pre_condition do
+        'class {"foreman_proxy":
+           tftp_root => "/tftpboot",
+         }'
+      end
+
+      it 'should generate correct tftp.yml' do
+        content = subject.resource('file', '/etc/foreman-proxy/settings.d/tftp.yml').send(:parameters)[:content]
+        content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+          '---',
+          ':enabled: true',
+          ':tftproot: /tftpboot',
+          ':tftp_servername: 127.0.1.1',
+        ]
+      end
+    end
+
   end
 end
