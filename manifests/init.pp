@@ -105,6 +105,11 @@
 #                               try to determine this automatically.
 #                               type:boolean
 #
+# $templates::                  Enable templates proxying feature
+#                               type:boolean
+#
+# $template_url::               URL a client should use for provisioning templates
+#
 # $tftp::                       Use TFTP
 #                               type:boolean
 #
@@ -247,6 +252,8 @@ class foreman_proxy (
   $puppet_ssl_cert            = $foreman_proxy::params::ssl_cert,
   $puppet_ssl_key             = $foreman_proxy::params::ssl_key,
   $puppet_use_environment_api = $foreman_proxy::params::puppet_use_environment_api,
+  $templates                  = $foreman_proxy::params::templates,
+  $template_url               = $foreman_proxy::params::template_url,
   $tftp                       = $foreman_proxy::params::tftp,
   $tftp_syslinux_root         = $foreman_proxy::params::tftp_syslinux_root,
   $tftp_syslinux_files        = $foreman_proxy::params::tftp_syslinux_files,
@@ -302,6 +309,10 @@ class foreman_proxy (
   validate_bool($puppetca, $puppetrun, $puppetssh_wait)
   validate_string($ssldir, $puppetdir, $autosign_location, $puppetca_cmd, $puppetrun_cmd)
   validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
+
+  # Validate template params
+  validate_bool($templates)
+  validate_string($template_url)
 
   # Validate tftp params
   validate_bool($tftp)

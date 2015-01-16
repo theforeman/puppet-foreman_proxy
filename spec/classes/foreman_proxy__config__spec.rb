@@ -46,9 +46,9 @@ describe 'foreman_proxy::config' do
     end
 
     it 'should create configuration files' do
-      ['/etc/foreman-proxy/settings.yml', '/etc/foreman-proxy/settings.d/tftp.yml', '/etc/foreman-proxy/settings.d/dns.yml', 
+      ['/etc/foreman-proxy/settings.yml', '/etc/foreman-proxy/settings.d/tftp.yml', '/etc/foreman-proxy/settings.d/dns.yml',
         '/etc/foreman-proxy/settings.d/dhcp.yml', '/etc/foreman-proxy/settings.d/puppetca.yml', '/etc/foreman-proxy/settings.d/puppet.yml',
-        '/etc/foreman-proxy/settings.d/bmc.yml', '/etc/foreman-proxy/settings.d/realm.yml'].each do |cfile|
+        '/etc/foreman-proxy/settings.d/bmc.yml', '/etc/foreman-proxy/settings.d/realm.yml', '/etc/foreman-proxy/settings.d/templates.yml'].each do |cfile|
         should contain_file(cfile).
           with({
             :owner   => 'root',
@@ -158,6 +158,16 @@ describe 'foreman_proxy::config' do
         ':freeipa_remove_dns: true',
       ]
     end
+
+    it 'should generate correct templates.yml' do
+      content = subject.resource('file', '/etc/foreman-proxy/settings.d/templates.yml').send(:parameters)[:content]
+      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+        '---',
+        ':enabled: false',
+        ':template_url: http://host.example.org:8443',
+      ]
+    end
+
 
     it 'should set up sudo rules' do
       should contain_file('/etc/sudoers.d').with_ensure('directory')

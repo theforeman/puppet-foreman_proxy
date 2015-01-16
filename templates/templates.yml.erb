@@ -1,0 +1,22 @@
+---
+# Enable this if the Proxy should handle template requests on behalf of Foreman
+# Can be true, false, or http/https to enable just one of the protocols
+:enabled: <%= scope.lookupvar("foreman_proxy::templates") %>
+
+# This plugin also requires that :foreman_url: be set in the main settings.yml
+# This lets the plugin know how to obtain the templates from foreman.
+
+# This allows the proxy to define how hosts that are being provisioned where to
+# obtain the templates from. Most installers don't support https, so it's recommended
+# to enable an http port listener in the main config file too, and use it in
+# the url below
+#
+# :template_url is the URL the host should use to contact the proxy for a template.
+# The default protocol is http on port 80 unless otherwise specified in the url.
+# Examples:
+# https://1.2.3.4:8443            # default proxy https port
+# http://1.2.3.4:8000             # default proxy http port
+# https://smart-proxy.example.com # assumes port 443
+# http://smart-proxy.example.com  # assumes port 80
+# smart-proxy.example.com:8080    # assumes http
+:template_url: <%= scope.lookupvar("foreman_proxy::template_url") %>

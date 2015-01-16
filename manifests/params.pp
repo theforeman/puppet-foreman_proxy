@@ -79,6 +79,10 @@ class foreman_proxy::params {
   $puppetssh_wait     = false
   $puppet_user        = 'root'
 
+  # Template settings
+  $templates          = false
+  $template_url       = "http://${::fqdn}:${port}"
+
   # TFTP settings - requires optional TFTP puppet module
   $tftp           = true
   case $::operatingsystem {
