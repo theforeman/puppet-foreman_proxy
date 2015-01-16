@@ -8,8 +8,8 @@ class foreman_proxy::config {
     Class['puppet::server::config'] ~> Class['foreman_proxy::service']
   }
 
-  if $foreman_proxy::puppetca  { include foreman_proxy::puppetca }
-  if $foreman_proxy::tftp      { include foreman_proxy::tftp }
+  if $foreman_proxy::puppetca { include foreman_proxy::puppetca }
+  if $foreman_proxy::tftp     { include foreman_proxy::tftp }
 
   # Somehow, calling these DHCP and DNS seems to conflict. So, they get a prefix...
   if $foreman_proxy::dhcp and $foreman_proxy::dhcp_managed { include foreman_proxy::proxydhcp }
@@ -32,11 +32,19 @@ class foreman_proxy::config {
     notify  => Class['foreman_proxy::service'],
   }
 
-  foreman_proxy::settings_file { 'settings': path => '/etc/foreman-proxy/settings.yml' }
+  foreman_proxy::settings_file { 'settings':
+    path   => '/etc/foreman-proxy/settings.yml',
+    module => false,
+  }
+
+  foreman_proxy::settings_file { 'puppet':
+    enabled   => $::foreman_proxy::puppetrun,
+    listen_on => $::foreman_proxy::puppetrun_listen_on,
+  }
+
   foreman_proxy::settings_file { 'bmc': }
   foreman_proxy::settings_file { 'dhcp': }
   foreman_proxy::settings_file { 'dns': }
-  foreman_proxy::settings_file { 'puppet': }
   foreman_proxy::settings_file { 'puppetca': }
   foreman_proxy::settings_file { 'tftp': }
   foreman_proxy::settings_file { 'realm': }

@@ -1,7 +1,7 @@
 ---
 # Enable this if the Proxy should handle template requests on behalf of Foreman
 # Can be true, false, or http/https to enable just one of the protocols
-:enabled: <%= scope.lookupvar("foreman_proxy::templates") %>
+:enabled: <%= @module_enabled %>
 
 # This plugin also requires that :foreman_url: be set in the main settings.yml
 # This lets the plugin know how to obtain the templates from foreman.

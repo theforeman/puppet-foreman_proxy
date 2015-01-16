@@ -14,7 +14,7 @@ class foreman_proxy::params {
   $plugin_version = 'installed'
 
   # variables
-  $port = '8443'
+  $port = undef # deprecated in favor of $ssl_port/$http_port
   $dir  = '/usr/share/foreman-proxy'
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
@@ -22,8 +22,13 @@ class foreman_proxy::params {
 
   $puppet_home = $puppet::params::server_vardir
 
+  # Enable listening on http
+  $http = false
+  $http_port = '8000'
+
   # Enable SSL, ensure proxy is added with "https://" protocol if true
   $ssl = true
+  $ssl_port = '8443'
   # If CA is specified, remote Foreman host will be verified
   $ssl_ca = "${puppet_home}/ssl/certs/ca.pem"
   # Used to communicate to Foreman
@@ -60,32 +65,36 @@ class foreman_proxy::params {
   $puppet_use_environment_api = undef
 
   # puppetca settings
-  $puppetca          = true
-  $autosign_location = '/etc/puppet/autosign.conf'
-  $puppetca_cmd      = $puppet::params::puppetca_cmd
-  $puppet_group      = 'puppet'
-  $ssldir            = "${puppet_home}/ssl"
-  $puppetdir         = $puppet::params::dir
+  $puppetca           = true
+  $puppetca_listen_on = 'https'
+  $autosign_location  = '/etc/puppet/autosign.conf'
+  $puppetca_cmd       = $puppet::params::puppetca_cmd
+  $puppet_group       = 'puppet'
+  $ssldir             = "${puppet_home}/ssl"
+  $puppetdir          = $puppet::params::dir
 
   # puppetrun settings
-  $puppetrun          = true
-  $puppetrun_cmd      = $puppet::params::puppetrun_cmd
-  $puppetrun_provider = ''
-  $customrun_cmd      = '/bin/false'
-  $customrun_args     = '-ay -f -s'
-  $puppetssh_sudo     = false
-  $puppetssh_command  = '/usr/bin/puppet agent --onetime --no-usecacheonfailure'
-  $puppetssh_user     = 'root'
-  $puppetssh_keyfile  = '/etc/foreman-proxy/id_rsa'
-  $puppetssh_wait     = false
-  $puppet_user        = 'root'
+  $puppetrun           = true
+  $puppetrun_listen_on = 'https'
+  $puppetrun_cmd       = $puppet::params::puppetrun_cmd
+  $puppetrun_provider  = ''
+  $customrun_cmd       = '/bin/false'
+  $customrun_args      = '-ay -f -s'
+  $puppetssh_sudo      = false
+  $puppetssh_command   = '/usr/bin/puppet agent --onetime --no-usecacheonfailure'
+  $puppetssh_user      = 'root'
+  $puppetssh_keyfile   = '/etc/foreman-proxy/id_rsa'
+  $puppetssh_wait      = false
+  $puppet_user         = 'root'
 
   # Template settings
-  $templates          = false
-  $template_url       = "http://${::fqdn}:${port}"
+  $templates           = false
+  $templates_listen_on = 'both'
+  $template_url        = "http://${::fqdn}:${http_port}"
 
   # TFTP settings - requires optional TFTP puppet module
   $tftp           = true
+  $tftp_listen_on = 'https'
   case $::operatingsystem {
     Debian,Ubuntu: {
       $tftp_syslinux_root = '/usr/lib/syslinux'
@@ -104,6 +113,7 @@ class foreman_proxy::params {
 
   # DHCP settings - requires optional DHCP puppet module
   $dhcp             = false
+  $dhcp_listen_on   = 'https'
   $dhcp_managed     = true
   $dhcp_interface   = 'eth0'
   $dhcp_gateway     = '192.168.100.1'
@@ -141,6 +151,7 @@ class foreman_proxy::params {
 
   # DNS settings - requires optional DNS puppet module
   $dns                = false
+  $dns_listen_on      = 'https'
   $dns_managed        = true
   $dns_provider       = 'nsupdate'
   $dns_interface      = 'eth0'
@@ -169,14 +180,16 @@ class foreman_proxy::params {
   $virsh_network = 'default'
 
   # BMC options
-  $bmc = false
+  $bmc                  = false
+  $bmc_listen_on        = 'https'
   $bmc_default_provider = 'ipmitool'
 
   # Realm management options
-  $realm = false
-  $realm_provider = 'freeipa'
-  $realm_keytab = '/etc/foreman-proxy/freeipa.keytab'
-  $realm_principal = 'realm-proxy@EXAMPLE.COM'
+  $realm              = false
+  $realm_listen_on    = 'https'
+  $realm_provider     = 'freeipa'
+  $realm_keytab       = '/etc/foreman-proxy/freeipa.keytab'
+  $realm_principal    = 'realm-proxy@EXAMPLE.COM'
   $freeipa_remove_dns = true
 
   # Proxy can register itself within a Foreman instance
@@ -186,7 +199,7 @@ class foreman_proxy::params {
   # Name the proxy should be registered with
   $registered_name = $::fqdn
   # Proxy URL to be registered
-  $registered_proxy_url = "https://${::fqdn}:${port}"
+  $registered_proxy_url = "https://${::fqdn}:${ssl_port}"
   # User to be used for registration
   $oauth_effective_user = 'admin'
   # OAuth credentials

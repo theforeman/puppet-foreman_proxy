@@ -9,8 +9,10 @@
 # $version::                    plugin package version, it's passed to ensure parameter of package resource
 #                               can be set to specific version number, 'latest', 'present' etc.
 #
-# $enabled::                    enables/disables the plugin
+# $enabled::                    Enables/disables the plugin
 #                               type:boolean
+#
+# $listen_on::                  Proxy feature listens on http, https, or both
 #
 # $abrt_send_log_file::         Log file for the forwarding script.
 #
@@ -33,7 +35,8 @@
 #
 class foreman_proxy::plugin::abrt (
   $enabled                 = $::foreman_proxy::plugin::abrt::params::enabled,
-  $version                 = undef,
+  $listen_on               = $::foreman_proxy::plugin::abrt::params::listen_on,
+  $version                 = $::foreman_proxy::plugin::abrt::params::version,
   $group                   = $::foreman_proxy::plugin::abrt::params::group,
   $abrt_send_log_file      = $::foreman_proxy::plugin::abrt::params::abrt_send_log_file,
   $spooldir                = $::foreman_proxy::plugin::abrt::params::spooldir,
@@ -46,6 +49,7 @@ class foreman_proxy::plugin::abrt (
 ) inherits foreman_proxy::plugin::abrt::params {
 
   validate_bool($enabled)
+  validate_listen_on($listen_on)
   validate_absolute_path($abrt_send_log_file)
   validate_absolute_path($spooldir)
   validate_bool($aggregate_reports)
@@ -57,5 +61,7 @@ class foreman_proxy::plugin::abrt (
   foreman_proxy::settings_file { 'abrt':
     template_path => 'foreman_proxy/plugin/abrt.yml.erb',
     group         => $group,
+    listen_on     => $listen_on,
+    enabled       => $enabled,
   }
 }

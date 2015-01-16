@@ -113,7 +113,7 @@ describe 'foreman_proxy::config' do
       content = subject.resource('file', '/etc/foreman-proxy/settings.d/puppet.yml').send(:parameters)[:content]
       content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
         '---',
-        ':enabled: true',
+        ':enabled: https',
         ':puppet_conf: /etc/puppet/puppet.conf',
         ':customrun_cmd: /bin/false',
         ':customrun_args: -ay -f -s',
@@ -131,7 +131,7 @@ describe 'foreman_proxy::config' do
       content = subject.resource('file', '/etc/foreman-proxy/settings.d/puppetca.yml').send(:parameters)[:content]
       content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
         '---',
-        ':enabled: true',
+        ':enabled: https',
         ':ssldir: /var/lib/puppet/ssl',
         ':puppetdir: /etc/puppet',
       ]
@@ -141,7 +141,7 @@ describe 'foreman_proxy::config' do
       content = subject.resource('file', '/etc/foreman-proxy/settings.d/tftp.yml').send(:parameters)[:content]
       content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
         '---',
-        ':enabled: true',
+        ':enabled: https',
         ':tftproot: /var/lib/tftpboot/',
         ':tftp_servername: 127.0.1.1',
       ]
@@ -164,7 +164,7 @@ describe 'foreman_proxy::config' do
       content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
         '---',
         ':enabled: false',
-        ':template_url: http://host.example.org:8443',
+        ':template_url: http://host.example.org:8000',
       ]
     end
 
@@ -251,7 +251,7 @@ describe 'foreman_proxy::config' do
 
     it 'should enable bmc with shell' do
       verify_contents(subject, '/etc/foreman-proxy/settings.d/bmc.yml', [
-        ':enabled: true',
+        ':enabled: https',
         ':bmc_default_provider: shell',
       ])
     end
@@ -276,7 +276,7 @@ describe 'foreman_proxy::config' do
 
     it 'should set tftp_servername to $ipaddress' do
       verify_contents(subject, '/etc/foreman-proxy/settings.d/tftp.yml', [
-        ':enabled: true',
+        ':enabled: https',
         ':tftp_servername: 127.0.1.2',
       ])
     end
@@ -308,21 +308,74 @@ describe 'foreman_proxy::config' do
     end
   end
 
-  context 'ssl disabled' do
+  context 'only http enabled' do
     let :pre_condition do
       'class {"foreman_proxy":
-        ssl => false,
+        ssl  => false,
+        http => true,
       }'
     end
 
-    it 'should comment out ssl configuration files' do
+    it 'should comment out ssl configuration items' do
       verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
         '#:ssl_ca_file: ssl/certs/ca.pem',
         '#:ssl_certificate: ssl/certs/fqdn.pem',
         '#:ssl_private_key: ssl/private_keys/fqdn.key',
         '#:https_port: 8443',
-        ':http_port: 8443',
+        ':http_port: 8000',
       ])
+    end
+  end
+
+  context 'both http and ssl enabled' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        ssl         => true,
+        ssl_port    => 867,
+        http        => true,
+        http_port   => 5309,
+      }'
+    end
+
+    it 'should configure both http and ssl on their respective ports' do
+      verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+        ':https_port: 867',
+        ':http_port: 5309',
+      ])
+    end
+  end
+
+  context 'with deprecated parameters' do
+    context 'with ssl => true' do
+      let :pre_condition do
+        'class {"foreman_proxy":
+          ssl       => true,
+          port      => 1234,
+        }'
+      end
+
+      it 'should use port for ssl' do
+        verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+          ':https_port: 1234',
+          '#:http_port: 1234',
+        ])
+      end
+    end
+
+    context 'with ssl => false' do
+      let :pre_condition do
+        'class {"foreman_proxy":
+          ssl       => false,
+          port      => 1234,
+        }'
+      end
+
+      it 'should use port for http' do
+        verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+          '#:https_port: 1234',
+          ':http_port: 1234',
+        ])
+      end
     end
   end
 
@@ -595,7 +648,7 @@ describe 'foreman_proxy::config' do
         content = subject.resource('file', '/etc/foreman-proxy/settings.d/tftp.yml').send(:parameters)[:content]
         content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
           '---',
-          ':enabled: true',
+          ':enabled: https',
           ':tftproot: /tftpboot',
           ':tftp_servername: 127.0.1.1',
         ]
@@ -604,7 +657,52 @@ describe 'foreman_proxy::config' do
 
   end
 
-  context 'when log_level => DEBUG' do
+  context 'with feature on http' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        templates           => true,
+        templates_listen_on => "http",
+      }'
+    end
+
+    it 'should set enabled to http' do
+      verify_contents(subject, '/etc/foreman-proxy/settings.d/templates.yml', [
+        ':enabled: http',
+      ])
+    end
+  end
+
+  context 'with feature on https' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        templates           => true,
+        templates_listen_on => "https",
+      }'
+    end
+
+    it 'should set enabled to https' do
+      verify_contents(subject, '/etc/foreman-proxy/settings.d/templates.yml', [
+        ':enabled: https',
+      ])
+    end
+  end
+
+  context 'with feature on both' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        templates           => true,
+        templates_listen_on => "both",
+      }'
+    end
+
+    it 'should set enabled to true' do
+      verify_contents(subject, '/etc/foreman-proxy/settings.d/templates.yml', [
+        ':enabled: true',
+      ])
+    end
+  end
+
+    context 'when log_level => DEBUG' do
     let :pre_condition do
       'class {"foreman_proxy":
         log_level => "DEBUG",
@@ -617,5 +715,4 @@ describe 'foreman_proxy::config' do
       ])
     end
   end
-
 end

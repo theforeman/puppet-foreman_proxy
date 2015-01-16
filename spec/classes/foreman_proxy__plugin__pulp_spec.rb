@@ -22,7 +22,7 @@ describe 'foreman_proxy::plugin::pulp' do
           :owner   => 'root',
           :group   => 'foreman-proxy',
           :mode    => '0640',
-          :content => /:enabled: true/
+          :content => /:enabled: https/
         })
     end
   end

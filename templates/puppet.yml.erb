@@ -1,6 +1,6 @@
 ---
 # Puppet management
-:enabled: <%= scope.lookupvar("foreman_proxy::puppetrun") %>
+:enabled: <%= @module_enabled %>
 :puppet_conf: <%= scope.lookupvar("foreman_proxy::puppetdir") %>/puppet.conf
 # valid providers:
 #   puppetrun   (for puppetrun/kick, deprecated in Puppet 3)

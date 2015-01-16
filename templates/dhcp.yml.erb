@@ -1,6 +1,6 @@
 ---
 # Enable DHCP management
-:enabled: <%= scope.lookupvar("foreman_proxy::dhcp") %>
+:enabled: <%= @module_enabled %>
 # valid vendors:
 #   - isc
 #   - native_ms (Microsoft native implementation)

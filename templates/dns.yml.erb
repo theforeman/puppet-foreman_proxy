@@ -1,6 +1,6 @@
 ---
 # DNS management
-:enabled: <%= scope.lookupvar("foreman_proxy::dns") %>
+:enabled: <%= @module_enabled %>
 # valid providers:
 #   dnscmd (Microsoft Windows native implementation)
 #   nsupdate
