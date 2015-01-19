@@ -35,3 +35,4 @@ class foreman_proxy::plugin::pulp (
     group         => $group,
   }
 }
+
