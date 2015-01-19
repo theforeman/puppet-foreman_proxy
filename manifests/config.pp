@@ -40,6 +40,7 @@ class foreman_proxy::config {
   foreman_proxy::settings_file { 'puppetca': }
   foreman_proxy::settings_file { 'tftp': }
   foreman_proxy::settings_file { 'realm': }
+  foreman_proxy::settings_file { 'templates': }
 
   if $foreman_proxy::puppetca or $foreman_proxy::puppetrun {
     if $foreman_proxy::use_sudoersd {

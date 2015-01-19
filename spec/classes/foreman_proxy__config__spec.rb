@@ -46,9 +46,9 @@ describe 'foreman_proxy::config' do
     end
 
     it 'should create configuration files' do
-      ['/etc/foreman-proxy/settings.yml', '/etc/foreman-proxy/settings.d/tftp.yml', '/etc/foreman-proxy/settings.d/dns.yml', 
+      ['/etc/foreman-proxy/settings.yml', '/etc/foreman-proxy/settings.d/tftp.yml', '/etc/foreman-proxy/settings.d/dns.yml',
         '/etc/foreman-proxy/settings.d/dhcp.yml', '/etc/foreman-proxy/settings.d/puppetca.yml', '/etc/foreman-proxy/settings.d/puppet.yml',
-        '/etc/foreman-proxy/settings.d/bmc.yml', '/etc/foreman-proxy/settings.d/realm.yml'].each do |cfile|
+        '/etc/foreman-proxy/settings.d/bmc.yml', '/etc/foreman-proxy/settings.d/realm.yml', '/etc/foreman-proxy/settings.d/templates.yml'].each do |cfile|
         should contain_file(cfile).
           with({
             :owner   => 'root',
@@ -75,6 +75,7 @@ describe 'foreman_proxy::config' do
         ':https_port: 8443',
         ':virsh_network: default',
         ':log_file: /var/log/foreman-proxy/proxy.log',
+        ':log_level: ERROR',
       ]
     end
 
@@ -157,6 +158,16 @@ describe 'foreman_proxy::config' do
         ':freeipa_remove_dns: true',
       ]
     end
+
+    it 'should generate correct templates.yml' do
+      content = subject.resource('file', '/etc/foreman-proxy/settings.d/templates.yml').send(:parameters)[:content]
+      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+        '---',
+        ':enabled: false',
+        ':template_url: http://host.example.org:8443',
+      ]
+    end
+
 
     it 'should set up sudo rules' do
       should contain_file('/etc/sudoers.d').with_ensure('directory')
@@ -572,5 +583,39 @@ describe 'foreman_proxy::config' do
         ]
       end
     end
+
+    context 'with custom tftp_root param' do
+      let :pre_condition do
+        'class {"foreman_proxy":
+           tftp_root => "/tftpboot",
+         }'
+      end
+
+      it 'should generate correct tftp.yml' do
+        content = subject.resource('file', '/etc/foreman-proxy/settings.d/tftp.yml').send(:parameters)[:content]
+        content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+          '---',
+          ':enabled: true',
+          ':tftproot: /tftpboot',
+          ':tftp_servername: 127.0.1.1',
+        ]
+      end
+    end
+
   end
+
+  context 'when log_level => DEBUG' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        log_level => "DEBUG",
+      }'
+    end
+
+    it 'should set log_level to DEBUG in setting.yml' do
+      verify_contents(subject, '/etc/foreman-proxy/settings.yml', [
+        ':log_level: DEBUG',
+      ])
+    end
+  end
+
 end

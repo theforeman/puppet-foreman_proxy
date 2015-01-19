@@ -17,6 +17,7 @@ class foreman_proxy::params {
   $dir  = '/usr/share/foreman-proxy'
   $user = 'foreman-proxy'
   $log  = '/var/log/foreman-proxy/proxy.log'
+  $log_level  = 'ERROR'
 
   $puppet_home = $puppet::params::server_vardir
 
@@ -77,6 +78,10 @@ class foreman_proxy::params {
   $puppetssh_keyfile  = '/etc/foreman-proxy/id_rsa'
   $puppetssh_wait     = false
   $puppet_user        = 'root'
+
+  # Template settings
+  $templates          = false
+  $template_url       = "http://${::fqdn}:${port}"
 
   # TFTP settings - requires optional TFTP puppet module
   $tftp           = true

@@ -1,6 +1,9 @@
 # Set up the tftp component
 class foreman_proxy::tftp {
-  include ::tftp
+
+  class { '::tftp':
+    root => $foreman_proxy::tftp_root,
+  }
 
   file{ $foreman_proxy::tftp_dirs:
     ensure  => directory,
