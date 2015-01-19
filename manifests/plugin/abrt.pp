@@ -33,8 +33,8 @@
 #
 class foreman_proxy::plugin::abrt (
   $enabled                 = $::foreman_proxy::plugin::abrt::params::enabled,
-  $version                 = $::foreman_proxy::plugin::version,
-  $group                   = $::foreman_proxy::user,
+  $version                 = undef,
+  $group                   = $::foreman_proxy::plugin::abrt::params::group,
   $abrt_send_log_file      = $::foreman_proxy::plugin::abrt::params::abrt_send_log_file,
   $spooldir                = $::foreman_proxy::plugin::abrt::params::spooldir,
   $aggregate_reports       = $::foreman_proxy::plugin::abrt::params::aggregate_reports,
@@ -43,23 +43,19 @@ class foreman_proxy::plugin::abrt (
   $faf_server_ssl_noverify = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_noverify,
   $faf_server_ssl_cert     = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_cert,
   $faf_server_ssl_key      = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_key,
-  ) inherits foreman_proxy::plugin::abrt::params {
+) inherits foreman_proxy::plugin::abrt::params {
+
   validate_bool($enabled)
   validate_absolute_path($abrt_send_log_file)
   validate_absolute_path($spooldir)
   validate_bool($aggregate_reports)
   validate_bool($faf_server_ssl_noverify)
-  $group_real = pick($group, $::foreman_proxy::user)
-  validate_string($group_real)
 
-  foreman_proxy::plugin {
-    'abrt': version => $version
+  foreman_proxy::plugin { 'abrt':
+    version => $version,
   } ->
-  file { '/etc/foreman-proxy/settings.d/abrt.yml':
-    ensure  => file,
-    content => template('foreman_proxy/plugin/abrt.yml.erb'),
-    owner   => 'root',
-    group   => $group_real,
-    mode    => '0640',
+  foreman_proxy::settings_file { 'abrt':
+    template_path => 'foreman_proxy/plugin/abrt.yml.erb',
+    group         => $group,
   }
 }
