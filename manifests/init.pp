@@ -15,6 +15,9 @@
 # $version::                    foreman package version, it's passed to ensure parameter of package resource
 #                               can be set to specific version number, 'latest', 'present' etc.
 #
+# $plugin_version::             foreman plugins version, it's passed to ensure parameter of plugins package resource
+#                               can be set to 'latest', 'present',  'installed', 'absent'.
+#
 # $port::                       Port on which will foreman proxy listen
 #                               type:integer
 #
@@ -215,6 +218,7 @@ class foreman_proxy (
   $gpgcheck                   = $foreman_proxy::params::gpgcheck,
   $custom_repo                = $foreman_proxy::params::custom_repo,
   $version                    = $foreman_proxy::params::version,
+  $plugin_version             = $foreman_proxy::params::plugin_version,
   $port                       = $foreman_proxy::params::port,
   $dir                        = $foreman_proxy::params::dir,
   $user                       = $foreman_proxy::params::user,
@@ -304,6 +308,7 @@ class foreman_proxy (
   validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman)
   validate_array($trusted_hosts)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
+  validate_re($plugin_version, '^(installed|present|latest|absent)$')
 
   # Validate puppet params
   validate_bool($puppetca, $puppetrun, $puppetssh_wait)

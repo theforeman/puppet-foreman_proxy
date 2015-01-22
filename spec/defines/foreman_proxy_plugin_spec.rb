@@ -3,18 +3,18 @@ require 'spec_helper'
 describe 'foreman_proxy::plugin' do
   let :title do 'myplugin' end
 
+  let :pre_condition do
+    'include foreman_proxy'
+  end
+
+  let :facts do {
+    :concat_basedir         => '/nonexistant',
+    :operatingsystem        => 'RedHat',
+    :operatingsystemrelease => '6.4',
+    :osfamily               => 'RedHat',
+  } end
+
   context 'no parameters' do
-    let :pre_condition do
-      'include foreman_proxy'
-    end
-
-    let :facts do {
-      :concat_basedir         => '/nonexistant',
-      :operatingsystem        => 'RedHat',
-      :operatingsystemrelease => '6.4',
-      :osfamily               => 'RedHat',
-    } end
-
     it 'should install the correct package' do
       should contain_package('rubygem-smart_proxy_myplugin').with_ensure('installed')
     end
@@ -27,6 +27,16 @@ describe 'foreman_proxy::plugin' do
 
     it 'should install the correct package' do
       should contain_package('myplugin').with_ensure('installed')
+    end
+  end
+
+  context 'with version parameter' do
+    let :params do {
+      :version => 'latest',
+    } end
+
+    it 'should install the correct package' do
+      should contain_package('rubygem-smart_proxy_myplugin').with_ensure('latest')
     end
   end
 
