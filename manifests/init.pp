@@ -301,7 +301,8 @@ class foreman_proxy (
   $registered_proxy_url       = $foreman_proxy::params::registered_proxy_url,
   $oauth_effective_user       = $foreman_proxy::params::oauth_effective_user,
   $oauth_consumer_key         = $foreman_proxy::params::oauth_consumer_key,
-  $oauth_consumer_secret      = $foreman_proxy::params::oauth_consumer_secret
+  $oauth_consumer_secret      = $foreman_proxy::params::oauth_consumer_secret,
+  $plugin_prefix              = $foreman_proxy::params::plugin_prefix,
 ) inherits foreman_proxy::params {
 
   # Validate misc params
