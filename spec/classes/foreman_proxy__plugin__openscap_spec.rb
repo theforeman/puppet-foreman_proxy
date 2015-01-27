@@ -16,7 +16,7 @@ describe 'foreman_proxy::plugin::openscap' do
 
         it 'should install configuration file' do
           should contain_foreman_proxy__settings_file('openscap')
-          should contain_file('/etc/foreman-proxy/settings.d/openscap.yml').with({:content => /:enabled: true/})
+          should contain_file('/etc/foreman-proxy/settings.d/openscap.yml').with({:content => /:enabled: https/})
         end
       end
 
