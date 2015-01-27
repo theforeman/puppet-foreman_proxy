@@ -1,4 +1,4 @@
-# Default parameters for the Openscap smart proxy plugin
+# Default parameters for the OpenSCAP smart proxy plugin
 class foreman_proxy::plugin::openscap::params {
   $enabled                 = true
   $configure_openscap_repo = false
