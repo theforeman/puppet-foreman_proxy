@@ -3,19 +3,19 @@
   "version":      "2.2.0",
   "author":       "theforeman",
   "summary":      "Foreman Smart Proxy configuration",
-  "license":      "GPLv3+",
+  "license":      "GPL-3.0+",
   "source":       "git://github.com/theforeman/puppet-foreman_proxy",
   "project_page": "https://github.com/theforeman/puppet-foreman_proxy",
   "issues_url":   "https://github.com/theforeman/puppet-foreman_proxy/issues",
   "description":  "Module for configuring the Foreman Smart Proxy and other services",
   "tags":         ["foreman-proxy", "foreman", "proxy", "smart-proxy", "dns", "dhcp", "puppet"],
   "dependencies": [
-    { "name": "theforeman/dns",           "version_requirement": ">= 1.3.0" },
-    { "name": "theforeman/dhcp",          "version_requirement": ">= 1.3.0" },
-    { "name": "theforeman/foreman",       "version_requirement": ">= 1.3.0" },
-    { "name": "theforeman/puppet",        "version_requirement": ">= 1.3.0" },
-    { "name": "theforeman/tftp",          "version_requirement": ">= 1.3.0" },
-    { "name": "puppetlabs/stdlib",        "version_requirement": ">= 2.6.0" }
+    { "name": "theforeman/dns",           "version_requirement": ">= 1.3.0 < 2.0.0" },
+    { "name": "theforeman/dhcp",          "version_requirement": ">= 1.3.0 < 2.0.0" },
+    { "name": "theforeman/foreman",       "version_requirement": ">= 1.3.0 < 4.0.0" },
+    { "name": "theforeman/puppet",        "version_requirement": ">= 1.3.0 < 3.0.0" },
+    { "name": "theforeman/tftp",          "version_requirement": ">= 1.3.0 < 2.0.0" },
+    { "name": "puppetlabs/stdlib",        "version_requirement": ">= 2.6.0 < 5.0.0" }
   ],
   "requirements": [
     { "name": "puppet", "version_requirement": ">= 2.7.0 < 4.0.0" }
