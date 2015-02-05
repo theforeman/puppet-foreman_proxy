@@ -282,6 +282,80 @@ describe 'foreman_proxy::config' do
     end
   end
 
+  context 'with TFTP enabled on Debian 7 (Wheezy)' do
+    let :facts do
+      {
+        :fqdn => 'host.example.org',
+        :ipaddress => '127.0.1.2',
+        :operatingsystem => 'Debian',
+        :operatingsystemrelease => '7.7',
+        :osfamily => 'Debian',
+      }
+    end
+
+    let :pre_condition do
+      'class {"foreman_proxy":
+        tftp => true,
+      }'
+    end
+
+    it 'should copy the correct default files for Debian 7' do
+      should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/chain.c32')
+      should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/menu.c32')
+      should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/memdisk')
+      should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/pxelinux.0')
+    end
+  end
+
+  context 'with TFTP enabled on Debian 8 (Jessie)' do
+    let :facts do
+      {
+        :fqdn => 'host.example.org',
+        :ipaddress => '127.0.1.2',
+        :operatingsystem => 'Debian',
+        :operatingsystemrelease => '8.0',
+        :osfamily => 'Debian',
+      }
+    end
+
+    let :pre_condition do
+      'class {"foreman_proxy":
+        tftp => true,
+      }'
+    end
+
+    it 'should copy the correct default files for Debian 8' do
+      should contain_foreman_proxy__tftp__copy_file('/usr/lib/PXELINUX/pxelinux.0')
+      should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/memdisk')
+      should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/chain.c32')
+      should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/menu.c32')
+    end
+  end
+
+  context 'with TFTP enabled and tftp_syslinux_filenames set' do
+    let :facts do
+      {
+        :fqdn                   => 'host.example.org',
+        :ipaddress              => '127.0.1.2',
+        :operatingsystem        => 'RedHat',
+        :operatingsystemrelease => '6.5',
+        :osfamily               => 'RedHat',
+      }
+    end
+
+    let :pre_condition do
+      'class {"foreman_proxy":
+        tftp => true,
+        tftp_syslinux_filenames => [ "/my/file", "/my/anotherfile" ],
+      }'
+    end
+
+    it 'should copy the given files' do
+      should contain_foreman_proxy__tftp__copy_file('/my/file')
+      should contain_foreman_proxy__tftp__copy_file('/my/anotherfile')
+    end
+  end
+
   context 'with pupppetrun_provider set to mcollective' do
     let :facts do
       {
