@@ -13,11 +13,22 @@ class foreman_proxy::tftp {
     recurse => true;
   }
 
-  foreman_proxy::tftp::sync_file{$foreman_proxy::tftp_syslinux_files:
-    source_path => $foreman_proxy::tftp_syslinux_root,
-    target_path => $foreman_proxy::tftp_root,
-    require     => Class['tftp::install'];
+  if $foreman_proxy::tftp_syslinux_files {
+  # TODO: remove on the next major version bump
+    foreman_proxy::tftp::sync_file{$foreman_proxy::tftp_syslinux_files:
+      source_path => $foreman_proxy::tftp_syslinux_root,
+      target_path => $foreman_proxy::tftp_root,
+      require     => Class['tftp::install'];
+    }
+
+    warning('foreman_proxy::tftp_syslinux_files is deprecated in favour of foreman_proxy::tftp_syslinux_filenames and will be removed')
+  } else {
+    foreman_proxy::tftp::copy_file{$foreman_proxy::tftp_syslinux_filenames:
+      target_path => $foreman_proxy::tftp_root,
+      require     => Class['tftp::install'];
+    }
   }
 
   ensure_packages(['wget'])
+
 }
