@@ -4,6 +4,8 @@ class foreman_proxy::params {
   include ::tftp::params
   include ::puppet::params
 
+  $lower_fqdn = downcase($::fqdn)
+
   case $::osfamily {
     'RedHat': {
       # if set to true, no repo will be added by this module, letting you to
@@ -120,15 +122,15 @@ class foreman_proxy::params {
   # If CA is specified, remote Foreman host will be verified
   $ssl_ca = "${puppet_home}/ssl/certs/ca.pem"
   # Used to communicate to Foreman
-  $ssl_cert = "${puppet_home}/ssl/certs/${::fqdn}.pem"
-  $ssl_key  = "${puppet_home}/ssl/private_keys/${::fqdn}.pem"
+  $ssl_cert = "${puppet_home}/ssl/certs/${lower_fqdn}.pem"
+  $ssl_key = "${puppet_home}/ssl/private_keys/${lower_fqdn}.pem"
 
   $foreman_ssl_ca  = undef
   $foreman_ssl_cert = undef
   $foreman_ssl_key  = undef
 
   # Only hosts listed will be permitted, empty array to disable authorization
-  $trusted_hosts = [$::fqdn]
+  $trusted_hosts = [$lower_fqdn]
 
   $sudoers = "${etc}/sudoers"
 
@@ -241,11 +243,11 @@ class foreman_proxy::params {
   # Proxy can register itself within a Foreman instance
   $register_in_foreman = true
   # Foreman instance URL for registration
-  $foreman_base_url = "https://${::fqdn}"
+  $foreman_base_url = "https://${lower_fqdn}"
   # Name the proxy should be registered with
   $registered_name = $::fqdn
   # Proxy URL to be registered
-  $registered_proxy_url = "https://${::fqdn}:${ssl_port}"
+  $registered_proxy_url = "https://${registered_name}:${ssl_port}"
   # User to be used for registration
   $oauth_effective_user = 'admin'
   # OAuth credentials
