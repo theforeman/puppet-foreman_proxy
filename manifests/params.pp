@@ -112,12 +112,13 @@ class foreman_proxy::params {
   }
 
   # DHCP settings - requires optional DHCP puppet module
-  $dhcp             = false
-  $dhcp_listen_on   = 'https'
-  $dhcp_managed     = true
-  $dhcp_interface   = 'eth0'
-  $dhcp_gateway     = '192.168.100.1'
-  $dhcp_range       = false
+  $dhcp                   = false
+  $dhcp_listen_on         = 'https'
+  $dhcp_managed           = true
+  $dhcp_interface         = 'eth0'
+  $dhcp_gateway           = '192.168.100.1'
+  $dhcp_range             = false
+  $dhcp_use_option_domain = true
   # This will use the IP of the interface in $dhcp_interface, override
   # if you need to. You can make this a comma-separated string too - it
   # will be split into an array
