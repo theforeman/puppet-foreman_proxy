@@ -25,7 +25,7 @@ class foreman_proxy::proxydhcp {
   }
 
   class { 'dhcp':
-    dnsdomain   => [$::domain],
+    dnsdomain   => $foreman_proxy::dhcp_option_domain,
     nameservers => $nameservers,
     interfaces  => [$foreman_proxy::dhcp_interface],
     pxeserver   => $ip,

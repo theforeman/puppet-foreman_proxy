@@ -157,6 +157,9 @@
 # $dhcp_managed::               DHCP is managed by Foreman proxy
 #                               type:boolean
 #
+# $dhcp_option_domain::         DHCP use the dhcpd config option domain-name
+#                               type:array
+#
 # $dhcp_interface::             DHCP listen interface
 #
 # $dhcp_gateway::               DHCP pool gateway
@@ -304,6 +307,7 @@ class foreman_proxy (
   $dhcp                       = $foreman_proxy::params::dhcp,
   $dhcp_listen_on             = $foreman_proxy::params::dhcp_listen_on,
   $dhcp_managed               = $foreman_proxy::params::dhcp_managed,
+  $dhcp_option_domain         = $foreman_proxy::params::dhcp_option_domain,
   $dhcp_interface             = $foreman_proxy::params::dhcp_interface,
   $dhcp_gateway               = $foreman_proxy::params::dhcp_gateway,
   $dhcp_range                 = $foreman_proxy::params::dhcp_range,
@@ -384,6 +388,7 @@ class foreman_proxy (
   # Validate dhcp params
   validate_bool($dhcp, $dhcp_managed)
   validate_listen_on($dhcp_listen_on)
+  validate_array($dhcp_option_domain)
 
   # Validate dns params
   validate_listen_on($dns_listen_on)
