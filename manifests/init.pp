@@ -152,8 +152,8 @@
 #
 # $dhcp_managed::               DHCP is managed by Foreman proxy
 #                               type:boolean
-# $dhcp_use_option_domain::     DHCP use the dhcpd config option domain-name
-#                               type:boolean
+# $dhcp_option_domain::     DHCP use the dhcpd config option domain-name
+#                               type:array
 #
 # $dhcp_interface::             DHCP listen interface
 #
