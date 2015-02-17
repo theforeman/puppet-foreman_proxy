@@ -301,7 +301,7 @@ class foreman_proxy (
   $dhcp                       = $foreman_proxy::params::dhcp,
   $dhcp_listen_on             = $foreman_proxy::params::dhcp_listen_on,
   $dhcp_managed               = $foreman_proxy::params::dhcp_managed,
-  $dhcp_use_option_domain     = $foreman_proxy::params::dhcp_use_option_domain,
+  $dhcp_option_domain         = $foreman_proxy::params::dhcp_option_domain,
   $dhcp_interface             = $foreman_proxy::params::dhcp_interface,
   $dhcp_gateway               = $foreman_proxy::params::dhcp_gateway,
   $dhcp_range                 = $foreman_proxy::params::dhcp_range,
@@ -380,7 +380,7 @@ class foreman_proxy (
   validate_string($tftp_servername)
 
   # Validate dhcp params
-  validate_bool($dhcp, $dhcp_managed, $dhcp_use_option_domain)
+  validate_bool($dhcp, $dhcp_managed)
   validate_listen_on($dhcp_listen_on)
 
   # Validate dns params
