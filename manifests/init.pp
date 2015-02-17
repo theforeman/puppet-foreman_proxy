@@ -382,6 +382,7 @@ class foreman_proxy (
   # Validate dhcp params
   validate_bool($dhcp, $dhcp_managed)
   validate_listen_on($dhcp_listen_on)
+  validate_array($dhcp_option_domain)
 
   # Validate dns params
   validate_listen_on($dns_listen_on)
