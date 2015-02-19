@@ -173,7 +173,7 @@ describe 'foreman_proxy::config' do
       should contain_file('/etc/sudoers.d').with_ensure('directory')
 
       should contain_file('/etc/sudoers.d/foreman-proxy').with({
-        :ensure  => 'present',
+        :ensure  => 'file',
         :owner   => 'root',
         :group   => 'root',
         :mode    => '0440',
@@ -220,23 +220,6 @@ describe 'foreman_proxy::config' do
 
       it 'should not manage /etc/sudoers.d' do
         should contain_file('/etc/sudoers.d').with_ensure('directory')
-      end
-    end
-
-    context 'when operatingsystemrelease is 5.10' do
-      let :facts do
-        {
-          :fqdn                   => 'host.example.org',
-          :domain                 => 'example.org',
-          :ipaddress_eth0         => '127.0.1.1',
-          :operatingsystem        => 'RedHat',
-          :operatingsystemrelease => '5.10',
-          :osfamily               => 'RedHat',
-        }
-      end
-
-      it 'should not manage /etc/sudoers.d' do
-        should_not contain_file('/etc/sudoers.d')
       end
     end
   end

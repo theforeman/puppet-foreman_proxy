@@ -1,8 +1,8 @@
 # The default parameters for the foreman proxy
 class foreman_proxy::params {
 
-  include tftp::params
-  include puppet::params
+  include ::tftp::params
+  include ::puppet::params
 
   # Packaging
   $repo = 'stable'
@@ -47,18 +47,7 @@ class foreman_proxy::params {
   $manage_sudoersd = true
 
   # Add a file to /etc/sudoers.d (true) or uses augeas (false)
-  case $::operatingsystem {
-    redhat,centos,Scientific: {
-      if versioncmp($::operatingsystemrelease, '6.0') >= 0 {
-        $use_sudoersd = true
-      } else {
-        $use_sudoersd = false
-      }
-    }
-    default: {
-      $use_sudoersd = true
-    }
-  }
+  $use_sudoersd = true
 
   # puppet settings
   $puppet_url = "https://${::fqdn}:8140"
@@ -147,12 +136,12 @@ class foreman_proxy::params {
 
   # DHCP server settings
   case $::osfamily {
-    Debian: {
+    'Debian': {
       $dhcp_vendor = 'isc'
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
     }
-    RedHat: {
+    'RedHat': {
       $dhcp_vendor = 'isc'
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcpd/dhcpd.leases'
@@ -178,8 +167,8 @@ class foreman_proxy::params {
   $dns_ttl            = '86400'
   $dns_tsig_keytab    = '/etc/foreman-proxy/dns.keytab'
   $dns_tsig_principal = "foremanproxy/${::fqdn}@${dns_realm}"
-  case $::operatingsystem {
-    Debian,Ubuntu: {
+  case $::osfamily {
+    'Debian': {
       $keyfile = '/etc/bind/rndc.key'
       $nsupdate = 'dnsutils'
     }
@@ -223,7 +212,7 @@ class foreman_proxy::params {
   $oauth_consumer_secret = cache_data('oauth_consumer_secret', random_password(32))
 
   $foreman_api_package = $::osfamily ? {
-    Debian  => 'ruby-apipie-bindings',
+    'Debian'  => 'ruby-apipie-bindings',
     default => 'rubygem-apipie-bindings',
   }
 

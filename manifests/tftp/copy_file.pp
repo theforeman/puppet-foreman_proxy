@@ -6,7 +6,7 @@ define foreman_proxy::tftp::copy_file(
   private()
   $filename = inline_template('<%= File.basename(@source_file) %>')
   file {"${target_path}/${filename}":
-    ensure => 'present',
+    ensure => file,
     source => $source_file,
   }
 }

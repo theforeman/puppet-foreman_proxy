@@ -8,7 +8,7 @@ class foreman_proxy::register {
       consumer_key    => $foreman_proxy::oauth_consumer_key,
       consumer_secret => $foreman_proxy::oauth_consumer_secret,
       effective_user  => $foreman_proxy::oauth_effective_user,
-      url             => $foreman_proxy::registered_proxy_url
+      url             => $foreman_proxy::registered_proxy_url,
     }
   }
 

@@ -7,7 +7,7 @@ define foreman_proxy::tftp::sync_file(
   warning('foreman_proxy::tftp::sync_file is deprecated and will be removed')
 
   file {"${target_path}/${name}":
-    ensure => 'present',
+    ensure => file,
     source => "${source_path}/${name}",
   }
 

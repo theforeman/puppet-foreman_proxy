@@ -1,6 +1,6 @@
 # Configure the DNS component
 class foreman_proxy::proxydns {
-  class { 'dns':
+  class { '::dns':
     forwarders => $foreman_proxy::dns_forwarders,
   }
 
@@ -15,13 +15,13 @@ class foreman_proxy::proxydns {
     fail("Could not get the ip address from fact ipaddress_${interface_fact_name}")
   }
 
-  dns::zone { $foreman_proxy::dns_zone:
+  ::dns::zone { $foreman_proxy::dns_zone:
     soa     => $::fqdn,
     reverse => false,
     soaip   => $ip,
   }
 
-  dns::zone { $foreman_proxy::dns_reverse:
+  ::dns::zone { $foreman_proxy::dns_reverse:
     soa     => $::fqdn,
     reverse => true,
     soaip   => $ip,

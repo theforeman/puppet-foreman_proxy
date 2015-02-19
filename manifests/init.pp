@@ -396,10 +396,10 @@ class foreman_proxy (
   validate_string($realm_provider, $realm_principal)
   validate_absolute_path($realm_keytab)
 
-  class { 'foreman_proxy::install': } ~>
-  class { 'foreman_proxy::config': } ~>
+  class { '::foreman_proxy::install': } ~>
+  class { '::foreman_proxy::config': } ~>
   Foreman_proxy::Plugin <| |> ~>
-  class { 'foreman_proxy::service': } ~>
-  class { 'foreman_proxy::register': } ->
+  class { '::foreman_proxy::service': } ~>
+  class { '::foreman_proxy::register': } ->
   Class['foreman_proxy']
 }
