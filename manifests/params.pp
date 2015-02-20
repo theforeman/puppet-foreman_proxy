@@ -153,11 +153,7 @@ class foreman_proxy::params {
     }
     RedHat: {
       $dhcp_vendor = 'isc'
-      if ($::lsbmajdistrelease == 5) {
-        $dhcp_config = '/etc/dhcpd.conf'
-      } else {
-        $dhcp_config = '/etc/dhcp/dhcpd.conf'
-      }
+      $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcpd/dhcpd.leases'
     }
     default: {
