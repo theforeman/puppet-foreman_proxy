@@ -1,0 +1,23 @@
+---
+:enabled: <%= scope.lookupvar("foreman_proxy::plugin::chef::enabled") %>
+:chef_authenticate_nodes: true
+:chef_server_url: <%= scope.lookupvar("foreman_proxy::plugin::chef::server_url") %>
+# smart-proxy client node needs to have some admin right on chef-server
+# in order to retrive all nodes public keys
+# e.g. 'host.example.net'
+:chef_smartproxy_clientname: <%= scope.lookupvar("foreman_proxy::plugin::chef::client_name") %>
+# e.g. /etc/chef/client.pem
+:chef_smartproxy_privatekey: <%= scope.lookupvar("foreman_proxy::plugin::chef::private_key") %>
+
+# turning of chef_ssl_verify is not recommended as it turn off authentication
+# you can try set path to chef server certificate by chef_ssl_pem_file
+# before setting chef_ssl_verify to false
+# note that chef_ssl_pem_file must contain both private key and certificate
+# because chef-api 0.5 requires it
+:chef_ssl_verify: <%= scope.lookupvar("foreman_proxy::plugin::chef::ssl_verify") %>
+<% custom_pem = scope.lookupvar("foreman_proxy::plugin::chef::ssl_pem_file") -%>
+<% if !custom_pem.nil? && !['', :undef, :undefined].include?(custom_pem)-%>
+:chef_ssl_pem_file: <%= custom_pem %>
+<% else -%>
+# :chef_ssl_pem_file: /path
+<% end -%>
