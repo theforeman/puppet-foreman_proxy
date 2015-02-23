@@ -20,7 +20,7 @@ class foreman_proxy::params {
   $log  = '/var/log/foreman-proxy/proxy.log'
   $log_level  = 'ERROR'
 
-  $puppet_home = $puppet::params::server_vardir
+  $puppet_home = $puppet::params::vardir
 
   # Enable listening on http
   $http = false
