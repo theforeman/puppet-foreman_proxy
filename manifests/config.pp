@@ -37,18 +37,38 @@ class foreman_proxy::config {
     module => false,
   }
 
+  foreman_proxy::settings_file { 'bmc':
+    enabled   => $::foreman_proxy::bmc,
+    listen_on => $::foreman_proxy::bmc_listen_on,
+  }
+  foreman_proxy::settings_file { 'dhcp':
+    enabled   => $::foreman_proxy::dhcp,
+    listen_on => $::foreman_proxy::dhcp_listen_on,
+  }
+  foreman_proxy::settings_file { 'dns':
+    enabled   => $::foreman_proxy::dns,
+    listen_on => $::foreman_proxy::dns_listen_on,
+  }
   foreman_proxy::settings_file { 'puppet':
     enabled   => $::foreman_proxy::puppetrun,
     listen_on => $::foreman_proxy::puppetrun_listen_on,
   }
-
-  foreman_proxy::settings_file { 'bmc': }
-  foreman_proxy::settings_file { 'dhcp': }
-  foreman_proxy::settings_file { 'dns': }
-  foreman_proxy::settings_file { 'puppetca': }
-  foreman_proxy::settings_file { 'tftp': }
-  foreman_proxy::settings_file { 'realm': }
-  foreman_proxy::settings_file { 'templates': }
+  foreman_proxy::settings_file { 'puppetca':
+    enabled   => $::foreman_proxy::puppetca,
+    listen_on => $::foreman_proxy::puppetca_listen_on,
+  }
+  foreman_proxy::settings_file { 'realm':
+    enabled   => $::foreman_proxy::realm,
+    listen_on => $::foreman_proxy::realm_listen_on,
+  }
+  foreman_proxy::settings_file { 'tftp':
+    enabled   => $::foreman_proxy::tftp,
+    listen_on => $::foreman_proxy::tftp_listen_on,
+  }
+  foreman_proxy::settings_file { 'templates':
+    enabled   => $::foreman_proxy::templates,
+    listen_on => $::foreman_proxy::templates_listen_on,
+  }
 
   if $foreman_proxy::puppetca or $foreman_proxy::puppetrun {
     if $foreman_proxy::use_sudoersd {

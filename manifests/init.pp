@@ -370,40 +370,29 @@ class foreman_proxy (
   validate_re($plugin_version, '^(installed|present|latest|absent)$')
 
   # Validate puppet params
-  validate_listen_on($puppetca_listen_on, $puppetrun_listen_on)
-  validate_bool($puppetca, $puppetrun, $puppetssh_wait)
+  validate_bool($puppetssh_wait)
   validate_string($ssldir, $puppetdir, $autosign_location, $puppetca_cmd, $puppetrun_cmd)
   validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
 
   # Validate template params
-  validate_bool($templates)
-  validate_listen_on($templates_listen_on)
   validate_string($template_url)
 
   # Validate tftp params
-  validate_bool($tftp)
-  validate_listen_on($tftp_listen_on)
   validate_string($tftp_servername)
 
   # Validate dhcp params
-  validate_bool($dhcp, $dhcp_managed)
-  validate_listen_on($dhcp_listen_on)
+  validate_bool($dhcp_managed)
   validate_array($dhcp_option_domain)
 
   # Validate dns params
-  validate_listen_on($dns_listen_on)
-  validate_bool($dns)
   validate_string($dns_interface, $dns_provider, $dns_reverse, $dns_server, $keyfile)
   validate_array($dns_forwarders)
 
   # Validate bmc params
-  validate_bool($bmc)
-  validate_listen_on($bmc_listen_on)
   validate_re($bmc_default_provider, '^(freeipmi|ipmitool|shell)$')
 
   # Validate realm params
-  validate_listen_on($realm_listen_on)
-  validate_bool($realm, $freeipa_remove_dns)
+  validate_bool($freeipa_remove_dns)
   validate_string($realm_provider, $realm_principal)
   validate_absolute_path($realm_keytab)
 
