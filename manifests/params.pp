@@ -75,7 +75,9 @@ class foreman_proxy::params {
 
   # puppetrun settings
   $puppetrun           = true
+  $puppet              = $puppetrun
   $puppetrun_listen_on = 'https'
+  $puppet_listen_on    = $puppetrun_listen_on
   $puppetrun_cmd       = $puppet::params::puppetrun_cmd
   $puppetrun_provider  = ''
   $customrun_cmd       = '/bin/false'
