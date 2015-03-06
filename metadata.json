@@ -10,7 +10,7 @@
   "description":  "Module for configuring the Foreman Smart Proxy and other services",
   "tags":         ["foreman-proxy", "foreman", "proxy", "smart-proxy", "dns", "dhcp", "puppet"],
   "dependencies": [
-    { "name": "theforeman/dns",           "version_requirement": ">= 1.3.0 < 2.0.0" },
+    { "name": "theforeman/dns",           "version_requirement": ">= 1.3.0 < 3.0.0" },
     { "name": "theforeman/dhcp",          "version_requirement": ">= 1.3.0 < 2.0.0" },
     { "name": "theforeman/foreman",       "version_requirement": ">= 1.3.0 < 4.0.0" },
     { "name": "theforeman/puppet",        "version_requirement": ">= 3.0.0 < 4.0.0" },

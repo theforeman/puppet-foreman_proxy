@@ -5,7 +5,7 @@ describe 'foreman_proxy::proxydns' do
   context 'on RedHat' do
     let :default_facts do
       {
-        :fqdn                   => 'localhost',
+        :fqdn                   => 'foreman.example.org',
         :domain                 => 'example.org',
         :operatingsystem        => 'CentOS',
         :operatingsystemrelease => '6.5',
@@ -123,7 +123,7 @@ describe 'foreman_proxy::proxydns' do
   context 'on Debian' do
     let :facts do
       {
-        :fqdn            => 'localhost',
+        :fqdn            => 'foreman.example.org',
         :domain          => 'example.org',
         :ipaddress_eth0  => '127.0.1.1',
         :operatingsystem => 'Debian',
