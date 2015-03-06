@@ -396,10 +396,12 @@ class foreman_proxy (
   validate_string($realm_provider, $realm_principal)
   validate_absolute_path($realm_keytab)
 
+  # lint:ignore:spaceship_operator_without_tag
   class { '::foreman_proxy::install': } ~>
   class { '::foreman_proxy::config': } ~>
   Foreman_proxy::Plugin <| |> ~>
   class { '::foreman_proxy::service': } ~>
   class { '::foreman_proxy::register': } ->
   Class['foreman_proxy']
+  # lint:endignore
 }
