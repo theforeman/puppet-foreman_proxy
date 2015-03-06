@@ -8,7 +8,7 @@
 #   puppetssh   (run puppet over ssh)
 #   salt        (uses salt puppet.run)
 #   customrun   (calls a custom command with args)
-<% if scope.lookupvar("foreman_proxy::puppetrun_provider") != '' -%>
+<% unless [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::puppetrun_provider")) -%>
 :puppet_provider: <%= scope.lookupvar("foreman_proxy::puppetrun_provider") %>
 <% else -%>
 #:puppet_provider: puppetrun

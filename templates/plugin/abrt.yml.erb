@@ -9,20 +9,21 @@
 # Period (in seconds) after which collected reports are forwarded. Meaningful
 # only if smart-proxy-abrt-send is run as a daemon (not from cron).
 :send_period: <%= @send_period %>
-<% if @faf_server_url -%>
 # FAF server instance the reports will be forwarded to (optional)
+<% if @faf_server_url -%>
 :server_url: <%= @faf_server_url %>
 # Set to true if FAF server uses self-signed certificate
 :server_ssl_noverify: <%= @faf_server_ssl_noverify %>
-# Following two options enable client authentication to FAF server
-:server_ssl_cert: <%= @faf_server_ssl_cert %>
-:server_ssl_key: <%= @faf_server_ssl_key %>
 <% else %>
-# FAF server instance the reports will be forwarded to (optional)
 #:server_url: 
 # Set to true if FAF server uses self-signed certificate
 #:server_ssl_noverify: 
+<% end %>
 # Following two options enable client authentication to FAF server
+<% if @faf_server_ssl_cert && !@faf_server_ssl_cert.empty? && @faf_server_ssl_key && !@faf_server_ssl_key.empty? %>
+:server_ssl_cert: <%= @faf_server_ssl_cert %>
+:server_ssl_key: <%= @faf_server_ssl_key %>
+<% else %>
 #:server_ssl_cert: 
 #:server_ssl_key: 
 <% end %>

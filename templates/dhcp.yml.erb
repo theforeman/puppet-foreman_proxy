@@ -9,7 +9,8 @@
 :dhcp_vendor: <%= scope.lookupvar("foreman_proxy::dhcp_vendor") %>
 :dhcp_config: <%= scope.lookupvar("foreman_proxy::dhcp_config") %>
 :dhcp_leases: <%= scope.lookupvar("foreman_proxy::dhcp_leases") %>
-<% if !scope.lookupvar("foreman_proxy::dhcp_key_name").empty? && !scope.lookupvar("foreman_proxy::dhcp_key_secret").empty? -%>
+<% unless [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::dhcp_key_name")) ||
+     [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::dhcp_key_secret")) -%>
 :dhcp_key_name: <%= scope.lookupvar("foreman_proxy::dhcp_key_name") %>
 :dhcp_key_secret: <%= scope.lookupvar("foreman_proxy::dhcp_key_secret") %>
 <% else -%>

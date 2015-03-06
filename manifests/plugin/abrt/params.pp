@@ -9,7 +9,7 @@ class foreman_proxy::plugin::abrt::params {
   $send_period             = 600
   $faf_server_url          = undef
   $faf_server_ssl_noverify = true
-  $faf_server_ssl_cert     = ''
-  $faf_server_ssl_key      = ''
+  $faf_server_ssl_cert     = undef
+  $faf_server_ssl_key      = undef
   $version                 = undef
 }

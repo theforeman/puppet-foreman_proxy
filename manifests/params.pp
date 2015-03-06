@@ -66,7 +66,7 @@ class foreman_proxy::params {
   $puppetrun           = true
   $puppetrun_listen_on = 'https'
   $puppetrun_cmd       = $puppet::params::puppetrun_cmd
-  $puppetrun_provider  = ''
+  $puppetrun_provider  = undef
   $customrun_cmd       = '/bin/false'
   $customrun_args      = '-ay -f -s'
   $puppetssh_sudo      = false
@@ -131,8 +131,8 @@ class foreman_proxy::params {
   # will be split into an array
   $dhcp_nameservers = 'default'
   # Omapi settings
-  $dhcp_key_name       = ''
-  $dhcp_key_secret     = ''
+  $dhcp_key_name       = undef
+  $dhcp_key_secret     = undef
 
   # DHCP server settings
   case $::osfamily {

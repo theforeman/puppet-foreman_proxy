@@ -43,4 +43,20 @@ describe 'foreman_proxy::plugin::abrt' do
         })
     end
   end
+
+  describe 'with faf_ssl_* set' do
+    let :pre_condition do
+      "include foreman_proxy"
+    end
+    let :params do {
+      :faf_server_ssl_cert => '/faf_cert.pem',
+      :faf_server_ssl_key => '/faf_key.pem',
+    } end
+
+    it 'should set server_ssl_cert and _key' do
+      should contain_file('/etc/foreman-proxy/settings.d/abrt.yml').
+        with_content(%r{^:server_ssl_cert:\s+/faf_cert.pem$}).
+        with_content(%r{^:server_ssl_key:\s+/faf_key.pem$})
+    end
+  end
 end
