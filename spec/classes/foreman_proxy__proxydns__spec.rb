@@ -29,7 +29,7 @@ describe 'foreman_proxy::proxydns' do
       end
 
       it 'should install nsupdate' do
-        should contain_package('bind-utils').with_ensure('installed')
+        should contain_package('bind-utils').with_ensure('present')
       end
 
       it 'should include the forward zone' do
@@ -136,7 +136,7 @@ describe 'foreman_proxy::proxydns' do
     end
 
     it 'should install nsupdate' do
-      should contain_package('dnsutils').with_ensure('installed')
+      should contain_package('dnsutils').with_ensure('present')
     end
   end
 
