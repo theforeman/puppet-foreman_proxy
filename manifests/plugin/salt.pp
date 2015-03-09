@@ -26,7 +26,11 @@ class foreman_proxy::plugin::salt (
   validate_bool($enabled)
   validate_listen_on($listen_on)
   validate_absolute_path($autosign_file)
-  validate_string($user, $group)
+  validate_string($user)
+
+  if $group {
+    validate_string($group)
+  }
 
   foreman_proxy::plugin { 'salt':
   } ->
