@@ -3,6 +3,7 @@
 ## 2.2.0
 * New classes to install smart proxy plugins:
     * foreman_proxy::plugin::abrt to install ABRT support
+    * foreman_proxy::plugin::chef to install Chef support
     * foreman_proxy::plugin::openscap to install OpenSCAP support
     * foreman_proxy::plugin::salt for Salt management support
 * New or changed parameters:
