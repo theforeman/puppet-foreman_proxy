@@ -53,6 +53,7 @@ describe 'foreman_proxy::plugin' do
   context 'when handling underscores on Debian' do
     let :facts do {
       :osfamily => 'Debian',
+      :operatingsystemrelease => '8.0',
     } end
 
     let :params do {
