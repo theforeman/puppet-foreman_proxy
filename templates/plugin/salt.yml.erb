@@ -1,4 +1,4 @@
 ---
 :enabled: <%= @module_enabled %>
-:autosign_file: <%= @autosign_file %>
-:salt_command_user: <%= @user %>
+:autosign_file: <%= scope.lookupvar('::foreman_proxy::plugin::salt::autosign_file') %>
+:salt_command_user: <%= scope.lookupvar('::foreman_proxy::plugin::salt::user') %>

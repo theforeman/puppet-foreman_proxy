@@ -2,8 +2,8 @@
 :enabled: <%= @module_enabled %>
 
 # Log file for the forwarding script.
-:openscap_send_log_file: <%= @openscap_send_log_file %>
+:openscap_send_log_file: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::openscap_send_log_file') %>
 
 # Directory where OpenSCAP audits are stored
 # before they are forwarded to Foreman
-:spooldir: <%= @spooldir %>
+:spooldir: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::spooldir') %>
