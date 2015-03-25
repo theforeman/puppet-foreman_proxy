@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1
+* Fix template variable lookups under the future parser
+* Replace private() for future parser compatibility
+
 ## 2.2.0
 * New classes to install smart proxy plugins:
     * foreman_proxy::plugin::abrt to install ABRT support
