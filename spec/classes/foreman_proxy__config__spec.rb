@@ -142,8 +142,7 @@ describe 'foreman_proxy::config' do
       content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
         '---',
         ':enabled: https',
-        ':tftproot: /var/lib/tftpboot/',
-        ':tftp_servername: 127.0.1.1',
+        ':tftproot: /var/lib/tftpboot/'
       ]
     end
 
@@ -224,6 +223,24 @@ describe 'foreman_proxy::config' do
     end
   end
 
+  context 'with tftp and tftp_servername set' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        tftp_servername => "127.0.1.1",
+      }'
+    end
+
+    it 'should generate correct tftp.yml' do
+      content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/tftp.yml').send(:parameters)[:content]
+      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+        '---',
+        ':enabled: https',
+        ':tftproot: /var/lib/tftpboot/',
+        ':tftp_servername: 127.0.1.1'
+      ]
+    end
+  end
+
   context 'with bmc' do
     let :pre_condition do
       'class {"foreman_proxy":
@@ -236,31 +253,6 @@ describe 'foreman_proxy::config' do
       verify_contents(catalogue, '/etc/foreman-proxy/settings.d/bmc.yml', [
         ':enabled: https',
         ':bmc_default_provider: shell',
-      ])
-    end
-  end
-
-  context 'with TFTP and no $ipaddress_eth0 fact' do
-    let :facts do
-      {
-        :fqdn                   => 'host.example.org',
-        :ipaddress              => '127.0.1.2',
-        :operatingsystem        => 'RedHat',
-        :operatingsystemrelease => '6.5',
-        :osfamily               => 'RedHat',
-      }
-    end
-
-    let :pre_condition do
-      'class {"foreman_proxy":
-        tftp => true,
-      }'
-    end
-
-    it 'should set tftp_servername to $ipaddress' do
-      verify_contents(catalogue, '/etc/foreman-proxy/settings.d/tftp.yml', [
-        ':enabled: https',
-        ':tftp_servername: 127.0.1.2',
       ])
     end
   end
@@ -707,7 +699,6 @@ describe 'foreman_proxy::config' do
           '---',
           ':enabled: https',
           ':tftproot: /tftpboot',
-          ':tftp_servername: 127.0.1.1',
         ]
       end
     end
