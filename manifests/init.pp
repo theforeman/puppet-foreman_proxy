@@ -378,7 +378,9 @@ class foreman_proxy (
   validate_string($template_url)
 
   # Validate tftp params
-  validate_string($tftp_servername)
+  if $tftp_servername {
+    validate_string($tftp_servername)
+  }
 
   # Validate dhcp params
   validate_bool($dhcp_managed)
