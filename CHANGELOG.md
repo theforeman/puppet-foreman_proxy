@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.2
+* Copy ldlinux.c32 PXELinux 6 file on Debian 8/Jessie (#10255)
+* Change tftp_servername parameter default to undef (#9896)
+
 ## 2.2.1
 * Fix template variable lookups under the future parser
 * Replace private() for future parser compatibility
