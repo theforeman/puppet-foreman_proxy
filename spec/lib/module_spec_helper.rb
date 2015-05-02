@@ -1,5 +1,5 @@
 def verify_exact_contents(subject, title, expected_lines)
-  get_content(subject, title).should == expected_lines
+  expect(get_content(subject, title)).to eq(expected_lines)
 end
 
 def get_content(subject, title)

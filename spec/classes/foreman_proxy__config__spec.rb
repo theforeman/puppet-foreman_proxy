@@ -61,8 +61,7 @@ describe 'foreman_proxy::config' do
     end
 
     it 'should generate correct settings.yml' do
-      content = catalogue.resource('file', '/etc/foreman-proxy/settings.yml').send(:parameters)[:content]
-      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+      verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.yml', [
         '---',
         ':settings_directory: /etc/foreman-proxy/settings.d',
         ':ssl_ca_file: /var/lib/puppet/ssl/certs/ca.pem',
@@ -76,42 +75,38 @@ describe 'foreman_proxy::config' do
         ':virsh_network: default',
         ':log_file: /var/log/foreman-proxy/proxy.log',
         ':log_level: ERROR',
-      ]
+      ])
     end
 
     it 'should generate correct bmc.yml' do
-      content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/bmc.yml').send(:parameters)[:content]
-      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+      verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/bmc.yml', [
         '---',
         ':enabled: false',
         ':bmc_default_provider: ipmitool',
-      ]
+      ])
     end
 
     it 'should generate correct dhcp.yml' do
-      content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/dhcp.yml').send(:parameters)[:content]
-      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+      verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dhcp.yml', [
         '---',
         ':enabled: false',
         ':dhcp_vendor: isc',
-      ]
+      ])
     end
 
     it 'should generate correct dns.yml' do
-      content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/dns.yml').send(:parameters)[:content]
-      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+      verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns.yml', [
         '---',
         ':enabled: false',
         ':dns_provider: nsupdate',
         ':dns_key: /etc/rndc.key',
         ':dns_server: 127.0.0.1',
         ':dns_ttl: 86400',
-      ]
+      ])
     end
 
     it 'should generate correct puppet.yml' do
-      content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/puppet.yml').send(:parameters)[:content]
-      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+      verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/puppet.yml', [
         '---',
         ':enabled: https',
         ':puppet_conf: /etc/puppet/puppet.conf',
@@ -124,49 +119,44 @@ describe 'foreman_proxy::config' do
         ':puppet_ssl_ca: /var/lib/puppet/ssl/certs/ca.pem',
         ":puppet_ssl_cert: /var/lib/puppet/ssl/certs/#{facts[:fqdn]}.pem",
         ":puppet_ssl_key: /var/lib/puppet/ssl/private_keys/#{facts[:fqdn]}.pem",
-      ]
+      ])
     end
 
     it 'should generate correct puppetca.yml' do
-      content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/puppetca.yml').send(:parameters)[:content]
-      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+      verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/puppetca.yml', [
         '---',
         ':enabled: https',
         ':ssldir: /var/lib/puppet/ssl',
         ':puppetdir: /etc/puppet',
-      ]
+      ])
     end
 
     it 'should generate correct tftp.yml' do
-      content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/tftp.yml').send(:parameters)[:content]
-      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+      verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/tftp.yml', [
         '---',
         ':enabled: https',
         ':tftproot: /var/lib/tftpboot/'
-      ]
+      ])
     end
 
     it 'should generate correct realm.yml' do
-      content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/realm.yml').send(:parameters)[:content]
-      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+      verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/realm.yml', [
         '---',
         ':enabled: false',
         ':realm_provider: freeipa',
         ':realm_keytab: /etc/foreman-proxy/freeipa.keytab',
         ':realm_principal: realm-proxy@EXAMPLE.COM',
         ':freeipa_remove_dns: true',
-      ]
+      ])
     end
 
     it 'should generate correct templates.yml' do
-      content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/templates.yml').send(:parameters)[:content]
-      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+      verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/templates.yml', [
         '---',
         ':enabled: false',
         ':template_url: http://host.example.org:8000',
-      ]
+      ])
     end
-
 
     it 'should set up sudo rules' do
       should contain_file('/etc/sudoers.d').with_ensure('directory')
@@ -196,12 +186,11 @@ describe 'foreman_proxy::config' do
       end
 
       it 'should generate correct settings.yml' do
-        content = catalogue.resource('file', '/etc/foreman-proxy/settings.yml').send(:parameters)[:content]
-        content.split("\n").select { |c| c =~ /foreman_ssl/ }.should == [
+        verify_contents(catalogue, '/etc/foreman-proxy/settings.yml', [
           ":foreman_ssl_ca: /etc/pki/ca.pem",
           ":foreman_ssl_cert: /etc/pki/cert.pem",
           ":foreman_ssl_key: /etc/pki/key.pem"
-        ]
+        ])
       end
     end
 
@@ -231,13 +220,12 @@ describe 'foreman_proxy::config' do
     end
 
     it 'should generate correct tftp.yml' do
-      content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/tftp.yml').send(:parameters)[:content]
-      content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+      verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/tftp.yml', [
         '---',
         ':enabled: https',
         ':tftproot: /var/lib/tftpboot/',
         ':tftp_servername: 127.0.1.1'
-      ]
+      ])
     end
   end
 
@@ -695,12 +683,11 @@ describe 'foreman_proxy::config' do
       end
 
       it 'should generate correct tftp.yml' do
-        content = catalogue.resource('file', '/etc/foreman-proxy/settings.d/tftp.yml').send(:parameters)[:content]
-        content.split("\n").reject { |c| c =~ /(^#|^$)/ }.should == [
+        verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/tftp.yml', [
           '---',
           ':enabled: https',
           ':tftproot: /tftpboot',
-        ]
+        ])
       end
     end
 
@@ -751,7 +738,7 @@ describe 'foreman_proxy::config' do
     end
   end
 
-    context 'when log_level => DEBUG' do
+  context 'when log_level => DEBUG' do
     let :pre_condition do
       'class {"foreman_proxy":
         log_level => "DEBUG",
