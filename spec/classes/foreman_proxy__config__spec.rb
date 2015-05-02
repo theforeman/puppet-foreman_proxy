@@ -751,4 +751,23 @@ describe 'foreman_proxy::config' do
       ])
     end
   end
+
+  context 'with puppet use_cache enabled' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        puppet_use_cache => true,
+      }'
+    end
+
+    it 'should create the cache_location' do
+      should contain_file('/var/cache/foreman-proxy').with_ensure('directory')
+    end
+
+    it 'should set use_cache and cache_location' do
+      verify_contents(catalogue, '/etc/foreman-proxy/settings.d/puppet.yml', [
+        ':use_cache: true',
+        ":cache_location: '/var/cache/foreman-proxy'",
+      ])
+    end
+  end
 end

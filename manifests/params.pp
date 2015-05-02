@@ -225,4 +225,7 @@ class foreman_proxy::params {
       $plugin_prefix = 'smart_proxy_'
     }
   }
+
+  $puppet_use_cache = undef
+  $puppet_cache_location = '/var/cache/foreman-proxy'
 }
