@@ -2,3 +2,9 @@
 :enabled: <%= @module_enabled %>
 :autosign_file: <%= scope.lookupvar('::foreman_proxy::plugin::salt::autosign_file') %>
 :salt_command_user: <%= scope.lookupvar('::foreman_proxy::plugin::salt::user') %>
+# Some features require using the Salt API - such as listing environments and retrieving state info
+:use_api: <%= scope.lookupvar('::foreman_proxy::plugin::salt::api') %>
+:api_url: <%= scope.lookupvar('::foreman_proxy::plugin::salt::api_url') %>
+:api_auth: <%= scope.lookupvar('::foreman_proxy::plugin::salt::api_auth') %>
+:api_username: <%= scope.lookupvar('::foreman_proxy::plugin::salt::api_username') %>
+:api_password: <%= scope.lookupvar('::foreman_proxy::plugin::salt::api_password') %>
