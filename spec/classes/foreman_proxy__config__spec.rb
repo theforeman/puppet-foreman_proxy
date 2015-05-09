@@ -103,9 +103,9 @@ describe 'foreman_proxy::config' do
         '---',
         ':enabled: false',
         ':dns_provider: nsupdate',
-        ':dns_key: /etc/rndc.key',
         ':dns_server: 127.0.0.1',
         ':dns_ttl: 86400',
+        ':dns_key: /etc/rndc.key',
       ]
     end
 
