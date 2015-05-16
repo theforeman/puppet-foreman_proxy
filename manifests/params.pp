@@ -97,6 +97,7 @@ class foreman_proxy::params {
                                     '/usr/lib/syslinux/memdisk',
                                     '/usr/lib/syslinux/modules/bios/chain.c32',
                                     '/usr/lib/syslinux/modules/bios/ldlinux.c32',
+                                    '/usr/lib/syslinux/modules/bios/libutil.c32',
                                     '/usr/lib/syslinux/modules/bios/menu.c32']
       } else {
         $tftp_syslinux_filenames = ['/usr/lib/syslinux/chain.c32',
