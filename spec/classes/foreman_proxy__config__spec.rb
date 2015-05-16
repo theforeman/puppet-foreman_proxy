@@ -292,6 +292,7 @@ describe 'foreman_proxy::config' do
       should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/memdisk')
       should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/chain.c32')
       should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/ldlinux.c32')
+      should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/libutil.c32')
       should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/menu.c32')
     end
   end
