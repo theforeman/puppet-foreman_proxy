@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.3
+* Don't configure dns_key if nsupdate_gss is used (#10436)
+* Copy libutil.c32 PXELinux 6 file on Debian 8/Jessie (#10255)
+
 ## 2.2.2
 * Copy ldlinux.c32 PXELinux 6 file on Debian 8/Jessie (#10255)
 * Change tftp_servername parameter default to undef (#9896)
