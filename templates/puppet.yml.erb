@@ -59,3 +59,14 @@
 <% else %>
 :puppet_use_environment_api: <%= scope.lookupvar("foreman_proxy::puppet_use_environment_api") %>
 <% end %>
+
+# Cache options
+<% if [nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::puppet_use_cache")) -%>
+#:use_cache: true
+# default location of cache is relative to the installation dir
+#:cache_location: '/var/lib/smart-proxy/cache'
+<% else -%>
+:use_cache: <%= scope.lookupvar("foreman_proxy::puppet_use_cache") %>
+# default location of cache is relative to the installation dir
+:cache_location: '<%= scope.lookupvar("foreman_proxy::puppet_cache_location") %>'
+<% end -%>
