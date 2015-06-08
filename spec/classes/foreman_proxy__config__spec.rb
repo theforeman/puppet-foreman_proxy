@@ -6,6 +6,8 @@ describe 'foreman_proxy::config' do
       :fqdn                   => 'host.example.org',
       :domain                 => 'example.org',
       :ipaddress_eth0         => '127.0.1.1',
+      :network_eth0           => '127.0.1.0',
+      :netmask_eth0           => '255.255.255.0',
       :operatingsystem        => 'RedHat',
       :operatingsystemrelease => '6.5',
       :osfamily               => 'RedHat',
@@ -787,4 +789,24 @@ describe 'foreman_proxy::config' do
       ])
     end
   end
+
+  context 'with dhcp enabled' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        dhcp => true,
+      }'
+    end
+
+    it 'should generate correct dhcp.yml' do
+      verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dhcp.yml', [
+        '---',
+        ':enabled: https',
+        ':dhcp_vendor: isc',
+        ':dhcp_config: /etc/dhcp/dhcpd.conf',
+        ':dhcp_leases: /var/lib/dhcpd/dhcpd.leases',
+        ':dhcp_omapi_port: 7911',
+      ])
+    end
+  end
+
 end

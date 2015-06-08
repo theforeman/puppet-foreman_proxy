@@ -182,6 +182,9 @@
 #
 # $dhcp_key_secret::            DHCP password
 #
+# $dhcp_omapi_port::            DHCP server OMAPI port
+#                               type:integer
+#
 # $dns::                        Enable DNS feature
 #                               type:boolean
 #
@@ -328,6 +331,7 @@ class foreman_proxy (
   $dhcp_leases                = $foreman_proxy::params::dhcp_leases,
   $dhcp_key_name              = $foreman_proxy::params::dhcp_key_name,
   $dhcp_key_secret            = $foreman_proxy::params::dhcp_key_secret,
+  $dhcp_omapi_port            = $foreman_proxy::params::dhcp_omapi_port,
   $dns                        = $foreman_proxy::params::dns,
   $dns_listen_on              = $foreman_proxy::params::dns_listen_on,
   $dns_managed                = $foreman_proxy::params::dns_managed,
@@ -400,6 +404,7 @@ class foreman_proxy (
   # Validate dhcp params
   validate_bool($dhcp_managed)
   validate_array($dhcp_option_domain)
+  validate_integer($dhcp_omapi_port)
 
   # Validate dns params
   validate_string($dns_interface, $dns_provider, $dns_reverse, $dns_server, $keyfile)

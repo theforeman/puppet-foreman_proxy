@@ -132,8 +132,9 @@ class foreman_proxy::params {
   # will be split into an array
   $dhcp_nameservers = 'default'
   # Omapi settings
-  $dhcp_key_name       = undef
-  $dhcp_key_secret     = undef
+  $dhcp_key_name   = undef
+  $dhcp_key_secret = undef
+  $dhcp_omapi_port = 7911
 
   # DHCP server settings
   case $::osfamily {
