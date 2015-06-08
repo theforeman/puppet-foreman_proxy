@@ -464,6 +464,21 @@ describe 'foreman_proxy::config' do
     end
   end
 
+  context 'when puppetrun_provider => salt' do
+    let :pre_condition do
+      'class {"foreman_proxy":
+        puppetrun_provider => "salt",
+      }'
+    end
+
+    it 'should contain salt as puppet_provider and salt_puppetrun_cmd' do
+      verify_contents(catalogue, '/etc/foreman-proxy/settings.d/puppet.yml', [
+        ':puppet_provider: salt',
+        ':salt_puppetrun_cmd: puppet.run',
+      ])
+    end
+  end
+
   context 'when puppet_use_environment_api set' do
     let :pre_condition do
       'class {"foreman_proxy":

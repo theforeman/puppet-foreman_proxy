@@ -109,6 +109,8 @@
 #                               the exit code
 #                               type:boolean
 #
+# $salt_puppetrun_cmd::         Salt command to trigger Puppet run
+#
 # $puppet_user::                Which user to invoke sudo as to run puppet commands
 #
 # $puppet_url::                 URL of the Puppet master itself for API requests
@@ -295,6 +297,7 @@ class foreman_proxy (
   $puppetssh_user             = $foreman_proxy::params::puppetssh_user,
   $puppetssh_keyfile          = $foreman_proxy::params::puppetssh_keyfile,
   $puppetssh_wait             = $foreman_proxy::params::puppetssh_wait,
+  $salt_puppetrun_cmd         = $foreman_proxy::params::salt_puppetrun_cmd,
   $puppet_user                = $foreman_proxy::params::puppet_user,
   $puppet_url                 = $foreman_proxy::params::puppet_url,
   $puppet_ssl_ca              = $foreman_proxy::params::ssl_ca,
@@ -384,6 +387,7 @@ class foreman_proxy (
   validate_bool($puppetssh_wait)
   validate_string($ssldir, $puppetdir, $autosign_location, $puppetca_cmd, $puppetrun_cmd)
   validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
+  validate_string($salt_puppetrun_cmd)
 
   # Validate template params
   validate_string($template_url)

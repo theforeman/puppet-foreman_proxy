@@ -76,6 +76,7 @@ class foreman_proxy::params {
   $puppetssh_keyfile   = '/etc/foreman-proxy/id_rsa'
   $puppetssh_wait      = false
   $puppet_user         = 'root'
+  $salt_puppetrun_cmd  = 'puppet.run'
 
   # Template settings
   $templates           = false

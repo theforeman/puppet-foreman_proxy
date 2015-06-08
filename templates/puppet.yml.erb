@@ -38,6 +38,15 @@
 #:puppetssh_keyfile: /etc/foreman-proxy/id_rsa
 <% end -%>
 
+# Custom salt puppet.run command
+# Set :salt_puppetrun_cmd to 'puppet.run agent no-noop' to run in no-noop mode.
+# Default command is puppet.run
+<% if scope.lookupvar("foreman_proxy::puppetrun_provider") == 'salt' -%>
+:salt_puppetrun_cmd: <%= scope.lookupvar("foreman_proxy::salt_puppetrun_cmd") %>
+<% else -%>
+#:salt_puppetrun_cmd: puppet.run
+<% end -%>
+
 # Which user to invoke sudo as to run puppet commands
 <% if scope.lookupvar("foreman_proxy::puppetrun_provider") =~ /(mcollective|puppetrun)/ -%>
 :puppet_user: <%= scope.lookupvar("foreman_proxy::puppet_user") %>
