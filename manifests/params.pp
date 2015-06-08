@@ -14,6 +14,7 @@ class foreman_proxy::params {
   $plugin_version = 'installed'
 
   # variables
+  $bind_host = '*'
   $port = undef # deprecated in favor of $ssl_port/$http_port
   $dir  = '/usr/share/foreman-proxy'
   $user = 'foreman-proxy'

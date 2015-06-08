@@ -71,6 +71,7 @@ describe 'foreman_proxy::config' do
         '  - host.example.org',
         ":foreman_url: https://#{facts[:fqdn]}",
         ':daemon: true',
+        ':bind_host: \'*\'',
         ':https_port: 8443',
         ':virsh_network: default',
         ':log_file: /var/log/foreman-proxy/proxy.log',

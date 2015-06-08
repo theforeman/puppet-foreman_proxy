@@ -18,6 +18,8 @@
 # $plugin_version::             foreman plugins version, it's passed to ensure parameter of plugins package resource
 #                               can be set to 'latest', 'present',  'installed', 'absent'.
 #
+# $bind_host::                  Host to bind ports to, e.g. *, localhost, 0.0.0.0
+#
 # $port::                       Port to listen on (deprecated in favor of $ssl_port and $http_port)
 #                               type:integer
 #
@@ -256,6 +258,7 @@ class foreman_proxy (
   $custom_repo                = $foreman_proxy::params::custom_repo,
   $version                    = $foreman_proxy::params::version,
   $plugin_version             = $foreman_proxy::params::plugin_version,
+  $bind_host                  = $foreman_proxy::params::bind_host,
   $port                       = $foreman_proxy::params::port,
   $http_port                  = $foreman_proxy::params::http_port,
   $ssl_port                   = $foreman_proxy::params::ssl_port,
@@ -371,6 +374,7 @@ class foreman_proxy (
   }
 
   # Validate misc params
+  validate_string($bind_host)
   validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman)
   validate_array($trusted_hosts)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
