@@ -404,7 +404,6 @@ class foreman_proxy (
   # Validate dhcp params
   validate_bool($dhcp_managed)
   validate_array($dhcp_option_domain)
-  validate_integer($dhcp_omapi_port)
 
   # Validate dns params
   validate_string($dns_interface, $dns_provider, $dns_reverse, $dns_server, $keyfile)
