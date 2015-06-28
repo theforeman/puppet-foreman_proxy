@@ -5,8 +5,9 @@ describe 'foreman_proxy::proxydns' do
     context "on #{os}" do
       let :default_facts do
         {
-          :fqdn                   => 'foreman.example.org',
-          :domain                 => 'example.org',
+          :concat_basedir => '/doesnotexist',
+          :fqdn           => 'foreman.example.org',
+          :domain         => 'example.org',
         }
       end
 
