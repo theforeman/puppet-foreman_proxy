@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.3.0
+* New or changed parameters:
+    * Add puppet\_use\_cache/puppet\_cache\_location parameters to control
+      caching functions of the 'puppet' module
+    * Add new api\_* parameters to foreman_proxy::plugin::salt for its access
+      to the Salt API (#8473)
+    * Add bind\_host parameter for smart proxy bind IP/host in 1.8+
+    * Add salt\_puppetrun\_cmd parameter to change Salt command used for
+      Puppet runs in 1.8+
+    * Add dhcp\_omapi\_port parameter to control the OMAPI port used for ISC
+      dhcpd management in 1.9+
+* Other changes and fixes:
+    * Mark support for theforeman/dns 3.x and theforeman/dhcp 2.x
+
+## 2.2.3
+* Don't configure dns_key if nsupdate_gss is used (#10436)
+* Copy libutil.c32 PXELinux 6 file on Debian 8/Jessie (#10255)
+
 ## 2.2.2
 * Copy ldlinux.c32 PXELinux 6 file on Debian 8/Jessie (#10255)
 * Change tftp_servername parameter default to undef (#9896)
