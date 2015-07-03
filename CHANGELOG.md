@@ -12,7 +12,7 @@
     * Add dhcp\_omapi\_port parameter to control the OMAPI port used for ISC
       dhcpd management in 1.9+
 * Other changes and fixes:
-    * Mark support for theforeman/dns 3.x and theforeman/dhcp 2.x
+    * Mark support for new theforeman releases using puppetlabs/concat
 
 ## 2.2.3
 * Don't configure dns_key if nsupdate_gss is used (#10436)
