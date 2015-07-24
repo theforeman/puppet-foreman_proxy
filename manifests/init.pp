@@ -255,7 +255,7 @@
 # $puppet_use_cache::           Whether to enable caching of puppet classes
 #                               type:boolean
 #
-# #puppet_cache_location::      Location to store cached puppet classes
+# $puppet_cache_location::      Location to store cached puppet classes
 #
 class foreman_proxy (
   $repo                       = $foreman_proxy::params::repo,
