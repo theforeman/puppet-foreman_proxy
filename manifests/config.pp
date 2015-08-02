@@ -24,7 +24,7 @@ class foreman_proxy::config {
 
   user { $foreman_proxy::user:
     ensure  => 'present',
-    shell   => '/bin/false',
+    shell   => $::foreman_proxy::shell,
     comment => 'Foreman Proxy account',
     groups  => $groups,
     home    => $foreman_proxy::dir,
@@ -33,7 +33,7 @@ class foreman_proxy::config {
   }
 
   foreman_proxy::settings_file { 'settings':
-    path   => '/etc/foreman-proxy/settings.yml',
+    path   => "${::foreman_proxy::etc}/foreman-proxy/settings.yml",
     module => false,
   }
 
@@ -73,22 +73,21 @@ class foreman_proxy::config {
   if $foreman_proxy::puppetca or $foreman_proxy::puppetrun {
     if $foreman_proxy::use_sudoersd {
       if $foreman_proxy::manage_sudoersd {
-        file { '/etc/sudoers.d':
+        file { "${::foreman_proxy::sudoers}.d":
           ensure => directory,
         }
       }
 
-      file { '/etc/sudoers.d/foreman-proxy':
+      file { "${::foreman_proxy::sudoers}.d/foreman-proxy":
         ensure  => file,
         owner   => 'root',
-        group   => 'root',
+        group   => 0,
         mode    => '0440',
         content => template('foreman_proxy/sudo.erb'),
-        require => File['/etc/sudoers.d'],
       }
     } else {
       augeas { 'sudo-foreman-proxy':
-        context => '/files/etc/sudoers',
+        context => "/files${::foreman_proxy::sudoers}",
         changes => template('foreman_proxy/sudo_augeas.erb'),
       }
     }
@@ -98,7 +97,7 @@ class foreman_proxy::config {
     file { $foreman_proxy::puppet_cache_location:
       ensure => directory,
       owner  => $foreman_proxy::user,
-      group  => 'root',
+      group  => 0,
       mode   => '0750',
     }
   }

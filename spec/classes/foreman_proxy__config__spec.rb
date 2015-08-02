@@ -200,9 +200,8 @@ describe 'foreman_proxy::config' do
           should contain_file('/etc/sudoers.d/foreman-proxy').with({
             :ensure  => 'file',
             :owner   => 'root',
-            :group   => 'root',
+            :group   => 0,
             :mode    => '0440',
-            :require => 'File[/etc/sudoers.d]',
           })
 
           verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [

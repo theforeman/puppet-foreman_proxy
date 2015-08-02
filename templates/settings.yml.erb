@@ -2,7 +2,7 @@
 ### File managed with puppet ###
 ## Module:           '<%= scope.to_hash['module_name'] %>'
 
-:settings_directory: /etc/foreman-proxy/settings.d
+:settings_directory: <%= scope.lookupvar("foreman_proxy::etc") -%>/foreman-proxy/settings.d
 
 # SSL Setup
 <% ssl  = scope.lookupvar("foreman_proxy::real_ssl") -%>
