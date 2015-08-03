@@ -5,9 +5,11 @@ fixtures:
     dns:      'git://github.com/theforeman/puppet-dns'
     foreman:  'git://github.com/theforeman/puppet-foreman'
     puppet:   'git://github.com/theforeman/puppet-puppet'
-    stdlib:   'git://github.com/puppetlabs/puppetlabs-stdlib.git'
     tftp:     'git://github.com/theforeman/puppet-tftp'
     xinetd:   'git://github.com/puppetlabs/puppetlabs-xinetd.git'
+    stdlib:
+      repo: 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
+      branch: '4.7.x'
 
 
   symlinks:
