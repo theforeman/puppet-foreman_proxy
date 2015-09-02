@@ -4,6 +4,7 @@ fixtures:
     dhcp:     'git://github.com/theforeman/puppet-dhcp'
     dns:      'git://github.com/theforeman/puppet-dns'
     foreman:  'git://github.com/theforeman/puppet-foreman'
+    mysql:    'git://github.com/puppetlabs/puppetlabs-mysql.git'
     puppet:   'git://github.com/theforeman/puppet-puppet'
     stdlib:   'git://github.com/puppetlabs/puppetlabs-stdlib.git'
     tftp:     'git://github.com/theforeman/puppet-tftp'
