@@ -5,6 +5,21 @@ interact with, e.g. DNS, DHCP and Puppet and TFTP.
 
 Part of the Foreman installer: http://github.com/theforeman/foreman-installer
 
+## PowerDNS support
+
+To use the PowerDNS plugin, the following variables need to be set on the main
+`foreman_proxy` class.
+
+    $dns          => true
+    $dns_managed  => false
+    $dns_provider => 'dns_powerdns'
+
+Then you also need to include `foreman_proxy::plugin::dns::powerdns`.
+
+The powerdns plugin can optionally manage the database. If that's used, then
+the puppetlabs-mysql module must be added to the modulepath, otherwise it's not
+required.
+
 ## Compatibility
 
 This module only supports Smart Proxy 1.6 or higher as of version 2.0, as the
