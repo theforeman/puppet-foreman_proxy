@@ -6,6 +6,11 @@
 #   nsupdate
 #   nsupdate_gss (for GSS-TSIG support)
 #   virsh (simple implementation for libvirt)
+<% if scope.lookupvar("foreman_proxy::dns_split_config_files") -%>
+:use_provider: <%= scope.lookupvar("foreman_proxy::dns_provider") %>
+# use this setting if you want to override default TTL setting (86400)
+:dns_ttl: <%= scope.lookupvar("foreman_proxy::dns_ttl") %>
+<% else -%>
 :dns_provider: <%= scope.lookupvar("foreman_proxy::dns_provider") %>
 # use this setting if you are managing a dns server which is not localhost though this proxy
 :dns_server: <%= scope.lookupvar("foreman_proxy::dns_server") %>
@@ -22,4 +27,5 @@
 :dns_key: <%= scope.lookupvar("foreman_proxy::keyfile") %>
 #:dns_tsig_keytab: /usr/share/foreman-proxy/dns.keytab
 #:dns_tsig_principal: DNS/host.example.com@EXAMPLE.COM
+<% end -%>
 <% end -%>

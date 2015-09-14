@@ -13,6 +13,9 @@ configuration layout changed significantly.
 To configure older versions of the Smart Proxy (1.5 or older), use an older
 version of this module (1.x).
 
+Since version 1.10 the DNS configuration files are split. If you wish to use
+prior versions with DNS, then you must set `dns_split_config_files` to `false`.
+
 # Contributing
 
 * Fork the project

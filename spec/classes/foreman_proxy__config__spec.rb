@@ -50,6 +50,7 @@ describe 'foreman_proxy::config' do
 
         it 'should create configuration files' do
           ['/etc/foreman-proxy/settings.yml', '/etc/foreman-proxy/settings.d/tftp.yml', '/etc/foreman-proxy/settings.d/dns.yml',
+            '/etc/foreman-proxy/settings.d/dns_nsupdate.yml', '/etc/foreman-proxy/settings.d/dns_nsupdate_gss.yml',
             '/etc/foreman-proxy/settings.d/dhcp.yml', '/etc/foreman-proxy/settings.d/puppetca.yml', '/etc/foreman-proxy/settings.d/puppet.yml',
             '/etc/foreman-proxy/settings.d/bmc.yml', '/etc/foreman-proxy/settings.d/realm.yml', '/etc/foreman-proxy/settings.d/templates.yml'].each do |cfile|
             should contain_file(cfile).
@@ -109,10 +110,21 @@ describe 'foreman_proxy::config' do
           verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns.yml', [
             '---',
             ':enabled: false',
-            ':dns_provider: nsupdate',
-            ':dns_server: 127.0.0.1',
+            ':use_provider: nsupdate',
             ':dns_ttl: 86400',
+          ])
+
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns_nsupdate.yml', [
+            '---',
             ":dns_key: #{dns_key}",
+            ':dns_server: 127.0.0.1',
+          ])
+
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns_nsupdate_gss.yml', [
+            '---',
+            ':dns_server: 127.0.0.1',
+            ":dns_tsig_keytab: /etc/foreman-proxy/dns.keytab",
+            ":dns_tsig_principal: foremanproxy/#{facts[:fqdn]}@EXAMPLE.COM",
           ])
         end
 
@@ -387,10 +399,48 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should contain dns_tsig_* settings' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.d/dns.yml', [
-            ':dns_tsig_keytab: /etc/foreman-proxy/dns.keytab',
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns.yml', [
+            '---',
+            ':enabled: false',
+            ':use_provider: nsupdate_gss',
+            ':dns_ttl: 86400',
+          ])
+
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns_nsupdate_gss.yml', [
+            '---',
+            ':dns_server: 127.0.0.1',
+            ":dns_tsig_keytab: /etc/foreman-proxy/dns.keytab",
             ":dns_tsig_principal: foremanproxy/#{facts[:fqdn]}@EXAMPLE.COM",
           ])
+        end
+      end
+
+      context 'when dns_split_config_files => false' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            dns_split_config_files => false,
+          }'
+        end
+
+        it 'should not split the dns config' do
+          dns_key = case facts[:osfamily]
+                    when 'Debian'
+                      '/etc/bind/rndc.key'
+                    else
+                      '/etc/rndc.key'
+                    end
+
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns.yml', [
+            '---',
+            ':enabled: false',
+            ':dns_provider: nsupdate',
+            ':dns_server: 127.0.0.1',
+            ':dns_ttl: 86400',
+            ":dns_key: #{dns_key}",
+          ])
+
+          should_not contain_file('/etc/foreman-proxy/settings.d/dns_nsupdate.yml')
+          should_not contain_file('/etc/foreman-proxy/settings.d/dns_nsupdate_gss.yml')
         end
       end
 

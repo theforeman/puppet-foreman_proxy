@@ -173,19 +173,20 @@ class foreman_proxy::params {
   $dhcp_vendor     = 'isc'
 
   # DNS settings - requires optional DNS puppet module
-  $dns                = false
-  $dns_listen_on      = 'https'
-  $dns_managed        = true
-  $dns_provider       = 'nsupdate'
-  $dns_interface      = 'eth0'
-  $dns_zone           = $::domain
-  $dns_realm          = upcase($dns_zone)
-  $dns_reverse        = '100.168.192.in-addr.arpa'
+  $dns                    = false
+  $dns_split_config_files = true # smart-proxy 1.10+
+  $dns_listen_on          = 'https'
+  $dns_managed            = true
+  $dns_provider           = 'nsupdate'
+  $dns_interface          = 'eth0'
+  $dns_zone               = $::domain
+  $dns_realm              = upcase($dns_zone)
+  $dns_reverse            = '100.168.192.in-addr.arpa'
   # localhost can resolve to ipv6 which ruby doesn't handle well
-  $dns_server         = '127.0.0.1'
-  $dns_ttl            = '86400'
-  $dns_tsig_keytab    = "${etc}/foreman-proxy/dns.keytab"
-  $dns_tsig_principal = "foremanproxy/${::fqdn}@${dns_realm}"
+  $dns_server             = '127.0.0.1'
+  $dns_ttl                = '86400'
+  $dns_tsig_keytab        = "${etc}/foreman-proxy/dns.keytab"
+  $dns_tsig_principal     = "foremanproxy/${::fqdn}@${dns_realm}"
 
   $dns_forwarders = []
 

@@ -188,6 +188,9 @@
 # $dns::                        Enable DNS feature
 #                               type:boolean
 #
+# $dns_split_config_files::     Split DNS configuration files. This is needed since version 1.10.
+#                               type:boolean
+#
 # $dns_listen_on::              DNS proxy to listen on https, http, or both
 #
 # $dns_managed::                DNS is managed by Foreman proxy
@@ -333,6 +336,7 @@ class foreman_proxy (
   $dhcp_key_secret            = $foreman_proxy::params::dhcp_key_secret,
   $dhcp_omapi_port            = $foreman_proxy::params::dhcp_omapi_port,
   $dns                        = $foreman_proxy::params::dns,
+  $dns_split_config_files     = $foreman_proxy::params::dns_split_config_files,
   $dns_listen_on              = $foreman_proxy::params::dns_listen_on,
   $dns_managed                = $foreman_proxy::params::dns_managed,
   $dns_provider               = $foreman_proxy::params::dns_provider,
@@ -407,6 +411,7 @@ class foreman_proxy (
   validate_integer($dhcp_omapi_port)
 
   # Validate dns params
+  validate_bool($dns, $dns_split_config_files)
   validate_string($dns_interface, $dns_provider, $dns_reverse, $dns_server, $keyfile)
   validate_array($dns_forwarders)
 
