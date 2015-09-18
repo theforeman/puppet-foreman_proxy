@@ -1,6 +1,6 @@
 # Default parameters for the Chef smart proxy plugin
 class foreman_proxy::plugin::chef::params {
-  include ::foreman_proxy
+  include ::foreman_proxy::params
 
   $enabled      = true
   $group        = undef
@@ -8,7 +8,7 @@ class foreman_proxy::plugin::chef::params {
   $version      = undef
   $server_url   = "https://${::fqdn}"
   $client_name  = $::fqdn
-  $private_key  = "${foreman_proxy::etc}/chef/client.pem"
+  $private_key  = "${foreman_proxy::params::etc}/chef/client.pem"
   $ssl_verify   = true
   $ssl_pem_file = undef
 }
