@@ -5,9 +5,26 @@ describe 'foreman_proxy::config' do
     context "on #{os}" do
       let(:facts) { facts }
 
+      case facts[:osfamily]
+      when 'FreeBSD', 'DragonFly'
+        etc_dir = '/usr/local/etc'
+        home_dir = '/usr/local/share/foreman-proxy'
+        proxy_user_name = 'foreman_proxy'
+        shell = '/usr/bin/false'
+        usr_dir = '/usr/local'
+        var_dir = '/var/puppet'
+      else
+        etc_dir = '/etc'
+        home_dir = '/usr/share/foreman-proxy'
+        proxy_user_name = 'foreman-proxy'
+        shell = '/bin/false'
+        usr_dir = '/usr'
+        var_dir = '/var/lib/puppet'
+      end
+
       if (facts[:puppetversion].to_i >2)
-        puppetca_command = '/usr/bin/puppet cert *'
-        puppetrun_command = '/usr/bin/puppet kick *'
+        puppetca_command = "#{usr_dir}/bin/puppet cert *"
+        puppetrun_command = "#{usr_dir}/bin/puppet kick *"
       else
         puppetca_command = '/usr/sbin/puppetca *'
         puppetrun_command = '/usr/sbin/puppetrun *'
@@ -36,27 +53,27 @@ describe 'foreman_proxy::config' do
           should_not contain_class('foreman_proxy::proxydhcp')
         end
 
-        it 'should create the foreman-proxy user' do
-          should contain_user('foreman-proxy').with({
+        it "should create the #{proxy_user_name} user" do
+          should contain_user("#{proxy_user_name}").with({
             :ensure  => 'present',
-            :shell   => '/bin/false',
+            :shell   => "#{shell}",
             :comment => 'Foreman Proxy account',
             :groups  => ['puppet'],
-            :home    => '/usr/share/foreman-proxy',
+            :home    => "#{home_dir}",
             :require => 'Class[Foreman_proxy::Install]',
             :notify  => 'Class[Foreman_proxy::Service]',
           })
         end
 
         it 'should create configuration files' do
-          ['/etc/foreman-proxy/settings.yml', '/etc/foreman-proxy/settings.d/tftp.yml', '/etc/foreman-proxy/settings.d/dns.yml',
-            '/etc/foreman-proxy/settings.d/dns_nsupdate.yml', '/etc/foreman-proxy/settings.d/dns_nsupdate_gss.yml',
-            '/etc/foreman-proxy/settings.d/dhcp.yml', '/etc/foreman-proxy/settings.d/puppetca.yml', '/etc/foreman-proxy/settings.d/puppet.yml',
-            '/etc/foreman-proxy/settings.d/bmc.yml', '/etc/foreman-proxy/settings.d/realm.yml', '/etc/foreman-proxy/settings.d/templates.yml'].each do |cfile|
+          [ "#{etc_dir}/foreman-proxy/settings.yml", "#{etc_dir}/foreman-proxy/settings.d/tftp.yml", "#{etc_dir}/foreman-proxy/settings.d/dns.yml",
+            "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate.yml", "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate_gss.yml",
+            "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", "#{etc_dir}/foreman-proxy/settings.d/puppet.yml",
+            "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", "#{etc_dir}/foreman-proxy/settings.d/realm.yml", "#{etc_dir}/foreman-proxy/settings.d/templates.yml"].each do |cfile|
             should contain_file(cfile).
               with({
                 :owner   => 'root',
-                :group   => 'foreman-proxy',
+                :group   => "#{proxy_user_name}",
                 :mode    => '0640',
                 :require => 'Class[Foreman_proxy::Install]',
                 :notify  => 'Class[Foreman_proxy::Service]',
@@ -65,12 +82,12 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should generate correct settings.yml' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
             '---',
-            ':settings_directory: /etc/foreman-proxy/settings.d',
-            ':ssl_ca_file: /var/lib/puppet/ssl/certs/ca.pem',
-            ":ssl_certificate: /var/lib/puppet/ssl/certs/#{facts[:fqdn]}.pem",
-            ":ssl_private_key: /var/lib/puppet/ssl/private_keys/#{facts[:fqdn]}.pem",
+            ":settings_directory: #{etc_dir}/foreman-proxy/settings.d",
+            ":ssl_ca_file: #{var_dir}/ssl/certs/ca.pem",
+            ":ssl_certificate: #{var_dir}/ssl/certs/#{facts[:fqdn]}.pem",
+            ":ssl_private_key: #{var_dir}/ssl/private_keys/#{facts[:fqdn]}.pem",
             ':trusted_hosts:',
             "  - #{facts[:fqdn]}",
             ":foreman_url: https://#{facts[:fqdn]}",
@@ -84,7 +101,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should generate correct bmc.yml' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/bmc.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", [
             '---',
             ':enabled: false',
             ':bmc_default_provider: ipmitool',
@@ -92,7 +109,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should generate correct dhcp.yml' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dhcp.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
             '---',
             ':enabled: false',
             ':dhcp_vendor: isc',
@@ -103,54 +120,56 @@ describe 'foreman_proxy::config' do
           dns_key = case facts[:osfamily]
                     when 'Debian'
                       '/etc/bind/rndc.key'
+                    when 'FreeBSD', 'DragonFly'
+                      '/usr/local/etc/namedb/rndc.key'
                     else
                       '/etc/rndc.key'
                     end
 
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns.yml", [
             '---',
             ':enabled: false',
             ':use_provider: nsupdate',
             ':dns_ttl: 86400',
           ])
 
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns_nsupdate.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate.yml", [
             '---',
             ":dns_key: #{dns_key}",
             ':dns_server: 127.0.0.1',
           ])
 
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns_nsupdate_gss.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate_gss.yml", [
             '---',
             ':dns_server: 127.0.0.1',
-            ":dns_tsig_keytab: /etc/foreman-proxy/dns.keytab",
+            ":dns_tsig_keytab: #{etc_dir}/foreman-proxy/dns.keytab",
             ":dns_tsig_principal: foremanproxy/#{facts[:fqdn]}@EXAMPLE.COM",
           ])
         end
 
         it 'should generate correct puppet.yml' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/puppet.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
             '---',
             ':enabled: https',
-            ':puppet_conf: /etc/puppet/puppet.conf',
-            ':customrun_cmd: /bin/false',
+            ":puppet_conf: #{etc_dir}/puppet/puppet.conf",
+            ":customrun_cmd: #{shell}",
             ':customrun_args: -ay -f -s',
             ':puppetssh_sudo: false',
-            ':puppetssh_command: /usr/bin/puppet agent --onetime --no-usecacheonfailure',
+            ":puppetssh_command: #{usr_dir}/bin/puppet agent --onetime --no-usecacheonfailure",
             ':puppetssh_wait: false',
             ":puppet_url: https://#{facts[:fqdn]}:8140",
-            ':puppet_ssl_ca: /var/lib/puppet/ssl/certs/ca.pem',
-            ":puppet_ssl_cert: /var/lib/puppet/ssl/certs/#{facts[:fqdn]}.pem",
-            ":puppet_ssl_key: /var/lib/puppet/ssl/private_keys/#{facts[:fqdn]}.pem",
+            ":puppet_ssl_ca: #{var_dir}/ssl/certs/ca.pem",
+            ":puppet_ssl_cert: #{var_dir}/ssl/certs/#{facts[:fqdn]}.pem",
+            ":puppet_ssl_key: #{var_dir}/ssl/private_keys/#{facts[:fqdn]}.pem",
           ])
         end
 
         it 'should generate correct puppetca.yml' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/puppetca.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", [
             '---',
             ':enabled: https',
-            ':ssldir: /var/lib/puppet/ssl',
-            ':puppetdir: /etc/puppet',
+            ":ssldir: #{var_dir}/ssl",
+            ":puppetdir: #{etc_dir}/puppet",
           ])
         end
 
@@ -163,11 +182,13 @@ describe 'foreman_proxy::config' do
                         else
                           '/srv/tftp'
                         end
+                      when 'FreeBSD', 'DragonFly'
+                        '/tftpboot'
                       else
                         '/var/lib/tftpboot/'
                       end
 
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/tftp.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/tftp.yml", [
             '---',
             ':enabled: https',
             ":tftproot: #{tftp_root}",
@@ -196,18 +217,18 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should generate correct realm.yml' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/realm.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/realm.yml", [
             '---',
             ':enabled: false',
             ':realm_provider: freeipa',
-            ':realm_keytab: /etc/foreman-proxy/freeipa.keytab',
+            ":realm_keytab: #{etc_dir}/foreman-proxy/freeipa.keytab",
             ':realm_principal: realm-proxy@EXAMPLE.COM',
             ':freeipa_remove_dns: true',
           ])
         end
 
         it 'should generate correct templates.yml' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/templates.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/templates.yml", [
             '---',
             ':enabled: false',
             ":template_url: http://#{facts[:fqdn]}:8000",
@@ -215,24 +236,24 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should set up sudo rules' do
-          should contain_file('/etc/sudoers.d').with_ensure('directory')
+          should contain_file("#{etc_dir}/sudoers.d").with_ensure('directory')
 
-          should contain_file('/etc/sudoers.d/foreman-proxy').with({
+          should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with({
             :ensure  => 'file',
             :owner   => 'root',
             :group   => 0,
             :mode    => '0440',
           })
 
-          verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
-            "foreman-proxy ALL = (root) NOPASSWD : #{puppetca_command}",
-            "foreman-proxy ALL = (root) NOPASSWD : #{puppetrun_command}",
-            "Defaults:foreman-proxy !requiretty",
+          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
+            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
+            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetrun_command}",
+            "Defaults:#{proxy_user_name} !requiretty",
           ])
         end
 
-        it 'should not manage /etc/sudoers.d' do
-          should contain_file('/etc/sudoers.d').with_ensure('directory')
+        it "should not manage #{etc_dir}/sudoers.d" do
+          should contain_file("#{etc_dir}/sudoers.d").with_ensure('directory')
         end
       end
 
@@ -248,7 +269,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should generate correct settings.yml' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
             ":foreman_ssl_ca: /etc/pki/ca.pem",
             ":foreman_ssl_cert: /etc/pki/cert.pem",
             ":foreman_ssl_key: /etc/pki/key.pem"
@@ -265,7 +286,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should generate correct tftp.yml' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/tftp.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/tftp.yml", [
             '---',
             ':enabled: https',
             ':tftproot: /tftproot',
@@ -283,7 +304,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should enable bmc with shell' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.d/bmc.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", [
             ':enabled: https',
             ':bmc_default_provider: shell',
           ])
@@ -313,7 +334,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should contain mcollective as puppet_provider and puppet_user as root' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.d/puppet.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
             ':puppet_provider: mcollective',
             ':puppet_user: root',
           ])
@@ -329,7 +350,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should comment out ssl configuration items' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
             '#:ssl_ca_file: ssl/certs/ca.pem',
             '#:ssl_certificate: ssl/certs/fqdn.pem',
             '#:ssl_private_key: ssl/private_keys/fqdn.key',
@@ -350,7 +371,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should configure both http and ssl on their respective ports' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
             ':https_port: 867',
             ':http_port: 5309',
           ])
@@ -367,7 +388,7 @@ describe 'foreman_proxy::config' do
           end
 
           it 'should use port for ssl' do
-            verify_contents(catalogue, '/etc/foreman-proxy/settings.yml', [
+            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
               ':https_port: 1234',
               '#:http_port: 1234',
             ])
@@ -383,7 +404,7 @@ describe 'foreman_proxy::config' do
           end
 
           it 'should use port for http' do
-            verify_contents(catalogue, '/etc/foreman-proxy/settings.yml', [
+            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
               '#:https_port: 1234',
               ':http_port: 1234',
             ])
@@ -399,17 +420,17 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should contain dns_tsig_* settings' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns.yml", [
             '---',
             ':enabled: false',
             ':use_provider: nsupdate_gss',
             ':dns_ttl: 86400',
           ])
 
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns_nsupdate_gss.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate_gss.yml", [
             '---',
             ':dns_server: 127.0.0.1',
-            ":dns_tsig_keytab: /etc/foreman-proxy/dns.keytab",
+            ":dns_tsig_keytab: #{etc_dir}/foreman-proxy/dns.keytab",
             ":dns_tsig_principal: foremanproxy/#{facts[:fqdn]}@EXAMPLE.COM",
           ])
         end
@@ -426,11 +447,13 @@ describe 'foreman_proxy::config' do
           dns_key = case facts[:osfamily]
                     when 'Debian'
                       '/etc/bind/rndc.key'
+                    when 'FreeBSD', 'Dragonfly'
+                      '/usr/local/etc/namedb/rndc.key'
                     else
                       '/etc/rndc.key'
                     end
 
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns.yml", [
             '---',
             ':enabled: false',
             ':dns_provider: nsupdate',
@@ -439,8 +462,8 @@ describe 'foreman_proxy::config' do
             ":dns_key: #{dns_key}",
           ])
 
-          should_not contain_file('/etc/foreman-proxy/settings.d/dns_nsupdate.yml')
-          should_not contain_file('/etc/foreman-proxy/settings.d/dns_nsupdate_gss.yml')
+          should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate.yml")
+          should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate_gss.yml")
         end
       end
 
@@ -452,7 +475,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should contain puppetrun as puppet_provider and puppet_user as root' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.d/puppet.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
             ':puppet_provider: puppetrun',
             ':puppet_user: root',
           ])
@@ -467,9 +490,9 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should set puppetssh_user and puppetssh_keyfile' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.d/puppet.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
             ':puppetssh_user: root',
-            ':puppetssh_keyfile: /etc/foreman-proxy/id_rsa',
+            ":puppetssh_keyfile: #{etc_dir}/foreman-proxy/id_rsa",
           ])
         end
       end
@@ -482,7 +505,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should contain salt as puppet_provider and salt_puppetrun_cmd' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.d/puppet.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
             ':puppet_provider: salt',
             ':salt_puppetrun_cmd: puppet.run',
           ])
@@ -497,7 +520,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should set puppet_use_environment_api' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.d/puppet.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
             ':puppet_use_environment_api: false',
           ])
         end
@@ -511,7 +534,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should not set trusted_hosts' do
-          should contain_file('/etc/foreman-proxy/settings.yml').without_content(/[^#]:trusted_hosts/)
+          should contain_file("#{etc_dir}/foreman-proxy/settings.yml").without_content(/[^#]:trusted_hosts/)
         end
       end
 
@@ -523,7 +546,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should generate foreman_url setting' do
-          content = catalogue.resource('file', '/etc/foreman-proxy/settings.yml').send(:parameters)[:content]
+          content = catalogue.resource('file', "#{etc_dir}/foreman-proxy/settings.yml").send(:parameters)[:content]
           content.split("\n").select { |c| c =~ /foreman_url/ }.should == [':foreman_url: http://dummy']
         end
       end
@@ -536,10 +559,10 @@ describe 'foreman_proxy::config' do
         end
 
         it "should set puppetca_cmd" do
-          verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
-            "foreman-proxy ALL = (root) NOPASSWD : puppet cert *",
-            "foreman-proxy ALL = (root) NOPASSWD : #{puppetrun_command}",
-            "Defaults:foreman-proxy !requiretty",
+          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
+            "#{proxy_user_name} ALL = (root) NOPASSWD : puppet cert *",
+            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetrun_command}",
+            "Defaults:#{proxy_user_name} !requiretty",
           ])
         end
       end
@@ -552,10 +575,10 @@ describe 'foreman_proxy::config' do
         end
 
         it "should set puppetrun_cmd" do
-          verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
-            "foreman-proxy ALL = (root) NOPASSWD : #{puppetca_command}",
-            "foreman-proxy ALL = (root) NOPASSWD : mco puppet runonce *",
-            "Defaults:foreman-proxy !requiretty",
+          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
+            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
+            "#{proxy_user_name} ALL = (root) NOPASSWD : mco puppet runonce *",
+            "Defaults:#{proxy_user_name} !requiretty",
           ])
         end
       end
@@ -563,15 +586,15 @@ describe 'foreman_proxy::config' do
       context 'when puppet_user set' do
         let :pre_condition do
           'class { "foreman_proxy":
-            puppet_user => "foreman-proxy",
+            puppet_user => "some_puppet_user",
           }'
         end
 
         it "should set puppetrun_cmd" do
-          verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
-            "foreman-proxy ALL = (root) NOPASSWD : #{puppetca_command}",
-            "foreman-proxy ALL = (foreman-proxy) NOPASSWD : #{puppetrun_command}",
-            "Defaults:foreman-proxy !requiretty",
+          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
+            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
+            "#{proxy_user_name} ALL = (some_puppet_user) NOPASSWD : #{puppetrun_command}",
+            "Defaults:#{proxy_user_name} !requiretty",
           ])
         end
       end
@@ -584,9 +607,9 @@ describe 'foreman_proxy::config' do
         end
 
         it "should not set puppetca" do
-          verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
-            "foreman-proxy ALL = (root) NOPASSWD : #{puppetrun_command}",
-            "Defaults:foreman-proxy !requiretty",
+          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
+            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetrun_command}",
+            "Defaults:#{proxy_user_name} !requiretty",
           ])
         end
       end
@@ -599,9 +622,9 @@ describe 'foreman_proxy::config' do
         end
 
         it "should not set puppetrun" do
-          verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
-            "foreman-proxy ALL = (root) NOPASSWD : #{puppetca_command}",
-            "Defaults:foreman-proxy !requiretty",
+          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
+            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
+            "Defaults:#{proxy_user_name} !requiretty",
           ])
         end
       end
@@ -614,8 +637,8 @@ describe 'foreman_proxy::config' do
           }'
         end
 
-        it { should_not contain_file('/etc/sudoers.d') }
-        it { should_not contain_file('/etc/sudoers.d/foreman-proxy') }
+        it { should_not contain_file("#{etc_dir}/sudoers.d") }
+        it { should_not contain_file("#{etc_dir}/sudoers.d/foreman-proxy") }
       end
 
       context 'when use_sudoersd => false' do
@@ -625,34 +648,34 @@ describe 'foreman_proxy::config' do
           }'
         end
 
-        it "should not manage /etc/sudoers.d" do
-          should_not contain_file('/etc/sudoers.d')
+        it "should not manage #{etc_dir}/sudoers.d" do
+          should_not contain_file("#{etc_dir}/sudoers.d")
         end
 
-        it "should not manage /etc/sudoers.d/foreman-proxy" do
-          should_not contain_file('/etc/sudoers.d/foreman-proxy')
+        it "should not manage #{etc_dir}/sudoers.d/foreman-proxy" do
+          should_not contain_file("#{etc_dir}/sudoers.d/foreman-proxy")
         end
 
-        it "should modify /etc/sudoers" do
+        it "should modify #{etc_dir}/sudoers" do
           should contain_augeas('sudo-foreman-proxy').with({
-            :context  => '/files/etc/sudoers',
+            :context  => "/files#{etc_dir}/sudoers",
           })
 
           changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
           changes.split("\n").should == [
-            "set spec[user = 'foreman-proxy'][1]/user foreman-proxy",
-            "set spec[user = 'foreman-proxy'][1]/host_group/host ALL",
-            "set spec[user = 'foreman-proxy'][1]/host_group/command '#{puppetca_command}'",
-            "set spec[user = 'foreman-proxy'][1]/host_group/command/runas_user root",
-            "set spec[user = 'foreman-proxy'][1]/host_group/command/tag NOPASSWD",
-            "set spec[user = 'foreman-proxy'][2]/user foreman-proxy",
-            "set spec[user = 'foreman-proxy'][2]/host_group/host ALL",
-            "set spec[user = 'foreman-proxy'][2]/host_group/command '#{puppetrun_command}'",
-            "set spec[user = 'foreman-proxy'][2]/host_group/command/runas_user root",
-            "set spec[user = 'foreman-proxy'][2]/host_group/command/tag NOPASSWD",
-            "rm spec[user = 'foreman-proxy'][1]/host_group/command[position() > 1]",
-            "set Defaults[type = ':foreman-proxy']/type :foreman-proxy",
-            "set Defaults[type = ':foreman-proxy']/requiretty/negate ''",
+            "set spec[user = '#{proxy_user_name}'][1]/user #{proxy_user_name}",
+            "set spec[user = '#{proxy_user_name}'][1]/host_group/host ALL",
+            "set spec[user = '#{proxy_user_name}'][1]/host_group/command '#{puppetca_command}'",
+            "set spec[user = '#{proxy_user_name}'][1]/host_group/command/runas_user root",
+            "set spec[user = '#{proxy_user_name}'][1]/host_group/command/tag NOPASSWD",
+            "set spec[user = '#{proxy_user_name}'][2]/user #{proxy_user_name}",
+            "set spec[user = '#{proxy_user_name}'][2]/host_group/host ALL",
+            "set spec[user = '#{proxy_user_name}'][2]/host_group/command '#{puppetrun_command}'",
+            "set spec[user = '#{proxy_user_name}'][2]/host_group/command/runas_user root",
+            "set spec[user = '#{proxy_user_name}'][2]/host_group/command/tag NOPASSWD",
+            "rm spec[user = '#{proxy_user_name}'][1]/host_group/command[position() > 1]",
+            "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
+            "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
           ]
         end
 
@@ -664,17 +687,17 @@ describe 'foreman_proxy::config' do
             }'
           end
 
-          it "should modify /etc/sudoers for puppetrun only" do
+          it "should modify #{etc_dir}/sudoers for puppetrun only" do
             changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
             changes.split("\n").should == [
-              "set spec[user = 'foreman-proxy']/user foreman-proxy",
-              "set spec[user = 'foreman-proxy']/host_group/host ALL",
-              "set spec[user = 'foreman-proxy']/host_group/command '#{puppetrun_command}'",
-              "set spec[user = 'foreman-proxy']/host_group/command/runas_user root",
-              "set spec[user = 'foreman-proxy']/host_group/command/tag NOPASSWD",
-              "rm spec[user = 'foreman-proxy'][1]/host_group/command[position() > 1]",
-              "set Defaults[type = ':foreman-proxy']/type :foreman-proxy",
-              "set Defaults[type = ':foreman-proxy']/requiretty/negate ''",
+              "set spec[user = '#{proxy_user_name}']/user #{proxy_user_name}",
+              "set spec[user = '#{proxy_user_name}']/host_group/host ALL",
+              "set spec[user = '#{proxy_user_name}']/host_group/command '#{puppetrun_command}'",
+              "set spec[user = '#{proxy_user_name}']/host_group/command/runas_user root",
+              "set spec[user = '#{proxy_user_name}']/host_group/command/tag NOPASSWD",
+              "rm spec[user = '#{proxy_user_name}'][1]/host_group/command[position() > 1]",
+              "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
+              "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
             ]
           end
         end
@@ -687,17 +710,17 @@ describe 'foreman_proxy::config' do
             }'
           end
 
-          it "should modify /etc/sudoers for puppetca only" do
+          it "should modify #{etc_dir}/sudoers for puppetca only" do
             changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
             changes.split("\n").should == [
-              "set spec[user = 'foreman-proxy']/user foreman-proxy",
-              "set spec[user = 'foreman-proxy']/host_group/host ALL",
-              "set spec[user = 'foreman-proxy']/host_group/command '#{puppetca_command}'",
-              "set spec[user = 'foreman-proxy']/host_group/command/runas_user root",
-              "set spec[user = 'foreman-proxy']/host_group/command/tag NOPASSWD",
-              "rm spec[user = 'foreman-proxy'][1]/host_group/command[position() > 1]",
-              "set Defaults[type = ':foreman-proxy']/type :foreman-proxy",
-              "set Defaults[type = ':foreman-proxy']/requiretty/negate ''",
+              "set spec[user = '#{proxy_user_name}']/user #{proxy_user_name}",
+              "set spec[user = '#{proxy_user_name}']/host_group/host ALL",
+              "set spec[user = '#{proxy_user_name}']/host_group/command '#{puppetca_command}'",
+              "set spec[user = '#{proxy_user_name}']/host_group/command/runas_user root",
+              "set spec[user = '#{proxy_user_name}']/host_group/command/tag NOPASSWD",
+              "rm spec[user = '#{proxy_user_name}'][1]/host_group/command[position() > 1]",
+              "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
+              "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
             ]
           end
         end
@@ -712,7 +735,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should set enabled to http' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.d/templates.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/templates.yml", [
             ':enabled: http',
           ])
         end
@@ -727,7 +750,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should set enabled to https' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.d/templates.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/templates.yml", [
             ':enabled: https',
           ])
         end
@@ -742,7 +765,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should set enabled to true' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.d/templates.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/templates.yml", [
             ':enabled: true',
           ])
         end
@@ -756,7 +779,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should set log_level to DEBUG in setting.yml' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
             ':log_level: DEBUG',
           ])
         end
@@ -774,7 +797,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should set use_cache and cache_location' do
-          verify_contents(catalogue, '/etc/foreman-proxy/settings.d/puppet.yml', [
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
             ':use_cache: true',
             ":cache_location: '/var/cache/foreman-proxy'",
           ])
@@ -788,26 +811,35 @@ describe 'foreman_proxy::config' do
           })
         end
 
+        dhcp_interface = case facts[:osfamily]
+                         when 'FreeBSD', 'DragonFly'
+                           'lo0'
+                         else
+                           'lo'
+                         end
+
         let :pre_condition do
-          'class {"foreman_proxy":
+          "class {'foreman_proxy':
             dhcp           => true,
-            dhcp_interface => "lo",
-          }'
+            dhcp_interface => '#{dhcp_interface}',
+          }"
         end
 
         dhcp_leases = case facts[:osfamily]
                       when 'Debian'
                         '/var/lib/dhcp/dhcpd.leases'
+                      when 'FreeBSD', 'DragonFly'
+                        '/var/db/dhcpd/dhcpd.leases'
                       else
                         '/var/lib/dhcpd/dhcpd.leases'
                       end
 
         it 'should generate correct dhcp.yml' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dhcp.yml', [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
             '---',
             ':enabled: https',
             ':dhcp_vendor: isc',
-            ':dhcp_config: /etc/dhcp/dhcpd.conf',
+            ":dhcp_config: #{etc_dir}/dhcp/dhcpd.conf",
             ":dhcp_leases: #{dhcp_leases}",
             ':dhcp_omapi_port: 7911',
           ])

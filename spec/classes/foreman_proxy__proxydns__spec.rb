@@ -30,6 +30,8 @@ describe 'foreman_proxy::proxydns' do
           nsupdate_pkg = case facts[:osfamily]
                          when 'RedHat'
                            'bind-utils'
+                         when 'FreeBSD', 'DragonFly'
+                           'bind910'
                          else
                            'dnsutils'
                          end

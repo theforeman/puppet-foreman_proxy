@@ -6,6 +6,9 @@ class foreman_proxy::params {
 
   case $::osfamily {
     'RedHat': {
+      # if set to true, no repo will be added by this module, letting you to
+      # set it to some custom location.
+      $custom_repo         = false
       $plugin_prefix       = 'rubygem-smart_proxy_'
       $foreman_api_package = 'rubygem-apipie-bindings'
 
@@ -28,6 +31,9 @@ class foreman_proxy::params {
                                   '/usr/share/syslinux/pxelinux.0']
     }
     'Debian': {
+      # if set to true, no repo will be added by this module, letting you to
+      # set it to some custom location.
+      $custom_repo         = false
       $plugin_prefix       = 'ruby-smart-proxy-'
       $foreman_api_package = 'ruby-apipie-bindings'
 
@@ -58,6 +64,33 @@ class foreman_proxy::params {
                                     '/usr/lib/syslinux/pxelinux.0']
       }
     }
+    /^(FreeBSD|DragonFly)$/: {
+      # if set to true, no repo will be added by this module, letting you to
+      # set it to some custom location.
+      $custom_repo         = true # as foreman packages are in standard FreeBSD ports
+      $plugin_prefix       = 'rubygem-smart_proxy_'
+      $foreman_api_package = 'rubygem-apipie-bindings'
+
+      $dir   = '/usr/local/share/foreman-proxy'
+      $etc   = '/usr/local/etc'
+      $shell = '/usr/bin/false'
+      $user  = 'foreman_proxy'
+
+      $puppetssh_command = '/usr/local/bin/puppet agent --onetime --no-usecacheonfailure'
+
+      $dhcp_config = '/usr/local/etc/dhcp/dhcpd.conf'
+      $dhcp_leases = '/var/db/dhcpd/dhcpd.leases'
+
+      $keyfile  = '/usr/local/etc/namedb/rndc.key'
+      $nsupdate = 'bind910'
+
+      $tftp_syslinux_filenames = ['/usr/local/share/syslinux/bios/core/pxelinux.0',
+                                  '/usr/local/share/syslinux/bios/memdisk/memdisk',
+                                  '/usr/local/share/syslinux/bios/com32/chain/chain.c32',
+                                  '/usr/local/share/syslinux/bios/com32/elflink/ldlinux/ldlinux.c32',
+                                  '/usr/local/share/syslinux/bios/com32/libutil/libutil.c32',
+                                  '/usr/local/share/syslinux/bios/com32/menu/menu.c32']
+    }
     default: {
       fail("${::hostname}: This module does not support osfamily ${::osfamily}")
     }
@@ -66,9 +99,6 @@ class foreman_proxy::params {
   # Packaging
   $repo           = 'stable'
   $gpgcheck       = true
-  # if set to true, no repo will be added by this module, letting you to
-  # set it to some custom location.
-  $custom_repo    = false
   $version        = 'present'
   $plugin_version = 'installed'
 
