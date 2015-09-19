@@ -5,6 +5,14 @@ describe 'foreman_proxy::config' do
     context "on #{os}" do
       let(:facts) { facts }
 
+      if (facts[:puppetversion].to_i >2)
+        puppetca_command = '/usr/bin/puppet cert *'
+        puppetrun_command = '/usr/bin/puppet kick *'
+      else
+        puppetca_command = '/usr/sbin/puppetca *'
+        puppetrun_command = '/usr/sbin/puppetrun *'
+      end
+
       context 'without parameters' do
         let :pre_condition do
           'class {"foreman_proxy":}'
@@ -205,8 +213,8 @@ describe 'foreman_proxy::config' do
           })
 
           verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
-            "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetca *",
-            "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetrun *",
+            "foreman-proxy ALL = (root) NOPASSWD : #{puppetca_command}",
+            "foreman-proxy ALL = (root) NOPASSWD : #{puppetrun_command}",
             "Defaults:foreman-proxy !requiretty",
           ])
         end
@@ -480,7 +488,7 @@ describe 'foreman_proxy::config' do
         it "should set puppetca_cmd" do
           verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
             "foreman-proxy ALL = (root) NOPASSWD : puppet cert *",
-            "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetrun *",
+            "foreman-proxy ALL = (root) NOPASSWD : #{puppetrun_command}",
             "Defaults:foreman-proxy !requiretty",
           ])
         end
@@ -495,7 +503,7 @@ describe 'foreman_proxy::config' do
 
         it "should set puppetrun_cmd" do
           verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
-            "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetca *",
+            "foreman-proxy ALL = (root) NOPASSWD : #{puppetca_command}",
             "foreman-proxy ALL = (root) NOPASSWD : mco puppet runonce *",
             "Defaults:foreman-proxy !requiretty",
           ])
@@ -511,8 +519,8 @@ describe 'foreman_proxy::config' do
 
         it "should set puppetrun_cmd" do
           verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
-            "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetca *",
-            "foreman-proxy ALL = (foreman-proxy) NOPASSWD : /usr/sbin/puppetrun *",
+            "foreman-proxy ALL = (root) NOPASSWD : #{puppetca_command}",
+            "foreman-proxy ALL = (foreman-proxy) NOPASSWD : #{puppetrun_command}",
             "Defaults:foreman-proxy !requiretty",
           ])
         end
@@ -527,7 +535,7 @@ describe 'foreman_proxy::config' do
 
         it "should not set puppetca" do
           verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
-            "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetrun *",
+            "foreman-proxy ALL = (root) NOPASSWD : #{puppetrun_command}",
             "Defaults:foreman-proxy !requiretty",
           ])
         end
@@ -542,7 +550,7 @@ describe 'foreman_proxy::config' do
 
         it "should not set puppetrun" do
           verify_exact_contents(catalogue, '/etc/sudoers.d/foreman-proxy', [
-            "foreman-proxy ALL = (root) NOPASSWD : /usr/sbin/puppetca *",
+            "foreman-proxy ALL = (root) NOPASSWD : #{puppetca_command}",
             "Defaults:foreman-proxy !requiretty",
           ])
         end
@@ -584,12 +592,12 @@ describe 'foreman_proxy::config' do
           changes.split("\n").should == [
             "set spec[user = 'foreman-proxy'][1]/user foreman-proxy",
             "set spec[user = 'foreman-proxy'][1]/host_group/host ALL",
-            "set spec[user = 'foreman-proxy'][1]/host_group/command '/usr/sbin/puppetca *'",
+            "set spec[user = 'foreman-proxy'][1]/host_group/command '#{puppetca_command}'",
             "set spec[user = 'foreman-proxy'][1]/host_group/command/runas_user root",
             "set spec[user = 'foreman-proxy'][1]/host_group/command/tag NOPASSWD",
             "set spec[user = 'foreman-proxy'][2]/user foreman-proxy",
             "set spec[user = 'foreman-proxy'][2]/host_group/host ALL",
-            "set spec[user = 'foreman-proxy'][2]/host_group/command '/usr/sbin/puppetrun *'",
+            "set spec[user = 'foreman-proxy'][2]/host_group/command '#{puppetrun_command}'",
             "set spec[user = 'foreman-proxy'][2]/host_group/command/runas_user root",
             "set spec[user = 'foreman-proxy'][2]/host_group/command/tag NOPASSWD",
             "rm spec[user = 'foreman-proxy'][1]/host_group/command[position() > 1]",
@@ -611,7 +619,7 @@ describe 'foreman_proxy::config' do
             changes.split("\n").should == [
               "set spec[user = 'foreman-proxy']/user foreman-proxy",
               "set spec[user = 'foreman-proxy']/host_group/host ALL",
-              "set spec[user = 'foreman-proxy']/host_group/command '/usr/sbin/puppetrun *'",
+              "set spec[user = 'foreman-proxy']/host_group/command '#{puppetrun_command}'",
               "set spec[user = 'foreman-proxy']/host_group/command/runas_user root",
               "set spec[user = 'foreman-proxy']/host_group/command/tag NOPASSWD",
               "rm spec[user = 'foreman-proxy'][1]/host_group/command[position() > 1]",
@@ -634,7 +642,7 @@ describe 'foreman_proxy::config' do
             changes.split("\n").should == [
               "set spec[user = 'foreman-proxy']/user foreman-proxy",
               "set spec[user = 'foreman-proxy']/host_group/host ALL",
-              "set spec[user = 'foreman-proxy']/host_group/command '/usr/sbin/puppetca *'",
+              "set spec[user = 'foreman-proxy']/host_group/command '#{puppetca_command}'",
               "set spec[user = 'foreman-proxy']/host_group/command/runas_user root",
               "set spec[user = 'foreman-proxy']/host_group/command/tag NOPASSWD",
               "rm spec[user = 'foreman-proxy'][1]/host_group/command[position() > 1]",
