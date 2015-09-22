@@ -172,6 +172,8 @@
 #
 # $dhcp_nameservers::           DHCP nameservers
 #
+# $dhcp_server::                Address of DHCP server to manage 
+#
 # $dhcp_vendor::                DHCP vendor
 #
 # $dhcp_config::                DHCP config file path
@@ -329,6 +331,7 @@ class foreman_proxy (
   $dhcp_gateway               = $foreman_proxy::params::dhcp_gateway,
   $dhcp_range                 = $foreman_proxy::params::dhcp_range,
   $dhcp_nameservers           = $foreman_proxy::params::dhcp_nameservers,
+  $dhcp_server                = $foreman_proxy::params::dhcp_server,
   $dhcp_vendor                = $foreman_proxy::params::dhcp_vendor,
   $dhcp_config                = $foreman_proxy::params::dhcp_config,
   $dhcp_leases                = $foreman_proxy::params::dhcp_leases,
@@ -409,6 +412,7 @@ class foreman_proxy (
   validate_bool($dhcp_managed)
   validate_array($dhcp_option_domain)
   validate_integer($dhcp_omapi_port)
+  validate_string($dhcp_server)
 
   # Validate dns params
   validate_bool($dns, $dns_split_config_files)

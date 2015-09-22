@@ -7,6 +7,7 @@
 #   - virsh (simple implementation for libvirt)
 <% if scope.lookupvar("foreman_proxy::dhcp") == true -%>
 :dhcp_vendor: <%= scope.lookupvar("foreman_proxy::dhcp_vendor") %>
+:dhcp_server: <%= scope.lookupvar("foreman_proxy::dhcp_server") %>
 :dhcp_config: <%= scope.lookupvar("foreman_proxy::dhcp_config") %>
 :dhcp_leases: <%= scope.lookupvar("foreman_proxy::dhcp_leases") %>
 <% unless [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::dhcp_key_name")) ||
@@ -21,6 +22,7 @@
 <% else -%>
 # The vendor can be either isc or native_ms
 :dhcp_vendor: isc
+#:dhcp_server: 127.0.0.1
 # dhcp_subnets is a Native MS implementation setting. It restricts the subnets queried to a
 # subset, so as to reduce the query time.
 #:dhcp_subnets: [192.168.205.0/255.255.255.128, 192.168.205.128/255.255.255.128]

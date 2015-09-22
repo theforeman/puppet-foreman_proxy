@@ -839,6 +839,7 @@ describe 'foreman_proxy::config' do
             '---',
             ':enabled: https',
             ':dhcp_vendor: isc',
+            ':dhcp_server: 127.0.0.1',
             ":dhcp_config: #{etc_dir}/dhcp/dhcpd.conf",
             ":dhcp_leases: #{dhcp_leases}",
             ':dhcp_omapi_port: 7911',
