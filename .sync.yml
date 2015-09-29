@@ -2,4 +2,4 @@
 Rakefile:
   param_docs_pattern:
     - manifests/init.pp
-    - manifests/plugin/*.pp
+    - manifests/plugin/**/*.pp
