@@ -249,6 +249,6 @@ class foreman_proxy::params {
   $oauth_effective_user = 'admin'
   # OAuth credentials
   # shares cached_data with the foreman module so they're the same
-  $oauth_consumer_key    = cache_data('oauth_consumer_key', random_password(32))
-  $oauth_consumer_secret = cache_data('oauth_consumer_secret', random_password(32))
+  $oauth_consumer_key    = cache_data('foreman_cache_data', 'oauth_consumer_key', random_password(32))
+  $oauth_consumer_secret = cache_data('foreman_cache_data', 'oauth_consumer_secret', random_password(32))
 }
