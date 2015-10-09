@@ -178,14 +178,14 @@ describe 'foreman_proxy::config' do
                       when 'Debian'
                         case facts[:operatingsystem]
                         when 'Ubuntu'
-                          '/var/lib/tftpboot/'
+                          '/var/lib/tftpboot'
                         else
                           '/srv/tftp'
                         end
                       when 'FreeBSD', 'DragonFly'
                         '/tftpboot'
                       else
-                        '/var/lib/tftpboot/'
+                        '/var/lib/tftpboot'
                       end
 
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/tftp.yml", [
