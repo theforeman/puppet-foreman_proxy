@@ -129,7 +129,7 @@ describe 'foreman_proxy::config' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns.yml", [
             '---',
             ':enabled: false',
-            ':use_provider: nsupdate',
+            ':use_provider: dns_nsupdate',
             ':dns_ttl: 86400',
           ])
 
@@ -423,7 +423,7 @@ describe 'foreman_proxy::config' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns.yml", [
             '---',
             ':enabled: false',
-            ':use_provider: nsupdate_gss',
+            ':use_provider: dns_nsupdate_gss',
             ':dns_ttl: 86400',
           ])
 

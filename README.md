@@ -12,7 +12,7 @@ To use the PowerDNS plugin, the following variables need to be set on the main
 
     $dns          => true
     $dns_managed  => false
-    $dns_provider => 'dns_powerdns'
+    $dns_provider => 'powerdns'
 
 Then you also need to include `foreman_proxy::plugin::dns::powerdns`.
 
