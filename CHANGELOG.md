@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.4.0
+* New or changed parameters:
+    * Add dns_split_config_files parameter, set to false for 1.9 or prior
+      compatibility
+    * Add dhcp_server parameter for address of the DHCP server (1.10+)
+* Other changes and fixes:
+    * Support and test module under Puppet 4
+    * Support version 1.10 with split DNS configuration files
+    * Add FreeBSD support
+    * Add foreman_proxy::plugin::remote_execution::ssh and
+      foreman_proxy::plugin::dynflow plugin classes
+    * Add foreman_proxy::plugin::dns::powerdns plugin class
+    * Pass dhcp_key_name and secret to DHCP module OMAPI parameters
+    * Replace random_password/cache_data from theforeman/foreman with
+      puppet/extlib
+
 ## 2.3.0
 * New or changed parameters:
     * Add puppet\_use\_cache/puppet\_cache\_location parameters to control
