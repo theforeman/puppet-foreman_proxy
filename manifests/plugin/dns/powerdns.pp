@@ -13,6 +13,7 @@
 # $mysql_database::  MySQL server database
 #
 # $manage_database:: Whether to manage the mysql database. Also includes the mysql server.
+#                    type:boolean
 #
 # $pdnssec::         pdnssec command to run rectify-zone with. Can be an empty string.
 #
