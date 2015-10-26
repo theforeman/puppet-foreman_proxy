@@ -15,8 +15,6 @@
 #
 # $ssh_identity_file::  Provide an alternative name for the SSH keys
 #
-# $ssh_user::           SSH user to use
-#
 # $ssh_keygen::         Location of the ssh-keygen binary
 #
 class foreman_proxy::plugin::remote_execution::ssh (
@@ -25,7 +23,6 @@ class foreman_proxy::plugin::remote_execution::ssh (
   $generate_keys     = $::foreman_proxy::plugin::remote_execution::ssh::params::generate_keys,
   $ssh_identity_dir  = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_dir,
   $ssh_identity_file = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_file,
-  $ssh_user          = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_user,
   $ssh_keygen        = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_keygen,
 ) inherits foreman_proxy::plugin::remote_execution::ssh::params {
 
@@ -34,7 +31,6 @@ class foreman_proxy::plugin::remote_execution::ssh (
   validate_absolute_path($ssh_identity_path)
   validate_bool($enabled, $generate_keys)
   validate_listen_on($listen_on)
-  validate_string($ssh_user)
 
   include ::foreman_proxy::plugin::dynflow
 
