@@ -1,4 +1,3 @@
 ---
 :enabled: <%= @module_enabled %>
 :ssh_identity_key_file: <%= scope.lookupvar('::foreman_proxy::plugin::remote_execution::ssh::ssh_identity_path') %>
-:ssh_user: <%= scope.lookupvar('::foreman_proxy::plugin::remote_execution::ssh::ssh_user') %>

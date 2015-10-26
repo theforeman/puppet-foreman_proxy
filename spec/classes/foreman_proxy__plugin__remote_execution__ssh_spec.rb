@@ -18,7 +18,6 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
       should contain_file('/etc/foreman-proxy/settings.d/remote_execution_ssh.yml').
         with_content(/^:enabled: https/).
         with_content(%r{:ssh_identity_key_file: /usr/share/foreman-proxy/.ssh/id_rsa_foreman_proxy}).
-        with_content(/^:ssh_user: root/).
         with({
           :ensure  => 'file',
           :owner   => 'root',
@@ -45,7 +44,6 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
       :generate_keys     => false,
       :ssh_identity_dir  => '/usr/share/foreman-proxy/.ssh-rex',
       :ssh_identity_file => 'id_rsa',
-      :ssh_user          => 'foreman'
     } end
 
     it { should contain_foreman_proxy__plugin('dynflow') }
@@ -55,7 +53,6 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
       should contain_file('/etc/foreman-proxy/settings.d/remote_execution_ssh.yml').
         with_content(/^:enabled: http/).
         with_content(%r{:ssh_identity_key_file: /usr/share/foreman-proxy/.ssh-rex/id_rsa}).
-        with_content(/^:ssh_user: foreman/).
         with({
           :ensure  => 'file',
           :owner   => 'root',
