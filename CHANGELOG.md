@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.4.1
+* Fix DNS providers under 1.10 to have "dns_" prefix (#12157)
+* Fix missing kafo data type on powerdns::manage_database parameter
+* Test speed improvements
+
 ## 2.4.0
 * New or changed parameters:
     * Add dns_split_config_files parameter, set to false for 1.9 or prior
