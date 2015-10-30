@@ -53,6 +53,10 @@ describe 'foreman_proxy::config' do
           should_not contain_class('foreman_proxy::proxydhcp')
         end
 
+        it 'should install wget' do
+          should contain_package('wget').with_ensure('present')
+        end
+
         it "should create the #{proxy_user_name} user" do
           should contain_user("#{proxy_user_name}").with({
             :ensure  => 'present',
@@ -322,6 +326,18 @@ describe 'foreman_proxy::config' do
         it 'should copy the given files' do
           should contain_foreman_proxy__tftp__copy_file('/my/file')
           should contain_foreman_proxy__tftp__copy_file('/my/anotherfile')
+        end
+      end
+
+      context 'with tftp_manage_wget disabled' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            tftp_manage_wget => false,
+          }'
+        end
+
+        it 'should not install wget' do
+          should_not contain_package('wget')
         end
       end
 
