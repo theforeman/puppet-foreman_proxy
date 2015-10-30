@@ -29,6 +29,7 @@ class foreman_proxy::tftp {
     }
   }
 
-  ensure_packages(['wget'])
-
+  if $foreman_proxy::tftp_manage_wget {
+    ensure_packages(['wget'])
+  }
 }

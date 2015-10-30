@@ -174,11 +174,12 @@ class foreman_proxy::params {
   $template_url        = "http://${::fqdn}:${http_port}"
 
   # TFTP settings - requires optional TFTP puppet module
-  $tftp            = true
-  $tftp_listen_on  = 'https'
-  $tftp_root       = $tftp::params::root
-  $tftp_dirs       = ["${tftp_root}/pxelinux.cfg","${tftp_root}/boot"]
-  $tftp_servername = undef
+  $tftp             = true
+  $tftp_listen_on   = 'https'
+  $tftp_manage_wget = true
+  $tftp_root        = $tftp::params::root
+  $tftp_dirs        = ["${tftp_root}/pxelinux.cfg","${tftp_root}/boot"]
+  $tftp_servername  = undef
 
   # TODO: remove these on the next major version bump
   $tftp_syslinux_root  = undef
