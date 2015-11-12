@@ -17,18 +17,24 @@
 #
 # $ssh_keygen::         Location of the ssh-keygen binary
 #
+# $local_working_dir::  Local working directory on the smart proxy
+#
+# $remote_working_dir:: Remote working directory on clients
+#
 class foreman_proxy::plugin::remote_execution::ssh (
-  $enabled           = $::foreman_proxy::plugin::remote_execution::ssh::params::enabled,
-  $listen_on         = $::foreman_proxy::plugin::remote_execution::ssh::params::listen_on,
-  $generate_keys     = $::foreman_proxy::plugin::remote_execution::ssh::params::generate_keys,
-  $ssh_identity_dir  = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_dir,
-  $ssh_identity_file = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_file,
-  $ssh_keygen        = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_keygen,
+  $enabled            = $::foreman_proxy::plugin::remote_execution::ssh::params::enabled,
+  $listen_on          = $::foreman_proxy::plugin::remote_execution::ssh::params::listen_on,
+  $generate_keys      = $::foreman_proxy::plugin::remote_execution::ssh::params::generate_keys,
+  $ssh_identity_dir   = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_dir,
+  $ssh_identity_file  = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_file,
+  $ssh_keygen         = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_keygen,
+  $local_working_dir  = $::foreman_proxy::plugin::remote_execution::ssh::params::local_working_dir,
+  $remote_working_dir = $::foreman_proxy::plugin::remote_execution::ssh::params::remote_working_dir,
 ) inherits foreman_proxy::plugin::remote_execution::ssh::params {
 
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 
-  validate_absolute_path($ssh_identity_path)
+  validate_absolute_path($ssh_identity_path, $local_working_dir, $remote_working_dir)
   validate_bool($enabled, $generate_keys)
   validate_listen_on($listen_on)
 
