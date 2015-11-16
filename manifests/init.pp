@@ -437,6 +437,12 @@ class foreman_proxy (
   }
   validate_absolute_path($puppet_cache_location)
 
+  if $registered_proxy_url {
+    $real_registered_proxy_url = $registered_proxy_url
+  } else {
+    $real_registered_proxy_url = "https://${::fqdn}:${ssl_port}"
+  }
+
   # lint:ignore:spaceship_operator_without_tag
   class { '::foreman_proxy::install': } ~>
   class { '::foreman_proxy::config': } ~>
