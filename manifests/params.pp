@@ -110,8 +110,6 @@ class foreman_proxy::params {
   $log       = '/var/log/foreman-proxy/proxy.log'
   $log_level = 'ERROR'
 
-  $puppet_home = $puppet::params::vardir
-
   # Enable listening on http
   $http      = false
   $http_port = '8000'
@@ -119,11 +117,12 @@ class foreman_proxy::params {
   # Enable SSL, ensure proxy is added with "https://" protocol if true
   $ssl      = true
   $ssl_port = '8443'
+  $ssldir   = $::puppet::params::ssldir
   # If CA is specified, remote Foreman host will be verified
-  $ssl_ca = "${puppet_home}/ssl/certs/ca.pem"
+  $ssl_ca = "${ssldir}/certs/ca.pem"
   # Used to communicate to Foreman
-  $ssl_cert = "${puppet_home}/ssl/certs/${lower_fqdn}.pem"
-  $ssl_key = "${puppet_home}/ssl/private_keys/${lower_fqdn}.pem"
+  $ssl_cert = "${ssldir}/certs/${lower_fqdn}.pem"
+  $ssl_key = "${ssldir}/private_keys/${lower_fqdn}.pem"
 
   $foreman_ssl_ca  = undef
   $foreman_ssl_cert = undef
@@ -153,7 +152,6 @@ class foreman_proxy::params {
   $autosign_location  = "${etc}/puppet/autosign.conf"
   $puppetca_cmd       = $puppet::params::puppetca_cmd
   $puppet_group       = 'puppet'
-  $ssldir             = "${puppet_home}/ssl"
   $puppetdir          = $puppet::params::dir
 
   # puppetrun settings
