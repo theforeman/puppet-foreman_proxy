@@ -80,7 +80,7 @@ class foreman_proxy::params {
 
       $puppetssh_command = '/usr/local/bin/puppet agent --onetime --no-usecacheonfailure'
 
-      $dhcp_config = '/usr/local/etc/dhcp/dhcpd.conf'
+      $dhcp_config = '/usr/local/etc/dhcpd.conf'
       $dhcp_leases = '/var/db/dhcpd/dhcpd.leases'
 
       $keyfile  = '/usr/local/etc/namedb/rndc.key'
