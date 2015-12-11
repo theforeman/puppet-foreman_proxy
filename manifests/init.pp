@@ -158,6 +158,9 @@
 # $dhcp::                       Enable DHCP feature
 #                               type:boolean
 #
+# $dhcp_split_config_files::    Split DHCP configuration files. This is needed since version 1.11.
+#                               type:boolean
+#
 # $dhcp_listen_on::             DHCP proxy to listen on https, http, or both
 #
 # $dhcp_managed::               DHCP is managed by Foreman proxy
@@ -327,6 +330,7 @@ class foreman_proxy (
   $tftp_dirs                  = $foreman_proxy::params::tftp_dirs,
   $tftp_servername            = $foreman_proxy::params::tftp_servername,
   $dhcp                       = $foreman_proxy::params::dhcp,
+  $dhcp_split_config_files    = $foreman_proxy::params::dhcp_split_config_files,
   $dhcp_listen_on             = $foreman_proxy::params::dhcp_listen_on,
   $dhcp_managed               = $foreman_proxy::params::dhcp_managed,
   $dhcp_option_domain         = $foreman_proxy::params::dhcp_option_domain,
@@ -413,7 +417,7 @@ class foreman_proxy (
   }
 
   # Validate dhcp params
-  validate_bool($dhcp_managed)
+  validate_bool($dhcp_managed, $dhcp_split_config_files)
   validate_array($dhcp_option_domain)
   validate_integer($dhcp_omapi_port)
   validate_string($dhcp_server)

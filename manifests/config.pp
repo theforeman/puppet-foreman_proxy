@@ -45,6 +45,11 @@ class foreman_proxy::config {
     enabled   => $::foreman_proxy::dhcp,
     listen_on => $::foreman_proxy::dhcp_listen_on,
   }
+  if $::foreman_proxy::dhcp_split_config_files {
+    foreman_proxy::settings_file { 'dhcp_isc':
+      module => false,
+    }
+  }
   foreman_proxy::settings_file { 'dns':
     enabled   => $::foreman_proxy::dns,
     listen_on => $::foreman_proxy::dns_listen_on,

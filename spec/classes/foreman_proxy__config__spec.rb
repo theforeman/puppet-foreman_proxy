@@ -72,7 +72,8 @@ describe 'foreman_proxy::config' do
         it 'should create configuration files' do
           [ "#{etc_dir}/foreman-proxy/settings.yml", "#{etc_dir}/foreman-proxy/settings.d/tftp.yml", "#{etc_dir}/foreman-proxy/settings.d/dns.yml",
             "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate.yml", "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate_gss.yml",
-            "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", "#{etc_dir}/foreman-proxy/settings.d/puppet.yml",
+            "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", "#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml",
+            "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", "#{etc_dir}/foreman-proxy/settings.d/puppet.yml",
             "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", "#{etc_dir}/foreman-proxy/settings.d/realm.yml", "#{etc_dir}/foreman-proxy/settings.d/templates.yml"].each do |cfile|
             should contain_file(cfile).
               with({
@@ -116,7 +117,8 @@ describe 'foreman_proxy::config' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
             '---',
             ':enabled: false',
-            ':dhcp_vendor: isc',
+            ':use_provider: dhcp_isc',
+            ':server: 127.0.0.1',
           ])
         end
 
@@ -854,12 +856,42 @@ describe 'foreman_proxy::config' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
             '---',
             ':enabled: https',
-            ':dhcp_vendor: isc',
-            ':dhcp_server: 127.0.0.1',
-            ":dhcp_config: #{etc_dir}/dhcp/dhcpd.conf",
-            ":dhcp_leases: #{dhcp_leases}",
-            ':dhcp_omapi_port: 7911',
+            ':use_provider: dhcp_isc',
+            ':server: 127.0.0.1',
           ])
+        end
+
+        it 'should generate correct dhcp_isc.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml", [
+            '---',
+            ":config: #{etc_dir}/dhcp/dhcpd.conf",
+            ":leases: #{dhcp_leases}",
+            ':omapi_port: 7911',
+          ])
+        end
+
+        context 'when dhcp_split_config_files => false' do
+          let :pre_condition do
+            'class {"foreman_proxy":
+              dhcp                    => true,
+              dhcp_managed            => false,
+              dhcp_split_config_files => false,
+            }'
+          end
+
+          it 'should not split the dhcp config' do
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
+              '---',
+              ':enabled: https',
+              ':dhcp_vendor: isc',
+              ':dhcp_server: 127.0.0.1',
+              ":dhcp_config: #{etc_dir}/dhcp/dhcpd.conf",
+              ":dhcp_leases: #{dhcp_leases}",
+              ':dhcp_omapi_port: 7911',
+            ])
+
+            should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml")
+          end
         end
       end
     end

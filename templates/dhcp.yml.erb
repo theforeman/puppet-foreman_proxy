@@ -1,10 +1,19 @@
+<% dhcp_split_files = scope.lookupvar("foreman_proxy::dhcp_split_config_files") -%>
 ---
 # Enable DHCP management
+# Can be true, false, or http/https to enable just one of the protocols
 :enabled: <%= @module_enabled %>
-# valid vendors:
-#   - isc
-#   - native_ms (Microsoft native implementation)
-#   - virsh (simple implementation for libvirt)
+
+# valid providers:
+#   - <%= "dhcp_" if dhcp_split_files %>isc (ISC dhcp server)
+#   - <%= "dhcp_" if dhcp_split_files %>native_ms (Microsoft native implementation)
+#   - <%= "dhcp_" if dhcp_split_files %>virsh (simple implementation for libvirt)
+<% if dhcp_split_files -%>
+:use_provider: dhcp_<%= scope.lookupvar("foreman_proxy::dhcp_vendor") %>
+:server: <%= scope.lookupvar("foreman_proxy::dhcp_server") %>
+# subnets restricts the subnets queried to a subset, to reduce the query time.
+#:subnets: [192.168.205.0/255.255.255.128, 192.168.205.128/255.255.255.128]
+<% else -%>
 <% if scope.lookupvar("foreman_proxy::dhcp") == true -%>
 :dhcp_vendor: <%= scope.lookupvar("foreman_proxy::dhcp_vendor") %>
 :dhcp_server: <%= scope.lookupvar("foreman_proxy::dhcp_server") %>
@@ -35,4 +44,5 @@
 #:dhcp_key_name: secret_key_name
 #:dhcp_key_secret: secret_key
 #:dhcp_omapi_port: 7911
+<% end -%>
 <% end -%>

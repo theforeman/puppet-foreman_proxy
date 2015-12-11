@@ -186,13 +186,14 @@ class foreman_proxy::params {
   $tftp_syslinux_files = undef
 
   # DHCP settings - requires optional DHCP puppet module
-  $dhcp                   = false
-  $dhcp_listen_on         = 'https'
-  $dhcp_managed           = true
-  $dhcp_interface         = 'eth0'
-  $dhcp_gateway           = '192.168.100.1'
-  $dhcp_range             = false
-  $dhcp_option_domain     = [$::domain]
+  $dhcp                    = false
+  $dhcp_split_config_files = true # smart-proxy 1.11+
+  $dhcp_listen_on          = 'https'
+  $dhcp_managed            = true
+  $dhcp_interface          = 'eth0'
+  $dhcp_gateway            = '192.168.100.1'
+  $dhcp_range              = false
+  $dhcp_option_domain      = [$::domain]
   # This will use the IP of the interface in $dhcp_interface, override
   # if you need to. You can make this a comma-separated string too - it
   # will be split into an array

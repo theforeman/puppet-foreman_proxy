@@ -31,6 +31,9 @@ version of this module (1.x).
 Since version 1.10 the DNS configuration files are split. If you wish to use
 prior versions with DNS, then you must set `dns_split_config_files` to `false`.
 
+Since version 1.11 the DHCP configuration files are split. If you wish to use
+prior versions with DHCP, then you must set `dhcp_split_config_files` to `false`.
+
 # Contributing
 
 * Fork the project
