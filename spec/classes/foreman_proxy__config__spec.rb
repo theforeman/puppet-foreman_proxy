@@ -811,12 +811,20 @@ describe 'foreman_proxy::config' do
           })
         end
 
-        dhcp_interface = case facts[:osfamily]
-                         when 'FreeBSD', 'DragonFly'
-                           'lo0'
-                         else
-                           'lo'
-                         end
+        case facts[:osfamily]
+        when 'FreeBSD', 'DragonFly'
+          dhcp_interface = 'lo0'
+          dhcp_leases    = '/var/db/dhcpd/dhcpd.leases'
+          dhcp_config    = "#{etc_dir}/dhcpd.conf"
+        when 'Debian'
+          dhcp_interface = 'lo'
+          dhcp_leases    = '/var/lib/dhcp/dhcpd.leases'
+          dhcp_config    = "#{etc_dir}/dhcp/dhcpd.conf"
+        else
+          dhcp_interface = 'lo'
+          dhcp_leases    = '/var/lib/dhcpd/dhcpd.leases'
+          dhcp_config    = "#{etc_dir}/dhcp/dhcpd.conf"
+        end
 
         let :pre_condition do
           "class {'foreman_proxy':
@@ -825,22 +833,13 @@ describe 'foreman_proxy::config' do
           }"
         end
 
-        dhcp_leases = case facts[:osfamily]
-                      when 'Debian'
-                        '/var/lib/dhcp/dhcpd.leases'
-                      when 'FreeBSD', 'DragonFly'
-                        '/var/db/dhcpd/dhcpd.leases'
-                      else
-                        '/var/lib/dhcpd/dhcpd.leases'
-                      end
-
         it 'should generate correct dhcp.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
             '---',
             ':enabled: https',
             ':dhcp_vendor: isc',
             ':dhcp_server: 127.0.0.1',
-            ":dhcp_config: #{etc_dir}/dhcp/dhcpd.conf",
+            ":dhcp_config: #{dhcp_config}",
             ":dhcp_leases: #{dhcp_leases}",
             ':dhcp_omapi_port: 7911',
           ])
