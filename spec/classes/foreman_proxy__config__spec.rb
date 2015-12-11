@@ -870,6 +870,22 @@ describe 'foreman_proxy::config' do
           ])
         end
 
+        context 'with dhcp_vendor' do
+          let :pre_condition do
+            'class {"foreman_proxy":
+              dhcp         => true,
+              dhcp_vendor  => "native_ms",
+              dhcp_managed => false,
+            }'
+          end
+
+          it 'should set :use_provider' do
+            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
+              ':use_provider: dhcp_native_ms',
+            ])
+          end
+        end
+
         context 'when dhcp_split_config_files => false' do
           let :pre_condition do
             'class {"foreman_proxy":
@@ -891,6 +907,23 @@ describe 'foreman_proxy::config' do
             ])
 
             should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml")
+          end
+
+          context 'with dhcp_vendor' do
+            let :pre_condition do
+              'class {"foreman_proxy":
+                dhcp                    => true,
+                dhcp_vendor             => "native_ms",
+                dhcp_managed            => false,
+                dhcp_split_config_files => false,
+              }'
+            end
+
+            it 'should set :dhcp_vendor' do
+              verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
+                ':dhcp_vendor: native_ms',
+              ])
+            end
           end
         end
       end

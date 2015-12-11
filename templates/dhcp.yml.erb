@@ -9,13 +9,13 @@
 #   - <%= "dhcp_" if dhcp_split_files %>native_ms (Microsoft native implementation)
 #   - <%= "dhcp_" if dhcp_split_files %>virsh (simple implementation for libvirt)
 <% if dhcp_split_files -%>
-:use_provider: dhcp_<%= scope.lookupvar("foreman_proxy::dhcp_vendor") %>
+:use_provider: dhcp_<%= scope.lookupvar("foreman_proxy::dhcp_provider_real") %>
 :server: <%= scope.lookupvar("foreman_proxy::dhcp_server") %>
 # subnets restricts the subnets queried to a subset, to reduce the query time.
 #:subnets: [192.168.205.0/255.255.255.128, 192.168.205.128/255.255.255.128]
 <% else -%>
 <% if scope.lookupvar("foreman_proxy::dhcp") == true -%>
-:dhcp_vendor: <%= scope.lookupvar("foreman_proxy::dhcp_vendor") %>
+:dhcp_vendor: <%= scope.lookupvar("foreman_proxy::dhcp_provider_real") %>
 :dhcp_server: <%= scope.lookupvar("foreman_proxy::dhcp_server") %>
 :dhcp_config: <%= scope.lookupvar("foreman_proxy::dhcp_config") %>
 :dhcp_leases: <%= scope.lookupvar("foreman_proxy::dhcp_leases") %>

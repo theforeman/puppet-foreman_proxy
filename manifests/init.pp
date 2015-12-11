@@ -166,6 +166,10 @@
 # $dhcp_managed::               DHCP is managed by Foreman proxy
 #                               type:boolean
 #
+# $dhcp_provider::              DHCP provider
+#
+# $dhcp_vendor::                DHCP vendor (deprecated, use dhcp_provider)
+#
 # $dhcp_option_domain::         DHCP use the dhcpd config option domain-name
 #                               type:array
 #
@@ -178,8 +182,6 @@
 # $dhcp_nameservers::           DHCP nameservers
 #
 # $dhcp_server::                Address of DHCP server to manage 
-#
-# $dhcp_vendor::                DHCP vendor
 #
 # $dhcp_config::                DHCP config file path
 #
@@ -333,13 +335,14 @@ class foreman_proxy (
   $dhcp_split_config_files    = $foreman_proxy::params::dhcp_split_config_files,
   $dhcp_listen_on             = $foreman_proxy::params::dhcp_listen_on,
   $dhcp_managed               = $foreman_proxy::params::dhcp_managed,
+  $dhcp_provider              = $foreman_proxy::params::dhcp_provider,
+  $dhcp_vendor                = $foreman_proxy::params::dhcp_vendor,
   $dhcp_option_domain         = $foreman_proxy::params::dhcp_option_domain,
   $dhcp_interface             = $foreman_proxy::params::dhcp_interface,
   $dhcp_gateway               = $foreman_proxy::params::dhcp_gateway,
   $dhcp_range                 = $foreman_proxy::params::dhcp_range,
   $dhcp_nameservers           = $foreman_proxy::params::dhcp_nameservers,
   $dhcp_server                = $foreman_proxy::params::dhcp_server,
-  $dhcp_vendor                = $foreman_proxy::params::dhcp_vendor,
   $dhcp_config                = $foreman_proxy::params::dhcp_config,
   $dhcp_leases                = $foreman_proxy::params::dhcp_leases,
   $dhcp_key_name              = $foreman_proxy::params::dhcp_key_name,
@@ -420,7 +423,13 @@ class foreman_proxy (
   validate_bool($dhcp_managed, $dhcp_split_config_files)
   validate_array($dhcp_option_domain)
   validate_integer($dhcp_omapi_port)
-  validate_string($dhcp_server)
+  validate_string($dhcp_provider, $dhcp_server)
+  if $dhcp_vendor {
+    validate_string($dhcp_vendor)
+    warning("${::hostname}: foreman_proxy::dhcp_vendor is deprecated; please use dhcp_provider instead")
+  }
+  # dhcp_vendor is deprecated in favour of dhcp_provider
+  $dhcp_provider_real = pick($dhcp_vendor, $dhcp_provider)
 
   # Validate dns params
   validate_bool($dns, $dns_split_config_files)

@@ -190,6 +190,8 @@ class foreman_proxy::params {
   $dhcp_split_config_files = true # smart-proxy 1.11+
   $dhcp_listen_on          = 'https'
   $dhcp_managed            = true
+  $dhcp_provider           = 'isc'
+  $dhcp_vendor             = undef
   $dhcp_interface          = 'eth0'
   $dhcp_gateway            = '192.168.100.1'
   $dhcp_range              = false
@@ -203,7 +205,6 @@ class foreman_proxy::params {
   $dhcp_key_name   = undef
   $dhcp_key_secret = undef
   $dhcp_omapi_port = 7911
-  $dhcp_vendor     = 'isc'
 
   # DNS settings - requires optional DNS puppet module
   $dns                    = false
