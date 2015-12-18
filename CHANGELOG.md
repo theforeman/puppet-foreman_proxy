@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.2
+* Fix path to dhcpd.conf on FreeBSD
+
 ## 2.4.1
 * Fix DNS providers under 1.10 to have "dns_" prefix (#12157)
 * Fix missing kafo data type on powerdns::manage_database parameter
