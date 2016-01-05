@@ -10,6 +10,7 @@
 # $listen_on::          Proxy feature listens on https, http, or both
 #
 # $generate_keys::      Automatically generate SSH keys
+#                       type:boolean
 #
 # $ssh_identity_dir::   Directory where SSH keys are stored
 #
