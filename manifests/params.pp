@@ -247,7 +247,7 @@ class foreman_proxy::params {
   # Name the proxy should be registered with
   $registered_name = $::fqdn
   # Proxy URL to be registered
-  $registered_proxy_url = "https://${registered_name}:${ssl_port}"
+  $registered_proxy_url = undef
   # User to be used for registration
   $oauth_effective_user = 'admin'
   # OAuth credentials

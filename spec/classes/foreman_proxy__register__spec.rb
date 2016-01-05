@@ -16,9 +16,9 @@ describe 'foreman_proxy::register' do
             'ensure'          => 'present',
             'base_url'        => "https://#{facts[:fqdn]}",
             'effective_user'  => 'admin',
-              'url'             => "https://#{facts[:fqdn]}:8443",
+            'url'             => "https://#{facts[:fqdn]}:8443",
             'consumer_key'    => /\w+/,
-              'consumer_secret' => /\w+/,
+            'consumer_secret' => /\w+/,
           })
         end
       end
@@ -26,14 +26,14 @@ describe 'foreman_proxy::register' do
       describe 'with overrides' do
         let :pre_condition do
           "class {'foreman_proxy':
-        register_in_foreman   => true,
-        foreman_base_url      => 'my_base',
-        registered_name       => 'my_proxy',
-        registered_proxy_url  => 'my_url',
-        oauth_consumer_key    => 'key',
-        oauth_consumer_secret => 'secret',
-        oauth_effective_user  => 'smartproxy',
-      }"
+            register_in_foreman   => true,
+            foreman_base_url      => 'my_base',
+            registered_name       => 'my_proxy',
+            registered_proxy_url  => 'my_url',
+            oauth_consumer_key    => 'key',
+            oauth_consumer_secret => 'secret',
+            oauth_effective_user  => 'smartproxy',
+          }"
         end
 
         it 'should register the proxy' do
@@ -43,6 +43,32 @@ describe 'foreman_proxy::register' do
             'base_url'        => 'my_base',
             'effective_user'  => 'smartproxy',
             'url'             => 'my_url',
+            'consumer_key'    => 'key',
+            'consumer_secret' => 'secret',
+          })
+        end
+      end
+
+      describe 'with ssl_port overrides' do
+        let :pre_condition do
+          "class {'foreman_proxy':
+            register_in_foreman   => true,
+            foreman_base_url      => 'my_base',
+            registered_name       => 'my_proxy',
+            oauth_consumer_key    => 'key',
+            oauth_consumer_secret => 'secret',
+            oauth_effective_user  => 'smartproxy',
+            ssl_port              => '1234',
+          }"
+        end
+
+        it 'should register the proxy' do
+          should contain_class('foreman_proxy::register')
+          should contain_foreman_smartproxy('my_proxy').with({
+            'ensure'          => 'present',
+            'base_url'        => 'my_base',
+            'effective_user'  => 'smartproxy',
+            'url'             => "https://#{facts[:fqdn]}:1234",
             'consumer_key'    => 'key',
             'consumer_secret' => 'secret',
           })
