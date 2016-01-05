@@ -28,7 +28,7 @@ define foreman_proxy::settings_file (
   $module        = true,
   $enabled       = true,
   $listen_on     = 'https',
-  $path          = "/etc/foreman-proxy/settings.d/${title}.yml",
+  $path          = "${::foreman_proxy::etc}/foreman-proxy/settings.d/${title}.yml",
   $owner         = 'root',
   $group         = $::foreman_proxy::user,
   $mode          = '0640',

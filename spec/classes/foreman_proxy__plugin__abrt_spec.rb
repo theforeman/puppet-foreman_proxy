@@ -2,12 +2,9 @@ require 'spec_helper'
 
 describe 'foreman_proxy::plugin::abrt' do
 
-  let :facts do {
-    :osfamily               => 'RedHat',
-    :operatingsystem        => 'CentOS',
-    :operatingsystemrelease => '6.5',
-    :fqdn                   => 'my.host.example.com',
-  } end
+  let :facts do
+    on_supported_os['redhat-6-x86_64']
+  end
 
   describe 'with default settings' do
     let :pre_condition do

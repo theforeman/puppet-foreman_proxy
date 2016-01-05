@@ -18,6 +18,8 @@
 # $plugin_version::             foreman plugins version, it's passed to ensure parameter of plugins package resource
 #                               can be set to 'latest', 'present',  'installed', 'absent'.
 #
+# $bind_host::                  Host to bind ports to, e.g. *, localhost, 0.0.0.0
+#
 # $port::                       Port to listen on (deprecated in favor of $ssl_port and $http_port)
 #                               type:integer
 #
@@ -107,6 +109,8 @@
 #                               the exit code
 #                               type:boolean
 #
+# $salt_puppetrun_cmd::         Salt command to trigger Puppet run
+#
 # $puppet_user::                Which user to invoke sudo as to run puppet commands
 #
 # $puppet_url::                 URL of the Puppet master itself for API requests
@@ -133,6 +137,8 @@
 #
 # $tftp_listen_on::             TFTP proxy to listen on https, http, or both
 #
+# $tftp_manage_wget::           If enabled will install the wget package
+#                               type:boolean
 # $tftp_syslinux_root::         Directory that hold syslinux files (deprecated, see $tftp_syslinux_filenames)
 #
 # $tftp_syslinux_files::        Syslinux files to install on TFTP (copied from $tftp_syslinux_root,
@@ -152,10 +158,17 @@
 # $dhcp::                       Enable DHCP feature
 #                               type:boolean
 #
+# $dhcp_split_config_files::    Split DHCP configuration files. This is needed since version 1.11.
+#                               type:boolean
+#
 # $dhcp_listen_on::             DHCP proxy to listen on https, http, or both
 #
 # $dhcp_managed::               DHCP is managed by Foreman proxy
 #                               type:boolean
+#
+# $dhcp_provider::              DHCP provider
+#
+# $dhcp_vendor::                DHCP vendor (deprecated, use dhcp_provider)
 #
 # $dhcp_option_domain::         DHCP use the dhcpd config option domain-name
 #                               type:array
@@ -168,7 +181,7 @@
 #
 # $dhcp_nameservers::           DHCP nameservers
 #
-# $dhcp_vendor::                DHCP vendor
+# $dhcp_server::                Address of DHCP server to manage 
 #
 # $dhcp_config::                DHCP config file path
 #
@@ -178,7 +191,13 @@
 #
 # $dhcp_key_secret::            DHCP password
 #
+# $dhcp_omapi_port::            DHCP server OMAPI port
+#                               type:integer
+#
 # $dns::                        Enable DNS feature
+#                               type:boolean
+#
+# $dns_split_config_files::     Split DNS configuration files. This is needed since version 1.10.
 #                               type:boolean
 #
 # $dns_listen_on::              DNS proxy to listen on https, http, or both
@@ -248,7 +267,7 @@
 # $puppet_use_cache::           Whether to enable caching of puppet classes
 #                               type:boolean
 #
-# #puppet_cache_location::      Location to store cached puppet classes
+# $puppet_cache_location::      Location to store cached puppet classes
 #
 class foreman_proxy (
   $repo                       = $foreman_proxy::params::repo,
@@ -256,6 +275,7 @@ class foreman_proxy (
   $custom_repo                = $foreman_proxy::params::custom_repo,
   $version                    = $foreman_proxy::params::version,
   $plugin_version             = $foreman_proxy::params::plugin_version,
+  $bind_host                  = $foreman_proxy::params::bind_host,
   $port                       = $foreman_proxy::params::port,
   $http_port                  = $foreman_proxy::params::http_port,
   $ssl_port                   = $foreman_proxy::params::ssl_port,
@@ -292,6 +312,7 @@ class foreman_proxy (
   $puppetssh_user             = $foreman_proxy::params::puppetssh_user,
   $puppetssh_keyfile          = $foreman_proxy::params::puppetssh_keyfile,
   $puppetssh_wait             = $foreman_proxy::params::puppetssh_wait,
+  $salt_puppetrun_cmd         = $foreman_proxy::params::salt_puppetrun_cmd,
   $puppet_user                = $foreman_proxy::params::puppet_user,
   $puppet_url                 = $foreman_proxy::params::puppet_url,
   $puppet_ssl_ca              = $foreman_proxy::params::ssl_ca,
@@ -303,6 +324,7 @@ class foreman_proxy (
   $template_url               = $foreman_proxy::params::template_url,
   $tftp                       = $foreman_proxy::params::tftp,
   $tftp_listen_on             = $foreman_proxy::params::tftp_listen_on,
+  $tftp_manage_wget           = $foreman_proxy::params::tftp_manage_wget,
   $tftp_syslinux_root         = $foreman_proxy::params::tftp_syslinux_root,
   $tftp_syslinux_files        = $foreman_proxy::params::tftp_syslinux_files,
   $tftp_syslinux_filenames    = $foreman_proxy::params::tftp_syslinux_filenames,
@@ -310,19 +332,24 @@ class foreman_proxy (
   $tftp_dirs                  = $foreman_proxy::params::tftp_dirs,
   $tftp_servername            = $foreman_proxy::params::tftp_servername,
   $dhcp                       = $foreman_proxy::params::dhcp,
+  $dhcp_split_config_files    = $foreman_proxy::params::dhcp_split_config_files,
   $dhcp_listen_on             = $foreman_proxy::params::dhcp_listen_on,
   $dhcp_managed               = $foreman_proxy::params::dhcp_managed,
+  $dhcp_provider              = $foreman_proxy::params::dhcp_provider,
+  $dhcp_vendor                = $foreman_proxy::params::dhcp_vendor,
   $dhcp_option_domain         = $foreman_proxy::params::dhcp_option_domain,
   $dhcp_interface             = $foreman_proxy::params::dhcp_interface,
   $dhcp_gateway               = $foreman_proxy::params::dhcp_gateway,
   $dhcp_range                 = $foreman_proxy::params::dhcp_range,
   $dhcp_nameservers           = $foreman_proxy::params::dhcp_nameservers,
-  $dhcp_vendor                = $foreman_proxy::params::dhcp_vendor,
+  $dhcp_server                = $foreman_proxy::params::dhcp_server,
   $dhcp_config                = $foreman_proxy::params::dhcp_config,
   $dhcp_leases                = $foreman_proxy::params::dhcp_leases,
   $dhcp_key_name              = $foreman_proxy::params::dhcp_key_name,
   $dhcp_key_secret            = $foreman_proxy::params::dhcp_key_secret,
+  $dhcp_omapi_port            = $foreman_proxy::params::dhcp_omapi_port,
   $dns                        = $foreman_proxy::params::dns,
+  $dns_split_config_files     = $foreman_proxy::params::dns_split_config_files,
   $dns_listen_on              = $foreman_proxy::params::dns_listen_on,
   $dns_managed                = $foreman_proxy::params::dns_managed,
   $dns_provider               = $foreman_proxy::params::dns_provider,
@@ -371,6 +398,7 @@ class foreman_proxy (
   }
 
   # Validate misc params
+  validate_string($bind_host)
   validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman)
   validate_array($trusted_hosts)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
@@ -380,20 +408,31 @@ class foreman_proxy (
   validate_bool($puppetssh_wait)
   validate_string($ssldir, $puppetdir, $autosign_location, $puppetca_cmd, $puppetrun_cmd)
   validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
+  validate_string($salt_puppetrun_cmd)
 
   # Validate template params
   validate_string($template_url)
 
   # Validate tftp params
+  validate_bool($tftp_manage_wget)
   if $tftp_servername {
     validate_string($tftp_servername)
   }
 
   # Validate dhcp params
-  validate_bool($dhcp_managed)
+  validate_bool($dhcp_managed, $dhcp_split_config_files)
   validate_array($dhcp_option_domain)
+  validate_integer($dhcp_omapi_port)
+  validate_string($dhcp_provider, $dhcp_server)
+  if $dhcp_vendor {
+    validate_string($dhcp_vendor)
+    warning("${::hostname}: foreman_proxy::dhcp_vendor is deprecated; please use dhcp_provider instead")
+  }
+  # dhcp_vendor is deprecated in favour of dhcp_provider
+  $dhcp_provider_real = pick($dhcp_vendor, $dhcp_provider)
 
   # Validate dns params
+  validate_bool($dns, $dns_split_config_files)
   validate_string($dns_interface, $dns_provider, $dns_reverse, $dns_server, $keyfile)
   validate_array($dns_forwarders)
 

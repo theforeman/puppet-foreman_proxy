@@ -1,5 +1,39 @@
 # Changelog
 
+## 2.4.0
+* New or changed parameters:
+    * Add dns_split_config_files parameter, set to false for 1.9 or prior
+      compatibility
+    * Add dhcp_server parameter for address of the DHCP server (1.10+)
+* Other changes and fixes:
+    * Support and test module under Puppet 4
+    * Support version 1.10 with split DNS configuration files
+    * Add FreeBSD support
+    * Add foreman_proxy::plugin::remote_execution::ssh and
+      foreman_proxy::plugin::dynflow plugin classes
+    * Add foreman_proxy::plugin::dns::powerdns plugin class
+    * Pass dhcp_key_name and secret to DHCP module OMAPI parameters
+    * Replace random_password/cache_data from theforeman/foreman with
+      puppet/extlib
+
+## 2.3.0
+* New or changed parameters:
+    * Add puppet\_use\_cache/puppet\_cache\_location parameters to control
+      caching functions of the 'puppet' module
+    * Add new api\_* parameters to foreman_proxy::plugin::salt for its access
+      to the Salt API (#8473)
+    * Add bind\_host parameter for smart proxy bind IP/host in 1.8+
+    * Add salt\_puppetrun\_cmd parameter to change Salt command used for
+      Puppet runs in 1.8+
+    * Add dhcp\_omapi\_port parameter to control the OMAPI port used for ISC
+      dhcpd management in 1.9+
+* Other changes and fixes:
+    * Mark support for new theforeman releases using puppetlabs/concat
+
+## 2.2.3
+* Don't configure dns_key if nsupdate_gss is used (#10436)
+* Copy libutil.c32 PXELinux 6 file on Debian 8/Jessie (#10255)
+
 ## 2.2.2
 * Copy ldlinux.c32 PXELinux 6 file on Debian 8/Jessie (#10255)
 * Change tftp_servername parameter default to undef (#9896)

@@ -30,6 +30,8 @@ class foreman_proxy::proxydhcp {
     interfaces  => [$foreman_proxy::dhcp_interface],
     pxeserver   => $ip,
     pxefilename => 'pxelinux.0',
+    omapi_name  => $foreman_proxy::dhcp_key_name,
+    omapi_key   => $foreman_proxy::dhcp_key_secret,
   }
 
   ::dhcp::pool{ $::domain:

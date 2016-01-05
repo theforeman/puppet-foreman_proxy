@@ -1,6 +1,6 @@
 {
   "name": "theforeman-foreman_proxy",
-  "version": "2.2.3",
+  "version": "2.4.1",
   "author": "theforeman",
   "summary": "Foreman Smart Proxy configuration",
   "license": "GPL-3.0+",
@@ -20,19 +20,19 @@
   "dependencies": [
     {
       "name": "theforeman/dns",
-      "version_requirement": ">= 1.3.0 < 3.0.0"
-    },
-    {
-      "name": "theforeman/dhcp",
-      "version_requirement": ">= 1.3.0 < 2.0.0"
-    },
-    {
-      "name": "theforeman/foreman",
       "version_requirement": ">= 1.3.0 < 4.0.0"
     },
     {
+      "name": "theforeman/dhcp",
+      "version_requirement": ">= 1.3.0 < 3.0.0"
+    },
+    {
+      "name": "theforeman/foreman",
+      "version_requirement": ">= 5.0.0 < 6.0.0"
+    },
+    {
       "name": "theforeman/puppet",
-      "version_requirement": ">= 3.0.0 < 4.0.0"
+      "version_requirement": ">= 4.2.0 < 5.0.0"
     },
     {
       "name": "theforeman/tftp",
@@ -40,13 +40,17 @@
     },
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 2.6.0 < 5.0.0"
+      "version_requirement": ">= 4.6.0 < 5.0.0"
+    },
+    {
+      "name": "puppet/extlib",
+      "version_requirement": ">= 0.10.4 < 1.0.0"
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 2.7.0 < 4.0.0"
+      "version_requirement": ">= 2.7.0 < 5.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -90,6 +94,21 @@
       "operatingsystemrelease": [
         "12.04",
         "14.04"
+      ]
+    },
+    {
+      "operatingsystem": "FreeBSD",
+      "operatingsystemrelease": [
+        "9",
+        "10"
+      ]
+    },
+    {
+      "operatingsystem": "DragonFly",
+      "operatingsystemrelease": [
+        "3.6",
+        "3.8",
+        "4"
       ]
     }
   ]
