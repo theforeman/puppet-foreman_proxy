@@ -178,7 +178,7 @@ class foreman_proxy::params {
   $tftp_listen_on   = 'https'
   $tftp_manage_wget = true
   $tftp_root        = $tftp::params::root
-  $tftp_dirs        = ["${tftp_root}/pxelinux.cfg","${tftp_root}/boot"]
+  $tftp_dirs        = ["${tftp_root}/pxelinux.cfg","${tftp_root}/boot","${tftp_root}/ztp.cfg","${tftp_root}/poap.cfg"]
   $tftp_servername  = undef
 
   # TODO: remove these on the next major version bump
