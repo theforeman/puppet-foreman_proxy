@@ -19,6 +19,12 @@
 #
 # $pulp_url::         pulp url to use
 #
+# $pulp_dir::         directory for pulp
+#
+# $pulp_content_dir:: directory for pulp content
+#
+# $mongodb_dir::      directory for Mongo DB
+#
 class foreman_proxy::plugin::pulp (
   $enabled          = $::foreman_proxy::plugin::pulp::params::enabled,
   $listen_on        = $::foreman_proxy::plugin::pulp::params::listen_on,
@@ -26,10 +32,16 @@ class foreman_proxy::plugin::pulp (
   $version          = $::foreman_proxy::plugin::pulp::params::version,
   $group            = $::foreman_proxy::plugin::pulp::params::group,
   $pulp_url         = $::foreman_proxy::plugin::pulp::params::pulp_url,
+  $pulp_dir         = $::foreman_proxy::plugin::pulp::params::pulp_dir,
+  $pulp_content_dir = $::foreman_proxy::plugin::pulp::params::pulp_content_dir,
+  $mongodb_dir      = $::foreman_proxy::plugin::pulp::params::mongodb_dir
 ) inherits foreman_proxy::plugin::pulp::params {
 
   validate_bool($enabled)
   validate_bool($pulpnode_enabled)
+  validate_absolute_path($pulp_dir)
+  validate_absolute_path($pulp_content_dir)
+  validate_absolute_path($mongodb_dir)
 
   foreman_proxy::plugin {'pulp':
     version => $version,

@@ -2,3 +2,7 @@
 # Pulp integration
 :enabled: <%= @module_enabled %>
 :pulp_url: <%= scope.lookupvar("foreman_proxy::plugin::pulp::pulp_url") %>
+# Path to pulp, pulp content and mongodb directories
+:pulp_dir: <%= scope.lookupvar("foreman_proxy::plugin::pulp::pulp_dir") %>
+:pulp_content_dir: <%= scope.lookupvar("foreman_proxy::plugin::pulp::pulp_content_dir") %>
+:mongodb_dir: <%= scope.lookupvar("foreman_proxy::plugin::pulp::mongodb_dir") %>
