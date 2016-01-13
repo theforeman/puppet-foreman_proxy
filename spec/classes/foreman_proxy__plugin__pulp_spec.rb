@@ -6,6 +6,10 @@ describe 'foreman_proxy::plugin::pulp' do
     on_supported_os['redhat-6-x86_64']
   end
 
+  let :etc_dir do
+    '/etc'
+  end
+
   describe 'with default settings' do
     let :pre_condition do
       "include foreman_proxy"
@@ -38,6 +42,17 @@ describe 'foreman_proxy::plugin::pulp' do
           :owner   => 'root',
           :group   => 'example'
         })
+    end
+
+    it 'should generate correct pulp.yml' do
+      verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/pulp.yml", [
+        '---',
+        ':enabled: https',
+        ":pulp_url: https://#{facts[:fqdn]}/pulp",
+        ':pulp_dir: /var/lib/pulp',
+        ':pulp_content_dir: /var/lib/pulp/content',
+        ':mongodb_dir: /var/lib/mongodb',
+      ])
     end
   end
 end

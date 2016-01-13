@@ -6,4 +6,7 @@ class foreman_proxy::plugin::pulp::params {
   $group            = undef
   $pulpnode_enabled = false
   $pulp_url         = "https://${::fqdn}/pulp"
+  $pulp_dir         = '/var/lib/pulp'
+  $pulp_content_dir = '/var/lib/pulp/content'
+  $mongodb_dir      = '/var/lib/mongodb'
 }
