@@ -138,6 +138,11 @@
 #
 # $template_url::               URL a client should use for provisioning templates
 #
+# $logs::                       Enable Logs (log buffer) feature
+#                               type:boolean
+#
+# $logs_listen_on::             Logs proxy to listen on https, http, or both
+#
 # $tftp::                       Enable TFTP feature
 #                               type:boolean
 #
@@ -330,6 +335,8 @@ class foreman_proxy (
   $templates                  = $foreman_proxy::params::templates,
   $templates_listen_on        = $foreman_proxy::params::templates_listen_on,
   $template_url               = $foreman_proxy::params::template_url,
+  $logs                       = $foreman_proxy::params::logs,
+  $logs_listen_on             = $foreman_proxy::params::logs_listen_on,
   $tftp                       = $foreman_proxy::params::tftp,
   $tftp_listen_on             = $foreman_proxy::params::tftp_listen_on,
   $tftp_manage_wget           = $foreman_proxy::params::tftp_manage_wget,
@@ -424,6 +431,10 @@ class foreman_proxy (
 
   # Validate template params
   validate_string($template_url)
+
+  # Validate logs params
+  validate_bool($logs)
+  validate_listen_on($logs_listen_on)
 
   # Validate tftp params
   validate_bool($tftp_manage_wget)

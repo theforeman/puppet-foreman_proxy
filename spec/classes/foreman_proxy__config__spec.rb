@@ -74,7 +74,8 @@ describe 'foreman_proxy::config' do
             "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate.yml", "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate_gss.yml",
             "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", "#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml",
             "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", "#{etc_dir}/foreman-proxy/settings.d/puppet.yml",
-            "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", "#{etc_dir}/foreman-proxy/settings.d/realm.yml", "#{etc_dir}/foreman-proxy/settings.d/templates.yml"].each do |cfile|
+            "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", "#{etc_dir}/foreman-proxy/settings.d/realm.yml",
+            "#{etc_dir}/foreman-proxy/settings.d/templates.yml", "#{etc_dir}/foreman-proxy/settings.d/logs.yml"].each do |cfile|
             should contain_file(cfile).
               with({
                 :owner   => 'root',
@@ -240,6 +241,13 @@ describe 'foreman_proxy::config' do
             '---',
             ':enabled: false',
             ":template_url: http://#{facts[:fqdn]}:8000",
+          ])
+        end
+
+        it 'should generate correct logs.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/logs.yml", [
+            '---',
+            ':enabled: false'
           ])
         end
 
