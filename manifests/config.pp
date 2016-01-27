@@ -79,6 +79,10 @@ class foreman_proxy::config {
     enabled   => $::foreman_proxy::templates,
     listen_on => $::foreman_proxy::templates_listen_on,
   }
+  foreman_proxy::settings_file { 'logs':
+    enabled   => $::foreman_proxy::logs,
+    listen_on => $::foreman_proxy::logs_listen_on,
+  }
 
   if $foreman_proxy::puppetca or $foreman_proxy::puppetrun {
     if $foreman_proxy::use_sudoersd {

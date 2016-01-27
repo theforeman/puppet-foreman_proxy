@@ -173,6 +173,10 @@ class foreman_proxy::params {
   $templates_listen_on = 'both'
   $template_url        = "http://${::fqdn}:${http_port}"
 
+  # Logs settings
+  $logs           = false
+  $logs_listen_on = 'https'
+
   # TFTP settings - requires optional TFTP puppet module
   $tftp             = true
   $tftp_listen_on   = 'https'
