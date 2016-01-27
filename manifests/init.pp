@@ -43,6 +43,12 @@
 #
 # $log_level::                  Foreman proxy log level: WARN, DEBUG, ERROR, FATAL, INFO, UNKNOWN
 #
+# $log_buffer::                 Log buffer size
+#                               type:integer
+#
+# $log_buffer_errors::          Additional log buffer size for errors
+#                               type:integer
+#
 # $ssl_ca::                     SSL CA to validate the client certificates used to access the proxy
 #
 # $ssl_cert::                   SSL certificate to be used to run the foreman proxy via https.
@@ -283,6 +289,8 @@ class foreman_proxy (
   $user                       = $foreman_proxy::params::user,
   $log                        = $foreman_proxy::params::log,
   $log_level                  = $foreman_proxy::params::log_level,
+  $log_buffer                 = $foreman_proxy::params::log_buffer,
+  $log_buffer_errors          = $foreman_proxy::params::log_buffer_errors,
   $http                       = $foreman_proxy::params::http,
   $ssl                        = $foreman_proxy::params::ssl,
   $ssl_ca                     = $foreman_proxy::params::ssl_ca,
@@ -403,6 +411,10 @@ class foreman_proxy (
   validate_array($trusted_hosts)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
   validate_re($plugin_version, '^(installed|present|latest|absent)$')
+  # lint:ignore:undef_in_function
+  validate_integer($log_buffer, undef, 0)
+  validate_integer($log_buffer_errors, undef, 0)
+  # lint:endignore
 
   # Validate puppet params
   validate_bool($puppetssh_wait)

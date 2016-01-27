@@ -104,15 +104,17 @@ class foreman_proxy::params {
   $version        = 'present'
   $plugin_version = 'installed'
 
-  # variables
+  # Enable listening on http
   $bind_host = '*'
   $port      = undef # deprecated in favor of $ssl_port/$http_port
-  $log       = '/var/log/foreman-proxy/proxy.log'
-  $log_level = 'ERROR'
-
-  # Enable listening on http
   $http      = false
   $http_port = '8000'
+
+  # Logging settings
+  $log               = '/var/log/foreman-proxy/proxy.log'
+  $log_level         = 'ERROR'
+  $log_buffer        = 2000
+  $log_buffer_errors = 1000
 
   # Enable SSL, ensure proxy is added with "https://" protocol if true
   $ssl      = true
