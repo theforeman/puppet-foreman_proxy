@@ -39,9 +39,9 @@
 #
 # $user::                       User under which foreman proxy will run
 #
-# $log::                        Foreman proxy log file
+# $log::                        Foreman proxy log file, 'STDOUT' or 'SYSLOG'
 #
-# $log_level::                  Foreman proxy log level, e.g. INFO, DEBUG, FATAL etc.
+# $log_level::                  Foreman proxy log level: WARN, DEBUG, ERROR, FATAL, INFO, UNKNOWN
 #
 # $ssl_ca::                     SSL CA to validate the client certificates used to access the proxy
 #
