@@ -102,6 +102,8 @@ describe 'foreman_proxy::config' do
             ':virsh_network: default',
             ':log_file: /var/log/foreman-proxy/proxy.log',
             ':log_level: ERROR',
+            ':log_buffer: 2000',
+            ':log_buffer_errors: 1000',
           ])
         end
 
