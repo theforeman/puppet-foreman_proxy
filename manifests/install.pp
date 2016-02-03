@@ -25,7 +25,7 @@ class foreman_proxy::install {
   }
 
   if $foreman_proxy::bmc and $foreman_proxy::bmc_default_provider != 'shell' {
-    ensure_packages([$foreman_proxy::bmc_default_provider])
+    ensure_packages([$foreman_proxy::bmc_default_provider], { ensure => $foreman_proxy::ensure_packages_version, })
   }
 
 }
