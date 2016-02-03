@@ -15,6 +15,9 @@
 # $version::                    foreman package version, it's passed to ensure parameter of package resource
 #                               can be set to specific version number, 'latest', 'present' etc.
 #
+# $ensure_packages_version::    control extra packages version, it's passed to ensure parameter of package resource
+#                               can be set to 'installed', 'present', 'latest', 'absent'
+#
 # $plugin_version::             foreman plugins version, it's passed to ensure parameter of plugins package resource
 #                               can be set to 'latest', 'present',  'installed', 'absent'.
 #
@@ -285,6 +288,7 @@ class foreman_proxy (
   $gpgcheck                   = $foreman_proxy::params::gpgcheck,
   $custom_repo                = $foreman_proxy::params::custom_repo,
   $version                    = $foreman_proxy::params::version,
+  $ensure_packages_version    = $foreman_proxy::params::ensure_packages_version,
   $plugin_version             = $foreman_proxy::params::plugin_version,
   $bind_host                  = $foreman_proxy::params::bind_host,
   $port                       = $foreman_proxy::params::port,
@@ -418,6 +422,7 @@ class foreman_proxy (
   validate_array($trusted_hosts)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
   validate_re($plugin_version, '^(installed|present|latest|absent)$')
+  validate_re($ensure_packages_version, '^(installed|present|latest|absent)$')
   # lint:ignore:undef_in_function
   validate_integer($log_buffer, undef, 0)
   validate_integer($log_buffer_errors, undef, 0)

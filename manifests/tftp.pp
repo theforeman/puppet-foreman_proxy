@@ -30,6 +30,6 @@ class foreman_proxy::tftp {
   }
 
   if $foreman_proxy::tftp_manage_wget {
-    ensure_packages(['wget'])
+    ensure_packages(['wget'], { ensure => $foreman_proxy::ensure_packages_version, })
   }
 }

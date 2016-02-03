@@ -99,10 +99,11 @@ class foreman_proxy::params {
   }
 
   # Packaging
-  $repo           = 'stable'
-  $gpgcheck       = true
-  $version        = 'present'
-  $plugin_version = 'installed'
+  $repo                    = 'stable'
+  $gpgcheck                = true
+  $version                 = 'present'
+  $ensure_packages_version = 'present'
+  $plugin_version          = 'installed'
 
   # Enable listening on http
   $bind_host = '*'

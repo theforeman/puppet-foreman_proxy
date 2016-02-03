@@ -4,7 +4,7 @@ class foreman_proxy::proxydns {
     forwarders => $foreman_proxy::dns_forwarders,
   }
 
-  ensure_packages([$foreman_proxy::params::nsupdate])
+  ensure_packages([$foreman_proxy::params::nsupdate], { ensure => $foreman_proxy::ensure_packages_version, })
 
   # puppet fact names are converted from ethX.X and ethX:X to ethX_X
   # so for alias and vlan interfaces we have to modify the name accordingly
