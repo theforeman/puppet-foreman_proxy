@@ -11,14 +11,14 @@ describe 'foreman_proxy::plugin::dynflow' do
     end
 
     it { should contain_foreman_proxy__plugin('dynflow') }
-    it 'should configure dynflow.yml' do
-      should contain_file('/etc/foreman-proxy/settings.d/dynflow.yml').
-        with({
-          :ensure  => 'file',
-          :owner   => 'root',
-          :mode    => '0640',
-          :content => /:enabled: https/
-        })
+
+    it 'should generate correct dynflow.yml' do
+      verify_exact_contents(catalogue, "/etc/foreman-proxy/settings.d/dynflow.yml", [
+          '---',
+          ':enabled: https',
+          ':database: /var/lib/foreman-proxy/dynflow/dynflow.sqlite',
+          ':console_auth: true',
+      ])
     end
   end
 end
