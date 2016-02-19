@@ -1,5 +1,41 @@
 # Changelog
 
+## 2.5.0
+* New or changed parameters:
+    * Add dhcp_split_config_files parameter, set to false for 1.10 or prior
+      compatibility
+    * Add dhcp_provider parameter to replace dhcp_vendor (deprecated)
+    * Add logs, logs_listen_on parameters to manage new logs smart proxy module
+    * Add log_buffer, log_buffer_errors parameters
+    * Add tftp_manage_wget parameter to disable wget installation
+* New classes to install smart proxy plugins:
+    * foreman_proxy::plugin::discovery to install Discovery support
+* New or changed parameters on smart proxy plugin classes:
+    * Warning: removed ssh_user parameter from remote_execution plugin, the user
+      is controlled from the Foreman plugin
+    * Add local_working_dir, remote_working_dir parameters to remote_execution
+      plugin
+    * Add version parameter to openscap plugin
+    * Add pulp_dir, pulp_content_dir, mongodb_dir parameters to pulp plugin
+    * Add database_path, console_auth parameters to dynflow plugin
+* Other changes and fixes:
+    * Support Puppet 3.0 minimum
+    * Support Fedora 21, remove Debian 6 (Squeeze), add Ubuntu 16.04
+    * Create TFTP directories for ZTP and POAP files (#13024)
+    * Use lower case FQDN to access Puppet SSL certificates (#8389)
+    * Fix Puppet SSL directory under Puppet 4
+    * Fix proxy registration URL take current ssl_port parameter value
+    * Fix kafo data type on generate_keys parameter (#12988)
+    * Refresh log/log_level parameter documentation
+
+## 2.4.2
+* Fix path to dhcpd.conf on FreeBSD
+
+## 2.4.1
+* Fix DNS providers under 1.10 to have "dns_" prefix (#12157)
+* Fix missing kafo data type on powerdns::manage_database parameter
+* Test speed improvements
+
 ## 2.4.0
 * New or changed parameters:
     * Add dns_split_config_files parameter, set to false for 1.9 or prior
