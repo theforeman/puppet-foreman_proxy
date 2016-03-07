@@ -26,7 +26,11 @@ describe 'foreman_proxy::plugin::openscap' do
         '---',
         ':enabled: https',
         ':openscap_send_log_file: /var/log/foreman-proxy/openscap-send.log',
-        ":spooldir: /var/spool/foreman-proxy/openscap",
+        ':spooldir: /var/spool/foreman-proxy/openscap',
+        ':contentdir: /var/lib/foreman-proxy/openscap/content',
+        ':reportsdir: /var/lib/foreman-proxy/openscap/reports',
+        ':failed_dir: /var/lib/foreman-proxy/openscap/failed',
+
       ])
     end
   end
@@ -48,7 +52,10 @@ describe 'foreman_proxy::plugin::openscap' do
         '---',
         ':enabled: false',
         ':openscap_send_log_file: /var/log/foreman-proxy/openscap-send.log',
-        ":spooldir: /var/spool/foreman-proxy/openscap",
+        ':spooldir: /var/spool/foreman-proxy/openscap',
+        ':contentdir: /var/lib/foreman-proxy/openscap/content',
+        ':reportsdir: /var/lib/foreman-proxy/openscap/reports',
+        ':failed_dir: /var/lib/foreman-proxy/openscap/failed',
       ])
     end
   end
