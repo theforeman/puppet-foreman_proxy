@@ -5,5 +5,18 @@
 :openscap_send_log_file: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::openscap_send_log_file') %>
 
 # Directory where OpenSCAP audits are stored
-# before they are forwarded to Foreman
+# if they failed to post to Foreman. smart_proxy_openscap_send will
+# try to re-send them.
 :spooldir: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::spooldir') %>
+
+# Directory where OpenSCAP content XML are stored
+# So we will not request the XML from Foreman each time
+:contentdir: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::contentdir') %>
+
+# Directory where OpenSCAP report XML are stored
+# So Foreman can request arf xml reports
+:reportsdir: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::reportsdir') %>
+
+# Directory where OpenSCAP report XML are stored
+# In case sending to Foreman succeeded, yet failed to save to reportsdir
+:failed_dir: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::failed_dir') %>
