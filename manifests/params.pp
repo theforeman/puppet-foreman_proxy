@@ -28,6 +28,7 @@ class foreman_proxy::params {
       $nsupdate = 'bind-utils'
 
       $tftp_syslinux_filenames = ['/usr/share/syslinux/chain.c32',
+                                  '/usr/share/syslinux/mboot.c32',
                                   '/usr/share/syslinux/menu.c32',
                                   '/usr/share/syslinux/memdisk',
                                   '/usr/share/syslinux/pxelinux.0']
@@ -57,10 +58,13 @@ class foreman_proxy::params {
                                     '/usr/lib/syslinux/memdisk',
                                     '/usr/lib/syslinux/modules/bios/chain.c32',
                                     '/usr/lib/syslinux/modules/bios/ldlinux.c32',
+                                    '/usr/lib/syslinux/modules/bios/libcom32.c32',
                                     '/usr/lib/syslinux/modules/bios/libutil.c32',
+                                    '/usr/lib/syslinux/modules/bios/mboot.c32',
                                     '/usr/lib/syslinux/modules/bios/menu.c32']
       } else {
         $tftp_syslinux_filenames = ['/usr/lib/syslinux/chain.c32',
+                                    '/usr/lib/syslinux/mboot.c32',
                                     '/usr/lib/syslinux/menu.c32',
                                     '/usr/lib/syslinux/memdisk',
                                     '/usr/lib/syslinux/pxelinux.0']
@@ -90,7 +94,9 @@ class foreman_proxy::params {
                                   '/usr/local/share/syslinux/bios/memdisk/memdisk',
                                   '/usr/local/share/syslinux/bios/com32/chain/chain.c32',
                                   '/usr/local/share/syslinux/bios/com32/elflink/ldlinux/ldlinux.c32',
+                                  '/usr/local/share/syslinux/bios/com32/lib/libcom32.c32',
                                   '/usr/local/share/syslinux/bios/com32/libutil/libutil.c32',
+                                  '/usr/local/share/syslinux/bios/com32/mboot/mboot.c32',
                                   '/usr/local/share/syslinux/bios/com32/menu/menu.c32']
     }
     default: {

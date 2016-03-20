@@ -209,6 +209,7 @@ describe 'foreman_proxy::config' do
           when '7'
             it 'should copy the correct default files for Debian 7' do
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/chain.c32')
+              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/mboot.c32')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/menu.c32')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/memdisk')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/pxelinux.0')
@@ -219,7 +220,9 @@ describe 'foreman_proxy::config' do
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/memdisk')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/chain.c32')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/ldlinux.c32')
+              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/libcom32.c32')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/libutil.c32')
+              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/mboot.c32')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/menu.c32')
             end
           end
