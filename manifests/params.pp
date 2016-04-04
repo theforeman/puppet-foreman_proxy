@@ -12,7 +12,6 @@ class foreman_proxy::params {
       # set it to some custom location.
       $custom_repo         = false
       $plugin_prefix       = 'rubygem-smart_proxy_'
-      $foreman_api_package = 'rubygem-apipie-bindings'
 
       $dir     = '/usr/share/foreman-proxy'
       $etc     = '/etc'
@@ -38,7 +37,6 @@ class foreman_proxy::params {
       # set it to some custom location.
       $custom_repo         = false
       $plugin_prefix       = 'ruby-smart-proxy-'
-      $foreman_api_package = 'ruby-apipie-bindings'
 
       $dir   = '/usr/share/foreman-proxy'
       $etc   = '/etc'
@@ -75,7 +73,6 @@ class foreman_proxy::params {
       # set it to some custom location.
       $custom_repo         = true # as foreman packages are in standard FreeBSD ports
       $plugin_prefix       = 'rubygem-smart_proxy_'
-      $foreman_api_package = 'rubygem-apipie-bindings'
 
       $dir   = '/usr/local/share/foreman-proxy'
       $etc   = '/usr/local/etc'
