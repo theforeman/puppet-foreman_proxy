@@ -12,6 +12,10 @@ describe 'foreman_proxy::register' do
           "include foreman_proxy"
         end
 
+        it 'should install provider dependencies' do
+          should contain_class('foreman::providers')
+        end
+
         it 'should register the proxy' do
           should contain_class('foreman_proxy::register')
           should contain_foreman_smartproxy(facts[:fqdn]).with({
