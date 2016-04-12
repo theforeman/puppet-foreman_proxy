@@ -67,6 +67,9 @@
 # $foreman_ssl_key::            Corresponding key to a foreman_ssl_cert certificate
 #                               When not specified, the ssl_key is used instead.
 #
+# $ssl_disabled_ciphers::       List of OpenSSL cipher suite names that will be disabled from the default
+#                               type:array
+#
 # $trusted_hosts::              Only hosts listed will be permitted, empty array to disable authorization
 #                               type:array
 #
@@ -309,6 +312,7 @@ class foreman_proxy (
   $foreman_ssl_cert           = $foreman_proxy::params::foreman_ssl_cert,
   $foreman_ssl_key            = $foreman_proxy::params::foreman_ssl_key,
   $trusted_hosts              = $foreman_proxy::params::trusted_hosts,
+  $ssl_disabled_ciphers       = $foreman_proxy::params::ssl_disabled_ciphers,
   $manage_sudoersd            = $foreman_proxy::params::manage_sudoersd,
   $use_sudoersd               = $foreman_proxy::params::use_sudoersd,
   $puppetca                   = $foreman_proxy::params::puppetca,
@@ -419,7 +423,7 @@ class foreman_proxy (
   # Validate misc params
   validate_string($bind_host)
   validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman)
-  validate_array($trusted_hosts)
+  validate_array($trusted_hosts, $ssl_disabled_ciphers)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
   validate_re($plugin_version, '^(installed|present|latest|absent)$')
   validate_re($ensure_packages_version, '^(installed|present|latest|absent)$')
