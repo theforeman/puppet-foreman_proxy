@@ -8,7 +8,6 @@ class foreman_proxy::config {
     Class['puppet::server::config'] ~> Class['foreman_proxy::service']
   }
 
-  if $foreman_proxy::puppetca { include ::foreman_proxy::puppetca }
   if $foreman_proxy::tftp     { include ::foreman_proxy::tftp }
 
   # Somehow, calling these DHCP and DNS seems to conflict. So, they get a prefix...

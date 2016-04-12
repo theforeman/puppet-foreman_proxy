@@ -39,10 +39,6 @@ describe 'foreman_proxy::config' do
 
         it { should compile.with_all_deps }
 
-        it 'should include puppetca' do
-          should contain_class('foreman_proxy::puppetca')
-        end
-
         it 'should include tftp' do
           should contain_class('foreman_proxy::tftp')
         end
