@@ -89,8 +89,6 @@
 #
 # $puppetdir::                  Puppet var directory
 #
-# $autosign_location::          Path to autosign configuration file
-#
 # $puppetca_cmd::               Puppet CA command to be allowed in sudoers
 #
 # $puppet_group::               Groups of Foreman proxy user
@@ -319,7 +317,6 @@ class foreman_proxy (
   $puppetca_listen_on         = $foreman_proxy::params::puppetca_listen_on,
   $ssldir                     = $foreman_proxy::params::ssldir,
   $puppetdir                  = $foreman_proxy::params::puppetdir,
-  $autosign_location          = $foreman_proxy::params::autosign_location,
   $puppetca_cmd               = $foreman_proxy::params::puppetca_cmd,
   $puppet_group               = $foreman_proxy::params::puppet_group,
   $puppetrun                  = $foreman_proxy::params::puppetrun,
@@ -434,7 +431,7 @@ class foreman_proxy (
 
   # Validate puppet params
   validate_bool($puppetssh_wait)
-  validate_string($ssldir, $puppetdir, $autosign_location, $puppetca_cmd, $puppetrun_cmd)
+  validate_string($ssldir, $puppetdir, $puppetca_cmd, $puppetrun_cmd)
   validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
   validate_string($salt_puppetrun_cmd)
 
