@@ -941,6 +941,22 @@ describe 'foreman_proxy::config' do
           end
         end
       end
+
+      context 'with ssl_disabled_ciphers' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            ssl_disabled_ciphers => ["CIPHER-SUITE-1", "CIPHER-SUITE-2"],
+          }'
+        end
+
+        it 'should set ssl_disabled_ciphers to YAML array in setting.yml' do
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
+            ':ssl_disabled_ciphers:',
+            '  - CIPHER-SUITE-1',
+            '  - CIPHER-SUITE-2',
+          ])
+        end
+      end
     end
   end
 end

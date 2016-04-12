@@ -27,6 +27,19 @@
 #:ssl_private_key: ssl/private_keys/fqdn.key
 <% end -%>
 
+# Use this option only if you need to disable certain cipher suites.
+# Note: we use the OpenSSL suite name, take a look at:
+# https://www.openssl.org/docs/manmaster/apps/ciphers.html#CIPHER-SUITE-NAMES
+# for more information.
+<% if ciphers = scope.lookupvar("foreman_proxy::ssl_disabled_ciphers") and ciphers.any? -%>
+:ssl_disabled_ciphers:
+<% ciphers.each do |c| -%>
+<%= "  - #{c}" %>
+<% end -%>
+<% else -%>
+#:ssl_disabled_ciphers: [CIPHER-SUITE-1, CIPHER-SUITE-2]
+<% end -%>
+
 # the hosts which the proxy accepts connections from
 # commenting the following lines would mean every verified SSL connection allowed
 <% if thosts = scope.lookupvar("foreman_proxy::trusted_hosts") and thosts.any? -%>
