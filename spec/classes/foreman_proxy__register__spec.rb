@@ -25,6 +25,7 @@ describe 'foreman_proxy::register' do
             'url'             => "https://#{facts[:fqdn]}:8443",
             'consumer_key'    => /\w+/,
             'consumer_secret' => /\w+/,
+            'ssl_ca'          => /\A\/.+\.pem\z/,
           })
         end
       end
@@ -77,6 +78,40 @@ describe 'foreman_proxy::register' do
             'url'             => "https://#{facts[:fqdn]}:1234",
             'consumer_key'    => 'key',
             'consumer_secret' => 'secret',
+          })
+        end
+      end
+
+      describe 'with foreman_ssl_ca override' do
+        let :pre_condition do
+          "class {'foreman_proxy':
+            register_in_foreman => true,
+            foreman_ssl_ca      => '/etc/foreman/ssl/ca.pem',
+          }"
+        end
+
+        it 'should register the proxy' do
+          should contain_class('foreman_proxy::register')
+          should contain_foreman_smartproxy(facts[:fqdn]).with({
+            'ensure' => 'present',
+            'ssl_ca' => '/etc/foreman/ssl/ca.pem',
+          })
+        end
+      end
+
+      describe 'with ssl_ca override' do
+        let :pre_condition do
+          "class {'foreman_proxy':
+            register_in_foreman => true,
+            ssl_ca              => '/etc/foreman/ssl/ca.pem',
+          }"
+        end
+
+        it 'should register the proxy' do
+          should contain_class('foreman_proxy::register')
+          should contain_foreman_smartproxy(facts[:fqdn]).with({
+            'ensure' => 'present',
+            'ssl_ca' => '/etc/foreman/ssl/ca.pem',
           })
         end
       end
