@@ -195,6 +195,7 @@ class foreman_proxy::params {
   $dhcp_listen_on          = 'https'
   $dhcp_managed            = true
   $dhcp_provider           = 'isc'
+  $dhcp_subnets            = []
   $dhcp_interface          = 'eth0'
   $dhcp_gateway            = '192.168.100.1'
   $dhcp_range              = false

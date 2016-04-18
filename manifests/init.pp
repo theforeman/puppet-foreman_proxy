@@ -171,6 +171,9 @@
 #
 # $dhcp_provider::              DHCP provider
 #
+# $dhcp_subnets::               Subnets list to restrict DHCP management to
+#                               type:array
+#
 # $dhcp_option_domain::         DHCP use the dhcpd config option domain-name
 #                               type:array
 #
@@ -338,6 +341,7 @@ class foreman_proxy (
   $dhcp_listen_on             = $foreman_proxy::params::dhcp_listen_on,
   $dhcp_managed               = $foreman_proxy::params::dhcp_managed,
   $dhcp_provider              = $foreman_proxy::params::dhcp_provider,
+  $dhcp_subnets               = $foreman_proxy::params::dhcp_subnets,
   $dhcp_option_domain         = $foreman_proxy::params::dhcp_option_domain,
   $dhcp_search_domains        = $foreman_proxy::params::dhcp_search_domains,
   $dhcp_interface             = $foreman_proxy::params::dhcp_interface,
@@ -420,6 +424,7 @@ class foreman_proxy (
   validate_array($dhcp_option_domain)
   validate_integer($dhcp_omapi_port)
   validate_string($dhcp_provider, $dhcp_server)
+  validate_array($dhcp_subnets)
 
   # Validate dns params
   validate_bool($dns)
