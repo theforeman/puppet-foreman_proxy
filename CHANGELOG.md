@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.0.0
+* New or changed parameters:
+    * Add ensure_packages_version parameter for extra packages, can be set to
+      'installed', 'present', 'latest' or 'absent'
+    * Add ssl_disabled_ciphers parameter for usage with 1.12 or later
+    * Remove autosign_location parameter, note that `#{puppetdir}/autosign.conf`
+      is used in the proxy code itself for the path.
+* New or changed parameters on smart proxy plugin classes:
+    * Add contentdir, reportsdir and failed_dir to openscap class
+
 ## 2.5.0
 * New or changed parameters:
     * Add dhcp_split_config_files parameter, set to false for 1.10 or prior
