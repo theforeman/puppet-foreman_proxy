@@ -5,8 +5,8 @@
 :settings_directory: <%= scope.lookupvar("foreman_proxy::etc") -%>/foreman-proxy/settings.d
 
 # SSL Setup
-<% ssl  = scope.lookupvar("foreman_proxy::real_ssl") -%>
-<% http = scope.lookupvar("foreman_proxy::real_http") -%>
+<% ssl  = scope.lookupvar("foreman_proxy::ssl") -%>
+<% http = scope.lookupvar("foreman_proxy::http") -%>
 
 # if enabled, all communication would be verified via SSL
 # NOTE that both certificates need to be signed by the same CA in order for this to work
@@ -88,8 +88,8 @@
 # https is enabled if certificate, CA certificate, and private key are present in locations specifed by
 # ssl_certificate, ssl_ca_file, and ssl_private_key correspondingly
 # default values for https_port is 8443
-<%= '#' unless ssl -%>:https_port: <%= scope.lookupvar("foreman_proxy::real_https_port") %>
-<%= '#' unless http -%>:http_port: <%= scope.lookupvar("foreman_proxy::real_http_port") %>
+<%= '#' unless ssl -%>:https_port: <%= scope.lookupvar("foreman_proxy::ssl_port") %>
+<%= '#' unless http -%>:http_port: <%= scope.lookupvar("foreman_proxy::http_port") %>
 
 # shared options for virsh DNS/DHCP provider
 :virsh_network: <%= scope.lookupvar("foreman_proxy::virsh_network") %>

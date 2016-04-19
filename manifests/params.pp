@@ -110,7 +110,6 @@ class foreman_proxy::params {
 
   # Enable listening on http
   $bind_host = '*'
-  $port      = undef # deprecated in favor of $ssl_port/$http_port
   $http      = false
   $http_port = '8000'
 
@@ -191,17 +190,11 @@ class foreman_proxy::params {
   $tftp_dirs        = ["${tftp_root}/pxelinux.cfg","${tftp_root}/boot","${tftp_root}/ztp.cfg","${tftp_root}/poap.cfg"]
   $tftp_servername  = undef
 
-  # TODO: remove these on the next major version bump
-  $tftp_syslinux_root  = undef
-  $tftp_syslinux_files = undef
-
   # DHCP settings - requires optional DHCP puppet module
   $dhcp                    = false
-  $dhcp_split_config_files = true # smart-proxy 1.11+
   $dhcp_listen_on          = 'https'
   $dhcp_managed            = true
   $dhcp_provider           = 'isc'
-  $dhcp_vendor             = undef
   $dhcp_interface          = 'eth0'
   $dhcp_gateway            = '192.168.100.1'
   $dhcp_range              = false
@@ -218,7 +211,6 @@ class foreman_proxy::params {
 
   # DNS settings - requires optional DNS puppet module
   $dns                    = false
-  $dns_split_config_files = true # smart-proxy 1.10+
   $dns_listen_on          = 'https'
   $dns_managed            = true
   $dns_provider           = 'nsupdate'

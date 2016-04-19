@@ -407,40 +407,6 @@ describe 'foreman_proxy::config' do
         end
       end
 
-      context 'with deprecated parameters' do
-        context 'with ssl => true' do
-          let :pre_condition do
-            'class {"foreman_proxy":
-              ssl       => true,
-              port      => 1234,
-            }'
-          end
-
-          it 'should use port for ssl' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-              ':https_port: 1234',
-              '#:http_port: 1234',
-            ])
-          end
-        end
-
-        context 'with ssl => false' do
-          let :pre_condition do
-            'class {"foreman_proxy":
-              ssl       => false,
-              port      => 1234,
-            }'
-          end
-
-          it 'should use port for http' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-              '#:https_port: 1234',
-              ':http_port: 1234',
-            ])
-          end
-        end
-      end
-
       context 'when dns_provider => nsupdate_gss' do
         let :pre_condition do
           'class {"foreman_proxy":
@@ -462,37 +428,6 @@ describe 'foreman_proxy::config' do
             ":dns_tsig_keytab: #{etc_dir}/foreman-proxy/dns.keytab",
             ":dns_tsig_principal: foremanproxy/#{facts[:fqdn]}@EXAMPLE.COM",
           ])
-        end
-      end
-
-      context 'when dns_split_config_files => false' do
-        let :pre_condition do
-          'class {"foreman_proxy":
-            dns_split_config_files => false,
-          }'
-        end
-
-        it 'should not split the dns config' do
-          dns_key = case facts[:osfamily]
-                    when 'Debian'
-                      '/etc/bind/rndc.key'
-                    when 'FreeBSD', 'Dragonfly'
-                      '/usr/local/etc/namedb/rndc.key'
-                    else
-                      '/etc/rndc.key'
-                    end
-
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns.yml", [
-            '---',
-            ':enabled: false',
-            ':dns_provider: nsupdate',
-            ':dns_server: 127.0.0.1',
-            ':dns_ttl: 86400',
-            ":dns_key: #{dns_key}",
-          ])
-
-          should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate.yml")
-          should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate_gss.yml")
         end
       end
 
@@ -878,63 +813,6 @@ describe 'foreman_proxy::config' do
             ":leases: #{dhcp_leases}",
             ':omapi_port: 7911',
           ])
-        end
-
-        context 'with dhcp_vendor' do
-          let :pre_condition do
-            'class {"foreman_proxy":
-              dhcp         => true,
-              dhcp_vendor  => "native_ms",
-              dhcp_managed => false,
-            }'
-          end
-
-          it 'should set :use_provider' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
-              ':use_provider: dhcp_native_ms',
-            ])
-          end
-        end
-
-        context 'when dhcp_split_config_files => false' do
-          let :pre_condition do
-            'class {"foreman_proxy":
-              dhcp                    => true,
-              dhcp_managed            => false,
-              dhcp_split_config_files => false,
-            }'
-          end
-
-          it 'should not split the dhcp config' do
-            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
-              '---',
-              ':enabled: https',
-              ':dhcp_vendor: isc',
-              ':dhcp_server: 127.0.0.1',
-              ":dhcp_config: #{dhcp_config}",
-              ":dhcp_leases: #{dhcp_leases}",
-              ':dhcp_omapi_port: 7911',
-            ])
-
-            should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml")
-          end
-
-          context 'with dhcp_vendor' do
-            let :pre_condition do
-              'class {"foreman_proxy":
-                dhcp                    => true,
-                dhcp_vendor             => "native_ms",
-                dhcp_managed            => false,
-                dhcp_split_config_files => false,
-              }'
-            end
-
-            it 'should set :dhcp_vendor' do
-              verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
-                ':dhcp_vendor: native_ms',
-              ])
-            end
-          end
         end
       end
 

@@ -1,48 +1,13 @@
-<% dhcp_split_files = scope.lookupvar("foreman_proxy::dhcp_split_config_files") -%>
 ---
 # Enable DHCP management
 # Can be true, false, or http/https to enable just one of the protocols
 :enabled: <%= @module_enabled %>
 
 # valid providers:
-#   - <%= "dhcp_" if dhcp_split_files %>isc (ISC dhcp server)
-#   - <%= "dhcp_" if dhcp_split_files %>native_ms (Microsoft native implementation)
-#   - <%= "dhcp_" if dhcp_split_files %>virsh (simple implementation for libvirt)
-<% if dhcp_split_files -%>
-:use_provider: dhcp_<%= scope.lookupvar("foreman_proxy::dhcp_provider_real") %>
+#   - <%= "dhcp_" %>isc (ISC dhcp server)
+#   - <%= "dhcp_" %>native_ms (Microsoft native implementation)
+#   - <%= "dhcp_" %>virsh (simple implementation for libvirt)
+:use_provider: dhcp_<%= scope.lookupvar("foreman_proxy::dhcp_provider") %>
 :server: <%= scope.lookupvar("foreman_proxy::dhcp_server") %>
 # subnets restricts the subnets queried to a subset, to reduce the query time.
 #:subnets: [192.168.205.0/255.255.255.128, 192.168.205.128/255.255.255.128]
-<% else -%>
-<% if scope.lookupvar("foreman_proxy::dhcp") == true -%>
-:dhcp_vendor: <%= scope.lookupvar("foreman_proxy::dhcp_provider_real") %>
-:dhcp_server: <%= scope.lookupvar("foreman_proxy::dhcp_server") %>
-:dhcp_config: <%= scope.lookupvar("foreman_proxy::dhcp_config") %>
-:dhcp_leases: <%= scope.lookupvar("foreman_proxy::dhcp_leases") %>
-<% unless [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::dhcp_key_name")) ||
-     [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::dhcp_key_secret")) -%>
-:dhcp_key_name: <%= scope.lookupvar("foreman_proxy::dhcp_key_name") %>
-:dhcp_key_secret: <%= scope.lookupvar("foreman_proxy::dhcp_key_secret") %>
-<% else -%>
-#:dhcp_key_name: secret_key_name
-#:dhcp_key_secret: secret_key
-<% end -%>
-:dhcp_omapi_port: <%= scope.lookupvar("foreman_proxy::dhcp_omapi_port") %>
-<% else -%>
-# The vendor can be either isc or native_ms
-:dhcp_vendor: isc
-#:dhcp_server: 127.0.0.1
-# dhcp_subnets is a Native MS implementation setting. It restricts the subnets queried to a
-# subset, so as to reduce the query time.
-#:dhcp_subnets: [192.168.205.0/255.255.255.128, 192.168.205.128/255.255.255.128]
-# Settings for Ubuntu ISC
-#:dhcp_config: /etc/dhcp3/dhcpd.conf
-#:dhcp_leases: /var/lib/dhcp3/dhcpd.leases
-# Settings for Redhat ISC
-#:dhcp_config: /etc/dhcpd.conf
-#:dhcp_leases: /var/lib/dhcpd/dhcpd.leases
-#:dhcp_key_name: secret_key_name
-#:dhcp_key_secret: secret_key
-#:dhcp_omapi_port: 7911
-<% end -%>
-<% end -%>

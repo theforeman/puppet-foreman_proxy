@@ -22,17 +22,11 @@ required.
 
 ## Compatibility
 
-This module only supports Smart Proxy 1.6 or higher as of version 2.0, as the
+This module only supports Smart Proxy 1.11 or higher as of version 3.0, as the
 configuration layout changed significantly.
 
-To configure older versions of the Smart Proxy (1.5 or older), use an older
-version of this module (1.x).
-
-Since version 1.10 the DNS configuration files are split. If you wish to use
-prior versions with DNS, then you must set `dns_split_config_files` to `false`.
-
-Since version 1.11 the DHCP configuration files are split. If you wish to use
-prior versions with DHCP, then you must set `dhcp_split_config_files` to `false`.
+To configure older versions of the Smart Proxy (1.5 to 1.10), use version 2.x
+of this module.
 
 # Contributing
 
