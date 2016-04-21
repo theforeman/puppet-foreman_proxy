@@ -35,9 +35,10 @@ class foreman_proxy::proxydhcp {
   }
 
   ::dhcp::pool{ $::domain:
-    network => $net,
-    mask    => $mask,
-    range   => $foreman_proxy::dhcp_range,
-    gateway => $foreman_proxy::dhcp_gateway,
+    network        => $net,
+    mask           => $mask,
+    range          => $foreman_proxy::dhcp_range,
+    gateway        => $foreman_proxy::dhcp_gateway,
+    search_domains => $foreman_proxy::dhcp_search_domains,
   }
 }

@@ -174,6 +174,9 @@
 # $dhcp_option_domain::         DHCP use the dhcpd config option domain-name
 #                               type:array
 #
+# $dhcp_search_domains::        DHCP search domains option
+#                               type:array
+#
 # $dhcp_interface::             DHCP listen interface
 #
 # $dhcp_gateway::               DHCP pool gateway
@@ -182,7 +185,7 @@
 #
 # $dhcp_nameservers::           DHCP nameservers
 #
-# $dhcp_server::                Address of DHCP server to manage 
+# $dhcp_server::                Address of DHCP server to manage
 #
 # $dhcp_config::                DHCP config file path
 #
@@ -336,6 +339,7 @@ class foreman_proxy (
   $dhcp_managed               = $foreman_proxy::params::dhcp_managed,
   $dhcp_provider              = $foreman_proxy::params::dhcp_provider,
   $dhcp_option_domain         = $foreman_proxy::params::dhcp_option_domain,
+  $dhcp_search_domains        = $foreman_proxy::params::dhcp_search_domains,
   $dhcp_interface             = $foreman_proxy::params::dhcp_interface,
   $dhcp_gateway               = $foreman_proxy::params::dhcp_gateway,
   $dhcp_range                 = $foreman_proxy::params::dhcp_range,

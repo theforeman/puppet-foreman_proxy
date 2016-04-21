@@ -199,6 +199,7 @@ class foreman_proxy::params {
   $dhcp_gateway            = '192.168.100.1'
   $dhcp_range              = false
   $dhcp_option_domain      = [$::domain]
+  $dhcp_search_domains     = undef
   # This will use the IP of the interface in $dhcp_interface, override
   # if you need to. You can make this a comma-separated string too - it
   # will be split into an array
