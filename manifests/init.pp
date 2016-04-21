@@ -23,7 +23,7 @@
 #
 # $bind_host::                  Host to bind ports to, e.g. *, localhost, 0.0.0.0
 #
-# $http::                       Enable HTTP
+# $without_ssl                  Enable HTTP
 #                               type:boolean
 #
 # $http_port::                  HTTP port to listen on (if http is enabled)
@@ -283,7 +283,7 @@ class foreman_proxy (
   $log_level                  = $foreman_proxy::params::log_level,
   $log_buffer                 = $foreman_proxy::params::log_buffer,
   $log_buffer_errors          = $foreman_proxy::params::log_buffer_errors,
-  $http                       = $foreman_proxy::params::http,
+  $without_ssl                = $foreman_proxy::params::http,
   $ssl                        = $foreman_proxy::params::ssl,
   $ssl_ca                     = $foreman_proxy::params::ssl_ca,
   $ssl_cert                   = $foreman_proxy::params::ssl_cert,
@@ -382,7 +382,7 @@ class foreman_proxy (
 
   # Validate misc params
   validate_string($bind_host)
-  validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman)
+  validate_bool($ssl, $without_ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman)
   validate_array($trusted_hosts, $ssl_disabled_ciphers)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
   validate_re($plugin_version, '^(installed|present|latest|absent)$')

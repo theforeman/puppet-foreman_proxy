@@ -6,7 +6,7 @@
 
 # SSL Setup
 <% ssl  = scope.lookupvar("foreman_proxy::ssl") -%>
-<% http = scope.lookupvar("foreman_proxy::http") -%>
+<% http = scope.lookupvar("foreman_proxy::without_ssl") -%>
 
 # if enabled, all communication would be verified via SSL
 # NOTE that both certificates need to be signed by the same CA in order for this to work
