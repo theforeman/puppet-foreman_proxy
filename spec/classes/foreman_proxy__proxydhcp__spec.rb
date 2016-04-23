@@ -103,6 +103,26 @@ describe 'foreman_proxy::proxydhcp' do
         ) end
       end
 
+
+      context "with dhcp_search_domains" do
+        let :facts do
+          default_facts.merge({:ipaddress_eth0 => '127.0.1.1',
+                               :netmask_eth0   => '255.0.0.0',
+                               :network_eth0   => '127.0.0.0'})
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy':
+            dhcp_range          => false,
+            dhcp_gateway        => '127.0.0.254',
+            dhcp_search_domains => ['example.com', 'example.org']
+          }"
+        end
+
+        it do should contain_dhcp__pool('example.com').with(
+            'search_domains' => ['example.com','example.org']
+        ) end
+      end
     end
   end
 end
