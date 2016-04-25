@@ -98,7 +98,6 @@ describe 'foreman_proxy::config' do
             ':daemon: true',
             ':bind_host: \'*\'',
             ':https_port: 8443',
-            ':virsh_network: default',
             ':log_file: /var/log/foreman-proxy/proxy.log',
             ':log_level: ERROR',
             ':log_buffer: 2000',

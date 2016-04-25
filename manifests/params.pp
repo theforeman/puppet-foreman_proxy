@@ -227,9 +227,6 @@ class foreman_proxy::params {
 
   $dns_forwarders = []
 
-  # virsh options
-  $virsh_network = 'default'
-
   # BMC options
   $bmc                  = false
   $bmc_listen_on        = 'https'
