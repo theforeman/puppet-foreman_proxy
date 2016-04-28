@@ -5,7 +5,7 @@
 #   <%= "dns_" %>dnscmd (Microsoft Windows native implementation)
 #   <%= "dns_" %>nsupdate
 #   <%= "dns_" %>nsupdate_gss (for GSS-TSIG support)
-#   <%= "dns_" %>virsh (simple implementation for libvirt)
+#   <%= "dns_" %>libvirt (dnsmasq via libvirt API)
 :use_provider: dns_<%= scope.lookupvar("foreman_proxy::dns_provider") %>
 # use this setting if you want to override default TTL setting (86400)
 :dns_ttl: <%= scope.lookupvar("foreman_proxy::dns_ttl") %>

@@ -228,8 +228,6 @@
 # $dns_forwarders::             DNS forwarders
 #                               type:array
 #
-# $virsh_network::              Network for virsh DNS/DHCP provider
-#
 # $bmc::                        Enable BMC feature
 #                               type:boolean
 #
@@ -366,7 +364,6 @@ class foreman_proxy (
   $dns_tsig_keytab            = $foreman_proxy::params::dns_tsig_keytab,
   $dns_tsig_principal         = $foreman_proxy::params::dns_tsig_principal,
   $dns_forwarders             = $foreman_proxy::params::dns_forwarders,
-  $virsh_network              = $foreman_proxy::params::virsh_network,
   $bmc                        = $foreman_proxy::params::bmc,
   $bmc_listen_on              = $foreman_proxy::params::bmc_listen_on,
   $bmc_default_provider       = $foreman_proxy::params::bmc_default_provider,
