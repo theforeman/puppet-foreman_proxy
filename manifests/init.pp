@@ -228,7 +228,11 @@
 # $dns_forwarders::             DNS forwarders
 #                               type:array
 #
-# $virsh_network::              Network for virsh DNS/DHCP provider
+# $libvirt_backend::            Backend of libvirt DNS/DHCP provider (virsh or libvirt)
+#
+# $libvirt_connection::         Connection string of libvirt DNS/DHCP provider (e.g. "qemu:///system")
+#
+# $libvirt_network::            Network for libvirt DNS/DHCP provider
 #
 # $bmc::                        Enable BMC feature
 #                               type:boolean
@@ -366,7 +370,9 @@ class foreman_proxy (
   $dns_tsig_keytab            = $foreman_proxy::params::dns_tsig_keytab,
   $dns_tsig_principal         = $foreman_proxy::params::dns_tsig_principal,
   $dns_forwarders             = $foreman_proxy::params::dns_forwarders,
-  $virsh_network              = $foreman_proxy::params::virsh_network,
+  $libvirt_backend            = $foreman_proxy::params::libvirt_backend,
+  $libvirt_network            = $foreman_proxy::params::libvirt_network,
+  $libvirt_connection         = $foreman_proxy::params::libvirt_connection,
   $bmc                        = $foreman_proxy::params::bmc,
   $bmc_listen_on              = $foreman_proxy::params::bmc_listen_on,
   $bmc_default_provider       = $foreman_proxy::params::bmc_default_provider,
@@ -430,6 +436,10 @@ class foreman_proxy (
   validate_bool($dns)
   validate_string($dns_interface, $dns_provider, $dns_reverse, $dns_server, $keyfile)
   validate_array($dns_forwarders)
+
+  # Validate libvirt params
+  validate_re($libvirt_backend, '^(libvirt|virsh)$')
+  validate_string($libvirt_network, $libvirt_connection)
 
   # Validate bmc params
   validate_re($bmc_default_provider, '^(freeipmi|ipmitool|shell)$')

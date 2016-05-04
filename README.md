@@ -28,6 +28,10 @@ configuration layout changed significantly.
 To configure older versions of the Smart Proxy (1.5 to 1.10), use version 2.x
 of this module.
 
+### 1.11 compatibility notes
+
+* If using the virsh DHCP/DNS provider, `libvirt_backend => "virsh"` must be set.
+
 # Contributing
 
 * Fork the project

@@ -54,6 +54,11 @@ class foreman_proxy::config {
   foreman_proxy::settings_file { ['dns_nsupdate', 'dns_nsupdate_gss']:
     module => false,
   }
+  if $::foreman_proxy::libvirt_backend == 'libvirt' {
+    foreman_proxy::settings_file { ['dns_libvirt', 'dhcp_libvirt']:
+      module => false,
+    }
+  }
   foreman_proxy::settings_file { 'puppet':
     enabled   => $::foreman_proxy::puppetrun,
     listen_on => $::foreman_proxy::puppetrun_listen_on,
