@@ -91,8 +91,10 @@
 <%= '#' unless ssl -%>:https_port: <%= scope.lookupvar("foreman_proxy::ssl_port") %>
 <%= '#' unless http -%>:http_port: <%= scope.lookupvar("foreman_proxy::http_port") %>
 
+<%- if scope.lookupvar('foreman_proxy::libvirt_backend') == 'virsh' -%>
 # shared options for virsh DNS/DHCP provider
-:virsh_network: <%= scope.lookupvar("foreman_proxy::virsh_network") %>
+:virsh_network: <%= scope.lookupvar('foreman_proxy::libvirt_network') %>
+<%- end -%>
 
 # Log configuration
 # Uncomment and modify if you want to change the location of the log file or use STDOUT or SYSLOG values

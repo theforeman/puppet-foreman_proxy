@@ -68,13 +68,13 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should create configuration files' do
-          [ "#{etc_dir}/foreman-proxy/settings.yml", "#{etc_dir}/foreman-proxy/settings.d/tftp.yml", "#{etc_dir}/foreman-proxy/settings.d/dns.yml",
-            "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate.yml", "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate_gss.yml",
-            "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", "#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml",
-            "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", "#{etc_dir}/foreman-proxy/settings.d/puppet.yml",
-            "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", "#{etc_dir}/foreman-proxy/settings.d/realm.yml",
-            "#{etc_dir}/foreman-proxy/settings.d/templates.yml", "#{etc_dir}/foreman-proxy/settings.d/logs.yml"].each do |cfile|
-            should contain_file(cfile).
+          [ 'settings.yml', 'settings.d/bmc.yml', 'settings.d/dns.yml',
+            'settings.d/dns_nsupdate.yml', 'settings.d/dns_nsupdate_gss.yml',
+            'settings.d/dns_libvirt.yml', 'settings.d/dhcp.yml', 'settings.d/dhcp_isc.yml',
+            'settings.d/dhcp_libvirt.yml', 'settings.d/logs.yml', 'settings.d/puppet.yml',
+            'settings.d/puppetca.yml', 'settings.d/realm.yml', 'settings.d/templates.yml',
+            'settings.d/tftp.yml' ].each do |cfile|
+            should contain_file("#{etc_dir}/foreman-proxy/#{cfile}").
               with({
                 :owner   => 'root',
                 :group   => "#{proxy_user_name}",
@@ -98,7 +98,6 @@ describe 'foreman_proxy::config' do
             ':daemon: true',
             ':bind_host: \'*\'',
             ':https_port: 8443',
-            ':virsh_network: default',
             ':log_file: /var/log/foreman-proxy/proxy.log',
             ':log_level: ERROR',
             ':log_buffer: 2000',
@@ -144,6 +143,18 @@ describe 'foreman_proxy::config' do
             '---',
             ":dns_key: #{dns_key}",
             ':dns_server: 127.0.0.1',
+          ])
+
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp_libvirt.yml", [
+            '---',
+            ':network: default',
+            ':url: qemu:///system',
+          ])
+
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_libvirt.yml", [
+            '---',
+            ':network: default',
+            ':url: qemu:///system',
           ])
 
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate_gss.yml", [
@@ -407,6 +418,31 @@ describe 'foreman_proxy::config' do
         end
       end
 
+      context 'when dns_provider => libvirt' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            dns_provider => "libvirt",
+            libvirt_network => "mynet",
+            libvirt_connection => "http://myvirt",
+          }'
+        end
+
+        it 'should set the provider correctly' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns.yml", [
+            '---',
+            ':enabled: false',
+            ':use_provider: dns_libvirt',
+            ':dns_ttl: 86400',
+          ])
+
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_libvirt.yml", [
+            '---',
+            ':network: mynet',
+            ':url: http://myvirt',
+          ])
+        end
+      end
+
       context 'when dns_provider => nsupdate_gss' do
         let :pre_condition do
           'class {"foreman_proxy":
@@ -427,6 +463,31 @@ describe 'foreman_proxy::config' do
             ':dns_server: 127.0.0.1',
             ":dns_tsig_keytab: #{etc_dir}/foreman-proxy/dns.keytab",
             ":dns_tsig_principal: foremanproxy/#{facts[:fqdn]}@EXAMPLE.COM",
+          ])
+        end
+      end
+
+      context 'when dhcp_provider => libvirt' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            dhcp_provider       => "libvirt",
+            libvirt_network    => "mynet",
+            libvirt_connection => "http://myvirt",
+          }'
+        end
+
+        it 'should set the provider correctly' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
+            '---',
+            ':enabled: false',
+            ':use_provider: dhcp_libvirt',
+            ':server: 127.0.0.1',
+          ])
+
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp_libvirt.yml", [
+            '---',
+            ':network: mynet',
+            ':url: http://myvirt',
           ])
         end
       end
@@ -829,6 +890,26 @@ describe 'foreman_proxy::config' do
             '  - CIPHER-SUITE-1',
             '  - CIPHER-SUITE-2',
           ])
+        end
+      end
+
+      context 'when libvirt_backend => virsh' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            libvirt_backend => "virsh",
+            libvirt_network => "mynet",
+          }'
+        end
+
+        it 'should generate correct settings.yml' do
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
+            ':virsh_network: mynet',
+           ])
+        end
+
+        it "should not manage libvirt backend config files" do
+          should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/dhcp_libvirt.yml")
+          should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/dns_libvirt.yml")
         end
       end
     end

@@ -228,8 +228,10 @@ class foreman_proxy::params {
 
   $dns_forwarders = []
 
-  # virsh options
-  $virsh_network = 'default'
+  # libvirt options
+  $libvirt_backend    = 'libvirt'
+  $libvirt_connection = 'qemu:///system'
+  $libvirt_network    = 'default'
 
   # BMC options
   $bmc                  = false
