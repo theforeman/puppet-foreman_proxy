@@ -41,6 +41,7 @@ describe 'foreman_proxy::config' do
 
         it 'should include tftp' do
           should contain_class('foreman_proxy::tftp')
+          should contain_class('tftp')
         end
 
         it 'should not include dns' do
@@ -320,6 +321,22 @@ describe 'foreman_proxy::config' do
             ':tftproot: /tftproot',
             ':tftp_servername: 127.0.1.1'
           ])
+        end
+      end
+
+      context 'with tftp_managed => false' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            tftp_managed => false,
+          }'
+        end
+
+        it 'should include the foreman-proxy tftp class' do
+          should contain_class('foreman_proxy::tftp')
+        end
+
+        it 'should not include the ::tftp class' do
+          should_not contain_class('tftp')
         end
       end
 

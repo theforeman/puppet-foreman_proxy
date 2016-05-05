@@ -185,6 +185,7 @@ class foreman_proxy::params {
   # TFTP settings - requires optional TFTP puppet module
   $tftp             = true
   $tftp_listen_on   = 'https'
+  $tftp_managed     = true
   $tftp_manage_wget = true
   $tftp_root        = $tftp::params::root
   $tftp_dirs        = ["${tftp_root}/pxelinux.cfg","${tftp_root}/boot","${tftp_root}/ztp.cfg","${tftp_root}/poap.cfg"]
