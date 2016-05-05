@@ -149,8 +149,12 @@
 #
 # $tftp_listen_on::             TFTP proxy to listen on https, http, or both
 #
+# $tftp_managed::               TFTP is managed by Foreman proxy
+#                               type:boolean
+#
 # $tftp_manage_wget::           If enabled will install the wget package
 #                               type:boolean
+#
 # $tftp_syslinux_filenames::    Syslinux files to install on TFTP (full paths)
 #                               type:array
 #
@@ -336,6 +340,7 @@ class foreman_proxy (
   $logs_listen_on             = $foreman_proxy::params::logs_listen_on,
   $tftp                       = $foreman_proxy::params::tftp,
   $tftp_listen_on             = $foreman_proxy::params::tftp_listen_on,
+  $tftp_managed               = $foreman_proxy::params::tftp_managed,
   $tftp_manage_wget           = $foreman_proxy::params::tftp_manage_wget,
   $tftp_syslinux_filenames    = $foreman_proxy::params::tftp_syslinux_filenames,
   $tftp_root                  = $foreman_proxy::params::tftp_root,
@@ -420,7 +425,7 @@ class foreman_proxy (
   validate_listen_on($logs_listen_on)
 
   # Validate tftp params
-  validate_bool($tftp_manage_wget)
+  validate_bool($tftp_managed, $tftp_manage_wget)
   if $tftp_servername {
     validate_string($tftp_servername)
   }
