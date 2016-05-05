@@ -8,6 +8,11 @@
     * Remove autosign_location parameter, note that `#{puppetdir}/autosign.conf`
       is used in the proxy code itself for the path.
     * Remove puppet_cache_location parameter, no longer used by the smart proxy
+    * Add dhcp_subnets parameter
+    * Add dhcp_search_domains parameter (is relayed to dhcp::pool)
+    * Add tftp_managed parameter. If set to false, theforeman-tftp is not used
+    * Add libvirt_backend, set to 'virsh' for 1.11 compatibility
+    * Rename virsh_network to libvirt_network
 * New or changed parameters on smart proxy plugin classes:
     * Add contentdir, reportsdir and failed_dir to openscap class
 * Compatibility warnings:
