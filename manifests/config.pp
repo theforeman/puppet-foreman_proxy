@@ -8,6 +8,12 @@ class foreman_proxy::config {
     Class['puppet::server::config'] ~> Class['foreman_proxy::service']
   }
 
+  # Ensure 'puppet' user group is present before managing proxy user
+  # Relationship is duplicated there as defined() is parse-order dependent
+  if defined(Class['puppet::server::install']) {
+    Class['puppet::server::install'] -> Class['foreman_proxy::config']
+  }
+
   if $foreman_proxy::tftp     { include ::foreman_proxy::tftp }
 
   # Somehow, calling these DHCP and DNS seems to conflict. So, they get a prefix...
