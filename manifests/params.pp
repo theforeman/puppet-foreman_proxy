@@ -115,7 +115,7 @@ class foreman_proxy::params {
 
   # Logging settings
   $log               = '/var/log/foreman-proxy/proxy.log'
-  $log_level         = 'ERROR'
+  $log_level         = 'INFO'
   $log_buffer        = 2000
   $log_buffer_errors = 1000
 
