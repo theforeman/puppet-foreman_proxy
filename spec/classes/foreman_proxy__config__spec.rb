@@ -385,7 +385,7 @@ describe 'foreman_proxy::config' do
       context 'with pupppetrun_provider set to mcollective' do
         let :pre_condition do
           'class {"foreman_proxy":
-            puppetrun          => true,
+            puppet             => true,
             puppetrun_provider => "mcollective",
           }'
         end
@@ -656,10 +656,10 @@ describe 'foreman_proxy::config' do
         end
       end
 
-      context 'when puppetrun disabled' do
+      context 'when puppet disabled' do
         let :pre_condition do
           'class { "foreman_proxy":
-            puppetrun => false,
+            puppet => false,
           }'
         end
 
@@ -671,11 +671,11 @@ describe 'foreman_proxy::config' do
         end
       end
 
-      context 'when puppetca and puppetrun disabled' do
+      context 'when puppetca and puppet disabled' do
         let :pre_condition do
           'class { "foreman_proxy":
             puppetca  => false,
-            puppetrun => false,
+            puppet => false,
           }'
         end
 
@@ -744,11 +744,11 @@ describe 'foreman_proxy::config' do
           end
         end
 
-        context 'when puppetrun => false' do
+        context 'when puppet => false' do
           let :pre_condition do
             'class {"foreman_proxy":
               use_sudoersd => false,
-              puppetrun    => false,
+              puppet       => false,
             }'
           end
 

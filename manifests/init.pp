@@ -90,10 +90,10 @@
 #
 # $puppet_group::               Groups of Foreman proxy user
 #
-# $puppetrun::                  Enable puppet run/kick feature
+# $puppet::                     Enable Puppet module for environment imports and Puppet runs
 #                               type:boolean
 #
-# $puppetrun_listen_on::        Puppet run proxy to listen on https, http, or both
+# $puppet_listen_on::           Puppet feature to listen on https, http, or both
 #
 # $puppetrun_provider::         Set puppet_provider to handle puppet run/kick via mcollective
 #
@@ -315,8 +315,8 @@ class foreman_proxy (
   $puppetdir                  = $foreman_proxy::params::puppetdir,
   $puppetca_cmd               = $foreman_proxy::params::puppetca_cmd,
   $puppet_group               = $foreman_proxy::params::puppet_group,
-  $puppetrun                  = $foreman_proxy::params::puppetrun,
-  $puppetrun_listen_on        = $foreman_proxy::params::puppetrun_listen_on,
+  $puppet                     = $foreman_proxy::params::puppet,
+  $puppet_listen_on           = $foreman_proxy::params::puppet_listen_on,
   $puppetrun_cmd              = $foreman_proxy::params::puppetrun_cmd,
   $puppetrun_provider         = $foreman_proxy::params::puppetrun_provider,
   $customrun_cmd              = $foreman_proxy::params::customrun_cmd,
@@ -412,7 +412,7 @@ class foreman_proxy (
   # lint:endignore
 
   # Validate puppet params
-  validate_bool($puppetssh_wait)
+  validate_bool($puppet, $puppetssh_wait)
   validate_string($ssldir, $puppetdir, $puppetca_cmd, $puppetrun_cmd)
   validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
   validate_string($salt_puppetrun_cmd)

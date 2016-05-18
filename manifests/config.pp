@@ -66,8 +66,8 @@ class foreman_proxy::config {
     }
   }
   foreman_proxy::settings_file { 'puppet':
-    enabled   => $::foreman_proxy::puppetrun,
-    listen_on => $::foreman_proxy::puppetrun_listen_on,
+    enabled   => $::foreman_proxy::puppet,
+    listen_on => $::foreman_proxy::puppet_listen_on,
   }
   foreman_proxy::settings_file { 'puppetca':
     enabled   => $::foreman_proxy::puppetca,
@@ -90,7 +90,7 @@ class foreman_proxy::config {
     listen_on => $::foreman_proxy::logs_listen_on,
   }
 
-  if $foreman_proxy::puppetca or $foreman_proxy::puppetrun {
+  if $foreman_proxy::puppetca or $foreman_proxy::puppet {
     if $foreman_proxy::use_sudoersd {
       if $foreman_proxy::manage_sudoersd {
         file { "${::foreman_proxy::sudoers}.d":
