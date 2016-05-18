@@ -9,6 +9,9 @@
       is used in the proxy code itself for the path.
 * New or changed parameters on smart proxy plugin classes:
     * Add contentdir, reportsdir and failed_dir to openscap class
+* Compatibility warnings:
+    * Change puppetrun and puppetrun_listen_on parameters to puppet and
+      puppet_listen_on respectively
 
 ## 2.5.0
 * New or changed parameters:
