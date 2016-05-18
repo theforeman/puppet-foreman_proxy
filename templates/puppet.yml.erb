@@ -1,18 +1,23 @@
 ---
+<% split_files = scope.lookupvar("foreman_proxy::puppet_split_config_files") -%>
 # Puppet management
 :enabled: <%= @module_enabled %>
-:puppet_conf: <%= scope.lookupvar("foreman_proxy::puppetdir") %>/puppet.conf
 # valid providers:
-#   puppetrun   (for puppetrun/kick, deprecated in Puppet 3)
-#   mcollective (uses mco puppet)
-#   puppetssh   (run puppet over ssh)
-#   salt        (uses salt puppet.run)
-#   customrun   (calls a custom command with args)
+#   <%= "puppet_proxy_" if split_files %>puppetrun   (for puppetrun/kick, deprecated in Puppet 3)
+#   <%= "puppet_proxy_" if split_files %>mcollective (uses mco puppet)
+#   <%= "puppet_proxy_" if split_files %>puppetssh   (run puppet over ssh)
+#   <%= "puppet_proxy_" if split_files %>salt        (uses salt puppet.run)
+#   <%= "puppet_proxy_" if split_files %>customrun   (calls a custom command with args)
 <% unless [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::puppetrun_provider")) -%>
-:puppet_provider: <%= scope.lookupvar("foreman_proxy::puppetrun_provider") %>
+:<%= split_files ? 'use' : 'puppet' %>_provider: <%= "puppet_proxy_" if split_files %><%= scope.lookupvar("foreman_proxy::puppetrun_provider") %>
 <% else -%>
-#:puppet_provider: puppetrun
+#:<%= split_files ? 'use' : 'puppet' %>_provider: <%= "puppet_proxy_" if split_files %>puppetrun
 <% end -%>
+
+<% if split_files -%>
+:puppet_version: <%= @puppetversion %>
+<% else -%>
+:puppet_conf: <%= scope.lookupvar("foreman_proxy::puppetdir") %>/puppet.conf
 
 # customrun command details
 # Set :customrun_cmd to the full path of the script you want to run, instead of /bin/false
@@ -48,10 +53,17 @@
 <% end -%>
 
 # Which user to invoke sudo as to run puppet commands
-<% if scope.lookupvar("foreman_proxy::puppetrun_provider") =~ /(mcollective|puppetrun)/ -%>
+<% if scope.lookupvar("foreman_proxy::puppetrun_provider") == 'puppetrun' -%>
 :puppet_user: <%= scope.lookupvar("foreman_proxy::puppet_user") %>
 <% else -%>
 #:puppet_user: root
+<% end -%>
+
+# If you want to override the puppet_user above just for mco commands
+<% if scope.lookupvar("foreman_proxy::puppetrun_provider") == 'mcollective' -%>
+:mcollective_user: <%= scope.lookupvar("foreman_proxy::mcollective_user") %>
+<% else -%>
+#:mcollective_user: peadmin
 <% end -%>
 
 # URL of the puppet master itself for API requests
@@ -78,4 +90,5 @@
 :use_cache: <%= scope.lookupvar("foreman_proxy::puppet_use_cache") %>
 # default location of cache is relative to the installation dir
 :cache_location: '<%= scope.lookupvar("foreman_proxy::puppet_cache_location") %>'
+<% end -%>
 <% end -%>

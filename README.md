@@ -30,6 +30,8 @@ of this module.
 
 ### 1.11 compatibility notes
 
+* Puppet users must set `puppet_split_config_files => false` to keep a single
+  puppet.yml configuration file.
 * If using the virsh DHCP/DNS provider, `libvirt_backend => "virsh"` must be set.
 
 # Contributing

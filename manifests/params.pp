@@ -160,12 +160,15 @@ class foreman_proxy::params {
   $puppetdir          = $puppet::params::dir
 
   # puppetrun settings
-  $puppet              = true
-  $puppet_listen_on    = 'https'
+  $puppet = true
+  $puppet_split_config_files = true
+  $puppet_listen_on = 'https'
+
   $puppetrun_cmd       = $puppet::params::puppetrun_cmd
   $puppetrun_provider  = undef
   $customrun_cmd       = $shell
   $customrun_args      = '-ay -f -s'
+  $mcollective_user    = 'root'
   $puppetssh_sudo      = false
   $puppetssh_user      = 'root'
   $puppetssh_keyfile   = "${etc}/foreman-proxy/id_rsa"
