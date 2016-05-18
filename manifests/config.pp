@@ -69,6 +69,19 @@ class foreman_proxy::config {
     enabled   => $::foreman_proxy::puppet,
     listen_on => $::foreman_proxy::puppet_listen_on,
   }
+  if $::foreman_proxy::puppet_split_config_files {
+    foreman_proxy::settings_file { [
+      'puppet_proxy_customrun',
+      'puppet_proxy_legacy',
+      'puppet_proxy_mcollective',
+      'puppet_proxy_puppet_api',
+      'puppet_proxy_puppetrun',
+      'puppet_proxy_salt',
+      'puppet_proxy_ssh',
+    ]:
+      module => false,
+    }
+  }
   foreman_proxy::settings_file { 'puppetca':
     enabled   => $::foreman_proxy::puppetca,
     listen_on => $::foreman_proxy::puppetca_listen_on,

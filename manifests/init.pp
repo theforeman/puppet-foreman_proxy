@@ -93,6 +93,9 @@
 # $puppet::                     Enable Puppet module for environment imports and Puppet runs
 #                               type:boolean
 #
+# $puppet_split_config_files::  Split Puppet configuration files. This is needed since version 1.12.
+#                               type:boolean
+#
 # $puppet_listen_on::           Puppet feature to listen on https, http, or both
 #
 # $puppetrun_provider::         Set puppet_provider to handle puppet run/kick via mcollective
@@ -102,6 +105,8 @@
 # $customrun_cmd::              Puppet customrun command
 #
 # $customrun_args::             Puppet customrun command arguments
+#
+# $mcollective_user::           The user for puppetrun_provider mcollective
 #
 # $puppetssh_sudo::             Whether to use sudo before commands when using puppetrun_provider puppetssh
 #                               type:boolean
@@ -316,11 +321,13 @@ class foreman_proxy (
   $puppetca_cmd               = $foreman_proxy::params::puppetca_cmd,
   $puppet_group               = $foreman_proxy::params::puppet_group,
   $puppet                     = $foreman_proxy::params::puppet,
+  $puppet_split_config_files  = $foreman_proxy::params::puppet_split_config_files,
   $puppet_listen_on           = $foreman_proxy::params::puppet_listen_on,
   $puppetrun_cmd              = $foreman_proxy::params::puppetrun_cmd,
   $puppetrun_provider         = $foreman_proxy::params::puppetrun_provider,
   $customrun_cmd              = $foreman_proxy::params::customrun_cmd,
   $customrun_args             = $foreman_proxy::params::customrun_args,
+  $mcollective_user           = $foreman_proxy::params::mcollective_user,
   $puppetssh_sudo             = $foreman_proxy::params::puppetssh_sudo,
   $puppetssh_command          = $foreman_proxy::params::puppetssh_command,
   $puppetssh_user             = $foreman_proxy::params::puppetssh_user,
@@ -412,10 +419,10 @@ class foreman_proxy (
   # lint:endignore
 
   # Validate puppet params
-  validate_bool($puppet, $puppetssh_wait)
+  validate_bool($puppet, $puppet_split_config_files, $puppetssh_wait)
   validate_string($ssldir, $puppetdir, $puppetca_cmd, $puppetrun_cmd)
   validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
-  validate_string($salt_puppetrun_cmd)
+  validate_string($mcollective_user, $salt_puppetrun_cmd)
 
   # Validate template params
   validate_string($template_url)
