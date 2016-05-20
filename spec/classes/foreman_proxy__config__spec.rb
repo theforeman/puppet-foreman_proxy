@@ -629,10 +629,6 @@ describe 'foreman_proxy::config' do
           }'
         end
 
-        it 'should create the cache_location' do
-          should contain_file('/var/cache/foreman-proxy').with_ensure('directory')
-        end
-
         it 'should set use_cache' do
           verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_legacy.yml", [
             ':use_cache: true',
@@ -1095,14 +1091,9 @@ describe 'foreman_proxy::config' do
             }'
           end
 
-          it 'should create the cache_location' do
-            should contain_file('/var/cache/foreman-proxy').with_ensure('directory')
-          end
-
-          it 'should set use_cache and cache_location' do
+          it 'should set use_cache' do
             verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
               ':use_cache: true',
-              ":cache_location: '/var/cache/foreman-proxy'",
             ])
           end
         end

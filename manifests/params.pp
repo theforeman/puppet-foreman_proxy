@@ -150,7 +150,6 @@ class foreman_proxy::params {
   $puppet_url                 = "https://${::fqdn}:8140"
   $puppet_use_environment_api = undef
   $puppet_use_cache           = undef
-  $puppet_cache_location      = '/var/cache/foreman-proxy'
 
   # puppetca settings
   $puppetca           = true

@@ -7,6 +7,7 @@
     * Add ssl_disabled_ciphers parameter for usage with 1.12 or later
     * Remove autosign_location parameter, note that `#{puppetdir}/autosign.conf`
       is used in the proxy code itself for the path.
+    * Remove puppet_cache_location parameter, no longer used by the smart proxy
 * New or changed parameters on smart proxy plugin classes:
     * Add contentdir, reportsdir and failed_dir to openscap class
 * Compatibility warnings:
