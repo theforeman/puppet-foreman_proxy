@@ -125,13 +125,4 @@ class foreman_proxy::config {
       }
     }
   }
-
-  if $foreman_proxy::puppet_use_cache {
-    file { $foreman_proxy::puppet_cache_location:
-      ensure => directory,
-      owner  => $foreman_proxy::user,
-      group  => 0,
-      mode   => '0750',
-    }
-  }
 }

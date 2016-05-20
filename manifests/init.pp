@@ -284,8 +284,6 @@
 # $puppet_use_cache::           Whether to enable caching of puppet classes
 #                               type:boolean
 #
-# $puppet_cache_location::      Location to store cached puppet classes
-#
 class foreman_proxy (
   $repo                       = $foreman_proxy::params::repo,
   $gpgcheck                   = $foreman_proxy::params::gpgcheck,
@@ -403,7 +401,6 @@ class foreman_proxy (
   $oauth_consumer_key         = $foreman_proxy::params::oauth_consumer_key,
   $oauth_consumer_secret      = $foreman_proxy::params::oauth_consumer_secret,
   $puppet_use_cache           = $foreman_proxy::params::puppet_use_cache,
-  $puppet_cache_location      = $foreman_proxy::params::puppet_cache_location,
 ) inherits foreman_proxy::params {
 
   # Validate misc params
@@ -423,6 +420,9 @@ class foreman_proxy (
   validate_string($ssldir, $puppetdir, $puppetca_cmd, $puppetrun_cmd)
   validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
   validate_string($mcollective_user, $salt_puppetrun_cmd)
+  if $puppet_use_cache != undef {
+    validate_bool($puppet_use_cache)
+  }
 
   # Validate template params
   validate_string($template_url)
@@ -460,12 +460,6 @@ class foreman_proxy (
   validate_bool($freeipa_remove_dns)
   validate_string($realm_provider, $realm_principal)
   validate_absolute_path($realm_keytab)
-
-  # puppet cache params
-  if $puppet_use_cache {
-    validate_bool($puppet_use_cache)
-  }
-  validate_absolute_path($puppet_cache_location)
 
   $real_registered_proxy_url = pick($registered_proxy_url, "https://${::fqdn}:${ssl_port}")
 
