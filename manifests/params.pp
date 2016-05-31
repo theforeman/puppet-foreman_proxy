@@ -157,6 +157,7 @@ class foreman_proxy::params {
   $puppetca_cmd       = $puppet::params::puppetca_cmd
   $puppet_group       = 'puppet'
   $puppetdir          = $puppet::params::dir
+  $autosign_location  = "${puppetdir}/autosign.conf"
 
   # puppetrun settings
   $puppet = true
