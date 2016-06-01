@@ -2,22 +2,35 @@
 
 ## 3.0.0
 * New or changed parameters:
+    * Add dhcp_subnets parameter
+    * Add dhcp_search_domains parameter (is relayed to dhcp::pool)
     * Add ensure_packages_version parameter for extra packages, can be set to
       'installed', 'present', 'latest' or 'absent'
+    * Add libvirt_backend, set to 'virsh' for 1.11 compatibility
+    * Add mcollective_user parameter
+    * Add puppet_split_config_files parameter, set to false for 1.11
+      compatibility
     * Add ssl_disabled_ciphers parameter for usage with 1.12 or later
+    * Add tftp_managed parameter. If set to false, theforeman-tftp is not used
+    * Rename virsh_network to libvirt_network
     * Remove autosign_location parameter, note that `#{puppetdir}/autosign.conf`
       is used in the proxy code itself for the path.
     * Remove puppet_cache_location parameter, no longer used by the smart proxy
-    * Add dhcp_subnets parameter
-    * Add dhcp_search_domains parameter (is relayed to dhcp::pool)
-    * Add tftp_managed parameter. If set to false, theforeman-tftp is not used
-    * Add libvirt_backend, set to 'virsh' for 1.11 compatibility
-    * Rename virsh_network to libvirt_network
+    * Remove deprecated parameters for 1.10 and older
 * New or changed parameters on smart proxy plugin classes:
-    * Add contentdir, reportsdir and failed_dir to openscap class
+    * Add contentdir, reportsdir, failed_dir and configure_openscap_repo to
+      openscap class
+* Other changes and fixes:
+    * Use foreman::providers to install foreman_smartproxy dependencies
+    * Pass ssl_ca to foreman_smartproxy for rest_v3 provider compatibility
+    * Change default log level to INFO
+    * Copy mboot.c32 for TFTP proxies
+    * Fix ordering of Puppet server installation before proxy user (#14942)
 * Compatibility warnings:
+    * Removed support for Smart Proxy 1.10 and older, 1.11+ is required
     * Change puppetrun and puppetrun_listen_on parameters to puppet and
       puppet_listen_on respectively
+    * 1.11 users must set `puppet_split_config_files => false` with Puppet
 
 ## 2.5.0
 * New or changed parameters:
