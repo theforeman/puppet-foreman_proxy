@@ -570,19 +570,39 @@ describe 'foreman_proxy::config' do
         end
       end
 
-      context 'when puppetrun_provider => puppetssh and user/key overridden' do
+      context 'when puppetrun_provider => ssh and user/key overridden' do
         let :pre_condition do
           'class {"foreman_proxy":
-            puppetrun_provider => "puppetssh",
+            puppetrun_provider => "ssh",
             puppetssh_user => "example",
             puppetssh_keyfile => "/home/example/.ssh/id_rsa",
           }'
+        end
+
+        it 'should set provider to puppet_proxy_ssh' do
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
+            ':use_provider: puppet_proxy_ssh',
+          ])
         end
 
         it 'should set puppetssh_user and puppetssh_keyfile' do
           verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_ssh.yml", [
             ':user: example',
             ':keyfile: /home/example/.ssh/id_rsa',
+          ])
+        end
+      end
+
+      context 'when puppetrun_provider => puppetssh' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            puppetrun_provider => "puppetssh",
+          }'
+        end
+
+        it 'should set provider to puppet_proxy_ssh' do
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
+            ':use_provider: puppet_proxy_ssh',
           ])
         end
       end
@@ -1042,6 +1062,12 @@ describe 'foreman_proxy::config' do
               puppet_split_config_files => false,
               puppetrun_provider => "puppetssh",
             }'
+          end
+
+          it 'should set provider to puppetssh' do
+            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
+              ':puppet_provider: puppetssh',
+            ])
           end
 
           it 'should set puppetssh_user and puppetssh_keyfile' do

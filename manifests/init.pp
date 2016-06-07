@@ -98,7 +98,7 @@
 #
 # $puppet_listen_on::           Puppet feature to listen on https, http, or both
 #
-# $puppetrun_provider::         Set puppet_provider to handle puppet run/kick via mcollective
+# $puppetrun_provider::         Provider for running/kicking Puppet agents
 #
 # $puppetrun_cmd::              Puppet run/kick command to be allowed in sudoers
 #
@@ -422,6 +422,15 @@ class foreman_proxy (
   validate_string($mcollective_user, $salt_puppetrun_cmd)
   if $puppet_use_cache != undef {
     validate_bool($puppet_use_cache)
+  }
+  if $puppetrun_provider {
+    validate_string($puppetrun_provider)
+    if $puppetrun_provider == 'puppetssh' and $puppet_split_config_files {
+      $real_puppetrun_provider = 'ssh'
+      warning('foreman_proxy::puppetrun_provider should be "ssh", not "puppetssh" for 1.12 and above')
+    } else {
+      $real_puppetrun_provider = $puppetrun_provider
+    }
   }
 
   # Validate template params
