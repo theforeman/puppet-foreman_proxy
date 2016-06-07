@@ -5,11 +5,15 @@
 # valid providers:
 #   <%= "puppet_proxy_" if split_files %>puppetrun   (for puppetrun/kick, deprecated in Puppet 3)
 #   <%= "puppet_proxy_" if split_files %>mcollective (uses mco puppet)
-#   <%= "puppet_proxy_" if split_files %>puppetssh   (run puppet over ssh)
+<% if split_files -%>
+#   puppet_proxy_ssh         (run puppet over ssh)
+<% else -%>
+#   puppetssh   (run puppet over ssh)
+<% end -%>
 #   <%= "puppet_proxy_" if split_files %>salt        (uses salt puppet.run)
 #   <%= "puppet_proxy_" if split_files %>customrun   (calls a custom command with args)
-<% unless [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::puppetrun_provider")) -%>
-:<%= split_files ? 'use' : 'puppet' %>_provider: <%= "puppet_proxy_" if split_files %><%= scope.lookupvar("foreman_proxy::puppetrun_provider") %>
+<% unless [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::real_puppetrun_provider")) -%>
+:<%= split_files ? 'use' : 'puppet' %>_provider: <%= "puppet_proxy_" if split_files %><%= scope.lookupvar("foreman_proxy::real_puppetrun_provider") %>
 <% else -%>
 #:<%= split_files ? 'use' : 'puppet' %>_provider: <%= "puppet_proxy_" if split_files %>puppetrun
 <% end -%>
