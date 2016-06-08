@@ -1,6 +1,6 @@
 {
   "name": "theforeman-foreman_proxy",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "author": "theforeman",
   "summary": "Foreman Smart Proxy configuration",
   "license": "GPL-3.0+",
@@ -78,20 +78,18 @@
     {
       "operatingsystem": "Fedora",
       "operatingsystemrelease": [
-        "21"
+        "24"
       ]
     },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "7",
         "8"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "12.04",
         "14.04",
         "16.04"
       ]

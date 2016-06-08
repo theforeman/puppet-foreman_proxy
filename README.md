@@ -22,17 +22,11 @@ required.
 
 ## Compatibility
 
-This module only supports Smart Proxy 1.11 or higher as of version 3.0, as the
+This module only supports Smart Proxy 1.12 or higher as of version 4.0, as the
 configuration layout changed significantly.
 
-To configure older versions of the Smart Proxy (1.5 to 1.10), use version 2.x
-of this module.
-
-### 1.11 compatibility notes
-
-* Puppet users must set `puppet_split_config_files => false` to keep a single
-  puppet.yml configuration file.
-* If using the virsh DHCP/DNS provider, `libvirt_backend => "virsh"` must be set.
+To configure older versions of the Smart Proxy use version 2.x of this module
+for 1.5 to 1.10 and 3.x for 1.11.
 
 # Contributing
 

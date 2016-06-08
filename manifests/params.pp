@@ -50,8 +50,13 @@ class foreman_proxy::params {
 
       $keyfile  = '/etc/bind/rndc.key'
       $nsupdate = 'dnsutils'
-      if  ($::operatingsystem == 'Debian') and (versioncmp($::operatingsystemrelease, '8.0') >= 0) or
-          ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemrelease, '14.10') >= 0) {
+      if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease == '14.04' {
+        $tftp_syslinux_filenames = ['/usr/lib/syslinux/chain.c32',
+                                    '/usr/lib/syslinux/mboot.c32',
+                                    '/usr/lib/syslinux/menu.c32',
+                                    '/usr/lib/syslinux/memdisk',
+                                    '/usr/lib/syslinux/pxelinux.0']
+      } else {
         $tftp_syslinux_filenames = ['/usr/lib/PXELINUX/pxelinux.0',
                                     '/usr/lib/syslinux/memdisk',
                                     '/usr/lib/syslinux/modules/bios/chain.c32',
@@ -60,12 +65,6 @@ class foreman_proxy::params {
                                     '/usr/lib/syslinux/modules/bios/libutil.c32',
                                     '/usr/lib/syslinux/modules/bios/mboot.c32',
                                     '/usr/lib/syslinux/modules/bios/menu.c32']
-      } else {
-        $tftp_syslinux_filenames = ['/usr/lib/syslinux/chain.c32',
-                                    '/usr/lib/syslinux/mboot.c32',
-                                    '/usr/lib/syslinux/menu.c32',
-                                    '/usr/lib/syslinux/memdisk',
-                                    '/usr/lib/syslinux/pxelinux.0']
       }
     }
     /^(FreeBSD|DragonFly)$/: {
@@ -160,7 +159,6 @@ class foreman_proxy::params {
 
   # puppetrun settings
   $puppet = true
-  $puppet_split_config_files = true
   $puppet_listen_on = 'https'
 
   $puppetrun_cmd       = $puppet::params::puppetrun_cmd
@@ -232,7 +230,6 @@ class foreman_proxy::params {
   $dns_forwarders = []
 
   # libvirt options
-  $libvirt_backend    = 'libvirt'
   $libvirt_connection = 'qemu:///system'
   $libvirt_network    = 'default'
 
