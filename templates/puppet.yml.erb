@@ -1,94 +1,16 @@
 ---
-<% split_files = scope.lookupvar("foreman_proxy::puppet_split_config_files") -%>
 # Puppet management
 :enabled: <%= @module_enabled %>
 # valid providers:
-#   <%= "puppet_proxy_" if split_files %>puppetrun   (for puppetrun/kick, deprecated in Puppet 3)
-#   <%= "puppet_proxy_" if split_files %>mcollective (uses mco puppet)
-<% if split_files -%>
+#   puppet_proxy_puppetrun   (for puppetrun/kick, deprecated in Puppet 3)
+#   puppet_proxy_mcollective (uses mco puppet)
 #   puppet_proxy_ssh         (run puppet over ssh)
+#   puppet_proxy_salt        (uses salt puppet.run)
+#   puppet_proxy_customrun   (calls a custom command with args)
+<% unless [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::puppetrun_provider")) -%>
+:use_provider: puppet_proxy_<%= scope.lookupvar("foreman_proxy::puppetrun_provider") %>
 <% else -%>
-#   puppetssh   (run puppet over ssh)
-<% end -%>
-#   <%= "puppet_proxy_" if split_files %>salt        (uses salt puppet.run)
-#   <%= "puppet_proxy_" if split_files %>customrun   (calls a custom command with args)
-<% unless [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::real_puppetrun_provider")) -%>
-:<%= split_files ? 'use' : 'puppet' %>_provider: <%= "puppet_proxy_" if split_files %><%= scope.lookupvar("foreman_proxy::real_puppetrun_provider") %>
-<% else -%>
-#:<%= split_files ? 'use' : 'puppet' %>_provider: <%= "puppet_proxy_" if split_files %>puppetrun
+#:use_provider: puppet_proxy_puppetrun
 <% end -%>
 
-<% if split_files -%>
 :puppet_version: <%= @puppetversion %>
-<% else -%>
-:puppet_conf: <%= scope.lookupvar("foreman_proxy::puppetdir") %>/puppet.conf
-
-# customrun command details
-# Set :customrun_cmd to the full path of the script you want to run, instead of /bin/false
-:customrun_cmd: <%= scope.lookupvar("foreman_proxy::customrun_cmd") %>
-# Set :customrun_args to any args you want to pass to your custom script. The hostname of the
-# system to run against will be appended after the custom commands.
-:customrun_args: <%= scope.lookupvar("foreman_proxy::customrun_args") %>
-
-# whether to use sudo before the ssh command
-:puppetssh_sudo: <%= scope.lookupvar("foreman_proxy::puppetssh_sudo") %>
-# the command which will be sent to the host
-:puppetssh_command: <%= scope.lookupvar("foreman_proxy::puppetssh_command") %>
-# wait for the command to finish (and capture exit code), or detach process and return 0
-# Note: enabling this option causes the Foreman web UI to be blocked when executing puppetrun,
-# with timeout from the Browser and/or Foreman's REST client after 60 seconds.
-:puppetssh_wait: <%= scope.lookupvar("foreman_proxy::puppetssh_wait") %>
-# With which user should the proxy connect
-<% if scope.lookupvar("foreman_proxy::puppetrun_provider") == 'puppetssh' -%>
-:puppetssh_user: <%= scope.lookupvar("foreman_proxy::puppetssh_user") %>
-:puppetssh_keyfile: <%= scope.lookupvar("foreman_proxy::puppetssh_keyfile") %>
-<% else -%>
-#:puppetssh_user: root
-#:puppetssh_keyfile: /etc/foreman-proxy/id_rsa
-<% end -%>
-
-# Custom salt puppet.run command
-# Set :salt_puppetrun_cmd to 'puppet.run agent no-noop' to run in no-noop mode.
-# Default command is puppet.run
-<% if scope.lookupvar("foreman_proxy::puppetrun_provider") == 'salt' -%>
-:salt_puppetrun_cmd: <%= scope.lookupvar("foreman_proxy::salt_puppetrun_cmd") %>
-<% else -%>
-#:salt_puppetrun_cmd: puppet.run
-<% end -%>
-
-# Which user to invoke sudo as to run puppet commands
-<% if scope.lookupvar("foreman_proxy::puppetrun_provider") == 'puppetrun' -%>
-:puppet_user: <%= scope.lookupvar("foreman_proxy::puppet_user") %>
-<% else -%>
-#:puppet_user: root
-<% end -%>
-
-# If you want to override the puppet_user above just for mco commands
-<% if scope.lookupvar("foreman_proxy::puppetrun_provider") == 'mcollective' -%>
-:mcollective_user: <%= scope.lookupvar("foreman_proxy::mcollective_user") %>
-<% else -%>
-#:mcollective_user: peadmin
-<% end -%>
-
-# URL of the puppet master itself for API requests
-:puppet_url: <%= scope.lookupvar("foreman_proxy::puppet_url") %>
-# SSL certificates used to access the puppet master API
-:puppet_ssl_ca: <%= scope.lookupvar("foreman_proxy::puppet_ssl_ca") %>
-:puppet_ssl_cert: <%= scope.lookupvar("foreman_proxy::puppet_ssl_cert") %>
-:puppet_ssl_key: <%= scope.lookupvar("foreman_proxy::puppet_ssl_key") %>
-
-# Override use of Puppet's API to list environments, by default it will use only if
-# environmentpath is given in puppet.conf, else will look for environments in puppet.conf
-<% if [nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::puppet_use_environment_api")) %>
-#:puppet_use_environment_api: true
-<% else %>
-:puppet_use_environment_api: <%= scope.lookupvar("foreman_proxy::puppet_use_environment_api") %>
-<% end %>
-
-# Cache options
-<% if [nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::puppet_use_cache")) -%>
-#:use_cache: true
-<% else -%>
-:use_cache: <%= scope.lookupvar("foreman_proxy::puppet_use_cache") %>
-<% end -%>
-<% end -%>

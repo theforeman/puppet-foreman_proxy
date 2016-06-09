@@ -93,9 +93,6 @@
 # $puppet::                     Enable Puppet module for environment imports and Puppet runs
 #                               type:boolean
 #
-# $puppet_split_config_files::  Split Puppet configuration files. This is needed since version 1.12.
-#                               type:boolean
-#
 # $puppet_listen_on::           Puppet feature to listen on https, http, or both
 #
 # $puppetrun_provider::         Provider for running/kicking Puppet agents
@@ -237,8 +234,6 @@
 # $dns_forwarders::             DNS forwarders
 #                               type:array
 #
-# $libvirt_backend::            Backend of libvirt DNS/DHCP provider (virsh or libvirt)
-#
 # $libvirt_connection::         Connection string of libvirt DNS/DHCP provider (e.g. "qemu:///system")
 #
 # $libvirt_network::            Network for libvirt DNS/DHCP provider
@@ -319,7 +314,6 @@ class foreman_proxy (
   $puppetca_cmd               = $foreman_proxy::params::puppetca_cmd,
   $puppet_group               = $foreman_proxy::params::puppet_group,
   $puppet                     = $foreman_proxy::params::puppet,
-  $puppet_split_config_files  = $foreman_proxy::params::puppet_split_config_files,
   $puppet_listen_on           = $foreman_proxy::params::puppet_listen_on,
   $puppetrun_cmd              = $foreman_proxy::params::puppetrun_cmd,
   $puppetrun_provider         = $foreman_proxy::params::puppetrun_provider,
@@ -380,7 +374,6 @@ class foreman_proxy (
   $dns_tsig_keytab            = $foreman_proxy::params::dns_tsig_keytab,
   $dns_tsig_principal         = $foreman_proxy::params::dns_tsig_principal,
   $dns_forwarders             = $foreman_proxy::params::dns_forwarders,
-  $libvirt_backend            = $foreman_proxy::params::libvirt_backend,
   $libvirt_network            = $foreman_proxy::params::libvirt_network,
   $libvirt_connection         = $foreman_proxy::params::libvirt_connection,
   $bmc                        = $foreman_proxy::params::bmc,
@@ -416,7 +409,7 @@ class foreman_proxy (
   # lint:endignore
 
   # Validate puppet params
-  validate_bool($puppet, $puppet_split_config_files, $puppetssh_wait)
+  validate_bool($puppet, $puppetssh_wait)
   validate_string($ssldir, $puppetdir, $puppetca_cmd, $puppetrun_cmd)
   validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
   validate_string($mcollective_user, $salt_puppetrun_cmd)
@@ -425,12 +418,6 @@ class foreman_proxy (
   }
   if $puppetrun_provider {
     validate_string($puppetrun_provider)
-    if $puppetrun_provider == 'puppetssh' and $puppet_split_config_files {
-      $real_puppetrun_provider = 'ssh'
-      warning('foreman_proxy::puppetrun_provider should be "ssh", not "puppetssh" for 1.12 and above')
-    } else {
-      $real_puppetrun_provider = $puppetrun_provider
-    }
   }
 
   # Validate template params
@@ -459,7 +446,6 @@ class foreman_proxy (
   validate_array($dns_forwarders)
 
   # Validate libvirt params
-  validate_re($libvirt_backend, '^(libvirt|virsh)$')
   validate_string($libvirt_network, $libvirt_connection)
 
   # Validate bmc params
