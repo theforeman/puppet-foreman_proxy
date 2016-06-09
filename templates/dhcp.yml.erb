@@ -4,9 +4,9 @@
 :enabled: <%= @module_enabled %>
 
 # valid providers:
-#   - <%= "dhcp_" %>isc (ISC dhcp server)
-#   - <%= "dhcp_" %>native_ms (Microsoft native implementation)
-#   - <%= "dhcp_" %><%= scope.lookupvar("foreman_proxy::libvirt_backend") %> (dnsmasq via libvirt)
+#   - dhcp_isc (ISC dhcp server)
+#   - dhcp_native_ms (Microsoft native implementation)
+#   - dhcp_libvirt (dnsmasq via libvirt)
 :use_provider: dhcp_<%= scope.lookupvar("foreman_proxy::dhcp_provider") %>
 :server: <%= scope.lookupvar("foreman_proxy::dhcp_server") %>
 # subnets restricts the subnets queried to a subset, to reduce the query time.

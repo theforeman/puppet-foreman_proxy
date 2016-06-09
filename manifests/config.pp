@@ -60,27 +60,23 @@ class foreman_proxy::config {
   foreman_proxy::settings_file { ['dns_nsupdate', 'dns_nsupdate_gss']:
     module => false,
   }
-  if $::foreman_proxy::libvirt_backend == 'libvirt' {
-    foreman_proxy::settings_file { ['dns_libvirt', 'dhcp_libvirt']:
-      module => false,
-    }
+  foreman_proxy::settings_file { ['dns_libvirt', 'dhcp_libvirt']:
+    module => false,
   }
   foreman_proxy::settings_file { 'puppet':
     enabled   => $::foreman_proxy::puppet,
     listen_on => $::foreman_proxy::puppet_listen_on,
   }
-  if $::foreman_proxy::puppet_split_config_files {
-    foreman_proxy::settings_file { [
-      'puppet_proxy_customrun',
-      'puppet_proxy_legacy',
-      'puppet_proxy_mcollective',
-      'puppet_proxy_puppet_api',
-      'puppet_proxy_puppetrun',
-      'puppet_proxy_salt',
-      'puppet_proxy_ssh',
-    ]:
-      module => false,
-    }
+  foreman_proxy::settings_file { [
+    'puppet_proxy_customrun',
+    'puppet_proxy_legacy',
+    'puppet_proxy_mcollective',
+    'puppet_proxy_puppet_api',
+    'puppet_proxy_puppetrun',
+    'puppet_proxy_salt',
+    'puppet_proxy_ssh',
+  ]:
+    module => false,
   }
   foreman_proxy::settings_file { 'puppetca':
     enabled   => $::foreman_proxy::puppetca,

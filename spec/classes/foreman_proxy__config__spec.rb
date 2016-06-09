@@ -270,17 +270,16 @@ describe 'foreman_proxy::config' do
         end
 
         if facts[:osfamily] == 'Debian'
-          case facts[:operatingsystemmajrelease]
-          when '7'
-            it 'should copy the correct default files for Debian 7' do
+          if facts[:operatingsystem] == 'Ubuntu' && facts[:operatingsystemrelease] == '14.04'
+            it 'should copy the correct default files for Ubuntu 14.04' do
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/chain.c32')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/mboot.c32')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/menu.c32')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/memdisk')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/pxelinux.0')
             end
-          when '8'
-            it 'should copy the correct default files for Debian 8' do
+          else
+            it 'should copy the correct default files for newer Debian/Ubuntu versions' do
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/PXELINUX/pxelinux.0')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/memdisk')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/chain.c32')
@@ -570,6 +569,20 @@ describe 'foreman_proxy::config' do
         end
       end
 
+      context 'when puppetrun_provider => ssh' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            puppetrun_provider => "ssh",
+          }'
+        end
+
+        it 'should set provider to puppet_proxy_ssh' do
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
+            ':use_provider: puppet_proxy_ssh',
+          ])
+        end
+      end
+
       context 'when puppetrun_provider => ssh and user/key overridden' do
         let :pre_condition do
           'class {"foreman_proxy":
@@ -579,30 +592,10 @@ describe 'foreman_proxy::config' do
           }'
         end
 
-        it 'should set provider to puppet_proxy_ssh' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
-            ':use_provider: puppet_proxy_ssh',
-          ])
-        end
-
         it 'should set puppetssh_user and puppetssh_keyfile' do
           verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_ssh.yml", [
             ':user: example',
             ':keyfile: /home/example/.ssh/id_rsa',
-          ])
-        end
-      end
-
-      context 'when puppetrun_provider => puppetssh' do
-        let :pre_condition do
-          'class {"foreman_proxy":
-            puppetrun_provider => "puppetssh",
-          }'
-        end
-
-        it 'should set provider to puppet_proxy_ssh' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
-            ':use_provider: puppet_proxy_ssh',
           ])
         end
       end
@@ -976,152 +969,6 @@ describe 'foreman_proxy::config' do
             '  - CIPHER-SUITE-1',
             '  - CIPHER-SUITE-2',
           ])
-        end
-      end
-
-      context 'when libvirt_backend => virsh' do
-        let :pre_condition do
-          'class {"foreman_proxy":
-            libvirt_backend => "virsh",
-            libvirt_network => "mynet",
-          }'
-        end
-
-        it 'should generate correct settings.yml' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            ':virsh_network: mynet',
-           ])
-        end
-
-        it "should not manage libvirt backend config files" do
-          should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/dhcp_libvirt.yml")
-          should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/dns_libvirt.yml")
-        end
-      end
-
-      context 'with puppet_split_config_files => false' do
-        let :pre_condition do
-          'class {"foreman_proxy":
-            puppet_split_config_files => false,
-          }'
-        end
-
-        it 'should generate correct puppet.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
-            '---',
-            ':enabled: https',
-            ":puppet_conf: #{etc_dir}/puppet/puppet.conf",
-            ":customrun_cmd: #{shell}",
-            ':customrun_args: -ay -f -s',
-            ':puppetssh_sudo: false',
-            ":puppetssh_command: #{usr_dir}/bin/puppet agent --onetime --no-usecacheonfailure",
-            ':puppetssh_wait: false',
-            ":puppet_url: https://#{facts[:fqdn]}:8140",
-            ":puppet_ssl_ca: #{var_dir}/ssl/certs/ca.pem",
-            ":puppet_ssl_cert: #{var_dir}/ssl/certs/#{facts[:fqdn]}.pem",
-            ":puppet_ssl_key: #{var_dir}/ssl/private_keys/#{facts[:fqdn]}.pem",
-          ])
-        end
-
-        context 'with pupppetrun_provider set to mcollective' do
-          let :pre_condition do
-            'class {"foreman_proxy":
-              puppet => true,
-              puppet_split_config_files => false,
-              puppetrun_provider => "mcollective",
-            }'
-          end
-
-          it 'should contain mcollective as puppet_provider and mcollective_user as root' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
-              ':puppet_provider: mcollective',
-              ':mcollective_user: root',
-            ])
-          end
-        end
-
-        context 'when puppetrun_provider => puppetrun' do
-          let :pre_condition do
-            'class {"foreman_proxy":
-              puppet_split_config_files => false,
-              puppetrun_provider => "puppetrun",
-            }'
-          end
-
-          it 'should contain puppetrun as puppet_provider and puppet_user as root' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
-              ':puppet_provider: puppetrun',
-              ':puppet_user: root',
-            ])
-          end
-        end
-
-        context 'when puppetrun_provider => puppetssh' do
-          let :pre_condition do
-            'class {"foreman_proxy":
-              puppet_split_config_files => false,
-              puppetrun_provider => "puppetssh",
-            }'
-          end
-
-          it 'should set provider to puppetssh' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
-              ':puppet_provider: puppetssh',
-            ])
-          end
-
-          it 'should set puppetssh_user and puppetssh_keyfile' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
-              ':puppetssh_user: root',
-              ":puppetssh_keyfile: #{etc_dir}/foreman-proxy/id_rsa",
-            ])
-          end
-        end
-
-        context 'when puppetrun_provider => salt' do
-          let :pre_condition do
-            'class {"foreman_proxy":
-              puppet_split_config_files => false,
-              puppetrun_provider => "salt",
-            }'
-          end
-
-          it 'should contain salt as puppet_provider and salt_puppetrun_cmd' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
-              ':puppet_provider: salt',
-              ':salt_puppetrun_cmd: puppet.run',
-            ])
-          end
-        end
-
-        context 'when puppet_use_environment_api set' do
-          let :pre_condition do
-            'class {"foreman_proxy":
-              puppet_split_config_files => false,
-              puppet_use_environment_api => false,
-            }'
-          end
-
-          it 'should set puppet_use_environment_api' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
-              ':puppet_use_environment_api: false',
-            ])
-          end
-        end
-
-        context 'with puppet use_cache enabled' do
-          let :pre_condition do
-            'class {"foreman_proxy":
-              puppet_split_config_files => false,
-              puppet_use_cache => true,
-            }'
-          end
-
-          it 'should set use_cache' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
-              ':use_cache: true',
-            ])
-          end
         end
       end
     end
