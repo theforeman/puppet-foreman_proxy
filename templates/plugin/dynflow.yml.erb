@@ -1,4 +1,4 @@
 ---
 :enabled: <%= @module_enabled %>
 :database: <%= scope.lookupvar('::foreman_proxy::plugin::dynflow::database_path') %>
-:console_auth: <%= scope.lookupvar('::foreman_proxy::plugin::dynflow::console_auth') %>
+:core_url: <%= scope.lookupvar('::foreman_proxy::plugin::dynflow::core_url') %>

@@ -65,4 +65,15 @@ class foreman_proxy::plugin::remote_execution::ssh (
       creates => $ssh_identity_path,
     }
   }
+
+  if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
+    $scl_prefix = 'tfm-'
+  } else {
+    $scl_prefix = '' # lint:ignore:empty_string_assignment
+  }
+
+  foreman_proxy::plugin { 'remote_execution_ssh_core':
+    package => "${scl_prefix}${::foreman_proxy::plugin_prefix}remote_execution_ssh_core",
+    notify  => Service['smart_proxy_dynflow_core'],
+  }
 }
