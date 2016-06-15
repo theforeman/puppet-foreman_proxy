@@ -90,6 +90,10 @@
 #
 # $puppet_group::               Groups of Foreman proxy user
 #
+# $manage_puppet_group::        Whether to ensure the $puppet_group exists.  Also ensures group owner of ssl keys and certs is $puppet_group
+#                               Not applicable when ssl is false.
+#                               type:boolean
+#
 # $puppet::                     Enable Puppet module for environment imports and Puppet runs
 #                               type:boolean
 #
@@ -313,6 +317,7 @@ class foreman_proxy (
   $puppetdir                  = $foreman_proxy::params::puppetdir,
   $puppetca_cmd               = $foreman_proxy::params::puppetca_cmd,
   $puppet_group               = $foreman_proxy::params::puppet_group,
+  $manage_puppet_group        = $foreman_proxy::params::manage_puppet_group,
   $puppet                     = $foreman_proxy::params::puppet,
   $puppet_listen_on           = $foreman_proxy::params::puppet_listen_on,
   $puppetrun_cmd              = $foreman_proxy::params::puppetrun_cmd,
@@ -398,7 +403,7 @@ class foreman_proxy (
 
   # Validate misc params
   validate_string($bind_host)
-  validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman)
+  validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman, $manage_puppet_group)
   validate_array($trusted_hosts, $ssl_disabled_ciphers)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
   validate_re($plugin_version, '^(installed|present|latest|absent)$')
