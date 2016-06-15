@@ -338,6 +338,10 @@ describe 'foreman_proxy::config' do
         it "should not manage #{etc_dir}/sudoers.d" do
           should contain_file("#{etc_dir}/sudoers.d").with_ensure('directory')
         end
+
+        it "should not manage puppet group" do
+          should_not contain_group('puppet')
+        end
       end
 
       context 'with custom foreman_ssl params' do
@@ -969,6 +973,59 @@ describe 'foreman_proxy::config' do
             '  - CIPHER-SUITE-1',
             '  - CIPHER-SUITE-2',
           ])
+        end
+      end
+      describe 'manage_puppet_group' do
+        context 'when puppet and puppetca are false' do
+          context 'when manage_puppet_group = true and ssl = true' do
+            let :pre_condition do
+              'class {"foreman_proxy":
+                puppet              => false,
+                puppetca            => false,
+                manage_puppet_group => true,
+                ssl                 => true,
+              }'
+            end
+
+            it 'manages puppet group' do
+              should contain_group('puppet').with_ensure('present').that_comes_before("User[#{proxy_user_name}]")
+            end
+
+            it 'sets group ownership to puppet on ssl files' do
+              should contain_file("#{var_dir}/ssl").with_group('puppet')
+              should contain_file("#{var_dir}/ssl/private_keys").with_group('puppet')
+              should contain_file("#{var_dir}/ssl/certs/ca.pem").with_group('puppet')
+              should contain_file("#{var_dir}/ssl/certs/#{facts[:fqdn]}.pem").with_group('puppet')
+              should contain_file("#{var_dir}/ssl/private_keys/#{facts[:fqdn]}.pem").with_group('puppet')
+            end
+            context 'when puppet group is already being managed' do
+              let :pre_condition do
+                'group {"puppet": ensure => present}
+                 class {"foreman_proxy":
+                  puppet              => false,
+                  puppetca            => false,
+                  manage_puppet_group => true,
+                  ssl                 => true,
+                 }'
+            end
+              it 'does not manage puppet group' do
+                should_not contain_group('puppet').with_before("User[#{proxy_user_name}]")
+              end
+            end
+          end
+          context 'when manage_puppet_group = true and ssl = false' do
+            let :pre_condition do
+              'class {"foreman_proxy":
+                puppet              => false,
+                puppetca            => false,
+                manage_puppet_group => true,
+                ssl                 => false,
+              }'
+            end
+            it 'does not manage puppet group' do
+              should_not contain_group('puppet')
+            end
+          end
         end
       end
     end
