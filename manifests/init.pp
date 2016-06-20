@@ -268,6 +268,12 @@
 #
 # $registered_proxy_url::       Proxy URL which is registered in Foreman
 #
+# $registered_organizations::   Organizations to add to this proxy when registering to Foreman
+#                               type:array
+#
+# $registered_locations::       Locations to add to this proxy when registering to Foreman
+#                               type:array
+#
 # $foreman_base_url::           Base Foreman URL used for REST interaction
 #
 # $oauth_effective_user::       User to be used for REST interaction
@@ -390,6 +396,8 @@ class foreman_proxy (
   $foreman_base_url           = $foreman_proxy::params::foreman_base_url,
   $registered_name            = $foreman_proxy::params::registered_name,
   $registered_proxy_url       = $foreman_proxy::params::registered_proxy_url,
+  $registered_organizations   = $foreman_proxy::params::registered_organizations,
+  $registered_locations       = $foreman_proxy::params::registered_locations,
   $oauth_effective_user       = $foreman_proxy::params::oauth_effective_user,
   $oauth_consumer_key         = $foreman_proxy::params::oauth_consumer_key,
   $oauth_consumer_secret      = $foreman_proxy::params::oauth_consumer_secret,
@@ -398,7 +406,7 @@ class foreman_proxy (
 
   # Validate misc params
   validate_string($bind_host)
-  validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman)
+  validate_bool($ssl, $manage_sudoersd, $use_sudoersd)
   validate_array($trusted_hosts, $ssl_disabled_ciphers)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
   validate_re($plugin_version, '^(installed|present|latest|absent)$')
@@ -455,6 +463,10 @@ class foreman_proxy (
   validate_bool($freeipa_remove_dns)
   validate_string($realm_provider, $realm_principal)
   validate_absolute_path($realm_keytab)
+
+  # Validate foreman register params
+  validate_bool($register_in_foreman)
+  validate_array($registered_organizations, $registered_locations)
 
   $real_registered_proxy_url = pick($registered_proxy_url, "https://${::fqdn}:${ssl_port}")
 

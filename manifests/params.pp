@@ -254,6 +254,10 @@ class foreman_proxy::params {
   $registered_name = $::fqdn
   # Proxy URL to be registered
   $registered_proxy_url = undef
+  # Taxonomies to add to the proxy
+  $registered_organizations = []
+  $registered_locations = []
+
   # User to be used for registration
   $oauth_effective_user = 'admin'
   # OAuth credentials

@@ -33,13 +33,15 @@ describe 'foreman_proxy::register' do
       describe 'with overrides' do
         let :pre_condition do
           "class {'foreman_proxy':
-            register_in_foreman   => true,
-            foreman_base_url      => 'my_base',
-            registered_name       => 'my_proxy',
-            registered_proxy_url  => 'my_url',
-            oauth_consumer_key    => 'key',
-            oauth_consumer_secret => 'secret',
-            oauth_effective_user  => 'smartproxy',
+            register_in_foreman      => true,
+            registered_organizations => ['Default Organization', 'ACME Corporation'],
+            registered_locations     => ['Default Location'],
+            foreman_base_url         => 'my_base',
+            registered_name          => 'my_proxy',
+            registered_proxy_url     => 'my_url',
+            oauth_consumer_key       => 'key',
+            oauth_consumer_secret    => 'secret',
+            oauth_effective_user     => 'smartproxy',
           }"
         end
 
@@ -52,6 +54,8 @@ describe 'foreman_proxy::register' do
             'url'             => 'my_url',
             'consumer_key'    => 'key',
             'consumer_secret' => 'secret',
+            'organizations'   => ['Default Organization', 'ACME Corporation'],
+            'locations'       => ['Default Location'],
           })
         end
       end
