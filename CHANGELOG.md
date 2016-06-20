@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1
+* Change puppetssh provider name to 'ssh' on 1.12+, and deprecate passing
+  'puppetssh' when using split Puppet config files
+
 ## 3.0.0
 * New or changed parameters:
     * Add dhcp_subnets parameter
