@@ -5,7 +5,7 @@ class foreman_proxy::service {
     ensure    => running,
     enable    => true,
     hasstatus => true,
-    require   => Class['foreman_proxy::config'],
+    require   => Class['::foreman_proxy::config'],
   }
 
 }

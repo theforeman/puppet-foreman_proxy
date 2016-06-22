@@ -60,7 +60,7 @@ define foreman_proxy::settings_file (
     owner   => $owner,
     group   => $group,
     mode    => $mode,
-    require => Class['foreman_proxy::install'],
+    require => Class['::foreman_proxy::install'],
     notify  => Class['foreman_proxy::service'],
   }
 }
