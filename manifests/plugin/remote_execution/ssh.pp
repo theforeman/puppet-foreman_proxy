@@ -4,11 +4,6 @@
 #
 # === Parameters:
 #
-# $enabled::            Enables/disables the plugin
-#                       type:boolean
-#
-# $listen_on::          Proxy feature listens on https, http, or both
-#
 # $generate_keys::      Automatically generate SSH keys
 #                       type:boolean
 #
@@ -21,6 +16,13 @@
 # $local_working_dir::  Local working directory on the smart proxy
 #
 # $remote_working_dir:: Remote working directory on clients
+#
+# === Advanced parameters:
+#
+# $enabled::            Enables/disables the plugin
+#                       type:boolean
+#
+# $listen_on::          Proxy feature listens on https, http, or both
 #
 class foreman_proxy::plugin::remote_execution::ssh (
   $enabled            = $::foreman_proxy::plugin::remote_execution::ssh::params::enabled,

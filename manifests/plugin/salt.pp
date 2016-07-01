@@ -4,16 +4,9 @@
 #
 # === Parameters:
 #
-# $enabled::         Enables/disables the plugin
-#                    type:boolean
-#
-# $listen_on::       Proxy feature listens on https, http, or both
-#
 # $autosign_file::   File to use for salt autosign
 #
 # $user::            User to run salt commands under
-#
-# $group::           Owner of plugin configuration
 #
 # $api::             Use Salt API
 #                    type:boolean
@@ -25,6 +18,15 @@
 # $api_username::    Salt API username
 #
 # $api_password::    Salt API password
+#
+# === Advanced parameters:
+#
+# $enabled::         Enables/disables the plugin
+#                    type:boolean
+#
+# $group::           Owner of plugin configuration
+#
+# $listen_on::       Proxy feature listens on https, http, or both
 #
 class foreman_proxy::plugin::salt (
   $autosign_file     = $::foreman_proxy::plugin::salt::params::autosign_file,

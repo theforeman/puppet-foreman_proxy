@@ -4,16 +4,8 @@
 #
 # === Parameters:
 #
-# $version::                    plugin package version, it's passed to ensure parameter of package resource
-#                               can be set to specific version number, 'latest', 'present' etc.
-#
 # $configure_openscap_repo::    Enable custom yum repo with packages needed for smart_proxy_openscap,
 #                               type:boolean
-#
-# $enabled::                    enables/disables the plugin
-#                               type:boolean
-#
-# $listen_on::                  Proxy feature listens on http, https, or both
 #
 # $openscap_send_log_file::     Log file for the forwarding script
 #
@@ -28,6 +20,15 @@
 #
 # $failed_dir::                 Directory where OpenSCAP report XML are stored
 #                               In case sending to Foreman succeeded, yet failed to save to reportsdir
+# === Advanced parameters:
+#
+# $enabled::                    enables/disables the plugin
+#                               type:boolean
+#
+# $listen_on::                  Proxy feature listens on http, https, or both
+#
+# $version::                    plugin package version, it's passed to ensure parameter of package resource
+#                               can be set to specific version number, 'latest', 'present' etc.
 #
 class foreman_proxy::plugin::openscap (
   $configure_openscap_repo = $::foreman_proxy::plugin::openscap::params::configure_openscap_repo,

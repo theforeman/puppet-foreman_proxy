@@ -4,16 +4,6 @@
 #
 # === Parameters:
 #
-# $group::            group owner of the configuration file
-#
-# $version::          plugin package version, it's passed to ensure parameter of package resource
-#                     can be set to specific version number, 'latest', 'present' etc.
-#
-# $enabled::          enables/disables the pulp plugin
-#                     type:boolean
-#
-# $listen_on::        Proxy feature listens on http, https, or both
-#
 # $pulpnode_enabled:: enables/disables the pulpnode plugin
 #                     type:boolean
 #
@@ -24,6 +14,18 @@
 # $pulp_content_dir:: directory for pulp content
 #
 # $mongodb_dir::      directory for Mongo DB
+#
+# === Advanced parameters:
+#
+# $enabled::          enables/disables the pulp plugin
+#                     type:boolean
+#
+# $group::            group owner of the configuration file
+#
+# $listen_on::        Proxy feature listens on http, https, or both
+#
+# $version::          plugin package version, it's passed to ensure parameter of package resource
+#                     can be set to specific version number, 'latest', 'present' etc.
 #
 class foreman_proxy::plugin::pulp (
   $enabled          = $::foreman_proxy::plugin::pulp::params::enabled,
