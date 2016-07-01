@@ -4,15 +4,6 @@
 #
 # === Parameters:
 #
-# $group::        group owner of the configuration file
-#
-# $version::      plugin package version, it's passed to ensure parameter of package resource
-#                 can be set to specific version number, 'latest', 'present' etc.
-#
-# $enabled::      enables/disables the plugin
-#
-# $listen_on::    Proxy feature listens on http, https, or both
-#
 # $server_url::   chef server url
 #
 # $client_name::  chef client name used for authentication of other client requests
@@ -26,6 +17,17 @@
 # $ssl_pem_file:: if $ssl_verify is true you can specify a path to a file which
 #                 contains certificate and related private key if the certificate
 #                 is not globally trusted
+#
+# === Advanced parameters:
+#
+# $enabled::      enables/disables the plugin
+#
+# $group::        group owner of the configuration file
+#
+# $listen_on::    Proxy feature listens on http, https, or both
+#
+# $version::      plugin package version, it's passed to ensure parameter of package resource
+#                 can be set to specific version number, 'latest', 'present' etc.
 #
 class foreman_proxy::plugin::chef (
   $enabled      = $::foreman_proxy::plugin::chef::params::enabled,

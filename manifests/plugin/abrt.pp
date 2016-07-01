@@ -4,16 +4,6 @@
 #
 # === Parameters:
 #
-# $group::                      group owner of the configuration file
-#
-# $version::                    plugin package version, it's passed to ensure parameter of package resource
-#                               can be set to specific version number, 'latest', 'present' etc.
-#
-# $enabled::                    Enables/disables the plugin
-#                               type:boolean
-#
-# $listen_on::                  Proxy feature listens on http, https, or both
-#
 # $abrt_send_log_file::         Log file for the forwarding script.
 #
 # $spooldir::                   Directory where uReports are stored before they are sent
@@ -32,6 +22,18 @@
 # $faf_server_ssl_cert::        Enable client authentication to FAF server: set ssl certificate
 #
 # $faf_server_ssl_key::         Enable client authentication to FAF server: set ssl key
+#
+# === Advanced parameters:
+#
+# $enabled::                    Enables/disables the plugin
+#                               type:boolean
+#
+# $group::                      group owner of the configuration file
+#
+# $listen_on::                  Proxy feature listens on http, https, or both
+#
+# $version::                    plugin package version, it's passed to ensure parameter of package resource
+#                               can be set to specific version number, 'latest', 'present' etc.
 #
 class foreman_proxy::plugin::abrt (
   $enabled                 = $::foreman_proxy::plugin::abrt::params::enabled,
