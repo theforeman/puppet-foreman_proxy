@@ -39,6 +39,8 @@
 #
 # $user::                       User under which foreman proxy will run
 #
+# $groups::                     Array of additional groups for foreman proxy user
+#
 # $log::                        Foreman proxy log file, 'STDOUT' or 'SYSLOG'
 #
 # $log_level::                  Foreman proxy log level: WARN, DEBUG, ERROR, FATAL, INFO, UNKNOWN
@@ -295,6 +297,7 @@ class foreman_proxy (
   $ssl_port                   = $foreman_proxy::params::ssl_port,
   $dir                        = $foreman_proxy::params::dir,
   $user                       = $foreman_proxy::params::user,
+  $groups                     = $foreman_proxy::params::groups,
   $log                        = $foreman_proxy::params::log,
   $log_level                  = $foreman_proxy::params::log_level,
   $log_buffer                 = $foreman_proxy::params::log_buffer,
@@ -404,7 +407,7 @@ class foreman_proxy (
   # Validate misc params
   validate_string($bind_host)
   validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman, $manage_puppet_group)
-  validate_array($trusted_hosts, $ssl_disabled_ciphers)
+  validate_array($trusted_hosts, $ssl_disabled_ciphers, $groups)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
   validate_re($plugin_version, '^(installed|present|latest|absent)$')
   validate_re($ensure_packages_version, '^(installed|present|latest|absent)$')
