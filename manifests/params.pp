@@ -1,9 +1,6 @@
 # The default parameters for the foreman proxy
 class foreman_proxy::params {
 
-  include ::tftp::params
-  include ::puppet::params
-
   $lower_fqdn = downcase($::fqdn)
 
   case $::osfamily {
@@ -17,6 +14,7 @@ class foreman_proxy::params {
       $etc     = '/etc'
       $shell   = '/bin/false'
       $user    = 'foreman-proxy'
+      $puppet_home = '/var/lib/puppet'
 
       $puppetssh_command = '/usr/bin/puppet agent --onetime --no-usecacheonfailure'
 
@@ -26,6 +24,11 @@ class foreman_proxy::params {
       $keyfile  = '/etc/rndc.key'
       $nsupdate = 'bind-utils'
 
+      if $::operatingsystemrelease =~ /^(4|5)/ {
+        $tftp_root  = '/tftpboot'
+      } else {
+        $tftp_root  = '/var/lib/tftpboot'
+      }
       $tftp_syslinux_filenames = ['/usr/share/syslinux/chain.c32',
                                   '/usr/share/syslinux/mboot.c32',
                                   '/usr/share/syslinux/menu.c32',
@@ -42,6 +45,7 @@ class foreman_proxy::params {
       $etc   = '/etc'
       $shell = '/bin/false'
       $user  = 'foreman-proxy'
+      $puppet_home = '/var/lib/puppet'
 
       $puppetssh_command = '/usr/bin/puppet agent --onetime --no-usecacheonfailure'
 
@@ -50,6 +54,12 @@ class foreman_proxy::params {
 
       $keyfile  = '/etc/bind/rndc.key'
       $nsupdate = 'dnsutils'
+
+      if $::operatingsystem == 'Ubuntu' {
+        $tftp_root = '/var/lib/tftpboot'
+      } else {
+        $tftp_root = '/srv/tftp'
+      }
       if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease == '14.04' {
         $tftp_syslinux_filenames = ['/usr/lib/syslinux/chain.c32',
                                     '/usr/lib/syslinux/mboot.c32',
@@ -77,6 +87,9 @@ class foreman_proxy::params {
       $etc   = '/usr/local/etc'
       $shell = '/usr/bin/false'
       $user  = 'foreman_proxy'
+      $puppet_home = '/var/puppet'
+      $puppet_bindir = '/usr/local/bin'
+      $puppetdir = '/usr/local/etc/puppet'
 
       $puppetssh_command = '/usr/local/bin/puppet agent --onetime --no-usecacheonfailure'
 
@@ -86,6 +99,7 @@ class foreman_proxy::params {
       $keyfile  = '/usr/local/etc/namedb/rndc.key'
       $nsupdate = 'bind910'
 
+      $tftp_root = '/tftpboot'
       $tftp_syslinux_filenames = ['/usr/local/share/syslinux/bios/core/pxelinux.0',
                                   '/usr/local/share/syslinux/bios/memdisk/memdisk',
                                   '/usr/local/share/syslinux/bios/com32/chain/chain.c32',
@@ -100,6 +114,31 @@ class foreman_proxy::params {
     }
   }
 
+  if versioncmp($::puppetversion, '4.0') < 0 {
+    $aio_package = false
+  } elsif $::rubysitedir =~ /\/opt\/puppetlabs\/puppet/ {
+    $aio_package = true
+  } else {
+    $aio_package = false
+  }
+
+  if $aio_package {
+    $puppetdir = '/etc/puppetlabs/puppet'
+    $ssldir = "${puppetdir}/ssl"
+    $puppet_bindir = '/opt/puppetlabs/bin'
+  } else {
+    $ssldir = "${puppet_home}/ssl"
+    $puppet_bindir = '/usr/bin'
+    $puppetdir = '/etc/puppet'
+  }
+
+  $puppet_cmd = "${puppet_bindir}/puppet"
+
+  # If CA is specified, remote Foreman host will be verified in reports/ENC scripts
+  $client_ssl_ca   = "${puppet_ssldir}/certs/ca.pem"
+  # Used to authenticate to Foreman, required if require_ssl_puppetmasters is enabled
+  $client_ssl_cert = "${puppet_ssldir}/certs/${lower_fqdn}.pem"
+  $client_ssl_key  = "${puppet_ssldir}/private_keys/${lower_fqdn}.pem"
   # Packaging
   $repo                    = 'stable'
   $gpgcheck                = true
@@ -121,7 +160,6 @@ class foreman_proxy::params {
   # Enable SSL, ensure proxy is added with "https://" protocol if true
   $ssl      = true
   $ssl_port = '8443'
-  $ssldir   = $::puppet::params::ssldir
   # If CA is specified, remote Foreman host will be verified
   $ssl_ca = "${ssldir}/certs/ca.pem"
   # Used to communicate to Foreman
@@ -153,9 +191,8 @@ class foreman_proxy::params {
   # puppetca settings
   $puppetca           = true
   $puppetca_listen_on = 'https'
-  $puppetca_cmd       = $puppet::params::puppetca_cmd
+  $puppetca_cmd       = "${puppet_cmd} cert"
   $puppet_group       = 'puppet'
-  $puppetdir          = $puppet::params::dir
 
   # The puppet-agent package, (puppet 4 AIO) doesn't create a puppet group
   $manage_puppet_group = versioncmp($::puppetversion, '4.0') > 0
@@ -164,7 +201,7 @@ class foreman_proxy::params {
   $puppet = true
   $puppet_listen_on = 'https'
 
-  $puppetrun_cmd       = $puppet::params::puppetrun_cmd
+  $puppetrun_cmd       = "${puppet_cmd} kick"
   $puppetrun_provider  = undef
   $customrun_cmd       = $shell
   $customrun_args      = '-ay -f -s'
@@ -190,7 +227,6 @@ class foreman_proxy::params {
   $tftp_listen_on   = 'https'
   $tftp_managed     = true
   $tftp_manage_wget = true
-  $tftp_root        = $tftp::params::root
   $tftp_dirs        = ["${tftp_root}/pxelinux.cfg","${tftp_root}/boot","${tftp_root}/ztp.cfg","${tftp_root}/poap.cfg"]
   $tftp_servername  = undef
 
