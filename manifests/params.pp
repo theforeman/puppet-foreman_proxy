@@ -139,6 +139,9 @@ class foreman_proxy::params {
   # Used to authenticate to Foreman, required if require_ssl_puppetmasters is enabled
   $client_ssl_cert = "${puppet_ssldir}/certs/${lower_fqdn}.pem"
   $client_ssl_key  = "${puppet_ssldir}/private_keys/${lower_fqdn}.pem"
+
+  $groups = []
+
   # Packaging
   $repo                    = 'stable'
   $gpgcheck                = true
