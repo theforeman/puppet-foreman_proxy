@@ -1,29 +1,27 @@
-<% if scope.lookupvar('foreman_proxy::puppetca') and scope.lookupvar('foreman_proxy::puppet') -%>
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][1]/user <%= scope.lookupvar('foreman_proxy::user') %>
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][1]/host_group/host ALL
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][1]/host_group/command '<%= scope.lookupvar('foreman_proxy::puppetca_cmd') %> *'
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][1]/host_group/command/runas_user root
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][1]/host_group/command/tag NOPASSWD
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][2]/user <%= scope.lookupvar('foreman_proxy::user') %>
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][2]/host_group/host ALL
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][2]/host_group/command '<%= scope.lookupvar('foreman_proxy::puppetrun_cmd') %> *'
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][2]/host_group/command/runas_user <%= scope.lookupvar('foreman_proxy::puppet_user') %>
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][2]/host_group/command/tag NOPASSWD
-rm spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][1]/host_group/command[position() > 1]
-<% elsif scope.lookupvar('foreman_proxy::puppetca') -%>
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>']/user <%= scope.lookupvar('foreman_proxy::user') %>
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>']/host_group/host ALL
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>']/host_group/command '<%= scope.lookupvar('foreman_proxy::puppetca_cmd') %> *'
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>']/host_group/command/runas_user root
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>']/host_group/command/tag NOPASSWD
-rm spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][1]/host_group/command[position() > 1]
-<% elsif scope.lookupvar('foreman_proxy::puppet') -%>
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>']/user <%= scope.lookupvar('foreman_proxy::user') %>
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>']/host_group/host ALL
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>']/host_group/command '<%= scope.lookupvar('foreman_proxy::puppetrun_cmd') %> *'
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>']/host_group/command/runas_user <%= scope.lookupvar('foreman_proxy::puppet_user') %>
-set spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>']/host_group/command/tag NOPASSWD
-rm spec[user = '<%= scope.lookupvar('foreman_proxy::user') %>'][1]/host_group/command[position() > 1]
+<%-
+  user = scope.lookupvar('foreman_proxy::user')
+  index = 0
+-%>
+<% if scope.lookupvar('foreman_proxy::puppetca')
+  index += 1
+-%>
+set spec[user = '<%= user %>'][<%=index%>]/user <%= user %>
+set spec[user = '<%= user %>'][<%=index%>]/host_group/host ALL
+set spec[user = '<%= user %>'][<%=index%>]/host_group/command '<%= scope.lookupvar('foreman_proxy::puppetca_cmd') %> *'
+set spec[user = '<%= user %>'][<%=index%>]/host_group/command/runas_user root
+set spec[user = '<%= user %>'][<%=index%>]/host_group/command/tag NOPASSWD
+rm spec[user = '<%= user %>'][<%=index%>]/host_group/command[position() > 1]<%# delete any other command in the rule %>
 <% end -%>
-set Defaults[type = ':<%= scope.lookupvar('foreman_proxy::user') %>']/type :<%= scope.lookupvar('foreman_proxy::user') %>
-set Defaults[type = ':<%= scope.lookupvar('foreman_proxy::user') %>']/requiretty/negate ''
+<% if scope.lookupvar("foreman_proxy::puppet") and scope.lookupvar("foreman_proxy::puppetrun_provider") == 'puppetrun'
+  index += 1
+-%>
+set spec[user = '<%= user %>'][<%=index%>]/user <%= user %>
+set spec[user = '<%= user %>'][<%=index%>]/host_group/host ALL
+set spec[user = '<%= user %>'][<%=index%>]/host_group/command '<%= scope.lookupvar('foreman_proxy::puppetrun_cmd') %> *'
+set spec[user = '<%= user %>'][<%=index%>]/host_group/command/runas_user <%= scope.lookupvar('foreman_proxy::puppet_user') %>
+set spec[user = '<%= user %>'][<%=index%>]/host_group/command/tag NOPASSWD
+rm spec[user = '<%= user %>'][<%=index%>]/host_group/command[position() > 1]<%# delete any other command in the rule %>
+<% end -%>
+rm spec[user = '<%= user %>'][position() > <%= index %>]<%# delete any other rule for the user %>
+set Defaults[type = ':<%= user %>']/type :<%= user %>
+set Defaults[type = ':<%= user %>']/requiretty/negate ''

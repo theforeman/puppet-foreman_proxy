@@ -330,12 +330,11 @@ describe 'foreman_proxy::config' do
 
           verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
             "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
-            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetrun_command}",
             "Defaults:#{proxy_user_name} !requiretty",
           ])
         end
 
-        it "should not manage #{etc_dir}/sudoers.d" do
+        it "should manage #{etc_dir}/sudoers.d" do
           should contain_file("#{etc_dir}/sudoers.d").with_ensure('directory')
         end
 
@@ -688,16 +687,17 @@ describe 'foreman_proxy::config' do
         it "should set puppetca_cmd" do
           verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
             "#{proxy_user_name} ALL = (root) NOPASSWD : puppet cert *",
-            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetrun_command}",
             "Defaults:#{proxy_user_name} !requiretty",
           ])
         end
       end
 
-      context 'when puppetrun_cmd set' do
+      context 'when puppetrun_provider and puppetrun_cmd set' do
         let :pre_condition do
           'class { "foreman_proxy":
-            puppetrun_cmd => "mco puppet runonce",
+            puppet             => true,
+            puppetrun_provider => "puppetrun",
+            puppetrun_cmd      => "mco puppet runonce",
           }'
         end
 
@@ -710,10 +710,11 @@ describe 'foreman_proxy::config' do
         end
       end
 
-      context 'when puppet_user set' do
+      context 'when puppet_user set with puppetrun_provider puppet' do
         let :pre_condition do
           'class { "foreman_proxy":
-            puppet_user => "some_puppet_user",
+            puppetrun_provider => "puppetrun",
+            puppet_user        => "some_puppet_user",
           }'
         end
 
@@ -735,7 +736,6 @@ describe 'foreman_proxy::config' do
 
         it "should not set puppetca" do
           verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
-            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetrun_command}",
             "Defaults:#{proxy_user_name} !requiretty",
           ])
         end
@@ -745,6 +745,21 @@ describe 'foreman_proxy::config' do
         let :pre_condition do
           'class { "foreman_proxy":
             puppet => false,
+          }'
+        end
+
+        it "should not set puppetrun" do
+          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
+            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
+            "Defaults:#{proxy_user_name} !requiretty",
+          ])
+        end
+      end
+
+      context 'when puppet enabled, but not provider puppetrun' do
+        let :pre_condition do
+          'class { "foreman_proxy":
+            puppetrun_provider => "salt",
           }'
         end
 
@@ -795,12 +810,8 @@ describe 'foreman_proxy::config' do
             "set spec[user = '#{proxy_user_name}'][1]/host_group/command '#{puppetca_command}'",
             "set spec[user = '#{proxy_user_name}'][1]/host_group/command/runas_user root",
             "set spec[user = '#{proxy_user_name}'][1]/host_group/command/tag NOPASSWD",
-            "set spec[user = '#{proxy_user_name}'][2]/user #{proxy_user_name}",
-            "set spec[user = '#{proxy_user_name}'][2]/host_group/host ALL",
-            "set spec[user = '#{proxy_user_name}'][2]/host_group/command '#{puppetrun_command}'",
-            "set spec[user = '#{proxy_user_name}'][2]/host_group/command/runas_user root",
-            "set spec[user = '#{proxy_user_name}'][2]/host_group/command/tag NOPASSWD",
             "rm spec[user = '#{proxy_user_name}'][1]/host_group/command[position() > 1]",
+            "rm spec[user = '#{proxy_user_name}'][position() > 1]",
             "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
             "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
           ]
@@ -814,38 +825,40 @@ describe 'foreman_proxy::config' do
             }'
           end
 
-          it "should modify #{etc_dir}/sudoers for puppetrun only" do
+          it "should remove all rules from #{etc_dir}/sudoers" do
             changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
             changes.split("\n").should == [
-              "set spec[user = '#{proxy_user_name}']/user #{proxy_user_name}",
-              "set spec[user = '#{proxy_user_name}']/host_group/host ALL",
-              "set spec[user = '#{proxy_user_name}']/host_group/command '#{puppetrun_command}'",
-              "set spec[user = '#{proxy_user_name}']/host_group/command/runas_user root",
-              "set spec[user = '#{proxy_user_name}']/host_group/command/tag NOPASSWD",
-              "rm spec[user = '#{proxy_user_name}'][1]/host_group/command[position() > 1]",
+              "rm spec[user = '#{proxy_user_name}'][position() > 0]",
               "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
               "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
             ]
           end
         end
 
-        context 'when puppet => false' do
+        context 'when puppetrun_provider == puppetrun' do
           let :pre_condition do
             'class {"foreman_proxy":
-              use_sudoersd => false,
-              puppet       => false,
+              use_sudoersd       => false,
+              puppetrun_provider => "puppetrun",
             }'
           end
 
-          it "should modify #{etc_dir}/sudoers for puppetca only" do
+          it "should modify #{etc_dir}/sudoers for puppetca and puppetrun" do
             changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
             changes.split("\n").should == [
-              "set spec[user = '#{proxy_user_name}']/user #{proxy_user_name}",
-              "set spec[user = '#{proxy_user_name}']/host_group/host ALL",
-              "set spec[user = '#{proxy_user_name}']/host_group/command '#{puppetca_command}'",
-              "set spec[user = '#{proxy_user_name}']/host_group/command/runas_user root",
-              "set spec[user = '#{proxy_user_name}']/host_group/command/tag NOPASSWD",
+              "set spec[user = '#{proxy_user_name}'][1]/user #{proxy_user_name}",
+              "set spec[user = '#{proxy_user_name}'][1]/host_group/host ALL",
+              "set spec[user = '#{proxy_user_name}'][1]/host_group/command '#{puppetca_command}'",
+              "set spec[user = '#{proxy_user_name}'][1]/host_group/command/runas_user root",
+              "set spec[user = '#{proxy_user_name}'][1]/host_group/command/tag NOPASSWD",
               "rm spec[user = '#{proxy_user_name}'][1]/host_group/command[position() > 1]",
+              "set spec[user = '#{proxy_user_name}'][2]/user #{proxy_user_name}",
+              "set spec[user = '#{proxy_user_name}'][2]/host_group/host ALL",
+              "set spec[user = '#{proxy_user_name}'][2]/host_group/command '#{puppetrun_command}'",
+              "set spec[user = '#{proxy_user_name}'][2]/host_group/command/runas_user root",
+              "set spec[user = '#{proxy_user_name}'][2]/host_group/command/tag NOPASSWD",
+              "rm spec[user = '#{proxy_user_name}'][2]/host_group/command[position() > 1]",
+              "rm spec[user = '#{proxy_user_name}'][position() > 2]",
               "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
               "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
             ]
