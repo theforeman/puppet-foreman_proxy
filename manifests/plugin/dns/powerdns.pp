@@ -4,31 +4,40 @@
 #
 # === Parameters:
 #
-# $mysql_hostname::  MySQL server hostname
+# $backend::               The backend to select, either mysql or postgresql.
 #
-# $mysql_username::  MySQL server username
+# $mysql_hostname::        MySQL server hostname. Only used when the backend is mysql.
 #
-# $mysql_password::  MySQL server password
+# $mysql_username::        MySQL server username. Only used when the backend is mysql.
 #
-# $mysql_database::  MySQL server database
+# $mysql_password::        MySQL server password. Only used when the backend is mysql.
 #
-# $manage_database:: Whether to manage the mysql database. Also includes the mysql server.
-#                    type:boolean
+# $mysql_database::        MySQL server database. Only used when the backend is mysql.
 #
-# $pdnssec::         pdnssec command to run rectify-zone with. Can be an empty string.
+# $postgresql_connection:: The postgresql connection string.
+#
+# $manage_database::       Whether to manage the database. Only works for
+#                          mysql. Includes the mysql server.
+#                          type:boolean
+#
+# $pdnssec::               pdnssec command to run rectify-zone with. Can be an
+#                          empty string.
 #
 class foreman_proxy::plugin::dns::powerdns (
-  $mysql_hostname  = $::foreman_proxy::plugin::dns::powerdns::params::mysql_hostname,
-  $mysql_username  = $::foreman_proxy::plugin::dns::powerdns::params::mysql_username,
-  $mysql_password  = $::foreman_proxy::plugin::dns::powerdns::params::mysql_password,
-  $mysql_database  = $::foreman_proxy::plugin::dns::powerdns::params::mysql_database,
-  $manage_database = $::foreman_proxy::plugin::dns::powerdns::params::manage_database,
-  $pdnssec         = $::foreman_proxy::plugin::dns::powerdns::params::pdnssec,
+  $backend               = $::foreman_proxy::plugin::dns::powerdns::params::backend,
+  $mysql_hostname        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_hostname,
+  $mysql_username        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_username,
+  $mysql_password        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_password,
+  $mysql_database        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_database,
+  $postgresql_connection = $::foreman_proxy::plugin::dns::powerdns::params::postgresql_connection,
+  $manage_database       = $::foreman_proxy::plugin::dns::powerdns::params::manage_database,
+  $pdnssec               = $::foreman_proxy::plugin::dns::powerdns::params::pdnssec,
 ) inherits foreman_proxy::plugin::dns::powerdns::params {
   validate_bool($manage_database)
-  validate_string($mysql_hostname, $mysql_username, $mysql_password, $mysql_database, $pdnssec)
+  validate_re($backend, '^mysql|postgresql$', 'Invalid backend: choose mysql or postgresql')
+  validate_string($mysql_hostname, $mysql_username, $mysql_password, $mysql_database, $postgresql_connection, $pdnssec)
 
-  if $manage_database {
+  if $manage_database and $backend == 'mysql' {
     include ::mysql::server
     mysql::db { $mysql_database:
       user     => $mysql_username,
