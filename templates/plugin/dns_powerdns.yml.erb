@@ -1,6 +1,12 @@
 ---
+<% backend = scope.lookupvar('::foreman_proxy::plugin::dns::powerdns::backend') -%>
+:powerdns_backend: "<%= backend %>"
+<% if backend == 'mysql' -%>
 :powerdns_mysql_hostname: "<%= scope.lookupvar('::foreman_proxy::plugin::dns::powerdns::mysql_hostname') %>"
 :powerdns_mysql_username: "<%= scope.lookupvar('::foreman_proxy::plugin::dns::powerdns::mysql_username') %>"
 :powerdns_mysql_password: "<%= scope.lookupvar('::foreman_proxy::plugin::dns::powerdns::mysql_password') %>"
 :powerdns_mysql_database: "<%= scope.lookupvar('::foreman_proxy::plugin::dns::powerdns::mysql_database') %>"
+<% elsif backend == 'postgresql' -%>
+:powerdns_postgresql_connection: "<%= scope.lookupvar('::foreman_proxy::plugin::dns::powerdns::postgresql_connection') %>"
+<% end -%>
 :powerdns_pdnssec: "<%= scope.lookupvar('::foreman_proxy::plugin::dns::powerdns::pdnssec') %>"
