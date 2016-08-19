@@ -20,6 +20,8 @@ describe 'foreman_proxy::proxydns' do
                            'bind-utils'
                          when 'FreeBSD', 'DragonFly'
                            'bind910'
+                         when 'Archlinux'
+                           'bind-tools'
                          else
                            'dnsutils'
                          end
