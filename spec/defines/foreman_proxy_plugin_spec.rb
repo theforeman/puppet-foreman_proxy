@@ -13,7 +13,7 @@ describe 'foreman_proxy::plugin' do
 
       context 'no parameters' do
         package = case facts[:osfamily]
-                  when 'Debian'
+                  when 'Debian', 'Archlinux'
                     'ruby-smart-proxy-myplugin'
                   else
                     'rubygem-smart_proxy_myplugin'

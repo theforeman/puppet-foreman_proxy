@@ -8,18 +8,28 @@ describe 'foreman_proxy::config' do
       case facts[:osfamily]
       when 'FreeBSD', 'DragonFly'
         etc_dir = '/usr/local/etc'
+        puppet_etc_dir = "#{etc_dir}/puppet"
         home_dir = '/usr/local/share/foreman-proxy'
         proxy_user_name = 'foreman_proxy'
         shell = '/usr/bin/false'
         usr_dir = '/usr/local'
-        var_dir = '/var/puppet'
+        ssl_dir = '/var/puppet/ssl'
+      when 'Archlinux'
+        etc_dir = '/etc'
+        puppet_etc_dir = "#{etc_dir}/puppetlabs/puppet"
+        home_dir = '/usr/share/foreman-proxy'
+        proxy_user_name = 'foreman-proxy'
+        shell = '/usr/bin/false'
+        usr_dir = '/usr'
+        ssl_dir = "#{puppet_etc_dir}/ssl"
       else
         etc_dir = '/etc'
+        puppet_etc_dir = "#{etc_dir}/puppet"
         home_dir = '/usr/share/foreman-proxy'
         proxy_user_name = 'foreman-proxy'
         shell = '/bin/false'
         usr_dir = '/usr'
-        var_dir = '/var/lib/puppet'
+        ssl_dir = '/var/lib/puppet/ssl'
       end
 
       puppetca_command = "#{usr_dir}/bin/puppet cert *"
@@ -86,9 +96,9 @@ describe 'foreman_proxy::config' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
             '---',
             ":settings_directory: #{etc_dir}/foreman-proxy/settings.d",
-            ":ssl_ca_file: #{var_dir}/ssl/certs/ca.pem",
-            ":ssl_certificate: #{var_dir}/ssl/certs/#{facts[:fqdn]}.pem",
-            ":ssl_private_key: #{var_dir}/ssl/private_keys/#{facts[:fqdn]}.pem",
+            ":ssl_ca_file: #{ssl_dir}/certs/ca.pem",
+            ":ssl_certificate: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
+            ":ssl_private_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
             ':trusted_hosts:',
             "  - #{facts[:fqdn]}",
             ":foreman_url: https://#{facts[:fqdn]}",
@@ -181,11 +191,11 @@ describe 'foreman_proxy::config' do
         it 'should generate correct puppet_proxy_legacy.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_legacy.yml", [
             '---',
-            ":puppet_conf: #{etc_dir}/puppet/puppet.conf",
+            ":puppet_conf: #{puppet_etc_dir}/puppet.conf",
             ":puppet_url: https://#{facts[:fqdn]}:8140",
-            ":puppet_ssl_ca: #{var_dir}/ssl/certs/ca.pem",
-            ":puppet_ssl_cert: #{var_dir}/ssl/certs/#{facts[:fqdn]}.pem",
-            ":puppet_ssl_key: #{var_dir}/ssl/private_keys/#{facts[:fqdn]}.pem",
+            ":puppet_ssl_ca: #{ssl_dir}/certs/ca.pem",
+            ":puppet_ssl_cert: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
+            ":puppet_ssl_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
           ])
         end
 
@@ -200,9 +210,9 @@ describe 'foreman_proxy::config' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_puppet_api.yml", [
             '---',
             ":puppet_url: https://#{facts[:fqdn]}:8140",
-            ":puppet_ssl_ca: #{var_dir}/ssl/certs/ca.pem",
-            ":puppet_ssl_cert: #{var_dir}/ssl/certs/#{facts[:fqdn]}.pem",
-            ":puppet_ssl_key: #{var_dir}/ssl/private_keys/#{facts[:fqdn]}.pem",
+            ":puppet_ssl_ca: #{ssl_dir}/certs/ca.pem",
+            ":puppet_ssl_cert: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
+            ":puppet_ssl_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
           ])
         end
 
@@ -235,8 +245,8 @@ describe 'foreman_proxy::config' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", [
             '---',
             ':enabled: https',
-            ":ssldir: #{var_dir}/ssl",
-            ":puppetdir: #{etc_dir}/puppet",
+            ":ssldir: #{ssl_dir}",
+            ":puppetdir: #{puppet_etc_dir}",
           ])
         end
 
@@ -250,6 +260,8 @@ describe 'foreman_proxy::config' do
                       end
                     when 'FreeBSD', 'DragonFly'
                       '/tftpboot'
+                    when 'Archlinux'
+                      '/srv/tftp'
                     else
                       '/var/lib/tftpboot'
                     end
@@ -1027,6 +1039,10 @@ describe 'foreman_proxy::config' do
           dhcp_interface = 'lo'
           dhcp_leases    = '/var/lib/dhcp/dhcpd.leases'
           dhcp_config    = "#{etc_dir}/dhcp/dhcpd.conf"
+        when 'Archlinux'
+          dhcp_interface = 'lo'
+          dhcp_leases    = '/var/lib/dhcp/dhcpd.leases'
+          dhcp_config    = "#{etc_dir}/dhcpd.conf"
         else
           dhcp_interface = 'lo'
           dhcp_leases    = '/var/lib/dhcpd/dhcpd.leases'
@@ -1091,11 +1107,11 @@ describe 'foreman_proxy::config' do
             end
 
             it 'sets group ownership to puppet on ssl files' do
-              should contain_file("#{var_dir}/ssl").with_group('puppet')
-              should contain_file("#{var_dir}/ssl/private_keys").with_group('puppet')
-              should contain_file("#{var_dir}/ssl/certs/ca.pem").with_group('puppet')
-              should contain_file("#{var_dir}/ssl/certs/#{facts[:fqdn]}.pem").with_group('puppet')
-              should contain_file("#{var_dir}/ssl/private_keys/#{facts[:fqdn]}.pem").with_group('puppet')
+              should contain_file("#{ssl_dir}").with_group('puppet')
+              should contain_file("#{ssl_dir}/private_keys").with_group('puppet')
+              should contain_file("#{ssl_dir}/certs/ca.pem").with_group('puppet')
+              should contain_file("#{ssl_dir}/certs/#{facts[:fqdn]}.pem").with_group('puppet')
+              should contain_file("#{ssl_dir}/private_keys/#{facts[:fqdn]}.pem").with_group('puppet')
             end
             context 'when puppet group is already being managed' do
               let :pre_condition do

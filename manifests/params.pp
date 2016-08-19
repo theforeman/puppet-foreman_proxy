@@ -106,6 +106,37 @@ class foreman_proxy::params {
                                   '/usr/local/share/syslinux/bios/com32/mboot/mboot.c32',
                                   '/usr/local/share/syslinux/bios/com32/menu/menu.c32']
     }
+    'Archlinux': {
+      # if set to true, no repo will be added by this module, letting you to
+      # set it to some custom location.
+      $custom_repo         = true # package is in the AUR
+      $plugin_prefix       = 'ruby-smart-proxy-'
+
+      $dir   = '/usr/share/foreman-proxy'
+      $etc   = '/etc'
+      $shell = '/usr/bin/false'
+      $user  = 'foreman-proxy'
+      $puppet_home = '/var/lib/puppet'
+      $puppet_bindir = '/usr/bin'
+      $puppetdir = '/etc/puppetlabs/puppet'
+      $ssldir = "${puppetdir}/ssl"
+
+      $puppetssh_command = "${puppet_bindir}/puppet agent --onetime --no-usecacheonfailure"
+
+      $dhcp_config = '/etc/dhcpd.conf'
+      $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
+
+      $keyfile  = '/etc/rndc.key'
+      $nsupdate = 'bind-tools'
+
+      $tftp_root = '/srv/tftp'
+      $tftp_syslinux_filenames = ['/usr/lib/syslinux/bios/pxelinux.0',
+                                  '/usr/lib/syslinux/bios/memdisk',
+                                  '/usr/lib/syslinux/bios/chain.c32',
+                                  '/usr/lib/syslinux/bios/ldlinux.c32',
+                                  '/usr/lib/syslinux/bios/libutil.c32',
+                                  '/usr/lib/syslinux/bios/menu.c32']
+    }
     default: {
       fail("${::hostname}: This module does not support osfamily ${::osfamily}")
     }
@@ -119,7 +150,7 @@ class foreman_proxy::params {
     $aio_package = false
   }
 
-  if $::osfamily !~ /^(FreeBSD|DragonFly)$/ {
+  if $::osfamily !~ /^(FreeBSD|DragonFly|Archlinux)$/ {
     if $aio_package {
       $puppetdir = '/etc/puppetlabs/puppet'
       $ssldir = "${puppetdir}/ssl"
