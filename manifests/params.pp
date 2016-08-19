@@ -107,6 +107,33 @@ class foreman_proxy::params {
                                   '/usr/local/share/syslinux/bios/com32/mboot/mboot.c32',
                                   '/usr/local/share/syslinux/bios/com32/menu/menu.c32']
     }
+    'Archlinux': {
+      # if set to true, no repo will be added by this module, letting you to
+      # set it to some custom location.
+      $custom_repo         = true
+      $plugin_prefix       = 'rubygem-smart_proxy_'
+      $foreman_api_package = 'rubygem-apipie-bindings'
+
+      $dir   = '/usr/share/foreman-proxy'
+      $etc   = '/etc'
+      $shell = '/usr/bin/false'
+      $user  = 'foreman-proxy'
+
+      $puppetssh_command = '/usr/bin/puppet agent --onetime --no-usecacheonfailure'
+
+      $dhcp_config = '/etc/dhcpd.conf'
+      $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
+
+      $keyfile  = '/etc/rndc.key'
+
+      $tftp_root = '/srv/tftp'
+      $tftp_syslinux_filenames = ['/usr/lib/syslinux/bios/pxelinux.0',
+                                  '/usr/lib/syslinux/bios/memdisk',
+                                  '/usr/lib/syslinux/bios/chain.c32',
+                                  '/usr/lib/syslinux/bios/ldlinux.c32',
+                                  '/usr/lib/syslinux/bios/libutil.c32',
+                                  '/usr/lib/syslinux/bios/menu.c32']
+    }
     default: {
       fail("${::hostname}: This module does not support osfamily ${::osfamily}")
     }
