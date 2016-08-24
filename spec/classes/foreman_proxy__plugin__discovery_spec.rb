@@ -7,6 +7,10 @@ describe 'foreman_proxy::plugin::discovery' do
     context "on #{os}" do
       let(:facts) { facts }
 
+      let :pre_condition do
+        "include foreman_proxy"
+      end
+
       case facts[:operatingsystem]
         when 'Debian'
           tftproot = '/srv/tftp'
