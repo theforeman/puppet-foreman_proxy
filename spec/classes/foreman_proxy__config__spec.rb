@@ -314,7 +314,7 @@ describe 'foreman_proxy::config' do
         it 'should generate correct logs.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/logs.yml", [
             '---',
-            ':enabled: false'
+            ':enabled: https'
           ])
         end
 
