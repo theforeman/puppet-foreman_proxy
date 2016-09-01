@@ -270,6 +270,9 @@ describe 'foreman_proxy::config' do
         end
 
         if facts[:osfamily] == 'Debian'
+          it { should contain_package('grub-common').with_ensure('installed') }
+          it { should contain_package('grub-efi-amd64-bin').with_ensure('installed') }
+
           if facts[:operatingsystem] == 'Ubuntu' && facts[:operatingsystemrelease] == '14.04'
             it 'should copy the correct default files for Ubuntu 14.04' do
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/chain.c32')
@@ -288,6 +291,58 @@ describe 'foreman_proxy::config' do
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/libutil.c32')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/mboot.c32')
               should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/menu.c32')
+            end
+          end
+          it 'should generate efi image from grub2 modules for Debian' do
+            should contain_exec('build-grub2-efi-image')
+          end
+          if facts[:operatingsystem] == 'Ubuntu'
+            it 'should create shim.efi symlink for Ubuntu' do
+              should contain_file('/var/lib/tftpboot/grub2/shim.efi').with_ensure('link')
+            end
+          else
+            it 'should create shim.efi symlink for Debian' do
+              should contain_file('/srv/tftp/grub2/shim.efi').with_ensure('link')
+            end
+          end
+        elsif facts[:osfamily] == 'RedHat'
+          it 'should copy the correct default files for Red Hat' do
+            should contain_foreman_proxy__tftp__copy_file('/usr/share/syslinux/chain.c32')
+            should contain_foreman_proxy__tftp__copy_file('/usr/share/syslinux/mboot.c32')
+            should contain_foreman_proxy__tftp__copy_file('/usr/share/syslinux/menu.c32')
+            should contain_foreman_proxy__tftp__copy_file('/usr/share/syslinux/memdisk')
+            should contain_foreman_proxy__tftp__copy_file('/usr/share/syslinux/pxelinux.0')
+          end
+
+          if facts[:operatingsystemmajrelease].to_i > 6
+            it { should contain_package('grub2-efi').with_ensure('installed') }
+            it { should contain_package('grub2-efi-modules').with_ensure('installed') }
+            it { should contain_package('grub2-tools').with_ensure('installed') }
+            it { should contain_package('shim').with_ensure('installed') }
+            it 'should generate efi image from grub2 modules' do
+              should contain_exec('build-grub2-efi-image')
+            end
+            case facts[:operatingsystem]
+              when /^(RedHat|Scientific|OracleLinux)$/
+                it 'should copy the shim.efi for Red Hat and clones' do
+                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/redhat/shim.efi')
+                end
+              when 'Fedora'
+                it 'should copy the shim.efi for Fedora' do
+                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/fedora/shim.efi')
+                end
+              when 'CentOS'
+                it 'should copy the shim.efi for CentOS' do
+                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/centos/shim.efi')
+                end
+            end
+          else
+            it { should contain_package('grub').with_ensure('installed') }
+            it 'should copy grub1 files for Red Hat version 6 and older' do
+              should contain_file('/var/lib/tftpboot/grub/grubx64.efi').with_ensure('file')
+            end
+            it 'should create shim.efi symlink for Red Hat version 6 and older' do
+              should contain_file('/var/lib/tftpboot/grub/shim.efi').with_ensure('link')
             end
           end
         end
