@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'foreman_proxy::plugin::pulp' do
 
   let :facts do
-    on_supported_os['redhat-6-x86_64']
+    on_supported_os['redhat-6-x86_64'].merge(:puppet_environmentpath => '/etc/puppetlabs/code/environments')
   end
 
   let :etc_dir do
@@ -21,10 +21,9 @@ describe 'foreman_proxy::plugin::pulp' do
         with({
           :ensure  => 'file',
           :owner   => 'root',
-          :group   => 'foreman-proxy',
-          :mode    => '0640',
-          :content => /:enabled: https/
-        })
+          :group   => 'foreman-proxy'}).
+        with_content(/:enabled: https/).
+        with_content(%r{:puppet_content_dir: /etc/puppetlabs/code/environments})
     end
   end
 
@@ -51,6 +50,7 @@ describe 'foreman_proxy::plugin::pulp' do
         ":pulp_url: https://#{facts[:fqdn]}/pulp",
         ':pulp_dir: /var/lib/pulp',
         ':pulp_content_dir: /var/lib/pulp/content',
+        ':puppet_content_dir: /etc/puppetlabs/code/environments',
         ':mongodb_dir: /var/lib/mongodb',
       ])
     end
