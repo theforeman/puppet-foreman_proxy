@@ -2,47 +2,49 @@
 #
 # This class installs pulp plugin
 #
-# === Parameters:
-#
-# $pulpnode_enabled:: enables/disables the pulpnode plugin
-#                     type:boolean
-#
-# $pulp_url::         pulp url to use
-#
-# $pulp_dir::         directory for pulp
-#
-# $pulp_content_dir:: directory for pulp content
-#
-# $mongodb_dir::      directory for Mongo DB
-#
 # === Advanced parameters:
 #
-# $enabled::          enables/disables the pulp plugin
-#                     type:boolean
+# $enabled::            enables/disables the pulp plugin
+#                       type:boolean
 #
-# $group::            group owner of the configuration file
+# $group::              group owner of the configuration file
 #
-# $listen_on::        Proxy feature listens on http, https, or both
+# $listen_on::          proxy feature listens on http, https, or both
 #
-# $version::          plugin package version, it's passed to ensure parameter of package resource
-#                     can be set to specific version number, 'latest', 'present' etc.
+# $version::            plugin package version, it's passed to ensure parameter of package resource
+#                       can be set to specific version number, 'latest', 'present' etc.
+#
+# $pulp_url::           pulp url to use
+#
+# $pulp_dir::           directory for pulp
+#
+# $pulp_content_dir::   directory for pulp content
+#
+# $pulpnode_enabled::   enables/disables the pulpnode plugin
+#                       type:boolean
+#
+# $puppet_content_dir:: directory for puppet content
+#
+# $mongodb_dir::        directory for Mongo DB
 #
 class foreman_proxy::plugin::pulp (
-  $enabled          = $::foreman_proxy::plugin::pulp::params::enabled,
-  $listen_on        = $::foreman_proxy::plugin::pulp::params::listen_on,
-  $pulpnode_enabled = $::foreman_proxy::plugin::pulp::params::pulpnode_enabled,
-  $version          = $::foreman_proxy::plugin::pulp::params::version,
-  $group            = $::foreman_proxy::plugin::pulp::params::group,
-  $pulp_url         = $::foreman_proxy::plugin::pulp::params::pulp_url,
-  $pulp_dir         = $::foreman_proxy::plugin::pulp::params::pulp_dir,
-  $pulp_content_dir = $::foreman_proxy::plugin::pulp::params::pulp_content_dir,
-  $mongodb_dir      = $::foreman_proxy::plugin::pulp::params::mongodb_dir
+  $enabled            = $::foreman_proxy::plugin::pulp::params::enabled,
+  $listen_on          = $::foreman_proxy::plugin::pulp::params::listen_on,
+  $pulpnode_enabled   = $::foreman_proxy::plugin::pulp::params::pulpnode_enabled,
+  $version            = $::foreman_proxy::plugin::pulp::params::version,
+  $group              = $::foreman_proxy::plugin::pulp::params::group,
+  $pulp_url           = $::foreman_proxy::plugin::pulp::params::pulp_url,
+  $pulp_dir           = $::foreman_proxy::plugin::pulp::params::pulp_dir,
+  $pulp_content_dir   = $::foreman_proxy::plugin::pulp::params::pulp_content_dir,
+  $puppet_content_dir = $::foreman_proxy::plugin::pulp::params::puppet_content_dir,
+  $mongodb_dir        = $::foreman_proxy::plugin::pulp::params::mongodb_dir
 ) inherits foreman_proxy::plugin::pulp::params {
 
   validate_bool($enabled)
   validate_bool($pulpnode_enabled)
   validate_absolute_path($pulp_dir)
   validate_absolute_path($pulp_content_dir)
+  validate_absolute_path($puppet_content_dir)
   validate_absolute_path($mongodb_dir)
 
   foreman_proxy::plugin {'pulp':
