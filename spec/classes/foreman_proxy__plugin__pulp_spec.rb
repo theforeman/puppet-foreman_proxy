@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'foreman_proxy::plugin::pulp' do
 
   let :facts do
-    on_supported_os['redhat-6-x86_64'].merge(:puppet_environmentpath => '/etc/puppetlabs/code/environments')
+    on_supported_os['redhat-6-x86_64']
   end
 
   let :etc_dir do
@@ -22,17 +22,17 @@ describe 'foreman_proxy::plugin::pulp' do
           :ensure  => 'file',
           :owner   => 'root',
           :group   => 'foreman-proxy'}).
-        with_content(/:enabled: https/).
-        with_content(%r{:puppet_content_dir: /etc/puppetlabs/code/environments})
+        with_content(/:enabled: https/)
     end
   end
 
-  describe 'with group overridden' do
+  describe 'with overrides' do
     let :pre_condition do
       "include foreman_proxy"
     end
     let :params do {
       :group => 'example',
+      :puppet_content_dir => '/tmp/foo',
     } end
 
     it 'should change pulp.yml group' do
@@ -50,7 +50,7 @@ describe 'foreman_proxy::plugin::pulp' do
         ":pulp_url: https://#{facts[:fqdn]}/pulp",
         ':pulp_dir: /var/lib/pulp',
         ':pulp_content_dir: /var/lib/pulp/content',
-        ':puppet_content_dir: /etc/puppetlabs/code/environments',
+        ":puppet_content_dir: /tmp/foo",
         ':mongodb_dir: /var/lib/mongodb',
       ])
     end
