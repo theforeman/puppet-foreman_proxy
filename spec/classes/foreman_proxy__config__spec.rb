@@ -418,6 +418,26 @@ describe 'foreman_proxy::config' do
           ])
         end
       end
+      
+      context 'with custom groups defined' do
+         let :pre_condition do
+          'class {"foreman_proxy":
+             groups   => [ "test_group1", "test_group2" ],
+          }'
+         end
+
+         it "should create the #{proxy_user_name} user" do
+          should contain_user("#{proxy_user_name}").with({
+            :ensure  => 'present',
+            :shell   => "#{shell}",
+            :comment => 'Foreman Proxy account',
+            :groups  => ['test_group1', 'test_group2', 'puppet'],
+            :home    => "#{home_dir}",
+            :require => 'Class[Foreman_proxy::Install]',
+            :notify  => 'Class[Foreman_proxy::Service]',
+          })
+        end
+      end
 
       context 'with custom tftp parameters' do
         let :pre_condition do

@@ -133,6 +133,8 @@ class foreman_proxy::params {
 
   $puppet_cmd = "${puppet_bindir}/puppet"
 
+  $groups = []
+
   # Packaging
   $repo                    = 'stable'
   $gpgcheck                = true
