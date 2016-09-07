@@ -37,7 +37,7 @@ class foreman_proxy::plugin::pulp (
   $pulp_dir           = $::foreman_proxy::plugin::pulp::params::pulp_dir,
   $pulp_content_dir   = $::foreman_proxy::plugin::pulp::params::pulp_content_dir,
   $puppet_content_dir = $::foreman_proxy::plugin::pulp::params::puppet_content_dir,
-  $mongodb_dir      = $::foreman_proxy::plugin::pulp::params::mongodb_dir
+  $mongodb_dir        = $::foreman_proxy::plugin::pulp::params::mongodb_dir
 ) inherits foreman_proxy::plugin::pulp::params {
 
   validate_bool($enabled)

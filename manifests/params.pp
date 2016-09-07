@@ -86,6 +86,8 @@ class foreman_proxy::params {
       $puppet_home = '/var/puppet'
       $puppet_bindir = '/usr/local/bin'
       $puppetdir = '/usr/local/etc/puppet'
+      $puppet_codedir = $puppetdir
+
       $ssldir = "${puppet_home}/ssl"
 
       $puppetssh_command = "${puppet_bindir}/puppet agent --onetime --no-usecacheonfailure"
@@ -122,12 +124,14 @@ class foreman_proxy::params {
   if $::osfamily !~ /^(FreeBSD|DragonFly)$/ {
     if $aio_package {
       $puppetdir = '/etc/puppetlabs/puppet'
+      $puppet_codedir = '/etc/puppetlabs/code'
       $ssldir = "${puppetdir}/ssl"
       $puppet_bindir = '/opt/puppetlabs/bin'
     } else {
       $ssldir = "${puppet_home}/ssl"
       $puppet_bindir = '/usr/bin'
       $puppetdir = '/etc/puppet'
+      $puppet_codedir = $puppetdir
     }
   }
 
@@ -181,6 +185,7 @@ class foreman_proxy::params {
   $puppet_url                 = "https://${::fqdn}:8140"
   $puppet_use_environment_api = undef
   $puppet_use_cache           = undef
+  $puppet_envdir              = "${puppet_codedir}/environments"
 
   # puppetca settings
   $puppetca           = true
