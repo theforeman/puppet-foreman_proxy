@@ -1,5 +1,31 @@
 # Changelog
 
+## 4.0.0
+* New or changed parameters:
+    * Add manage_puppet_group parameter to ensure the puppet group exists when
+      no Puppet Server package is installed
+* New or changed parameters on smart proxy plugin classes:
+    * Add DB backend and PostgreSQL parameters to PowerDNS plugin class
+    * Add puppet_content_dir parameter to Pulp plugin class
+    * Add core parameters to Dynflow plugin class
+* Other changes and fixes:
+    * Support package architecture change in Remote Execution plugin classes
+    * Make tftp/puppet modules optional by removing from foreman_proxy::params
+    * Deploy UEFI GRUB/GRUB2 boot files to TFTP server roots
+    * Change logs module to enabled by default
+    * Move some plugin parameter docs to advanced sections
+    * Compatible with theforeman/foreman 6.x
+    * Compatible with theforeman/puppet 6.x
+    * List compatibility with Fedora 24
+* Compatibility warnings:
+    * Remove libvirt_backend parameter (1.11 support)
+    * Remove puppet_split_config_files_parameter (1.11 support)
+    * Remove Debian 7 (Wheezy) and Ubuntu 12.04 (Precise) support
+
+## 3.0.1
+* Change puppetssh provider name to 'ssh' on 1.12+, and deprecate passing
+  'puppetssh' when using split Puppet config files
+
 ## 3.0.0
 * New or changed parameters:
     * Add dhcp_subnets parameter
