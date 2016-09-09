@@ -76,6 +76,10 @@ class foreman_proxy::tftp (
         command => "/usr/bin/grub2-mkimage -O x86_64-efi -d ${efi_dir} -o ${foreman_proxy::tftp_root}/grub2/grubx64.efi -p '' ${grub_modules}",
         creates => "${foreman_proxy::tftp_root}/grub2/grubx64.efi",
         require => [File[$foreman_proxy::tftp_dirs], Package['grub2-tools']],
+      } ->
+      file {"${foreman_proxy::tftp_root}/grub2/grubx64.efi":
+        mode  => '0644',
+        owner => 'root',
       }
 
       foreman_proxy::tftp::copy_file{"/boot/efi/EFI/${grub_efi_path}/shim.efi":
@@ -88,6 +92,8 @@ class foreman_proxy::tftp (
 
       file {"${foreman_proxy::tftp_root}/grub/grubx64.efi":
         ensure  => file,
+        owner   => 'root',
+        mode    => '0644',
         source  => "/boot/efi/EFI/${grub_efi_path}/grub.efi",
         require => File[$foreman_proxy::tftp_dirs],
       }
@@ -105,6 +111,10 @@ class foreman_proxy::tftp (
         command => "/usr/bin/grub-mkimage -O x86_64-efi -d ${efi_dir} -o ${foreman_proxy::tftp_root}/grub2/grubx64.efi -p '' ${grub_modules}",
         creates => "${foreman_proxy::tftp_root}/grub2/grubx64.efi",
         require => [File[$foreman_proxy::tftp_dirs], Package['grub-common','grub-efi-amd64-bin']],
+      } ->
+      file {"${foreman_proxy::tftp_root}/grub2/grubx64.efi":
+        mode  => '0644',
+        owner => 'root',
       }
 
       file {"${foreman_proxy::tftp_root}/grub2/shim.efi":
