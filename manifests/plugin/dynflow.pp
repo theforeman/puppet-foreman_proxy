@@ -64,6 +64,10 @@ class foreman_proxy::plugin::dynflow (
       ensure  => file,
       content => template('foreman_proxy/plugin/dynflow_core.yml.erb'),
     } ~>
+    file { '/etc/smart_proxy_dynflow_core/settings.d':
+      ensure => link,
+      target => '/etc/foreman-proxy/settings.d',
+    } ~>
     service { 'smart_proxy_dynflow_core':
       ensure => running,
       enable => true,

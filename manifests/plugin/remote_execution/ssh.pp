@@ -65,4 +65,9 @@ class foreman_proxy::plugin::remote_execution::ssh (
       creates => $ssh_identity_path,
     }
   }
+
+  if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
+    Foreman_proxy::Settings_file['remote_execution_ssh']
+      ~> Service['smart_proxy_dynflow_core']
+  }
 }
