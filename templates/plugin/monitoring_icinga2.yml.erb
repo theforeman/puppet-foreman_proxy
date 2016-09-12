@@ -1,0 +1,13 @@
+---
+:enabled: <%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::enabled') %>
+:server: "<%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::server') %>"
+:api_cacert: "<%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::api_cacert') %>"
+:api_user: "<%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::api_user') %>"
+<% api_password = scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::api_password') -%>
+<% if api_password.nil? || api_password == :undef || api_password.empty? %>
+:api_usercert: "<%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::api_usercert') %>"
+:api_userkey: "<%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::api_userkey') %>"
+<% else %>
+:api_password: "<%= api_password %>"
+<% end %>
+:verify_ssl: <%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::verify_ssl') %>
