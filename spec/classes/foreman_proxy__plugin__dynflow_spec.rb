@@ -21,6 +21,11 @@ describe 'foreman_proxy::plugin::dynflow' do
       ])
     end
 
+    it 'should create settings.d symlink' do
+      should contain_file("/etc/smart_proxy_dynflow_core/settings.d").
+        with_ensure('link').with_target('/etc/foreman-proxy/settings.d')
+    end
+
     it 'should generate correct dynflow core settings.yml' do
       verify_exact_contents(catalogue, "/etc/smart_proxy_dynflow_core/settings.yml", [
           "---",
