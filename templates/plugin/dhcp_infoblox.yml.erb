@@ -1,0 +1,17 @@
+---
+# Configuration file for 'dhcp_infoblox' dhcp provider
+#
+# use :server setting in dhcp.yml if you are managing a dhcp server which is not localhost
+# use :subnets setting in dhcp.yml if you want to restrict subnets available to smart-proxy
+#
+:username: "<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::username') %>"
+:password: "<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::password') %>"
+#
+#
+# Record type to manage: can be "host" or "fixedaddress"
+#
+:record_type: "<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::record_type') %>"
+#
+# Use  pre-definded ranges in networks to find available IP's
+#
+:use_ranges: <%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::use_ranges') %>
