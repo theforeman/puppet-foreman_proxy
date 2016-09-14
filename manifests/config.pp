@@ -24,7 +24,7 @@ class foreman_proxy::config {
     include ::dns::params
     $groups = [$dns::params::group, $foreman_proxy::puppet_group]
   } else {
-    $groups = [$foreman_proxy::puppet_group]
+    $groups = concat($foreman_proxy::groups, $foreman_proxy::puppet_group)
   }
 
   user { $foreman_proxy::user:
