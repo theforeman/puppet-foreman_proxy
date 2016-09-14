@@ -1,0 +1,8 @@
+---
+:enabled: <%= @module_enabled %>
+:ansible_dir: <%= scope.lookupvar("foreman_proxy::plugin::ansible::ansible_dir") %>
+<% if [nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::plugin::ansible::working_dir")) -%>
+#:working_dir: /var/tmp
+<% else -%>
+:working_dir: <%= scope.lookupvar("foreman_proxy::plugin::ansible::working_dir") %>
+<% end -%>
