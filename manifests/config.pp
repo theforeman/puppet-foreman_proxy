@@ -14,7 +14,7 @@ class foreman_proxy::config {
     Class['puppet::server::install'] -> Class['foreman_proxy::config']
   }
 
-  if $foreman_proxy::tftp     { include ::foreman_proxy::tftp }
+  if $foreman_proxy::tftp and $foreman_proxy::tftp_managed { include ::foreman_proxy::tftp }
 
   # Somehow, calling these DHCP and DNS seems to conflict. So, they get a prefix...
   if $foreman_proxy::dhcp and $foreman_proxy::dhcp_managed { include ::foreman_proxy::proxydhcp }
