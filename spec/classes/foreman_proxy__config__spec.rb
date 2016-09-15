@@ -39,7 +39,7 @@ describe 'foreman_proxy::config' do
 
         it { should compile.with_all_deps }
 
-        it 'should include tftp' do
+        it 'should include managed tftp' do
           should contain_class('foreman_proxy::tftp')
           should contain_class('tftp')
         end
@@ -472,8 +472,8 @@ describe 'foreman_proxy::config' do
           }'
         end
 
-        it 'should include the foreman-proxy tftp class' do
-          should contain_class('foreman_proxy::tftp')
+        it 'should not include the foreman-proxy tftp class' do
+          should_not contain_class('foreman_proxy::tftp')
         end
 
         it 'should not include the ::tftp class' do
@@ -497,10 +497,10 @@ describe 'foreman_proxy::config' do
         end
       end
 
-      context 'with TFTP enabled and tftp_syslinux_filenames set' do
+      context 'with tftp_managed enabled and tftp_syslinux_filenames set' do
         let :pre_condition do
           'class {"foreman_proxy":
-            tftp => true,
+            tftp_managed            => true,
             tftp_syslinux_filenames => [ "/my/file", "/my/anotherfile" ],
           }'
         end
@@ -511,7 +511,7 @@ describe 'foreman_proxy::config' do
         end
       end
 
-      context 'with tftp_manage_wget disabled' do
+      context 'with tftp_managed enabled and tftp_manage_wget disabled' do
         let :pre_condition do
           'class {"foreman_proxy":
             tftp_manage_wget => false,
