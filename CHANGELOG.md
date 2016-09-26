@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.1
+* Remove management of remote_execution_ssh_core plugin, causing errors on some
+  OSes (#287)
+
 ## 4.0.0
 * New or changed parameters:
     * Add manage_puppet_group parameter to ensure the puppet group exists when
