@@ -49,7 +49,11 @@ class foreman_proxy::tftp {
       $grub_efi_path = 'fedora'
     }
     'CentOS': {
-      $grub_efi_path = 'centos'
+      if versioncmp($osreleasemajor, '6') <= 0 {
+        $grub_efi_path = 'redhat'
+      } else {
+        $grub_efi_path = 'centos'
+      }
     }
     /^(RedHat|Scientific|OracleLinux)$/: {
       $grub_efi_path = 'redhat'
