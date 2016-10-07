@@ -48,10 +48,7 @@ class foreman_proxy::tftp {
     'Fedora': {
       $grub_efi_path = 'fedora'
     }
-    'CentOS': {
-      $grub_efi_path = 'centos'
-    }
-    /^(RedHat|Scientific|OracleLinux)$/: {
+    /^(CentOS|RedHat|Scientific|OracleLinux)$/: {
       $grub_efi_path = 'redhat'
     }
     default: {
