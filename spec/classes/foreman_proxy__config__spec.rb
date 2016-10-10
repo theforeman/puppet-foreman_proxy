@@ -352,6 +352,16 @@ describe 'foreman_proxy::config' do
             it 'should create shim.efi symlink for Red Hat version 6 and older' do
               should contain_file('/var/lib/tftpboot/grub/shim.efi').with_ensure('link')
             end
+            case facts[:operatingsystem]
+              when /^(RedHat|Scientific|OracleLinux|CentOS)$/
+                it 'should copy grub.efi for Red Hat and clones' do
+                  should contain_file('/var/lib/tftpboot/grub/grubx64.efi').with_source('/boot/efi/EFI/redhat/grub.efi')
+                end
+              when 'Fedora'
+                it 'should copy grub.efi for Fedora' do
+                  should contain_file('/var/lib/tftpboot/grub/grubx64.efi').with_source('/boot/efi/EFI/fedora/grub.efi')
+                end
+            end
           end
         end
 
