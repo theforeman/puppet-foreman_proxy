@@ -1,0 +1,10 @@
+---
+:enabled: <%= @module_enabled %>
+:contentpath: '<%= scope.lookupvar("::foreman_proxy::plugin::omaha::contentpath") %>'
+:sync_releases: <%= scope.lookupvar("::foreman_proxy::plugin::omaha::sync_releases") %>
+<%- http_proxy = scope.lookupvar('::foreman_proxy::plugin::omaha::http_proxy') -%>
+<%- if [nil, :undefined, :undef].include?(http_proxy) || http_proxy.empty? -%>
+#:proxy: 'http://proxy.example.com:3128/'
+<%- else -%>
+:proxy: '<%= http_proxy %>'
+<%- end -%>
