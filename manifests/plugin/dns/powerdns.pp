@@ -5,23 +5,30 @@
 # === Parameters:
 #
 # $backend::               The backend to select, either mysql or postgresql.
+#                          type:Enum['mysql', 'postgresql']
 #
 # $mysql_hostname::        MySQL server hostname. Only used when the backend is mysql.
+#                          type:String
 #
 # $mysql_username::        MySQL server username. Only used when the backend is mysql.
+#                          type:String
 #
 # $mysql_password::        MySQL server password. Only used when the backend is mysql.
+#                          type:String
 #
 # $mysql_database::        MySQL server database. Only used when the backend is mysql.
+#                          type:String
 #
 # $postgresql_connection:: The postgresql connection string.
+#                          type:String
 #
 # $manage_database::       Whether to manage the database. Only works for
 #                          mysql. Includes the mysql server.
-#                          type:boolean
+#                          type:Boolean
 #
 # $pdnssec::               pdnssec command to run rectify-zone with. Can be an
 #                          empty string.
+#                          type:String
 #
 class foreman_proxy::plugin::dns::powerdns (
   $backend               = $::foreman_proxy::plugin::dns::powerdns::params::backend,

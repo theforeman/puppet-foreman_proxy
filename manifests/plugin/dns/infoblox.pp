@@ -5,10 +5,13 @@
 # === Parameters:
 #
 # $dns_server:: The address of the Infoblox server
+#               type:String
 #
 # $username::   The username of the Infoblox user
+#               type:String
 #
 # $password::   The password of the Infoblox user
+#               type:String
 #
 class foreman_proxy::plugin::dns::infoblox (
   $dns_server = $::foreman_proxy::plugin::dns::infoblox::params::dns_server,

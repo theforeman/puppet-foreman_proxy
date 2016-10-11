@@ -5,30 +5,38 @@
 # === Parameters:
 #
 # $configure_openscap_repo::    Enable custom yum repo with packages needed for smart_proxy_openscap,
-#                               type:boolean
+#                               type:Boolean
 #
 # $openscap_send_log_file::     Log file for the forwarding script
+#                               type:Stdlib::Absolutepath
 #
 # $spooldir::                   Directory where OpenSCAP audits are stored
 #                               before they are forwarded to Foreman
+#                               type:Stdlib::Absolutepath
 #
 # $contentdir::                 Directory where OpenSCAP content XML are stored
 #                               So we will not request the XML from Foreman each time
+#                               type:Stdlib::Absolutepath
 #
 # $reportsdir::                 Directory where OpenSCAP report XML are stored
 #                               So Foreman can request arf xml reports
+#                               type:Stdlib::Absolutepath
 #
 # $failed_dir::                 Directory where OpenSCAP report XML are stored
 #                               In case sending to Foreman succeeded, yet failed to save to reportsdir
+#                               type:Stdlib::Absolutepath
+#
 # === Advanced parameters:
 #
 # $enabled::                    enables/disables the plugin
-#                               type:boolean
+#                               type:Boolean
 #
 # $listen_on::                  Proxy feature listens on http, https, or both
+#                               type:Foreman_proxy::ListenOn
 #
 # $version::                    plugin package version, it's passed to ensure parameter of package resource
 #                               can be set to specific version number, 'latest', 'present' etc.
+#                               type:Optional[String]
 #
 class foreman_proxy::plugin::openscap (
   $configure_openscap_repo = $::foreman_proxy::plugin::openscap::params::configure_openscap_repo,

@@ -5,14 +5,17 @@
 # === Advanced parameters:
 #
 # $ansible_dir:: Ansible directory to search for available roles
+#                type:Stdlib::Absolutepath
 #
 # $working_dir:: A directory where the playbooks will be generated.
 #                A tmp directory will be created when left blank
+#                type:Optional[Stdlib::Absolutepath]
 #
 # $enabled::     Enables/disables the plugin
-#                type:boolean
+#                type:Boolean
 #
 # $listen_on::   Proxy feature listens on https, http, or both
+#                type:Foreman_proxy::ListenOn
 #
 class foreman_proxy::plugin::ansible (
   $enabled     = $::foreman_proxy::plugin::ansible::params::enabled,

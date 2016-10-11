@@ -5,35 +5,44 @@
 # === Parameters:
 #
 # $abrt_send_log_file::         Log file for the forwarding script.
+#                               type:Stdlib::Absolutepath
 #
 # $spooldir::                   Directory where uReports are stored before they are sent
+#                               type:Stdlib::Absolutepath
 #
 # $aggregate_reports::          Merge duplicate reports before sending
+#                               type:Boolean
 #
 # $send_period::                Period (in seconds) after which collected reports are forwarded.
 #                               Meaningful only if smart-proxy-abrt-send is run as a daemon (not from cron).
-#                               type:integer
+#                               type:Integer[0]
 #
 # $faf_server_url::             FAF server instance the reports will be forwarded to
+#                               type:Optional[String]
 #
 # $faf_server_ssl_noverify::    Set to true if FAF server uses self-signed certificate
-#                               type:boolean
+#                               type:Boolean
 #
 # $faf_server_ssl_cert::        Enable client authentication to FAF server: set ssl certificate
+#                               type:Optional[Stdlib::Absolutepath]
 #
 # $faf_server_ssl_key::         Enable client authentication to FAF server: set ssl key
+#                               type:Optional[Stdlib::Absolutepath]
 #
 # === Advanced parameters:
 #
 # $enabled::                    Enables/disables the plugin
-#                               type:boolean
+#                               type:Boolean
 #
 # $group::                      group owner of the configuration file
+#                               type:Optional[String]
 #
 # $listen_on::                  Proxy feature listens on http, https, or both
+#                               type:Foreman_proxy::ListenOn
 #
 # $version::                    plugin package version, it's passed to ensure parameter of package resource
 #                               can be set to specific version number, 'latest', 'present' etc.
+#                               type:Optional[String]
 #
 class foreman_proxy::plugin::abrt (
   $enabled                 = $::foreman_proxy::plugin::abrt::params::enabled,

@@ -5,18 +5,22 @@
 # === Parameters:
 #
 # $provider::           monitoring provider
+#                       type:String
 #
 # === Advanced parameters:
 #
 # $enabled::            enables/disables the monitoring plugin
-#                       type:boolean
+#                       type:Boolean
 #
 # $group::              owner of plugin configuration
+#                       type:Optional[String]
 #
 # $listen_on::          proxy feature listens on http, https, or both
+#                       type:Foreman_proxy::ListenOn
 #
 # $version::            plugin package version, it's passed to ensure parameter of package resource
 #                       can be set to specific version number, 'latest', 'present' etc.
+#                       type:Optional[String]
 #
 class foreman_proxy::plugin::monitoring (
   $enabled            = $::foreman_proxy::plugin::monitoring::params::enabled,
