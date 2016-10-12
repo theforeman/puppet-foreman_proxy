@@ -40,6 +40,7 @@
 # $user::                       User under which foreman proxy will run
 #
 # $groups::                     Array of additional groups for the foreman proxy user
+#                               type:array
 #
 # $log::                        Foreman proxy log file, 'STDOUT' or 'SYSLOG'
 #
