@@ -10,6 +10,6 @@ class foreman_proxy::plugin::pulp::params {
   $pulp_url           = "https://${::fqdn}/pulp"
   $pulp_dir           = '/var/lib/pulp'
   $pulp_content_dir   = '/var/lib/pulp/content'
-  $puppet_content_dir = $::foreman_proxy::params::puppet_envdir
+  $puppet_content_dir = $::puppet_environmentpath
   $mongodb_dir        = '/var/lib/mongodb'
 }
