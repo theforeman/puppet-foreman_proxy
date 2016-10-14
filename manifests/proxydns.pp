@@ -21,9 +21,29 @@ class foreman_proxy::proxydns {
     soaip   => $ip,
   }
 
-  ::dns::zone { $foreman_proxy::dns_reverse:
-    soa     => $::fqdn,
-    reverse => true,
-    soaip   => $ip,
+  $foreman_proxy::dns_reverse.each |String $reverse| {
+    dns::zone { $reverse:
+      soa     => $::fqdn,
+      reverse => true,
+      soaip   => $ip,
+    }
+    @@dns::zone { "${::fqdn}_reverse_${reverse}":
+      zonetype => 'slave',
+      masters  => [ $ip ],
+      manage_file => false,
+      soaip       => $ip,
+      zone        => $reverse
+    }
   }
+
+  @@dns::zone { "${::fqdn}_forward_slave":
+    zonetype    => 'slave',
+    masters     => [ $ip ],
+    manage_file => false,
+    soaip       => $ip,
+    zone        => $foreman_proxy::dns_zone
+  }
+
+  Dns::Zone <<| soaip != $ip |>>
+
 }
