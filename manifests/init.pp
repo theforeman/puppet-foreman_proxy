@@ -451,7 +451,7 @@ class foreman_proxy (
 
   # Validate dns params
   validate_bool($dns)
-  validate_string($dns_interface, $dns_provider, $dns_reverse, $dns_server, $keyfile)
+  validate_string($dns_interface, $dns_provider, $dns_server, $keyfile)
   validate_array($dns_forwarders)
 
   # Validate libvirt params
