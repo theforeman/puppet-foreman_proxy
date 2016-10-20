@@ -2,8 +2,13 @@ require 'spec_helper'
 
 describe 'foreman_proxy::plugin::pulp' do
 
+  let :puppet_environmentpath do
+    # In Puppet 3, Puppet[:environmentpath] default is ""
+    Gem::Version.new(Puppet.version) >= Gem::Version.new('4.0') ? '/etc/puppetlabs/code/environments' : ""
+  end
+
   let :facts do
-    on_supported_os['redhat-6-x86_64'].merge(:puppet_environmentpath => '/etc/puppetlabs/code/environments')
+    on_supported_os['redhat-6-x86_64'].merge(:puppet_environmentpath => puppet_environmentpath)
   end
 
   let :etc_dir do
@@ -29,7 +34,7 @@ describe 'foreman_proxy::plugin::pulp' do
           ":pulp_url: https://#{facts[:fqdn]}/pulp",
           ':pulp_dir: /var/lib/pulp',
           ':pulp_content_dir: /var/lib/pulp/content',
-          ':puppet_content_dir: /etc/puppetlabs/code/environments',
+          ":puppet_content_dir: #{puppet_environmentpath.empty? ? '/etc/puppet/environments' : puppet_environmentpath}",
           ':mongodb_dir: /var/lib/mongodb',
         ])
     end
