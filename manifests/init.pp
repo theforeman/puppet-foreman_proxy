@@ -451,8 +451,12 @@ class foreman_proxy (
 
   # Validate dns params
   validate_bool($dns)
-  validate_string($dns_interface, $dns_provider, $dns_reverse, $dns_server, $keyfile)
+  validate_string($dns_interface, $dns_provider, $dns_server, $keyfile)
   validate_array($dns_forwarders)
+  # $dns_reverse can be a string or an array of strings (to cover /23 networks for example)
+  if ! is_string($dns_reverse) and ! is_array($dns_reverse) {
+    fail('$dns_reverse must be a string or an array of strings')
+  }
 
   # Validate libvirt params
   validate_string($libvirt_network, $libvirt_connection)
