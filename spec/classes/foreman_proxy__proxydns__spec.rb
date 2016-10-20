@@ -102,6 +102,30 @@ describe 'foreman_proxy::proxydns' do
           should contain_dns__zone('100.168.192.in-addr.arpa').with_soaip('127.0.1.1')
         end
       end
+
+      context "with dns_reverse array" do
+        let :facts do
+          facts.merge({:ipaddress_eth0 => '127.0.1.1'})
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy':
+            dns_reverse => ['0.168.192.in-addr.arpa', '1.168.192.in-addr.arpa']
+          }"
+        end
+
+        it 'should include the reverse zone 0.168.192.in-addr.arpa' do
+          should contain_dns__zone('0.168.192.in-addr.arpa').with_soa('foo.example.com')
+          should contain_dns__zone('0.168.192.in-addr.arpa').with_reverse(true)
+          should contain_dns__zone('0.168.192.in-addr.arpa').with_soaip('127.0.1.1')
+        end
+
+        it 'should include the reverse zone 1.168.192.in-addr.arpa' do
+          should contain_dns__zone('1.168.192.in-addr.arpa').with_soa('foo.example.com')
+          should contain_dns__zone('1.168.192.in-addr.arpa').with_reverse(true)
+          should contain_dns__zone('1.168.192.in-addr.arpa').with_soaip('127.0.1.1')
+        end
+      end
     end
   end
 end
