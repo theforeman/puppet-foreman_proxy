@@ -4,17 +4,11 @@ describe 'foreman_proxy::proxydhcp' do
   on_os_under_test.each do |os, facts|
     context "on #{os}" do
 
-      let :default_facts do
-        facts.merge({
-          :concat_basedir => '/doesnotexist',
-        })
-      end
-
       context "on physical interface" do
         let :facts do
-          default_facts.merge({:ipaddress_eth0 => '127.0.1.1',
-                               :netmask_eth0   => '255.0.0.0',
-                               :network_eth0   => '127.0.0.0'})
+          facts.merge({:ipaddress_eth0 => '127.0.1.1',
+                       :netmask_eth0   => '255.0.0.0',
+                       :network_eth0   => '127.0.0.0'})
         end
 
         let :pre_condition do
@@ -42,9 +36,9 @@ describe 'foreman_proxy::proxydhcp' do
 
       context "on vlan interface" do
         let :facts do
-          default_facts.merge({:ipaddress_eth0_0 => '127.0.1.1',
-                               :netmask_eth0_0   => '255.0.0.0',
-                               :network_eth0_0   => '127.0.0.0'})
+          facts.merge({:ipaddress_eth0_0 => '127.0.1.1',
+                       :netmask_eth0_0   => '255.0.0.0',
+                       :network_eth0_0   => '127.0.0.0'})
         end
 
         let :pre_condition do
@@ -73,9 +67,9 @@ describe 'foreman_proxy::proxydhcp' do
 
       context "on alias interface" do
         let :facts do
-          default_facts.merge({:ipaddress_eth0_0 => '127.0.1.1',
-                               :netmask_eth0_0   => '255.0.0.0',
-                               :network_eth0_0   => '127.0.0.0'})
+          facts.merge({:ipaddress_eth0_0 => '127.0.1.1',
+                       :netmask_eth0_0   => '255.0.0.0',
+                       :network_eth0_0   => '127.0.0.0'})
         end
 
         let :pre_condition do
@@ -104,9 +98,9 @@ describe 'foreman_proxy::proxydhcp' do
 
       context "with dhcp_search_domains" do
         let :facts do
-          default_facts.merge({:ipaddress_eth0 => '127.0.1.1',
-                               :netmask_eth0   => '255.0.0.0',
-                               :network_eth0   => '127.0.0.0'})
+          facts.merge({:ipaddress_eth0 => '127.0.1.1',
+                       :netmask_eth0   => '255.0.0.0',
+                       :network_eth0   => '127.0.0.0'})
         end
 
         let :pre_condition do
