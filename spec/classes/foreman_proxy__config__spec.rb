@@ -24,13 +24,8 @@ describe 'foreman_proxy::config' do
         var_dir = '/var/lib/puppet'
       end
 
-      if (facts[:puppetversion].to_i >2)
-        puppetca_command = "#{usr_dir}/bin/puppet cert *"
-        puppetrun_command = "#{usr_dir}/bin/puppet kick *"
-      else
-        puppetca_command = '/usr/sbin/puppetca *'
-        puppetrun_command = '/usr/sbin/puppetrun *'
-      end
+      puppetca_command = "#{usr_dir}/bin/puppet cert *"
+      puppetrun_command = "#{usr_dir}/bin/puppet kick *"
 
       context 'without parameters' do
         let :pre_condition do
