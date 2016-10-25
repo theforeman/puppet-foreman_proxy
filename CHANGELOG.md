@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.2
+* Add symlink for dynflow_core settings directory to proxy (#16050)
+
 ## 4.0.1
 * Remove management of remote_execution_ssh_core plugin, causing errors on some
   OSes (#287)
