@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.3
+* Fix source EFI boot loader path for CentOS 6 (#289)
+
 ## 4.0.2
 * Add symlink for dynflow_core settings directory to proxy (#16050)
 
