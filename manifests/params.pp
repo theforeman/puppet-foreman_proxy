@@ -10,13 +10,12 @@ class foreman_proxy::params {
       $custom_repo         = false
       $plugin_prefix       = 'rubygem-smart_proxy_'
 
-      $dir     = '/usr/share/foreman-proxy'
-      $etc     = '/etc'
-      $shell   = '/bin/false'
-      $user    = 'foreman-proxy'
-      $puppet_home = '/var/lib/puppet'
+      $dir   = '/usr/share/foreman-proxy'
+      $etc   = '/etc'
+      $shell = '/bin/false'
+      $user  = 'foreman-proxy'
 
-      $puppetssh_command = '/usr/bin/puppet agent --onetime --no-usecacheonfailure'
+      $puppet_home = '/var/lib/puppet'
 
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcpd/dhcpd.leases'
@@ -41,9 +40,8 @@ class foreman_proxy::params {
       $etc   = '/etc'
       $shell = '/bin/false'
       $user  = 'foreman-proxy'
-      $puppet_home = '/var/lib/puppet'
 
-      $puppetssh_command = '/usr/bin/puppet agent --onetime --no-usecacheonfailure'
+      $puppet_home = '/var/lib/puppet'
 
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
@@ -83,12 +81,11 @@ class foreman_proxy::params {
       $etc   = '/usr/local/etc'
       $shell = '/usr/bin/false'
       $user  = 'foreman_proxy'
-      $puppet_home = '/var/puppet'
-      $puppet_bindir = '/usr/local/bin'
-      $puppetdir = '/usr/local/etc/puppet'
-      $ssldir = "${puppet_home}/ssl"
 
-      $puppetssh_command = "${puppet_bindir}/puppet agent --onetime --no-usecacheonfailure"
+      $puppet_home   = '/var/puppet'
+      $puppet_bindir = '/usr/local/bin'
+      $puppetdir     = '/usr/local/etc/puppet'
+      $ssldir        = "${puppet_home}/ssl"
 
       $dhcp_config = '/usr/local/etc/dhcpd.conf'
       $dhcp_leases = '/var/db/dhcpd/dhcpd.leases'
@@ -116,12 +113,11 @@ class foreman_proxy::params {
       $etc   = '/etc'
       $shell = '/usr/bin/false'
       $user  = 'foreman-proxy'
-      $puppet_home = '/var/lib/puppet'
-      $puppet_bindir = '/usr/bin'
-      $puppetdir = '/etc/puppetlabs/puppet'
-      $ssldir = "${puppetdir}/ssl"
 
-      $puppetssh_command = "${puppet_bindir}/puppet agent --onetime --no-usecacheonfailure"
+      $puppet_home   = '/var/lib/puppet'
+      $puppet_bindir = '/usr/bin'
+      $puppetdir     = '/etc/puppetlabs/puppet'
+      $ssldir        = "${puppetdir}/ssl"
 
       $dhcp_config = '/etc/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
@@ -152,13 +148,13 @@ class foreman_proxy::params {
 
   if $::osfamily !~ /^(FreeBSD|DragonFly|Archlinux)$/ {
     if $aio_package {
-      $puppetdir = '/etc/puppetlabs/puppet'
-      $ssldir = "${puppetdir}/ssl"
       $puppet_bindir = '/opt/puppetlabs/bin'
+      $puppetdir     = '/etc/puppetlabs/puppet'
+      $ssldir        = "${puppetdir}/ssl"
     } else {
-      $ssldir = "${puppet_home}/ssl"
       $puppet_bindir = '/usr/bin'
-      $puppetdir = '/etc/puppet'
+      $puppetdir     = '/etc/puppet'
+      $ssldir        = "${puppet_home}/ssl"
     }
   }
 
@@ -233,6 +229,7 @@ class foreman_proxy::params {
   $customrun_cmd       = $shell
   $customrun_args      = '-ay -f -s'
   $mcollective_user    = 'root'
+  $puppetssh_command   = "${puppet_cmd} agent --onetime --no-usecacheonfailure"
   $puppetssh_sudo      = false
   $puppetssh_user      = 'root'
   $puppetssh_keyfile   = "${etc}/foreman-proxy/id_rsa"
