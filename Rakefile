@@ -27,4 +27,9 @@ PuppetLintParamDocs.define_selective do |config|
   config.pattern = ["manifests/init.pp", "manifests/plugin/**/*.pp"]
 end
 
+require 'kafo_module_lint/tasks'
+KafoModuleLint::RakeTask.new do |config|
+  config.pattern = ["manifests/init.pp", "manifests/plugin/**/*.pp"]
+end
+
 task :default => [:validate, :lint, :spec]
