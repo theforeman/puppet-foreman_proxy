@@ -29,8 +29,6 @@ class foreman_proxy::tftp {
       } else {
         $grub_type = 'redhat'
       }
-      # taken from http://pkgs.fedoraproject.org/cgit/rpms/grub2.git/tree/grub2.spec
-      $grub_modules = 'all_video boot btrfs cat chain configfile echo efifwsetup efinet ext2 fat font gfxmenu gfxterm gzio halt hfsplus iso9660 jpeg loadenv loopback lvm mdraid09 mdraid1x minicmd normal part_apple part_msdos part_gpt password_pbkdf2 png reboot search search_fs_uuid search_fs_file search_label serial sleep syslinuxcfg test tftp video xfs linux backtrace usb usbserial_common usbserial_pl2303 usbserial_ftdi usbserial_usbdebug linuxefi'
     }
     'Debian': {
       $grub_type = 'debian'
@@ -67,14 +65,9 @@ class foreman_proxy::tftp {
     'redhat': {
       ensure_packages(['grub2-efi','grub2-efi-modules','grub2-tools','shim'], { ensure => 'installed', })
 
-      exec {'build-grub2-efi-image':
-        command => "/usr/bin/grub2-mkimage -O x86_64-efi -d ${efi_dir} -o ${foreman_proxy::tftp_root}/grub2/grubx64.efi -p '' ${grub_modules}",
-        creates => "${foreman_proxy::tftp_root}/grub2/grubx64.efi",
-        require => [File[$foreman_proxy::tftp_dirs], Package['grub2-tools']],
-      } ->
-      file {"${foreman_proxy::tftp_root}/grub2/grubx64.efi":
-        mode  => '0644',
-        owner => 'root',
+      foreman_proxy::tftp::copy_file{"/boot/efi/EFI/${grub_efi_path}/grubx64.efi":
+        target_path => "${foreman_proxy::tftp_root}/grub2",
+        require     => File[$foreman_proxy::tftp_dirs],
       }
 
       foreman_proxy::tftp::copy_file{"/boot/efi/EFI/${grub_efi_path}/shim.efi":
