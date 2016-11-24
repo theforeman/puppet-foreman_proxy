@@ -5,21 +5,24 @@
 # === Parameters:
 #
 # $database_path::   Path to the SQLite database file
+#                    type:Stdlib::Absolutepath
 #
 # $console_auth::    Whether to enable trusted hosts and ssl for the dynflow console
-#                    type:boolean
+#                    type:Boolean
 #
 # === Advanced parameters:
 #
 # $enabled::         Enables/disables the plugin
-#                    type:boolean
+#                    type:Boolean
 #
 # $listen_on::       Proxy feature listens on https, http, or both
+#                    type:Foreman_proxy::ListenOn
 #
 # $core_listen::     Address to listen on for the dynflow core service
+#                    type:String
 #
 # $core_port::       Port to use for the local dynflow core service
-#                    type:integer
+#                    type:Integer[0, 65535]
 #
 class foreman_proxy::plugin::dynflow (
   $enabled           = $::foreman_proxy::plugin::dynflow::params::enabled,

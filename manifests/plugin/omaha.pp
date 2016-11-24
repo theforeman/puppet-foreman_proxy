@@ -5,22 +5,28 @@
 # === Parameters:
 #
 # $contentpath::        Path where omaha content is stored
+#                       type:Stdlib::Absolutepath
 #
 # $sync_releases::      How many of the latest releases should be synced
+#                       type:Integer[0]
 #
 # $http_proxy::         URL to a proxy server that should be used to retrieve omaha content, e.g. 'http://proxy.example.com:3128/'
+#                       type:Optional[Stdlib::HTTPUrl]
 #
 # === Advanced parameters:
 #
 # $enabled::            enables/disables the omaha plugin
-#                       type:boolean
+#                       type:Boolean
 #
 # $group::              owner of plugin configuration
+#                       type:Optional[String]
 #
 # $listen_on::          proxy feature listens on http, https, or both
+#                       type:Foreman_proxy::ListenOn
 #
 # $version::            plugin package version, it's passed to ensure parameter of package resource
 #                       can be set to specific version number, 'latest', 'present' etc.
+#                       type:Optional[String]
 #
 class foreman_proxy::plugin::omaha (
   $enabled            = $::foreman_proxy::plugin::omaha::params::enabled,
