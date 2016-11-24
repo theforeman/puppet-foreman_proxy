@@ -5,13 +5,16 @@
 # === Parameters:
 #
 # $install_images::  should the discovery image be downloaded and extracted
-#                    type:boolean
+#                    type:Boolean
 #
 # $tftp_root::       tftp root to install image into
+#                    type:Stdlib::Absolutepath
 #
 # $source_url::      source URL to download from
+#                    type:Stdlib::HTTPUrl
 #
 # $image_name::      tarball with images
+#                    type:String
 #
 class foreman_proxy::plugin::discovery (
   $install_images = $::foreman_proxy::plugin::discovery::params::install_images,

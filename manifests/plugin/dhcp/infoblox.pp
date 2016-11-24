@@ -5,13 +5,16 @@
 # === Parameters:
 #
 # $username::    The username of the Infoblox user
+#                type:String
 #
 # $password::    The password of the Infoblox user
+#                type:String
 #
 # $record_type:: Record type to manage, can be "host" or "fixedaddress"
+#                type:Enum['host', 'fixedaddress']
 #
-# $use_ranges::  Use  pre-definded ranges in networks to find available IP's
-#                type:boolean
+# $use_ranges::  Use pre-definded ranges in networks to find available IP's
+#                type:Boolean
 #
 class foreman_proxy::plugin::dhcp::infoblox (
   $username    = $::foreman_proxy::plugin::dhcp::infoblox::params::username,

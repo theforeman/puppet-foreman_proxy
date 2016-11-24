@@ -5,28 +5,36 @@
 # === Parameters:
 #
 # $autosign_file::   File to use for salt autosign
+#                    type:Stdlib::Absolutepath
 #
 # $user::            User to run salt commands under
+#                    type:String
 #
 # $api::             Use Salt API
-#                    type:boolean
+#                    type:Boolean
 #
 # $api_url::         Salt API URL
+#                    type:Stdlib::HTTPUrl
 #
 # $api_auth::        Salt API auth mechanism
+#                    type:String
 #
 # $api_username::    Salt API username
+#                    type:String
 #
 # $api_password::    Salt API password
+#                    type:String
 #
 # === Advanced parameters:
 #
 # $enabled::         Enables/disables the plugin
-#                    type:boolean
+#                    type:Boolean
 #
 # $group::           Owner of plugin configuration
+#                    type:Optional[String]
 #
 # $listen_on::       Proxy feature listens on https, http, or both
+#                    type:Foreman_proxy::ListenOn
 #
 class foreman_proxy::plugin::salt (
   $autosign_file     = $::foreman_proxy::plugin::salt::params::autosign_file,

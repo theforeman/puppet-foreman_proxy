@@ -3,288 +3,362 @@
 # === Parameters:
 #
 # $repo::                       This can be stable, rc, or nightly
+#                               type:String
 #
 # $gpgcheck::                   Turn on/off gpg check in repo files (effective only on RedHat family systems)
-#                               type:boolean
+#                               type:Boolean
 #
 # $custom_repo::                No need to change anything here by default
 #                               if set to true, no repo will be added by this module, letting you to
 #                               set it to some custom location.
-#                               type:boolean
+#                               type:Boolean
 #
 # $version::                    foreman package version, it's passed to ensure parameter of package resource
 #                               can be set to specific version number, 'latest', 'present' etc.
+#                               type:String
 #
 # $ensure_packages_version::    control extra packages version, it's passed to ensure parameter of package resource
-#                               can be set to 'installed', 'present', 'latest', 'absent'
+#                               type:Enum['latest', 'present', 'installed', 'absent']
 #
 # $plugin_version::             foreman plugins version, it's passed to ensure parameter of plugins package resource
-#                               can be set to 'latest', 'present',  'installed', 'absent'.
+#                               type:Enum['latest', 'present', 'installed', 'absent']
 #
 # $bind_host::                  Host to bind ports to, e.g. *, localhost, 0.0.0.0
+#                               type:String
 #
 # $http::                       Enable HTTP
-#                               type:boolean
+#                               type:Boolean
 #
 # $http_port::                  HTTP port to listen on (if http is enabled)
-#                               type:integer
+#                               type:Integer[0, 65535]
 #
 # $ssl::                        Enable SSL, ensure feature is added with "https://" protocol if true
-#                               type:boolean
+#                               type:Boolean
 #
 # $ssl_port::                   HTTPS port to listen on (if ssl is enabled)
-#                               type:integer
+#                               type:Integer[0, 65535]
 #
 # $dir::                        Foreman proxy install directory
+#                               type:Stdlib::Absolutepath
 #
 # $user::                       User under which foreman proxy will run
+#                               type:String
 #
 # $groups::                     Array of additional groups for the foreman proxy user
-#                               type:array
+#                               type:Array[String]
 #
 # $log::                        Foreman proxy log file, 'STDOUT' or 'SYSLOG'
+#                               type:Variant[Enum['STDOUT', 'SYSLOG'], Stdlib::Absolutepath]
 #
-# $log_level::                  Foreman proxy log level: WARN, DEBUG, ERROR, FATAL, INFO, UNKNOWN
+# $log_level::                  Foreman proxy log level
+#                               type:Enum['WARN', 'DEBUG', 'ERROR', 'FATAL', 'INFO', 'UNKNOWN']
 #
 # $log_buffer::                 Log buffer size
-#                               type:integer
+#                               type:Integer[0]
 #
 # $log_buffer_errors::          Additional log buffer size for errors
-#                               type:integer
+#                               type:Integer[0]
 #
 # $ssl_ca::                     SSL CA to validate the client certificates used to access the proxy
+#                               type:Stdlib::Absolutepath
 #
 # $ssl_cert::                   SSL certificate to be used to run the foreman proxy via https.
+#                               type:Stdlib::Absolutepath
 #
 # $ssl_key::                    Corresponding key to a ssl_cert certificate
+#                               type:Stdlib::Absolutepath
 #
 # $foreman_ssl_ca::             SSL CA used to verify connections when accessing the Foreman API.
 #                               When not specified, the ssl_ca is used instead.
+#                               type:Optional[Stdlib::Absolutepath]
 #
 # $foreman_ssl_cert::           SSL client certificate used when accessing the Foreman API
 #                               When not specified, the ssl_cert is used instead.
+#                               type:Optional[Stdlib::Absolutepath]
 #
 # $foreman_ssl_key::            Corresponding key to a foreman_ssl_cert certificate
 #                               When not specified, the ssl_key is used instead.
+#                               type:Optional[Stdlib::Absolutepath]
 #
 # $ssl_disabled_ciphers::       List of OpenSSL cipher suite names that will be disabled from the default
-#                               type:array
+#                               type:Array[String]
 #
 # $trusted_hosts::              Only hosts listed will be permitted, empty array to disable authorization
-#                               type:array
+#                               type:Array[String]
 #
 # $manage_sudoersd::            Whether to manage File['/etc/sudoers.d'] or not.  When reusing this module, this may be
 #                               disabled to let a dedicated sudo module manage it instead.
-#                               type:boolean
+#                               type:Boolean
 #
 # $use_sudoersd::               Add a file to /etc/sudoers.d (true) or uses augeas (false)
-#                               type:boolean
+#                               type:Boolean
 #
 # $puppetca::                   Enable Puppet CA feature
-#                               type:boolean
+#                               type:Boolean
 #
-# $puppetca_listen_on::         Puppet CA feature to listen on https, http, or both
+# $puppetca_listen_on::         Protocols for the Puppet CA feature to listen on
+#                               type:Foreman_proxy::ListenOn
 #
-# $ssldir::                     Puppet CA ssl directory
+# $ssldir::                     Puppet CA SSL directory
+#                               type:Stdlib::Absolutepath
 #
 # $puppetdir::                  Puppet var directory
+#                               type:Stdlib::Absolutepath
 #
 # $puppetca_cmd::               Puppet CA command to be allowed in sudoers
+#                               type:String
 #
 # $puppet_group::               Groups of Foreman proxy user
+#                               type:String
 #
 # $manage_puppet_group::        Whether to ensure the $puppet_group exists.  Also ensures group owner of ssl keys and certs is $puppet_group
 #                               Not applicable when ssl is false.
-#                               type:boolean
+#                               type:Boolean
 #
 # $puppet::                     Enable Puppet module for environment imports and Puppet runs
-#                               type:boolean
+#                               type:Boolean
 #
-# $puppet_listen_on::           Puppet feature to listen on https, http, or both
+# $puppet_listen_on::           Protocols for the Puppet feature to listen on
+#                               type:Foreman_proxy::ListenOn
 #
 # $puppetrun_provider::         Provider for running/kicking Puppet agents
+#                               type:Optional[String]
 #
 # $puppetrun_cmd::              Puppet run/kick command to be allowed in sudoers
+#                               type:String
 #
 # $customrun_cmd::              Puppet customrun command
+#                               type:String
 #
 # $customrun_args::             Puppet customrun command arguments
+#                               type:String
 #
 # $mcollective_user::           The user for puppetrun_provider mcollective
+#                               type:String
 #
 # $puppetssh_sudo::             Whether to use sudo before commands when using puppetrun_provider puppetssh
-#                               type:boolean
+#                               type:Boolean
 #
 # $puppetssh_command::          The command used by puppetrun_provider puppetssh
+#                               type:String
 #
 # $puppetssh_user::             The user for puppetrun_provider puppetssh
+#                               type:String
 #
 # $puppetssh_keyfile::          The keyfile for puppetrun_provider puppetssh commands
+#                               type:Stdlib::Absolutepath
 #
 # $puppetssh_wait::             Whether to wait for completion of the Puppet command over SSH and return
 #                               the exit code
-#                               type:boolean
+#                               type:Boolean
 #
 # $salt_puppetrun_cmd::         Salt command to trigger Puppet run
+#                               type:String
 #
 # $puppet_user::                Which user to invoke sudo as to run puppet commands
+#                               type:String
 #
 # $puppet_url::                 URL of the Puppet master itself for API requests
+#                               type:Stdlib::HTTPUrl
 #
 # $puppet_ssl_ca::              SSL CA used to verify connections when accessing the Puppet master API
+#                               type:Stdlib::Absolutepath
 #
 # $puppet_ssl_cert::            SSL certificate used when accessing the Puppet master API
+#                               type:Stdlib::Absolutepath
 #
 # $puppet_ssl_key::             SSL private key used when accessing the Puppet master API
+#                               type:Stdlib::Absolutepath
 #
 # $puppet_use_environment_api:: Override use of Puppet's API to list environments.  When unset, the proxy will
 #                               try to determine this automatically.
-#                               type:boolean
+#                               type:Optional[Boolean]
 #
 # $templates::                  Enable templates feature
-#                               type:boolean
+#                               type:Boolean
 #
 # $templates_listen_on::        Templates proxy to listen on https, http, or both
+#                               type:Foreman_proxy::ListenOn
 #
 # $template_url::               URL a client should use for provisioning templates
+#                               type:Stdlib::HTTPUrl
 #
 # $logs::                       Enable Logs (log buffer) feature
-#                               type:boolean
+#                               type:Boolean
 #
 # $logs_listen_on::             Logs proxy to listen on https, http, or both
+#                               type:Foreman_proxy::ListenOn
 #
 # $tftp::                       Enable TFTP feature
-#                               type:boolean
+#                               type:Boolean
 #
 # $tftp_listen_on::             TFTP proxy to listen on https, http, or both
+#                               type:Foreman_proxy::ListenOn
 #
 # $tftp_managed::               TFTP is managed by Foreman proxy
-#                               type:boolean
+#                               type:Boolean
 #
 # $tftp_manage_wget::           If enabled will install the wget package
-#                               type:boolean
+#                               type:Boolean
 #
 # $tftp_syslinux_filenames::    Syslinux files to install on TFTP (full paths)
-#                               type:array
+#                               type:Array[Stdlib::Absolutepath]
 #
 # $tftp_root::                  TFTP root directory
+#                               type:Stdlib::Absolutepath
 #
 # $tftp_dirs::                  Directories to be create in $tftp_root
-#                               type:array
+#                               type:Array[Stdlib::Absolutepath]
 #
 # $tftp_servername::            Defines the TFTP Servername to use, overrides the name in the subnet declaration
+#                               type:Optional[String]
 #
 # $dhcp::                       Enable DHCP feature
-#                               type:boolean
+#                               type:Boolean
 #
 # $dhcp_listen_on::             DHCP proxy to listen on https, http, or both
+#                               type:Foreman_proxy::ListenOn
 #
 # $dhcp_managed::               DHCP is managed by Foreman proxy
-#                               type:boolean
+#                               type:Boolean
 #
 # $dhcp_provider::              DHCP provider
+#                               type:String
 #
 # $dhcp_subnets::               Subnets list to restrict DHCP management to
-#                               type:array
+#                               type:Array[String]
 #
 # $dhcp_option_domain::         DHCP use the dhcpd config option domain-name
-#                               type:array
+#                               type:Array[String]
 #
 # $dhcp_search_domains::        DHCP search domains option
-#                               type:array
+#                               type:Optional[Array[String]]
 #
 # $dhcp_interface::             DHCP listen interface
+#                               type:String
 #
 # $dhcp_gateway::               DHCP pool gateway
+#                               type:Optional[String]
 #
 # $dhcp_range::                 Space-separated DHCP pool range
+#                               type:Optional[String]
 #
-# $dhcp_nameservers::           DHCP nameservers
+# $dhcp_nameservers::           DHCP nameservers, comma-separated
+#                               type:String
 #
 # $dhcp_server::                Address of DHCP server to manage
+#                               type:String
 #
 # $dhcp_config::                DHCP config file path
+#                               type:Stdlib::Absolutepath
 #
 # $dhcp_leases::                DHCP leases file
+#                               type:Stdlib::Absolutepath
 #
 # $dhcp_key_name::              DHCP key name
+#                               type:Optional[String]
 #
 # $dhcp_key_secret::            DHCP password
+#                               type:Optional[String]
 #
 # $dhcp_omapi_port::            DHCP server OMAPI port
-#                               type:integer
+#                               type:Integer[0, 65535]
 #
 # $dns::                        Enable DNS feature
-#                               type:boolean
+#                               type:Boolean
 #
 # $dns_listen_on::              DNS proxy to listen on https, http, or both
+#                               type:Foreman_proxy::ListenOn
 #
 # $dns_managed::                DNS is managed by Foreman proxy
-#                               type:boolean
+#                               type:Boolean
 #
 # $dns_provider::               DNS provider
+#                               type:String
 #
 # $dns_interface::              DNS interface
+#                               type:String
 #
 # $dns_zone::                   DNS zone name
+#                               type:String
 #
 # $dns_reverse::                DNS reverse zone name
+#                               type:String
 #
 # $dns_server::                 Address of DNS server to manage
+#                               type:String
 #
 # $dns_ttl::                    DNS default TTL override
+#                               type:Integer[0]
 #
 # $dns_tsig_keytab::            Kerberos keytab for DNS updates using GSS-TSIG authentication
+#                               type:String
 #
 # $dns_tsig_principal::         Kerberos principal for DNS updates using GSS-TSIG authentication
+#                               type:String
 #
 # $dns_forwarders::             DNS forwarders
-#                               type:array
+#                               type:Array[String]
 #
 # $libvirt_connection::         Connection string of libvirt DNS/DHCP provider (e.g. "qemu:///system")
+#                               type:String
 #
 # $libvirt_network::            Network for libvirt DNS/DHCP provider
+#                               type:String
 #
 # $bmc::                        Enable BMC feature
-#                               type:boolean
+#                               type:Boolean
 #
 # $bmc_listen_on::              BMC proxy to listen on https, http, or both
+#                               type:Foreman_proxy::ListenOn
 #
 # $bmc_default_provider::       BMC default provider.
+#                               type:String
 #
 # $keyfile::                    DNS server keyfile path
+#                               type:Stdlib::Absolutepath
 #
 # $realm::                      Enable realm management feature
-#                               type:boolean
+#                               type:Boolean
 #
 # $realm_listen_on::            Realm proxy to listen on https, http, or both
+#                               type:Foreman_proxy::ListenOn
 #
 # $realm_provider::             Realm management provider
+#                               type:String
 #
 # $realm_keytab::               Kerberos keytab path to authenticate realm updates
+#                               type:Stdlib::Absolutepath
 #
 # $realm_principal::            Kerberos principal for realm updates
+#                               type:String
 #
 # $freeipa_remove_dns::         Remove DNS entries from FreeIPA when deleting hosts from realm
-#                               type:boolean
+#                               type:Boolean
 #
 # $register_in_foreman::        Register proxy back in Foreman
-#                               type:boolean
+#                               type:Boolean
 #
 # $registered_name::            Proxy name which is registered in Foreman
+#                               type:String
 #
 # $registered_proxy_url::       Proxy URL which is registered in Foreman
+#                               type:Optional[Stdlib::HTTPUrl]
 #
 # $foreman_base_url::           Base Foreman URL used for REST interaction
+#                               type:Stdlib::HTTPUrl
 #
 # $oauth_effective_user::       User to be used for REST interaction
+#                               type:String
 #
 # $oauth_consumer_key::         OAuth key to be used for REST interaction
+#                               type:String
 #
 # $oauth_consumer_secret::      OAuth secret to be used for REST interaction
+#                               type:String
 #
 # $puppet_use_cache::           Whether to enable caching of puppet classes
-#                               type:boolean
+#                               type:Optional[Boolean]
 #
 class foreman_proxy (
   $repo                       = $foreman_proxy::params::repo,

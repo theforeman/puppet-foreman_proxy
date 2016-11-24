@@ -17,3 +17,4 @@ fixtures:
 
   symlinks:
     foreman_proxy: "#{source_dir}"
+    test: "#{source_dir}/spec/static_fixtures/test_module"
