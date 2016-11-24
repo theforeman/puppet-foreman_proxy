@@ -324,24 +324,25 @@ describe 'foreman_proxy::config' do
             it { should contain_package('grub2-efi-modules').with_ensure('installed') }
             it { should contain_package('grub2-tools').with_ensure('installed') }
             it { should contain_package('shim').with_ensure('installed') }
-            it 'should generate efi image from grub2 modules' do
-              should contain_exec('build-grub2-efi-image').
-                with_creates("#{tftp_root}/grub2/grubx64.efi")
-              should contain_file("#{tftp_root}/grub2/grubx64.efi").
-                with_mode('0644').
-                with_owner('root').
-                that_requires('Exec[build-grub2-efi-image]')
-            end
             case facts[:operatingsystem]
               when /^(RedHat|Scientific|OracleLinux)$/
+                it 'should copy the grubx64.efi for Red Hat and clones' do
+                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/redhat/grubx64.efi')
+                end
                 it 'should copy the shim.efi for Red Hat and clones' do
                   should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/redhat/shim.efi')
                 end
               when 'Fedora'
+                it 'should copy the grubx64.efi for Red Hat and clones' do
+                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/fedora/grubx64.efi')
+                end
                 it 'should copy the shim.efi for Fedora' do
                   should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/fedora/shim.efi')
                 end
               when 'CentOS'
+                it 'should copy the grubx64.efi for Red Hat and clones' do
+                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/centos/grubx64.efi')
+                end
                 it 'should copy the shim.efi for CentOS' do
                   should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/centos/shim.efi')
                 end
