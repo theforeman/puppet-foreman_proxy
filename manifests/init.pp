@@ -246,6 +246,9 @@
 # $dhcp_nameservers::           DHCP nameservers, comma-separated
 #                               type:String
 #
+# $dhcp_pxeserver::             DHCP "next-server" value, defaults otherwise to IP of dhcp_interface
+#                               type:Optional[String]
+#
 # $dhcp_server::                Address of DHCP server to manage
 #                               type:String
 #
@@ -438,6 +441,7 @@ class foreman_proxy (
   $dhcp_interface             = $foreman_proxy::params::dhcp_interface,
   $dhcp_gateway               = $foreman_proxy::params::dhcp_gateway,
   $dhcp_range                 = $foreman_proxy::params::dhcp_range,
+  $dhcp_pxeserver             = $foreman_proxy::params::dhcp_pxeserver,
   $dhcp_nameservers           = $foreman_proxy::params::dhcp_nameservers,
   $dhcp_server                = $foreman_proxy::params::dhcp_server,
   $dhcp_config                = $foreman_proxy::params::dhcp_config,
@@ -522,6 +526,9 @@ class foreman_proxy (
   validate_integer($dhcp_omapi_port)
   validate_string($dhcp_provider, $dhcp_server)
   validate_array($dhcp_subnets)
+  if $dhcp_pxeserver {
+    validate_string($dhcp_pxeserver)
+  }
 
   # Validate dns params
   validate_bool($dns)

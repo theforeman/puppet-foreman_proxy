@@ -265,6 +265,7 @@ class foreman_proxy::params {
   $dhcp_range              = undef
   $dhcp_option_domain      = [$::domain]
   $dhcp_search_domains     = undef
+  $dhcp_pxeserver          = undef
   # This will use the IP of the interface in $dhcp_interface, override
   # if you need to. You can make this a comma-separated string too - it
   # will be split into an array
