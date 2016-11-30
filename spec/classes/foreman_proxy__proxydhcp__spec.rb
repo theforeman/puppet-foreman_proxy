@@ -115,6 +115,25 @@ describe 'foreman_proxy::proxydhcp' do
             'search_domains' => ['example.com','example.org']
         ) end
       end
+
+      context "with dhcp_pxeserver" do
+        let :facts do
+          facts.merge({:ipaddress_eth0 => '127.0.1.1',
+                       :netmask_eth0   => '255.0.0.0',
+                       :network_eth0   => '127.0.0.0'})
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy':
+            dhcp_range     => false,
+            dhcp_pxeserver => '127.0.1.200'
+          }"
+        end
+
+        it do should contain_class('dhcp').with(
+            'pxeserver'   => '127.0.1.200',
+        ) end
+      end
     end
   end
 end
