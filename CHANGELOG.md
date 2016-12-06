@@ -1,5 +1,40 @@
 # Changelog
 
+## 5.0.0
+* New or changed parameters:
+    * Add groups parameter for additional foreman-proxy user groups
+    * Add dhcp_pxeserver parameter to override DHCP next-server value (#16942)
+    * Permit dns_reverse to be an array of zone names
+* New or changed parameters on smart proxy plugin classes:
+    * Add foreman_proxy::plugin::ansible class for the Ansible plugin
+    * Add foreman_proxy::plugin::dhcp::infoblox class for Infoblox DHCP plugin
+    * Add foreman_proxy::plugin::dns::infoblox class for Infoblox DNS plugin
+    * Add foreman_proxy::plugin::monitoring class for monitoring plugin
+    * Add foreman_proxy::plugin::omaha class for the Omaha plugin
+* Other changes and fixes:
+    * Add Arch Linux support
+    * Change sudo puppetrun_cmd rule to be optional when no provider is set
+    * Don't create TFTP directories and files when tftp_managed is false
+    * Change grubx64.efi to signed copy from /boot instead of building (#16705)
+    * Change parameter documentation to use Puppet 4 style typing
+    * Change foreman_proxy::plugin::pulp's puppet_content_dir parameter default
+      to use the $puppet_environmentpath fact
+    * Fix dhcp_range default to be undef
+    * Refactor puppetssh_command default values
+    * Support modules dns 4.x, dhcp 3.x, foreman 7.x, puppet 7.x, tftp 2.x
+* Compatibility warnings:
+    * Drop support for Ruby 1.8.7
+
+## 4.0.3
+* Fix source EFI boot loader path for CentOS 6 (#289)
+
+## 4.0.2
+* Add symlink for dynflow_core settings directory to proxy (#16050)
+
+## 4.0.1
+* Remove management of remote_execution_ssh_core plugin, causing errors on some
+  OSes (#287)
+
 ## 4.0.0
 * New or changed parameters:
     * Add manage_puppet_group parameter to ensure the puppet group exists when
