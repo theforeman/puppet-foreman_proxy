@@ -122,7 +122,7 @@
 #                               type:Foreman_proxy::ListenOn
 #
 # $puppetrun_provider::         Provider for running/kicking Puppet agents
-#                               type:Optional[String]
+#                               type:Optional[Enum['puppetrun', 'mcollective', 'ssh', 'salt', 'customrun']]
 #
 # $puppetrun_cmd::              Puppet run/kick command to be allowed in sudoers
 #                               type:String
@@ -316,7 +316,7 @@
 #                               type:Foreman_proxy::ListenOn
 #
 # $bmc_default_provider::       BMC default provider.
-#                               type:String
+#                               type:Enum['ipmitool', 'freeipmi', 'shell']
 #
 # $keyfile::                    DNS server keyfile path
 #                               type:Stdlib::Absolutepath
@@ -328,7 +328,7 @@
 #                               type:Foreman_proxy::ListenOn
 #
 # $realm_provider::             Realm management provider
-#                               type:String
+#                               type:Enum['freeipa']
 #
 # $realm_keytab::               Kerberos keytab path to authenticate realm updates
 #                               type:Stdlib::Absolutepath
@@ -505,6 +505,7 @@ class foreman_proxy (
   }
   if $puppetrun_provider {
     validate_string($puppetrun_provider)
+    validate_re($puppetrun_provider, '^puppetrun|mcollective|ssh|salt|customrun$', 'Invalid provider: choose puppetrun, mcollective, ssh, salt or customrun')
   }
 
   # Validate template params
@@ -548,6 +549,7 @@ class foreman_proxy (
   # Validate realm params
   validate_bool($freeipa_remove_dns)
   validate_string($realm_provider, $realm_principal)
+  validate_re($realm_provider, '^freeipa$', 'Invalid provider: choose freeipa')
   validate_absolute_path($realm_keytab)
 
   $real_registered_proxy_url = pick($registered_proxy_url, "https://${::fqdn}:${ssl_port}")
