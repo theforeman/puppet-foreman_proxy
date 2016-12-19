@@ -512,6 +512,17 @@ describe 'foreman_proxy::config' do
         end
       end
 
+      context 'with invalid realm provider' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            realm => true,
+            realm_provider => "invalid",
+          }'
+        end
+
+        it { expect { subject.call } .to raise_error(/Invalid provider: choose freeipa/) }
+      end
+
       context 'with tftp_managed enabled and tftp_syslinux_filenames set' do
         let :pre_condition do
           'class {"foreman_proxy":
@@ -735,6 +746,16 @@ describe 'foreman_proxy::config' do
             ':use_environment_api: false',
           ])
         end
+      end
+
+      context 'when puppetrun_provider => invalid' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            puppetrun_provider => "invalid",
+          }'
+        end
+
+        it { expect { subject.call } .to raise_error(/Invalid provider: choose puppetrun, mcollective, ssh, salt or customrun/) }
       end
 
       context 'with puppet use_cache enabled' do
