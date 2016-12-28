@@ -31,6 +31,14 @@ class foreman_proxy::plugin::ansible (
     validate_absolute_path($working_dir)
   }
 
+  file {"${::foreman_proxy::dir}/.ansible.cfg":
+    ensure  => file,
+    content => template('foreman_proxy/plugin/ansible.cfg.erb'),
+    owner   => 'root',
+    group   => $::foreman_proxy::user,
+    mode    => '0640',
+  }
+
   include ::foreman_proxy::plugin::dynflow
 
   foreman_proxy::plugin { 'ansible':
