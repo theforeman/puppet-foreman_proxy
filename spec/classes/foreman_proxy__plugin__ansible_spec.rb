@@ -18,6 +18,13 @@ describe 'foreman_proxy::plugin::ansible' do
         with_content(/:enabled: https/).
         with_content(%r{:ansible_dir: /etc/ansible})
     end
+
+    it 'should configure ansible.cfg' do
+      should contain_file('/usr/share/foreman-proxy/.ansible.cfg').
+        with_content(%r{[default]}).
+        with_content(%r{callback_whitelist = foreman}).
+        with_content(%r{local_tmp = /tmp})
+    end
   end
 
   describe 'with override parameters' do
@@ -29,7 +36,7 @@ describe 'foreman_proxy::plugin::ansible' do
       {
         :enabled     => true,
         :ansible_dir => '/etc/ansible-test',
-        :working_dir => '/tmp'
+        :working_dir => '/tmp/ansible'
       }
     end
 
@@ -39,7 +46,14 @@ describe 'foreman_proxy::plugin::ansible' do
       should contain_file('/etc/foreman-proxy/settings.d/ansible.yml').
         with_content(/:enabled: https/).
         with_content(%r{:ansible_dir: /etc/ansible-test}).
-        with_content(%r{:working_dir: /tmp})
+        with_content(%r{:working_dir: /tmp/ansible})
+    end
+
+    it 'should configure ansible.cfg' do
+      should contain_file('/usr/share/foreman-proxy/.ansible.cfg').
+        with_content(%r{[default]}).
+        with_content(%r{callback_whitelist = foreman}).
+        with_content(%r{local_tmp = /tmp/ansible})
     end
   end
 end
