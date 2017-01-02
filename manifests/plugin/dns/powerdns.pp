@@ -5,7 +5,7 @@
 # === Parameters:
 #
 # $backend::               The backend to select, either mysql or postgresql.
-#                          type:Enum['mysql', 'postgresql']
+#                          type:Enum['rest', 'mysql', 'postgresql']
 #
 # $mysql_hostname::        MySQL server hostname. Only used when the backend is mysql.
 #                          type:String
@@ -20,6 +20,12 @@
 #                          type:String
 #
 # $postgresql_connection:: The postgresql connection string.
+#                          type:String
+#
+# $rest_url::              The REST API URL
+#                          type:Stdlib::HTTPUrl
+#
+# $rest_api_key::          The REST API key
 #                          type:String
 #
 # $manage_database::       Whether to manage the database. Only works for
@@ -37,12 +43,14 @@ class foreman_proxy::plugin::dns::powerdns (
   $mysql_password        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_password,
   $mysql_database        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_database,
   $postgresql_connection = $::foreman_proxy::plugin::dns::powerdns::params::postgresql_connection,
+  $rest_url              = $::foreman_proxy::plugin::dns::powerdns::params::rest_url,
+  $rest_api_key          = $::foreman_proxy::plugin::dns::powerdns::params::rest_api_key,
   $manage_database       = $::foreman_proxy::plugin::dns::powerdns::params::manage_database,
   $pdnssec               = $::foreman_proxy::plugin::dns::powerdns::params::pdnssec,
 ) inherits foreman_proxy::plugin::dns::powerdns::params {
   validate_bool($manage_database)
-  validate_re($backend, '^mysql|postgresql$', 'Invalid backend: choose mysql or postgresql')
-  validate_string($mysql_hostname, $mysql_username, $mysql_password, $mysql_database, $postgresql_connection, $pdnssec)
+  validate_re($backend, '^rest|mysql|postgresql$', 'Invalid backend: choose rest, mysql or postgresql')
+  validate_string($mysql_hostname, $mysql_username, $mysql_password, $mysql_database, $postgresql_connection, $rest_url, $rest_api_key, $pdnssec)
 
   if $manage_database and $backend == 'mysql' {
     include ::mysql::server
