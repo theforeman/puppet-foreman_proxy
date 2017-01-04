@@ -31,7 +31,7 @@
 #
 # === Advanced parameters:
 #
-# $enabled::                    Enables/disables the plugin
+# $enabled::                    Enables/disables the abrt plugin
 #                               type:Boolean
 #
 # $group::                      group owner of the configuration file

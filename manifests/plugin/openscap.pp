@@ -28,7 +28,7 @@
 #
 # === Advanced parameters:
 #
-# $enabled::                    enables/disables the plugin
+# $enabled::                    enables/disables the openscap plugin
 #                               type:Boolean
 #
 # $listen_on::                  Proxy feature listens on http, https, or both

@@ -24,7 +24,7 @@
 #
 # === Advanced parameters:
 #
-# $enabled::      enables/disables the plugin
+# $enabled::      enables/disables the chef plugin
 #                 type:Boolean
 #
 # $group::        group owner of the configuration file

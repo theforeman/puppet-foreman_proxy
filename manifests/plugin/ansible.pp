@@ -11,7 +11,7 @@
 #                A tmp directory will be created when left blank
 #                type:Optional[Stdlib::Absolutepath]
 #
-# $enabled::     Enables/disables the plugin
+# $enabled::     Enables/disables the ansible plugin
 #                type:Boolean
 #
 # $listen_on::   Proxy feature listens on https, http, or both
