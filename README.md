@@ -3,7 +3,7 @@
 Installs and configures the Foreman Smart Proxy and services that it can
 interact with, e.g. DNS, DHCP and Puppet and TFTP.
 
-Part of the Foreman installer: http://github.com/theforeman/foreman-installer
+Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 
 ## PowerDNS support
 
@@ -28,15 +28,31 @@ configuration layout changed significantly.
 To configure older versions of the Smart Proxy use version 2.x of this module
 for 1.5 to 1.10 and 3.x for 1.11.
 
-# Contributing
+## Examples
+
+### Minimal setup for Puppet/PuppetCA Smart Proxy
+
+```puppet
+class{'::foreman_proxy':
+  puppet   => true,
+  puppetca => true,
+  tftp     => false,
+  dhcp     => false,
+  dns      => false,
+  bmc      => false,
+  realm    => false,
+}
+```
+
+## Contributing
 
 * Fork the project
 * Commit and push until you are happy with your contribution
 * Send a pull request with a description of your changes
 
-# More info
+## More info
 
-See http://theforeman.org or at #theforeman irc channel on freenode
+See <https://theforeman.org> or at #theforeman irc channel on freenode
 
 Copyright (c) 2010-2013 Ohad Levy and their respective owners
 
@@ -51,4 +67,4 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
