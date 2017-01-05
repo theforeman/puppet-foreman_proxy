@@ -28,6 +28,22 @@ configuration layout changed significantly.
 To configure older versions of the Smart Proxy use version 2.x of this module
 for 1.5 to 1.10 and 3.x for 1.11.
 
+## Examples
+
+### Minimal setup for Puppet/PuppetCA Smart Proxy
+
+```puppet
+class{'::foreman_proxy':
+  puppet   => true,
+  puppetca => true,
+  tftp     => false,
+  dhcp     => false,
+  dns      => false,
+  bmc      => false,
+  realm    => false,
+}
+```
+
 # Contributing
 
 * Fork the project
