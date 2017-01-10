@@ -27,7 +27,7 @@
 #
 # === Advanced parameters:
 #
-# $enabled::         Enables/disables the plugin
+# $enabled::         Enables/disables the salt plugin
 #                    type:Boolean
 #
 # $group::           Owner of plugin configuration

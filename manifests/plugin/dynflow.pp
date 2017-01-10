@@ -12,7 +12,7 @@
 #
 # === Advanced parameters:
 #
-# $enabled::         Enables/disables the plugin
+# $enabled::         Enables/disables the dynflow plugin
 #                    type:Boolean
 #
 # $listen_on::       Proxy feature listens on https, http, or both
