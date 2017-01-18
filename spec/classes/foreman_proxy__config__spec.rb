@@ -927,7 +927,7 @@ describe 'foreman_proxy::config' do
           end
 
           it "should not modify #{etc_dir}/sudoers" do
-            should_not contain_file("#{{etc_dir}/sudoers}")
+            should_not contain_file("#{etc_dir}/sudoers")
           end
         end
 
