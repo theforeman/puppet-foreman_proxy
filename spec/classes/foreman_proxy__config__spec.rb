@@ -962,6 +962,7 @@ describe 'foreman_proxy::config' do
             let :pre_condition do
               'class {"foreman_proxy":
                 use_sudoers  => true,
+                use_sudoersd => false,
                 puppetca     => false,
               }'
             end
@@ -980,6 +981,7 @@ describe 'foreman_proxy::config' do
             let :pre_condition do
               'class {"foreman_proxy":
                 use_sudoers        => true,
+                use_sudoersd       => false,
                 puppetrun_provider => "puppetrun",
               }'
             end
