@@ -199,12 +199,22 @@ class foreman_proxy::params {
 
   $sudoers = "${etc}/sudoers"
 
+  # Whether to manage File["$etc/sudoers"] or not.  When reusing this module,
+  # this may be disabled to let a dedicated sudo module manage it instead.
+  $manage_sudoers = true
+
   # Whether to manage File["$etc/sudoers.d"] or not.  When reusing this module,
   # this may be disabled to let a dedicated sudo module manage it instead.
   $manage_sudoersd = true
 
-  # Add a file to /etc/sudoers.d (true) or uses augeas (false)
+  # Setting both $use_sudoersd and $use_sudoers to false means this module will not
+  # touch any sudoers entries. Setting both to true will result in sudoersd winning.
+  # Add a file to /etc/sudoers.d (true).
   $use_sudoersd = true
+
+  # Add contents to /etc/sudoers (true). Defaults to false.
+  $use_sudoers = false
+
 
   # puppet settings
   $puppet_url                 = "https://${::fqdn}:8140"
