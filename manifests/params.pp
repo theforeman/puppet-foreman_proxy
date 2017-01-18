@@ -199,10 +199,6 @@ class foreman_proxy::params {
 
   $sudoers = "${etc}/sudoers"
 
-  # Whether to manage File["$etc/sudoers"] or not.  When reusing this module,
-  # this may be disabled to let a dedicated sudo module manage it instead.
-  $manage_sudoers = true
-
   # Whether to manage File["$etc/sudoers.d"] or not.  When reusing this module,
   # this may be disabled to let a dedicated sudo module manage it instead.
   $manage_sudoersd = true
