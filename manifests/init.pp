@@ -93,7 +93,7 @@
 # $use_sudoersd::               Add a file to /etc/sudoers.d (true).
 #                               type:Boolean
 #
-# $use_sudoers::                Add contents to /etc/sudoers (true).
+# $use_sudoers::                Add contents to /etc/sudoers (true). This is ignored if $use_sudoersd is true.
 #                               type:Boolean
 #
 # $puppetca::                   Enable Puppet CA feature
