@@ -208,9 +208,8 @@ class foreman_proxy::params {
   # Add a file to /etc/sudoers.d (true).
   $use_sudoersd = true
 
-  # Add contents to /etc/sudoers (true). Defaults to false.
-  $use_sudoers = false
-
+  # Add contents to /etc/sudoers (true, only if $use_sudoers is false).
+  $use_sudoers = true
 
   # puppet settings
   $puppet_url                 = "https://${::fqdn}:8140"
