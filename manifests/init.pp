@@ -90,7 +90,10 @@
 #                               disabled to let a dedicated sudo module manage it instead.
 #                               type:Boolean
 #
-# $use_sudoersd::               Add a file to /etc/sudoers.d (true) or uses augeas (false)
+# $use_sudoersd::               Add a file to /etc/sudoers.d (true).
+#                               type:Boolean
+#
+# $use_sudoers::                Add contents to /etc/sudoers (true). This is ignored if $use_sudoersd is true.
 #                               type:Boolean
 #
 # $puppetca::                   Enable Puppet CA feature
@@ -392,6 +395,7 @@ class foreman_proxy (
   $ssl_disabled_ciphers       = $foreman_proxy::params::ssl_disabled_ciphers,
   $manage_sudoersd            = $foreman_proxy::params::manage_sudoersd,
   $use_sudoersd               = $foreman_proxy::params::use_sudoersd,
+  $use_sudoers                = $foreman_proxy::params::use_sudoers,
   $puppetca                   = $foreman_proxy::params::puppetca,
   $puppetca_listen_on         = $foreman_proxy::params::puppetca_listen_on,
   $ssldir                     = $foreman_proxy::params::ssldir,
@@ -485,7 +489,7 @@ class foreman_proxy (
 
   # Validate misc params
   validate_string($bind_host)
-  validate_bool($ssl, $manage_sudoersd, $use_sudoersd, $register_in_foreman, $manage_puppet_group)
+  validate_bool($ssl, $manage_sudoersd, $use_sudoers, $use_sudoersd, $register_in_foreman, $manage_puppet_group)
   validate_array($trusted_hosts, $ssl_disabled_ciphers, $groups)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
   validate_re($plugin_version, '^(installed|present|latest|absent)$')
