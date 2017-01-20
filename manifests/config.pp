@@ -114,7 +114,7 @@ class foreman_proxy::config {
         mode    => '0440',
         content => template('foreman_proxy/sudo.erb'),
       }
-    } else {
+    } elsif $foreman_proxy::use_sudoers {
       augeas { 'sudo-foreman-proxy':
         context => "/files${::foreman_proxy::sudoers}",
         changes => template('foreman_proxy/sudo_augeas.erb'),

@@ -937,6 +937,19 @@ describe 'foreman_proxy::config' do
           ]
         end
 
+        context 'when use_sudoers => false' do
+          let :pre_condition do
+            'class {"foreman_proxy":
+              use_sudoers  => false,
+              use_sudoersd => false,
+            }'
+          end
+
+          it "should not modify #{etc_dir}/sudoers" do
+            should_not contain_augeas('sudo-foreman-proxy')
+          end
+        end
+
         context 'when puppetca => false' do
           let :pre_condition do
             'class {"foreman_proxy":
