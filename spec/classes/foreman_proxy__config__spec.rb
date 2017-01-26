@@ -586,6 +586,36 @@ describe 'foreman_proxy::config' do
         end
       end
 
+      context 'bind_host set to string' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            bind_host => "*",
+          }'
+        end
+
+        it 'should set bind_host to a string' do
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
+            ':bind_host: \'*\'',
+          ])
+        end
+      end
+
+      context 'bind_host set to array' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            bind_host => ["eth0", "192.168.0.1"],
+          }'
+        end
+
+        it 'should set bind_host to an array' do
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
+            ':bind_host:',
+            '  - "eth0"',
+            '  - "192.168.0.1"',
+          ])
+        end
+      end
+
       context 'when dns_provider => libvirt' do
         let :pre_condition do
           'class {"foreman_proxy":

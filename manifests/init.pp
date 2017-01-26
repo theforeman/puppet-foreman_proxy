@@ -24,7 +24,7 @@
 #                               type:Enum['latest', 'present', 'installed', 'absent']
 #
 # $bind_host::                  Host to bind ports to, e.g. *, localhost, 0.0.0.0
-#                               type:String
+#                               type:Variant[Array[String], String]
 #
 # $http::                       Enable HTTP
 #                               type:Boolean
@@ -488,7 +488,10 @@ class foreman_proxy (
 ) inherits foreman_proxy::params {
 
   # Validate misc params
-  validate_string($bind_host)
+  unless is_array($bind_host) {
+    validate_string($bind_host)
+    warning('foreman_proxy::bind_host should be changed to an array, support for string only is deprecated')
+  }
   validate_bool($ssl, $manage_sudoersd, $use_sudoers, $use_sudoersd, $register_in_foreman, $manage_puppet_group)
   validate_array($trusted_hosts, $ssl_disabled_ciphers, $groups)
   validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
