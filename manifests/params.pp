@@ -170,7 +170,7 @@ class foreman_proxy::params {
   $plugin_version          = 'installed'
 
   # Enable listening on http
-  $bind_host = '*'
+  $bind_host = ['*']
   $http      = false
   $http_port = '8000'
 

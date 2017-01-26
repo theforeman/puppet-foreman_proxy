@@ -82,8 +82,20 @@
 #:daemon_pid: /var/run/foreman-proxy/foreman-proxy.pid
 
 # host and ports configuration
-# Host or IPs to bind on (e.g. *, localhost, 0.0.0.0, ::, 192.168.1.20)
+<%# Write bind_host as a string if given a single-element array for 1.14 compatibility -%>
+<% if scope.lookupvar("foreman_proxy::bind_host").is_a?(String) -%>
+# Host or IP to bind ports to (e.g. *, localhost, 0.0.0.0, ::, 192.168.1.20)
 :bind_host: '<%= scope.lookupvar("foreman_proxy::bind_host") %>'
+<% elsif scope.lookupvar("foreman_proxy::bind_host").length == 1 -%>
+# Host or IP to bind ports to (e.g. *, localhost, 0.0.0.0, ::, 192.168.1.20)
+:bind_host: '<%= scope.lookupvar("foreman_proxy::bind_host").first %>'
+<% else -%>
+# An array of hosts or IPs to bind ports to (e.g. *, localhost, 0.0.0.0, ::, 192.168.1.20)
+:bind_host:
+<% scope.lookupvar("foreman_proxy::bind_host").each do |h| -%>
+<%= "  - #{h.inspect}" %>
+<% end -%>
+<% end -%>
 # http is disabled by default. To enable, uncomment 'http_port' setting
 # https is enabled if certificate, CA certificate, and private key are present in locations specifed by
 # ssl_certificate, ssl_ca_file, and ssl_private_key correspondingly
