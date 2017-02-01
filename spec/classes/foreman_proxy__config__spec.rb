@@ -301,7 +301,7 @@ describe 'foreman_proxy::config' do
 
           it 'should generate efi image from grub2 modules for Debian' do
             should contain_exec('build-grub2-efi-image').
-              with_creates("#{tftp_root}/grub2/grubx64.efi")
+              with_unless("/bin/grep -q regexp '#{tftp_root}/grub2/grubx64.efi'")
             should contain_file("#{tftp_root}/grub2/grubx64.efi").
               with_mode('0644').
               with_owner('root').
