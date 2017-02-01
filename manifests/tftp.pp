@@ -32,8 +32,8 @@ class foreman_proxy::tftp {
     }
     'Debian': {
       $grub_type = 'debian'
-      # taken from https://anonscm.debian.org/cgit/pkg-grub/grub.git/tree/debian/build-efi-images
-      $grub_modules = 'all_video boot btrfs cat chain configfile echo efifwsetup efinet ext2 fat font gettext gfxmenu gfxterm gfxterm_background gzio halt hfsplus iso9660 jpeg keystatus loadenv linux lsefi lsefimmap lsefisystab lssal memdisk minicmd normal part_apple part_msdos part_gpt password_pbkdf2 png reboot search search_fs_uuid search_fs_file search_label sleep test true video zfs zfscrypt zfsinfo linuxefi lvm mdraid09 mdraid1x raid5rec raid6rec tftp'
+      # taken from https://anonscm.debian.org/cgit/pkg-grub/grub.git/tree/debian/build-efi-images + regexp
+      $grub_modules = 'all_video boot btrfs cat chain configfile echo efifwsetup efinet ext2 fat font gettext gfxmenu gfxterm gfxterm_background gzio halt hfsplus iso9660 jpeg keystatus loadenv linux lsefi lsefimmap lsefisystab lssal memdisk minicmd normal part_apple part_msdos part_gpt password_pbkdf2 png reboot search search_fs_uuid search_fs_file search_label sleep test true video zfs zfscrypt zfsinfo linuxefi lvm mdraid09 mdraid1x raid5rec raid6rec tftp regexp'
     }
     default: {
       warning("Unable to detect EFI loader for OS family '${::osfamily}'")
@@ -97,7 +97,7 @@ class foreman_proxy::tftp {
 
       exec {'build-grub2-efi-image':
         command => "/usr/bin/grub-mkimage -O x86_64-efi -d ${efi_dir} -o ${foreman_proxy::tftp_root}/grub2/grubx64.efi -p '' ${grub_modules}",
-        creates => "${foreman_proxy::tftp_root}/grub2/grubx64.efi",
+        unless  => "/bin/grep -q regexp '${foreman_proxy::tftp_root}/grub2/grubx64.efi'",
         require => [File[$foreman_proxy::tftp_dirs], Package['grub-common','grub-efi-amd64-bin']],
       } ->
       file {"${foreman_proxy::tftp_root}/grub2/grubx64.efi":
