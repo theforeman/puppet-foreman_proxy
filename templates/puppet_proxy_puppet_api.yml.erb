@@ -12,3 +12,6 @@
 :puppet_ssl_ca: <%= scope.lookupvar("foreman_proxy::puppet_ssl_ca") %>
 :puppet_ssl_cert: <%= scope.lookupvar("foreman_proxy::puppet_ssl_cert") %>
 :puppet_ssl_key: <%= scope.lookupvar("foreman_proxy::puppet_ssl_key") %>
+#
+# Smart Proxy api timeout when Puppet's environment classes api is used and classes cache is disabled
+:api_timeout: <%= scope.lookupvar("foreman_proxy::puppet_api_timeout") %>
