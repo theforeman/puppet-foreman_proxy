@@ -177,6 +177,9 @@
 #                               try to determine this automatically.
 #                               type:Optional[Boolean]
 #
+# $puppet_api_timeout::         Timeout in seconds when accessing Puppet environment classes API
+#                               type:Integer[0]
+#
 # $templates::                  Enable templates feature
 #                               type:Boolean
 #
@@ -422,6 +425,7 @@ class foreman_proxy (
   $puppet_ssl_cert            = $foreman_proxy::params::ssl_cert,
   $puppet_ssl_key             = $foreman_proxy::params::ssl_key,
   $puppet_use_environment_api = $foreman_proxy::params::puppet_use_environment_api,
+  $puppet_api_timeout         = $foreman_proxy::params::puppet_api_timeout,
   $templates                  = $foreman_proxy::params::templates,
   $templates_listen_on        = $foreman_proxy::params::templates_listen_on,
   $template_url               = $foreman_proxy::params::template_url,
@@ -507,6 +511,7 @@ class foreman_proxy (
   validate_string($ssldir, $puppetdir, $puppetca_cmd, $puppetrun_cmd)
   validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
   validate_string($mcollective_user, $salt_puppetrun_cmd)
+  validate_integer($puppet_api_timeout)
   if $puppet_use_cache != undef {
     validate_bool($puppet_use_cache)
   }
