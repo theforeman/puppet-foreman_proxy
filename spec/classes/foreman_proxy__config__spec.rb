@@ -213,6 +213,7 @@ describe 'foreman_proxy::config' do
             ":puppet_ssl_ca: #{ssl_dir}/certs/ca.pem",
             ":puppet_ssl_cert: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
             ":puppet_ssl_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
+            ":api_timeout: 30",
           ])
         end
 
@@ -774,6 +775,20 @@ describe 'foreman_proxy::config' do
         it 'should set puppet_use_environment_api' do
           verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_legacy.yml", [
             ':use_environment_api: false',
+          ])
+        end
+      end
+
+      context 'when puppet_api_timeout set' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            puppet_api_timeout => 600,
+          }'
+        end
+
+        it 'should set puppet_api_timeout' do
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_puppet_api.yml", [
+            ':api_timeout: 600',
           ])
         end
       end
