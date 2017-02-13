@@ -345,6 +345,9 @@
 # $realm_principal::            Kerberos principal for realm updates
 #                               type:String
 #
+# $freeipa_config::             Path to FreeIPA default.conf configuration file
+#                               type:Stdlib::Absolutepath
+#
 # $freeipa_remove_dns::         Remove DNS entries from FreeIPA when deleting hosts from realm
 #                               type:Boolean
 #
@@ -483,6 +486,7 @@ class foreman_proxy (
   $realm_provider             = $foreman_proxy::params::realm_provider,
   $realm_keytab               = $foreman_proxy::params::realm_keytab,
   $realm_principal            = $foreman_proxy::params::realm_principal,
+  $freeipa_config             = $foreman_proxy::params::freeipa_config,
   $freeipa_remove_dns         = $foreman_proxy::params::freeipa_remove_dns,
   $keyfile                    = $foreman_proxy::params::keyfile,
   $register_in_foreman        = $foreman_proxy::params::register_in_foreman,
@@ -564,7 +568,7 @@ class foreman_proxy (
 
   # Validate realm params
   validate_bool($freeipa_remove_dns, $realm_split_config_files)
-  validate_string($realm_provider, $realm_principal)
+  validate_string($realm_provider, $realm_principal, $freeipa_config)
   unless $realm_split_config_files {
     validate_re($realm_provider, '^freeipa$', 'Invalid provider: choose freeipa')
   }
