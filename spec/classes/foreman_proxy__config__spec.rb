@@ -546,6 +546,7 @@ describe 'foreman_proxy::config' do
             '---',
             ":keytab_path: #{etc_dir}/foreman-proxy/freeipa.keytab",
             ':principal: realm-proxy@EXAMPLE.COM',
+            ':ipa_config: /etc/ipa/default.conf',
             ':remove_dns: true',
           ])
         end
