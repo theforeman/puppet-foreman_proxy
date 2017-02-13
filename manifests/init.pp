@@ -330,11 +330,14 @@
 # $realm::                      Enable realm management feature
 #                               type:Boolean
 #
+# $realm_split_config_files::   Split realm configuration files. This is needed since version 1.15.
+#                               type:Boolean
+#
 # $realm_listen_on::            Realm proxy to listen on https, http, or both
 #                               type:Foreman_proxy::ListenOn
 #
 # $realm_provider::             Realm management provider
-#                               type:Enum['freeipa']
+#                               type:String
 #
 # $realm_keytab::               Kerberos keytab path to authenticate realm updates
 #                               type:Stdlib::Absolutepath
@@ -475,6 +478,7 @@ class foreman_proxy (
   $bmc_listen_on              = $foreman_proxy::params::bmc_listen_on,
   $bmc_default_provider       = $foreman_proxy::params::bmc_default_provider,
   $realm                      = $foreman_proxy::params::realm,
+  $realm_split_config_files   = $foreman_proxy::params::realm_split_config_files,
   $realm_listen_on            = $foreman_proxy::params::realm_listen_on,
   $realm_provider             = $foreman_proxy::params::realm_provider,
   $realm_keytab               = $foreman_proxy::params::realm_keytab,
@@ -559,9 +563,11 @@ class foreman_proxy (
   validate_re($bmc_default_provider, '^(freeipmi|ipmitool|shell)$')
 
   # Validate realm params
-  validate_bool($freeipa_remove_dns)
+  validate_bool($freeipa_remove_dns, $realm_split_config_files)
   validate_string($realm_provider, $realm_principal)
-  validate_re($realm_provider, '^freeipa$', 'Invalid provider: choose freeipa')
+  unless $realm_split_config_files {
+    validate_re($realm_provider, '^freeipa$', 'Invalid provider: choose freeipa')
+  }
   validate_absolute_path($realm_keytab)
 
   $real_registered_proxy_url = pick($registered_proxy_url, "https://${::fqdn}:${ssl_port}")

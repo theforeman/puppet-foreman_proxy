@@ -518,10 +518,37 @@ describe 'foreman_proxy::config' do
           'class {"foreman_proxy":
             realm => true,
             realm_provider => "invalid",
+            realm_split_config_files => false,
           }'
         end
 
         it { expect { subject.call } .to raise_error(/Invalid provider: choose freeipa/) }
+      end
+
+      context 'with realm_split_config_files => true' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            realm => true,
+            realm_split_config_files => true,
+          }'
+        end
+
+        it 'should generate correct realm.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/realm.yml", [
+            '---',
+            ':enabled: https',
+            ':use_provider: realm_freeipa',
+          ])
+        end
+
+        it 'should generate correct realm_freeipa.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/realm_freeipa.yml", [
+            '---',
+            ":keytab_path: #{etc_dir}/foreman-proxy/freeipa.keytab",
+            ':principal: realm-proxy@EXAMPLE.COM',
+            ':remove_dns: true',
+          ])
+        end
       end
 
       context 'with tftp_managed enabled and tftp_syslinux_filenames set' do
