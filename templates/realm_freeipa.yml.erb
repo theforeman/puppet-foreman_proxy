@@ -1,0 +1,7 @@
+---
+# Authentication for Kerberos-based Realms
+:keytab_path: <%= scope.lookupvar("foreman_proxy::realm_keytab") %>
+:principal: <%= scope.lookupvar("foreman_proxy::realm_principal") %>
+
+# Remove from DNS when deleting the FreeIPA entry
+:remove_dns: <%= scope.lookupvar("foreman_proxy::freeipa_remove_dns") %>

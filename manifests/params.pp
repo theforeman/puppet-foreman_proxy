@@ -315,6 +315,7 @@ class foreman_proxy::params {
   $realm_keytab       = "${etc}/foreman-proxy/freeipa.keytab"
   $realm_principal    = 'realm-proxy@EXAMPLE.COM'
   $freeipa_remove_dns = true
+  $realm_split_config_files = false
 
   # Proxy can register itself within a Foreman instance
   $register_in_foreman = true
