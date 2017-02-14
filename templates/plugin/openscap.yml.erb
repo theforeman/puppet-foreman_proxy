@@ -20,3 +20,7 @@
 # Directory where OpenSCAP report XML are stored
 # In case sending to Foreman succeeded, yet failed to save to reportsdir
 :failed_dir: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::failed_dir') %>
+
+# Directory where corrupted OpenSCAP report XML are stored
+# when proxy cannot parse the report sent by client
+:corrupted_dir: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::corrupted_dir') %>
