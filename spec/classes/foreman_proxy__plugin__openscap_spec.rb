@@ -30,6 +30,7 @@ describe 'foreman_proxy::plugin::openscap' do
         ':contentdir: /var/lib/foreman-proxy/openscap/content',
         ':reportsdir: /var/lib/foreman-proxy/openscap/reports',
         ':failed_dir: /var/lib/foreman-proxy/openscap/failed',
+        ':corrupted_dir: /var/lib/foreman-proxy/openscap/corrupted',
 
       ])
     end
@@ -82,6 +83,7 @@ describe 'foreman_proxy::plugin::openscap' do
         ':contentdir: /var/lib/foreman-proxy/openscap/content',
         ':reportsdir: /var/lib/foreman-proxy/openscap/reports',
         ':failed_dir: /var/lib/foreman-proxy/openscap/failed',
+        ':corrupted_dir: /var/lib/foreman-proxy/openscap/corrupted',
       ])
     end
   end

@@ -16,4 +16,5 @@ class foreman_proxy::plugin::openscap::params {
   $contentdir              = '/var/lib/foreman-proxy/openscap/content'
   $reportsdir              = '/var/lib/foreman-proxy/openscap/reports'
   $failed_dir              = '/var/lib/foreman-proxy/openscap/failed'
+  $corrupted_dir           = '/var/lib/foreman-proxy/openscap/corrupted'
 }
