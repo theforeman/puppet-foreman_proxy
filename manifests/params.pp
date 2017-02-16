@@ -290,7 +290,7 @@ class foreman_proxy::params {
   $dns_interface          = 'eth0'
   $dns_zone               = $::domain
   $dns_realm              = upcase($dns_zone)
-  $dns_reverse            = '100.168.192.in-addr.arpa'
+  $dns_reverse            = undef
   # localhost can resolve to ipv6 which ruby doesn't handle well
   $dns_server             = '127.0.0.1'
   $dns_ttl                = '86400'

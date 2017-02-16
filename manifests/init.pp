@@ -292,7 +292,7 @@
 #                               type:String
 #
 # $dns_reverse::                DNS reverse zone name
-#                               type:Variant[String, Array[String]]
+#                               type:Optional[Variant[String, Array[String]]]
 #
 # $dns_server::                 Address of DNS server to manage
 #                               type:String
