@@ -4,7 +4,12 @@ describe 'foreman_proxy::proxydns' do
   on_os_under_test.each do |os, facts|
     context "on #{os}" do
       context 'without parameters' do
-        let(:facts) { facts.merge({:ipaddress_eth0 => '127.0.1.1'}) }
+        let(:facts) do
+          facts.merge({
+            :ipaddress_eth0 => '192.168.100.1',
+            :netmask_eth0   => '255.255.255.0',
+          })
+        end
 
         let :pre_condition do
           "class {'foreman_proxy':}"
@@ -31,18 +36,23 @@ describe 'foreman_proxy::proxydns' do
         it 'should include the forward zone' do
           should contain_dns__zone('example.com').with_soa('foo.example.com')
           should contain_dns__zone('example.com').with_reverse(false)
-          should contain_dns__zone('example.com').with_soaip('127.0.1.1')
+          should contain_dns__zone('example.com').with_soaip('192.168.100.1')
         end
 
         it 'should include the reverse zone' do
           should contain_dns__zone('100.168.192.in-addr.arpa').with_soa('foo.example.com')
           should contain_dns__zone('100.168.192.in-addr.arpa').with_reverse(true)
-          should contain_dns__zone('100.168.192.in-addr.arpa').with_soaip('127.0.1.1')
+          should contain_dns__zone('100.168.192.in-addr.arpa').with_soaip('192.168.100.1')
         end
       end
 
       context 'with dns_zone overridden' do
-        let(:facts) { facts.merge({:ipaddress_eth0 => '127.0.1.1'}) }
+        let(:facts) do
+          facts.merge({
+            :ipaddress_eth0 => '192.168.100.1',
+            :netmask_eth0   => '255.255.255.0',
+          })
+        end
 
         let :pre_condition do
           "class {'foreman_proxy': dns_zone => 'something.example.com' }"
@@ -51,13 +61,16 @@ describe 'foreman_proxy::proxydns' do
         it 'should include the forward zone' do
           should contain_dns__zone('something.example.com').with_soa('foo.example.com')
           should contain_dns__zone('something.example.com').with_reverse(false)
-          should contain_dns__zone('something.example.com').with_soaip('127.0.1.1')
+          should contain_dns__zone('something.example.com').with_soaip('192.168.100.1')
         end
       end
 
       context "with vlan interface" do
         let :facts do
-          facts.merge({:ipaddress_eth0_0 => '127.0.1.1'})
+          facts.merge({
+            :ipaddress_eth0_0 => '192.168.100.1',
+            :netmask_eth0_0   => '255.255.255.0',
+          })
         end
 
         let :pre_condition do
@@ -69,19 +82,22 @@ describe 'foreman_proxy::proxydns' do
         it 'should include the forward zone' do
           should contain_dns__zone('example.com').with_soa('foo.example.com')
           should contain_dns__zone('example.com').with_reverse(false)
-          should contain_dns__zone('example.com').with_soaip('127.0.1.1')
+          should contain_dns__zone('example.com').with_soaip('192.168.100.1')
         end
 
         it 'should include the reverse zone' do
           should contain_dns__zone('100.168.192.in-addr.arpa').with_soa('foo.example.com')
           should contain_dns__zone('100.168.192.in-addr.arpa').with_reverse(true)
-          should contain_dns__zone('100.168.192.in-addr.arpa').with_soaip('127.0.1.1')
+          should contain_dns__zone('100.168.192.in-addr.arpa').with_soaip('192.168.100.1')
         end
       end
 
       context "with alias interface" do
-        let :facts do
-          facts.merge({:ipaddress_eth0_0 => '127.0.1.1'})
+        let(:facts) do
+          facts.merge({
+            :ipaddress_eth0_0 => '192.168.100.1',
+            :netmask_eth0_0   => '255.255.255.0',
+          })
         end
 
         let :pre_condition do
@@ -93,19 +109,43 @@ describe 'foreman_proxy::proxydns' do
         it 'should include the forward zone' do
           should contain_dns__zone('example.com').with_soa('foo.example.com')
           should contain_dns__zone('example.com').with_reverse(false)
-          should contain_dns__zone('example.com').with_soaip('127.0.1.1')
+          should contain_dns__zone('example.com').with_soaip('192.168.100.1')
         end
 
         it 'should include the reverse zone' do
           should contain_dns__zone('100.168.192.in-addr.arpa').with_soa('foo.example.com')
           should contain_dns__zone('100.168.192.in-addr.arpa').with_reverse(true)
-          should contain_dns__zone('100.168.192.in-addr.arpa').with_soaip('127.0.1.1')
+          should contain_dns__zone('100.168.192.in-addr.arpa').with_soaip('192.168.100.1')
+        end
+      end
+
+      context "with dns_reverse value" do
+        let(:facts) do
+          facts.merge({
+            :ipaddress_eth0 => '192.168.100.1',
+            :netmask_eth0   => '255.255.255.0',
+          })
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy':
+            dns_reverse => ['168.192.in-addr.arpa']
+          }"
+        end
+
+        it 'should include the reverse zone 168.192.in-addr.arpa' do
+          should contain_dns__zone('168.192.in-addr.arpa').with_soa('foo.example.com')
+          should contain_dns__zone('168.192.in-addr.arpa').with_reverse(true)
+          should contain_dns__zone('168.192.in-addr.arpa').with_soaip('192.168.100.1')
         end
       end
 
       context "with dns_reverse array" do
-        let :facts do
-          facts.merge({:ipaddress_eth0 => '127.0.1.1'})
+        let(:facts) do
+          facts.merge({
+            :ipaddress_eth0 => '192.168.100.1',
+            :netmask_eth0   => '255.255.255.0',
+          })
         end
 
         let :pre_condition do
@@ -117,13 +157,13 @@ describe 'foreman_proxy::proxydns' do
         it 'should include the reverse zone 0.168.192.in-addr.arpa' do
           should contain_dns__zone('0.168.192.in-addr.arpa').with_soa('foo.example.com')
           should contain_dns__zone('0.168.192.in-addr.arpa').with_reverse(true)
-          should contain_dns__zone('0.168.192.in-addr.arpa').with_soaip('127.0.1.1')
+          should contain_dns__zone('0.168.192.in-addr.arpa').with_soaip('192.168.100.1')
         end
 
         it 'should include the reverse zone 1.168.192.in-addr.arpa' do
           should contain_dns__zone('1.168.192.in-addr.arpa').with_soa('foo.example.com')
           should contain_dns__zone('1.168.192.in-addr.arpa').with_reverse(true)
-          should contain_dns__zone('1.168.192.in-addr.arpa').with_soaip('127.0.1.1')
+          should contain_dns__zone('1.168.192.in-addr.arpa').with_soaip('192.168.100.1')
         end
       end
     end

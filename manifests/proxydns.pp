@@ -9,19 +9,32 @@ class foreman_proxy::proxydns {
   # puppet fact names are converted from ethX.X and ethX:X to ethX_X
   # so for alias and vlan interfaces we have to modify the name accordingly
   $interface_fact_name = regsubst($foreman_proxy::dns_interface, '[.:]', '_')
-  $ip = inline_template("<%= scope.lookupvar('::ipaddress_${interface_fact_name}') %>")
+  $ip = getvar("::ipaddress_${interface_fact_name}")
 
   if ! is_ip_address($ip) {
     fail("Could not get the ip address from fact ipaddress_${interface_fact_name}")
   }
 
-  ::dns::zone { $foreman_proxy::dns_zone:
+  if $::foreman_proxy::dns_reverse {
+    $reverse = $::foreman_proxy::dns_reverse
+  } else {
+    $netmask = getvar("::netmask_${interface_fact_name}")
+    unless is_ip_address($netmask) {
+      fail("Could not get the netmask from fact netmask_${interface_fact_name}")
+    }
+    $reverse = get_network_in_addr($ip, $netmask)
+    if ! is_string($reverse) or $reverse == '' {
+      fail("Could not determine reverse for ${ip}/${netmask}")
+    }
+  }
+
+  dns::zone { $::foreman_proxy::dns_zone:
     soa     => $::fqdn,
     reverse => false,
     soaip   => $ip,
   }
 
-  ::dns::zone { $foreman_proxy::dns_reverse:
+  dns::zone { $reverse:
     soa     => $::fqdn,
     reverse => true,
     soaip   => $ip,
