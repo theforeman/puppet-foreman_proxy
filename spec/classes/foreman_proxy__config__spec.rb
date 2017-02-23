@@ -275,6 +275,12 @@ describe 'foreman_proxy::config' do
           ])
         end
 
+        it 'should create grub2 config' do
+          should contain_file("#{tftp_root}/grub2/grub.cfg").
+            with_mode('0644').
+            with_owner(proxy_user_name)
+        end
+
         if facts[:osfamily] == 'Debian'
           it { should contain_package('grub-common').with_ensure('installed') }
           it { should contain_package('grub-efi-amd64-bin').with_ensure('installed') }

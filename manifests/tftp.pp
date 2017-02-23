@@ -12,6 +12,13 @@ class foreman_proxy::tftp {
     recurse => true,
   }
 
+  file { "${foreman_proxy::tftp_root}/grub2/grub.cfg":
+    ensure  => file,
+    owner   => $foreman_proxy::user,
+    mode    => '0644',
+    content => template('foreman_proxy/grub.cfg.erb'),
+  }
+
   foreman_proxy::tftp::copy_file { $foreman_proxy::tftp_syslinux_filenames:
     target_path => $foreman_proxy::tftp_root,
     require     => Class['foreman_proxy::install', 'tftp::install'],
