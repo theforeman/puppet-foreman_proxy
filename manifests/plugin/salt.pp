@@ -37,30 +37,17 @@
 #                    type:Foreman_proxy::ListenOn
 #
 class foreman_proxy::plugin::salt (
-  $autosign_file     = $::foreman_proxy::plugin::salt::params::autosign_file,
-  $enabled           = $::foreman_proxy::plugin::salt::params::enabled,
-  $listen_on         = $::foreman_proxy::plugin::salt::params::listen_on,
-  $user              = $::foreman_proxy::plugin::salt::params::user,
-  $group             = $::foreman_proxy::plugin::salt::params::group,
-  $api               = $::foreman_proxy::plugin::salt::params::api,
-  $api_url           = $::foreman_proxy::plugin::salt::params::api_url,
-  $api_auth          = $::foreman_proxy::plugin::salt::params::api_auth,
-  $api_username      = $::foreman_proxy::plugin::salt::params::api_username,
-  $api_password      = $::foreman_proxy::plugin::salt::params::api_password,
+  Stdlib::Absolutepath $autosign_file = $::foreman_proxy::plugin::salt::params::autosign_file,
+  Boolean $enabled                    = $::foreman_proxy::plugin::salt::params::enabled,
+  Foreman_proxy::ListenOn $listen_on  = $::foreman_proxy::plugin::salt::params::listen_on,
+  String $user                        = $::foreman_proxy::plugin::salt::params::user,
+  Optional[String] $group             = $::foreman_proxy::plugin::salt::params::group,
+  Boolean $api                        = $::foreman_proxy::plugin::salt::params::api,
+  Stdlib::HTTPUrl $api_url            = $::foreman_proxy::plugin::salt::params::api_url,
+  String $api_auth                    = $::foreman_proxy::plugin::salt::params::api_auth,
+  String $api_username                = $::foreman_proxy::plugin::salt::params::api_username,
+  String $api_password                = $::foreman_proxy::plugin::salt::params::api_password,
 ) inherits foreman_proxy::plugin::salt::params {
-
-  validate_bool($enabled, $api)
-  validate_listen_on($listen_on)
-  validate_absolute_path($autosign_file)
-  validate_string($user)
-
-  if $api {
-    validate_string($api_url, $api_auth, $api_username, $api_password)
-  }
-
-  if $group {
-    validate_string($group)
-  }
 
   foreman_proxy::plugin { 'salt':
   } ->
