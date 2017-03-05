@@ -36,24 +36,17 @@
 #                       type:Stdlib::Absolutepath
 #
 class foreman_proxy::plugin::pulp (
-  $enabled            = $::foreman_proxy::plugin::pulp::params::enabled,
-  $listen_on          = $::foreman_proxy::plugin::pulp::params::listen_on,
-  $pulpnode_enabled   = $::foreman_proxy::plugin::pulp::params::pulpnode_enabled,
-  $version            = $::foreman_proxy::plugin::pulp::params::version,
-  $group              = $::foreman_proxy::plugin::pulp::params::group,
-  $pulp_url           = $::foreman_proxy::plugin::pulp::params::pulp_url,
-  $pulp_dir           = $::foreman_proxy::plugin::pulp::params::pulp_dir,
-  $pulp_content_dir   = $::foreman_proxy::plugin::pulp::params::pulp_content_dir,
-  $puppet_content_dir = $::foreman_proxy::plugin::pulp::params::puppet_content_dir,
-  $mongodb_dir        = $::foreman_proxy::plugin::pulp::params::mongodb_dir
+  Boolean $enabled                          = $::foreman_proxy::plugin::pulp::params::enabled,
+  Foreman_proxy::ListenOn $listen_on        = $::foreman_proxy::plugin::pulp::params::listen_on,
+  Boolean $pulpnode_enabled                 = $::foreman_proxy::plugin::pulp::params::pulpnode_enabled,
+  Optional[String] $version                 = $::foreman_proxy::plugin::pulp::params::version,
+  Optional[String] $group                   = $::foreman_proxy::plugin::pulp::params::group,
+  Stdlib::HTTPUrl $pulp_url                 = $::foreman_proxy::plugin::pulp::params::pulp_url,
+  Stdlib::Absolutepath $pulp_dir            = $::foreman_proxy::plugin::pulp::params::pulp_dir,
+  Stdlib::Absolutepath $pulp_content_dir    = $::foreman_proxy::plugin::pulp::params::pulp_content_dir,
+  Stdlib::Absolutepath $puppet_content_dir  = $::foreman_proxy::plugin::pulp::params::puppet_content_dir,
+  Stdlib::Absolutepath $mongodb_dir         = $::foreman_proxy::plugin::pulp::params::mongodb_dir
 ) inherits foreman_proxy::plugin::pulp::params {
-
-  validate_bool($enabled)
-  validate_bool($pulpnode_enabled)
-  validate_absolute_path($pulp_dir)
-  validate_absolute_path($pulp_content_dir)
-  validate_absolute_path($puppet_content_dir)
-  validate_absolute_path($mongodb_dir)
 
   foreman_proxy::plugin {'pulp':
     version => $version,
