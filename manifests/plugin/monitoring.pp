@@ -23,15 +23,12 @@
 #                       type:Optional[String]
 #
 class foreman_proxy::plugin::monitoring (
-  $enabled            = $::foreman_proxy::plugin::monitoring::params::enabled,
-  $group              = $::foreman_proxy::plugin::monitoring::params::group,
-  $listen_on          = $::foreman_proxy::plugin::monitoring::params::listen_on,
-  $provider           = $::foreman_proxy::plugin::monitoring::params::provider,
-  $version            = $::foreman_proxy::plugin::monitoring::params::version,
+  Boolean $enabled                    = $::foreman_proxy::plugin::monitoring::params::enabled,
+  Optional[String] $group             = $::foreman_proxy::plugin::monitoring::params::group,
+  Foreman_proxy::ListenOn $listen_on  = $::foreman_proxy::plugin::monitoring::params::listen_on,
+  String $provider                    = $::foreman_proxy::plugin::monitoring::params::provider,
+  Optional[String] $version           = $::foreman_proxy::plugin::monitoring::params::version,
 ) inherits foreman_proxy::plugin::monitoring::params {
-  validate_bool($enabled)
-  validate_listen_on($listen_on)
-  validate_string($provider)
 
   foreman_proxy::plugin { 'monitoring':
     version => $version,
