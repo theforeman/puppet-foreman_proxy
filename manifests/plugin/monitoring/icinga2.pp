@@ -27,22 +27,15 @@
 # $enabled::               Enable this plugin.
 #
 class foreman_proxy::plugin::monitoring::icinga2 (
-  $enabled = $::foreman_proxy::plugin::monitoring::icinga2::params::enabled,
-  $server = $::foreman_proxy::plugin::monitoring::icinga2::params::server,
-  $api_cacert = $::foreman_proxy::plugin::monitoring::icinga2::params::api_cacert,
-  $api_user = $::foreman_proxy::plugin::monitoring::icinga2::params::api_user,
-  $api_usercert = $::foreman_proxy::plugin::monitoring::icinga2::params::api_usercert,
-  $api_userkey = $::foreman_proxy::plugin::monitoring::icinga2::params::api_userkey,
-  $api_password = $::foreman_proxy::plugin::monitoring::icinga2::params::api_password,
-  $verify_ssl = $::foreman_proxy::plugin::monitoring::icinga2::params::verify_ssl,
+  Boolean $enabled                  = $::foreman_proxy::plugin::monitoring::icinga2::params::enabled,
+  String $server                    = $::foreman_proxy::plugin::monitoring::icinga2::params::server,
+  Stdlib::Absolutepath $api_cacert  = $::foreman_proxy::plugin::monitoring::icinga2::params::api_cacert,
+  String $api_user                  = $::foreman_proxy::plugin::monitoring::icinga2::params::api_user,
+  String $api_usercert              = $::foreman_proxy::plugin::monitoring::icinga2::params::api_usercert,
+  String $api_userkey               = $::foreman_proxy::plugin::monitoring::icinga2::params::api_userkey,
+  Optional[String] $api_password    = $::foreman_proxy::plugin::monitoring::icinga2::params::api_password,
+  Boolean $verify_ssl               = $::foreman_proxy::plugin::monitoring::icinga2::params::verify_ssl,
 ) inherits foreman_proxy::plugin::monitoring::icinga2::params {
-  validate_bool($enabled)
-  validate_string($server, $api_user, $api_usercert, $api_userkey)
-
-  validate_bool($verify_ssl)
-  if $api_password {
-    validate_string($api_password)
-  }
 
   include ::foreman_proxy::plugin::monitoring
 
