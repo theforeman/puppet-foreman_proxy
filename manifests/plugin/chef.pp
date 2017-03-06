@@ -38,19 +38,16 @@
 #                 type:Optional[String]
 #
 class foreman_proxy::plugin::chef (
-  $enabled      = $::foreman_proxy::plugin::chef::params::enabled,
-  $listen_on    = $::foreman_proxy::plugin::chef::params::listen_on,
-  $version      = $::foreman_proxy::plugin::chef::params::version,
-  $group        = $::foreman_proxy::plugin::chef::params::group,
-  $server_url   = $::foreman_proxy::plugin::chef::params::server_url,
-  $client_name  = $::foreman_proxy::plugin::chef::params::client_name,
-  $private_key  = $::foreman_proxy::plugin::chef::params::private_key,
-  $ssl_verify   = $::foreman_proxy::plugin::chef::params::ssl_verify,
-  $ssl_pem_file = $::foreman_proxy::plugin::chef::params::ssl_pem_file,
+  Boolean $enabled                              = $::foreman_proxy::plugin::chef::params::enabled,
+  Foreman_proxy::ListenOn $listen_on            = $::foreman_proxy::plugin::chef::params::listen_on,
+  Optional[String] $version                     = $::foreman_proxy::plugin::chef::params::version,
+  Optional[String] $group                       = $::foreman_proxy::plugin::chef::params::group,
+  Stdlib::HTTPUrl $server_url                   = $::foreman_proxy::plugin::chef::params::server_url,
+  String $client_name                           = $::foreman_proxy::plugin::chef::params::client_name,
+  Stdlib::Absolutepath $private_key             = $::foreman_proxy::plugin::chef::params::private_key,
+  Boolean $ssl_verify                           = $::foreman_proxy::plugin::chef::params::ssl_verify,
+  Optional[Stdlib::Absolutepath] $ssl_pem_file  = $::foreman_proxy::plugin::chef::params::ssl_pem_file,
 ) inherits foreman_proxy::plugin::chef::params {
-
-  validate_bool($enabled)
-  validate_listen_on($listen_on)
 
   foreman_proxy::plugin {'chef':
     version => $version,
