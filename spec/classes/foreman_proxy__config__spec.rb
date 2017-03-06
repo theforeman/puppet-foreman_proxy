@@ -651,6 +651,21 @@ describe 'foreman_proxy::config' do
         end
       end
 
+      context 'empty keyfile' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            keyfile => "",
+          }'
+        end
+
+        it 'should not output dns_key' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate.yml", [
+            '---',
+            ':dns_server: 127.0.0.1',
+          ])
+        end
+      end
+
       context 'when dns_provider => libvirt' do
         let :pre_condition do
           'class {"foreman_proxy":

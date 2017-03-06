@@ -3,6 +3,10 @@
 # Configuration file for 'nsupdate' dns provider
 #
 
+<% unless [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::keyfile")) -%>
 :dns_key: <%= scope.lookupvar("foreman_proxy::keyfile") %>
+<% else -%>
+#:dns_key: /etc/rndc.key
+<% end -%>
 # use this setting if you are managing a dns server which is not localhost though this proxy
 :dns_server: <%= scope.lookupvar("foreman_proxy::dns_server") %>
