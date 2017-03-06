@@ -31,6 +31,10 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
           :command => "/usr/bin/ssh-keygen -f /usr/share/foreman-proxy/.ssh/id_rsa_foreman_proxy -N ''"
         })
     end
+
+    it 'should not install the ssh key' do
+      should_not contain_file('/root/.ssh')
+    end
   end
 
   describe 'with override parameters' do
@@ -46,6 +50,7 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
       :generate_keys      => false,
       :ssh_identity_dir   => '/usr/share/foreman-proxy/.ssh-rex',
       :ssh_identity_file  => 'id_rsa',
+      :install_key        => true,
     } end
 
     it { should contain_foreman_proxy__plugin('dynflow') }
@@ -65,5 +70,26 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
     end
 
     it { should_not contain_exec('generate_ssh_key') }
+    it { should_not contain_file('/root/.ssh') }
+  end
+
+  describe 'with ssh key generating and installation' do
+    let :pre_condition do
+      "include foreman_proxy"
+    end
+
+    let :params do {
+      :enabled            => true,
+      :listen_on          => 'http',
+      :local_working_dir  => '/tmp',
+      :remote_working_dir => '/tmp',
+      :generate_keys      => true,
+      :ssh_identity_dir   => '/usr/share/foreman-proxy/.ssh-rex',
+      :ssh_identity_file  => 'id_rsa',
+      :install_key        => true,
+    } end
+
+    it { should contain_exec('generate_ssh_key') }
+    it { should contain_file('/root/.ssh') }
   end
 end
