@@ -16,11 +16,11 @@
 #
 # $api_password::          Icinga2 API password. If set to undef (default) API
 #                          connection is made via certificate and key.
-#                          type:password
+#                          type:String
 #
 # $verify_ssl::            Whether smart-proxy should verify the ssl connection
 #                          to Icinga2.
-#                          type:boolean
+#                          type:Boolean
 #
 # === Advanced parameters:
 #
