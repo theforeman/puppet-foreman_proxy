@@ -7,6 +7,10 @@
 # $generate_keys::      Automatically generate SSH keys
 #                       type:boolean
 #
+# $install_key::        Automatically install generated SSH key to root authorized keys
+#                       which allows managing this host through Remote Execution
+#                       type:boolean
+#
 # $ssh_identity_dir::   Directory where SSH keys are stored
 #
 # $ssh_identity_file::  Provide an alternative name for the SSH keys
@@ -28,6 +32,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   $enabled            = $::foreman_proxy::plugin::remote_execution::ssh::params::enabled,
   $listen_on          = $::foreman_proxy::plugin::remote_execution::ssh::params::listen_on,
   $generate_keys      = $::foreman_proxy::plugin::remote_execution::ssh::params::generate_keys,
+  $install_key        = $::foreman_proxy::plugin::remote_execution::ssh::params::install_key,
   $ssh_identity_dir   = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_dir,
   $ssh_identity_file  = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_file,
   $ssh_keygen         = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_keygen,
@@ -38,7 +43,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 
   validate_absolute_path($ssh_identity_path, $local_working_dir, $remote_working_dir)
-  validate_bool($enabled, $generate_keys)
+  validate_bool($enabled, $generate_keys, $install_key)
   validate_listen_on($listen_on)
 
   include ::foreman_proxy::plugin::dynflow
@@ -63,6 +68,21 @@ class foreman_proxy::plugin::remote_execution::ssh (
       user    => $::foreman_proxy::user,
       cwd     => $ssh_identity_dir,
       creates => $ssh_identity_path,
+    }
+    if $install_key {
+      # Ensure the .ssh directory exists with the right permissions
+      file { '/root/.ssh':
+        ensure => directory,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0700',
+      } ->
+      exec { 'install_ssh_key':
+        path    => '/usr/bin:/usr/sbin:/bin',
+        command => "cat ${ssh_identity_path}.pub >> /root/.ssh/authorized_keys",
+        unless  => "grep -f ${ssh_identity_path}.pub /root/.ssh/authorized_keys",
+        require => Exec['generate_ssh_key'],
+      }
     }
   }
 

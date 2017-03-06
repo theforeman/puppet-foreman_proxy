@@ -7,6 +7,7 @@ class foreman_proxy::plugin::remote_execution::ssh::params {
   $local_working_dir  = '/var/tmp'
   $remote_working_dir = '/var/tmp'
   $generate_keys      = true
+  $install_key        = false
   $ssh_identity_dir   = "${::foreman_proxy::params::dir}/.ssh"
   $ssh_identity_file  = 'id_rsa_foreman_proxy'
   $ssh_keygen         = '/usr/bin/ssh-keygen'
