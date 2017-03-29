@@ -54,8 +54,8 @@ class foreman_proxy::plugin::chef (
 
   foreman_proxy::plugin {'chef':
     version => $version,
-  } ->
-  foreman_proxy::settings_file { 'chef':
+  }
+  -> foreman_proxy::settings_file { 'chef':
     listen_on     => $listen_on,
     enabled       => $enabled,
     group         => $group,

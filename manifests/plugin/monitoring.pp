@@ -35,8 +35,8 @@ class foreman_proxy::plugin::monitoring (
 
   foreman_proxy::plugin { 'monitoring':
     version => $version,
-  } ->
-  foreman_proxy::settings_file { 'monitoring':
+  }
+  -> foreman_proxy::settings_file { 'monitoring':
     template_path => 'foreman_proxy/plugin/monitoring.yml.erb',
     group         => $group,
     enabled       => $enabled,

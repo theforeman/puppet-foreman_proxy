@@ -82,8 +82,8 @@ class foreman_proxy::plugin::openscap (
 
   foreman_proxy::plugin { 'openscap':
     version => $version,
-  } ->
-  foreman_proxy::settings_file { 'openscap':
+  }
+  -> foreman_proxy::settings_file { 'openscap':
     template_path => 'foreman_proxy/plugin/openscap.yml.erb',
     listen_on     => $listen_on,
     enabled       => $enabled,

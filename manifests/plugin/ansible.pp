@@ -42,8 +42,8 @@ class foreman_proxy::plugin::ansible (
   include ::foreman_proxy::plugin::dynflow
 
   foreman_proxy::plugin { 'ansible':
-  } ->
-  foreman_proxy::settings_file { 'ansible':
+  }
+  -> foreman_proxy::settings_file { 'ansible':
     enabled       => $enabled,
     listen_on     => $listen_on,
     template_path => 'foreman_proxy/plugin/ansible.yml.erb',

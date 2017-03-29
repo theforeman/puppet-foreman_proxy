@@ -45,8 +45,8 @@ class foreman_proxy::plugin::dynflow (
   }
 
   foreman_proxy::plugin { 'dynflow':
-  } ->
-  foreman_proxy::settings_file { 'dynflow':
+  }
+  -> foreman_proxy::settings_file { 'dynflow':
     enabled       => $enabled,
     listen_on     => $listen_on,
     template_path => 'foreman_proxy/plugin/dynflow.yml.erb',
@@ -62,16 +62,16 @@ class foreman_proxy::plugin::dynflow (
   if $scl_prefix != '' {
     foreman_proxy::plugin { 'dynflow_core':
       package => "${scl_prefix}${::foreman_proxy::plugin_prefix}dynflow_core",
-    } ~>
-    file { '/etc/smart_proxy_dynflow_core/settings.yml':
+    }
+    ~> file { '/etc/smart_proxy_dynflow_core/settings.yml':
       ensure  => file,
       content => template('foreman_proxy/plugin/dynflow_core.yml.erb'),
-    } ~>
-    file { '/etc/smart_proxy_dynflow_core/settings.d':
+    }
+    ~> file { '/etc/smart_proxy_dynflow_core/settings.d':
       ensure => link,
       target => '/etc/foreman-proxy/settings.d',
-    } ~>
-    service { 'smart_proxy_dynflow_core':
+    }
+    ~> service { 'smart_proxy_dynflow_core':
       ensure => running,
       enable => true,
     }

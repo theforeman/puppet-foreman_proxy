@@ -106,8 +106,8 @@ class foreman_proxy::tftp {
         command => "/usr/bin/grub-mkimage -O x86_64-efi -d ${efi_dir} -o ${foreman_proxy::tftp_root}/grub2/grubx64.efi -p '' ${grub_modules}",
         unless  => "/bin/grep -q regexp '${foreman_proxy::tftp_root}/grub2/grubx64.efi'",
         require => [File[$foreman_proxy::tftp_dirs], Package['grub-common','grub-efi-amd64-bin']],
-      } ->
-      file {"${foreman_proxy::tftp_root}/grub2/grubx64.efi":
+      }
+      -> file {"${foreman_proxy::tftp_root}/grub2/grubx64.efi":
         mode  => '0644',
         owner => 'root',
       }

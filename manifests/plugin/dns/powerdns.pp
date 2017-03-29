@@ -63,8 +63,8 @@ class foreman_proxy::plugin::dns::powerdns (
   }
 
   foreman_proxy::plugin { 'dns_powerdns':
-  } ->
-  foreman_proxy::settings_file { 'dns_powerdns':
+  }
+  -> foreman_proxy::settings_file { 'dns_powerdns':
     module        => false,
     template_path => 'foreman_proxy/plugin/dns_powerdns.yml.erb',
   }

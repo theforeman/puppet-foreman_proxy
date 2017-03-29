@@ -577,11 +577,11 @@ class foreman_proxy (
   $real_registered_proxy_url = pick($registered_proxy_url, "https://${::fqdn}:${ssl_port}")
 
   # lint:ignore:spaceship_operator_without_tag
-  class { '::foreman_proxy::install': } ~>
-  class { '::foreman_proxy::config': } ~>
-  Foreman_proxy::Plugin <| |> ~>
-  class { '::foreman_proxy::service': } ~>
-  class { '::foreman_proxy::register': } ->
-  Class['foreman_proxy']
+  class { '::foreman_proxy::install': }
+  ~> class { '::foreman_proxy::config': }
+  ~> Foreman_proxy::Plugin <| |>
+  ~> class { '::foreman_proxy::service': }
+  ~> class { '::foreman_proxy::register': }
+  -> Class['foreman_proxy']
   # lint:endignore
 }

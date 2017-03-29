@@ -57,14 +57,14 @@ class foreman_proxy::plugin::pulp (
 
   foreman_proxy::plugin {'pulp':
     version => $version,
-  } ->
-  foreman_proxy::settings_file { 'pulp':
+  }
+  -> foreman_proxy::settings_file { 'pulp':
     template_path => 'foreman_proxy/plugin/pulp.yml.erb',
     group         => $group,
     enabled       => $enabled,
     listen_on     => $listen_on,
-  } ->
-  foreman_proxy::settings_file { 'pulpnode':
+  }
+  -> foreman_proxy::settings_file { 'pulpnode':
     template_path => 'foreman_proxy/plugin/pulpnode.yml.erb',
     group         => $group,
     enabled       => $pulpnode_enabled,
