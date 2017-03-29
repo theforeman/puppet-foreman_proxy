@@ -48,8 +48,8 @@ class foreman_proxy::plugin::omaha (
 
   foreman_proxy::plugin { 'omaha':
     version => $version,
-  } ->
-  foreman_proxy::settings_file { 'omaha':
+  }
+  -> foreman_proxy::settings_file { 'omaha':
     template_path => 'foreman_proxy/plugin/omaha.yml.erb',
     group         => $group,
     enabled       => $enabled,
@@ -60,8 +60,8 @@ class foreman_proxy::plugin::omaha (
     command => "mkdir -p ${contentpath}",
     creates => $contentpath,
     path    => '/bin:/usr/bin',
-  } ->
-  file { $contentpath:
+  }
+  -> file { $contentpath:
     ensure  => directory,
   }
 }

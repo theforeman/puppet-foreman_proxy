@@ -49,8 +49,8 @@ class foreman_proxy::plugin::remote_execution::ssh (
   include ::foreman_proxy::plugin::dynflow
 
   foreman_proxy::plugin { 'remote_execution_ssh':
-  } ->
-  foreman_proxy::settings_file { 'remote_execution_ssh':
+  }
+  -> foreman_proxy::settings_file { 'remote_execution_ssh':
     enabled       => $enabled,
     listen_on     => $listen_on,
     template_path => 'foreman_proxy/plugin/remote_execution_ssh.yml.erb',
@@ -62,8 +62,8 @@ class foreman_proxy::plugin::remote_execution::ssh (
       owner  => $::foreman_proxy::user,
       group  => $::foreman_proxy::user,
       mode   => '0700',
-    } ->
-    exec { 'generate_ssh_key':
+    }
+    -> exec { 'generate_ssh_key':
       command => "${ssh_keygen} -f ${ssh_identity_path} -N ''",
       user    => $::foreman_proxy::user,
       cwd     => $ssh_identity_dir,
@@ -76,8 +76,8 @@ class foreman_proxy::plugin::remote_execution::ssh (
         owner  => 'root',
         group  => 'root',
         mode   => '0700',
-      } ->
-      exec { 'install_ssh_key':
+      }
+      -> exec { 'install_ssh_key':
         path    => '/usr/bin:/usr/sbin:/bin',
         command => "cat ${ssh_identity_path}.pub >> /root/.ssh/authorized_keys",
         unless  => "grep -f ${ssh_identity_path}.pub /root/.ssh/authorized_keys",

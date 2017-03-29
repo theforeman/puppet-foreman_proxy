@@ -68,8 +68,8 @@ class foreman_proxy::plugin::abrt (
 
   foreman_proxy::plugin { 'abrt':
     version => $version,
-  } ->
-  foreman_proxy::settings_file { 'abrt':
+  }
+  -> foreman_proxy::settings_file { 'abrt':
     template_path => 'foreman_proxy/plugin/abrt.yml.erb',
     group         => $group,
     listen_on     => $listen_on,

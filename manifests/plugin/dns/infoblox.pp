@@ -21,8 +21,8 @@ class foreman_proxy::plugin::dns::infoblox (
   validate_string($dns_server, $username, $password)
 
   foreman_proxy::plugin { 'dns_infoblox':
-  } ->
-  foreman_proxy::settings_file { 'dns_infoblox':
+  }
+  -> foreman_proxy::settings_file { 'dns_infoblox':
     module        => false,
     template_path => 'foreman_proxy/plugin/dns_infoblox.yml.erb',
   }
