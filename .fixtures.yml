@@ -10,7 +10,9 @@ fixtures:
     puppet:   'git://github.com/theforeman/puppet-puppet'
     stdlib:   'git://github.com/puppetlabs/puppetlabs-stdlib.git'
     tftp:     'git://github.com/theforeman/puppet-tftp'
-    xinetd:   'git://github.com/puppetlabs/puppetlabs-xinetd.git'
+    xinetd:
+      repo:   'git://github.com/puppetlabs/puppetlabs-xinetd.git'
+      ref:    'e84f34f'
 
 
   symlinks:
