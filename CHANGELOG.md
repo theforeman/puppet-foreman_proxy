@@ -1,5 +1,36 @@
 # Changelog
 
+## 5.1.0
+* New or changed parameters:
+    * Add `$puppet_api_timeout` parameter to set the timeout in seconds when
+      accessing the Puppet environment classes API
+    * Add `$realm_split_config_files` to control if realm configuration files
+      are split.
+    * Add `$freeipa_config` for the path to the FreeIPA `default.conf`
+      configuration file
+    * Add `$use_sudoers` to add contents to `/etc/sudoers`. This is ignored if
+      `$use_sudoersd` is true.
+    * Allow `$bind_hosts` to also accept an array of interfaces
+* New or changed parameters on smart proxy plugin classes:
+    * Add the foreman_proxy::plugin::dhcp::remote_isc class for the Remote ISC
+      DHCP plugin.
+    * The PowerDNS plugin now also accepts `rest` as backend and got the
+      `$rest_url` and `$rest_api_key` parameters added.
+    * Add `$install_key` to the foreman_proxy::plugin::remote_execution class.
+      When set to `true`, the generated SSH key is added to root's
+      `authorized_keys`, which allows managing the proxy host through Remote
+      Execution.
+* Other changes and fixes:
+    * foreman_proxy::plugin::ansible does now make sure that ansible is
+      configured to use the foreman callback plugin.
+    * Fix PXEGrub2 with vanilia GRUB2
+    * Add dir for corrupted openscap reports
+    * Better default value for `$dns_reverse`
+    * Fix notification of the dynflow service on Debian
+* Compatibility warnings:
+    * On Smart Proxy 1.15 with realm support, `$realm_split_config_files` needs
+      to be set to `true`.
+
 ## 5.0.0
 * New or changed parameters:
     * Add groups parameter for additional foreman-proxy user groups
