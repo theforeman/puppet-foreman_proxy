@@ -45,26 +45,19 @@
 #                               type:Optional[String]
 #
 class foreman_proxy::plugin::abrt (
-  $enabled                 = $::foreman_proxy::plugin::abrt::params::enabled,
-  $listen_on               = $::foreman_proxy::plugin::abrt::params::listen_on,
-  $version                 = $::foreman_proxy::plugin::abrt::params::version,
-  $group                   = $::foreman_proxy::plugin::abrt::params::group,
-  $abrt_send_log_file      = $::foreman_proxy::plugin::abrt::params::abrt_send_log_file,
-  $spooldir                = $::foreman_proxy::plugin::abrt::params::spooldir,
-  $aggregate_reports       = $::foreman_proxy::plugin::abrt::params::aggregate_reports,
-  $send_period             = $::foreman_proxy::plugin::abrt::params::send_period,
-  $faf_server_url          = $::foreman_proxy::plugin::abrt::params::faf_server_url,
-  $faf_server_ssl_noverify = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_noverify,
-  $faf_server_ssl_cert     = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_cert,
-  $faf_server_ssl_key      = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_key,
+  Boolean $enabled                                    = $::foreman_proxy::plugin::abrt::params::enabled,
+  Foreman_proxy::ListenOn $listen_on                  = $::foreman_proxy::plugin::abrt::params::listen_on,
+  Optional[String] $version                           = $::foreman_proxy::plugin::abrt::params::version,
+  Optional[String] $group                             = $::foreman_proxy::plugin::abrt::params::group,
+  Stdlib::Absolutepath $abrt_send_log_file            = $::foreman_proxy::plugin::abrt::params::abrt_send_log_file,
+  Stdlib::Absolutepath $spooldir                      = $::foreman_proxy::plugin::abrt::params::spooldir,
+  Boolean $aggregate_reports                          = $::foreman_proxy::plugin::abrt::params::aggregate_reports,
+  Integer[0] $send_period                             = $::foreman_proxy::plugin::abrt::params::send_period,
+  Optional[String] $faf_server_url                    = $::foreman_proxy::plugin::abrt::params::faf_server_url,
+  Boolean $faf_server_ssl_noverify                    = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_noverify,
+  Optional[Stdlib::Absolutepath] $faf_server_ssl_cert = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_cert,
+  Optional[Stdlib::Absolutepath] $faf_server_ssl_key  = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_key,
 ) inherits foreman_proxy::plugin::abrt::params {
-
-  validate_bool($enabled)
-  validate_listen_on($listen_on)
-  validate_absolute_path($abrt_send_log_file)
-  validate_absolute_path($spooldir)
-  validate_bool($aggregate_reports)
-  validate_bool($faf_server_ssl_noverify)
 
   foreman_proxy::plugin { 'abrt':
     version => $version,

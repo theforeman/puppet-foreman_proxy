@@ -25,17 +25,15 @@
 # $mode:           Settings file's mode
 #
 define foreman_proxy::settings_file (
-  $module        = true,
-  $enabled       = true,
-  $listen_on     = 'https',
-  $path          = "${::foreman_proxy::etc}/foreman-proxy/settings.d/${title}.yml",
-  $owner         = 'root',
-  $group         = $::foreman_proxy::user,
-  $mode          = '0640',
-  $template_path = "foreman_proxy/${title}.yml.erb",
+  Boolean $module                     = true,
+  Boolean $enabled                    = true,
+  Foreman_proxy::ListenOn $listen_on  = 'https',
+  Stdlib::Absolutepath $path          = "${::foreman_proxy::etc}/foreman-proxy/settings.d/${title}.yml",
+  String $owner                       = 'root',
+  String $group                       = $::foreman_proxy::user,
+  String $mode                        = '0640',
+  String $template_path               = "foreman_proxy/${title}.yml.erb",
 ) {
-  validate_bool($module, $enabled)
-  validate_listen_on($listen_on)
 
   # If the config file is for a proxy module, then we need to know
   # whether it's enabled, and if so, where to listen (https, http, or both).

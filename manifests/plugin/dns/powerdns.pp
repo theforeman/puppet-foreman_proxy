@@ -37,20 +37,17 @@
 #                          type:String
 #
 class foreman_proxy::plugin::dns::powerdns (
-  $backend               = $::foreman_proxy::plugin::dns::powerdns::params::backend,
-  $mysql_hostname        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_hostname,
-  $mysql_username        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_username,
-  $mysql_password        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_password,
-  $mysql_database        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_database,
-  $postgresql_connection = $::foreman_proxy::plugin::dns::powerdns::params::postgresql_connection,
-  $rest_url              = $::foreman_proxy::plugin::dns::powerdns::params::rest_url,
-  $rest_api_key          = $::foreman_proxy::plugin::dns::powerdns::params::rest_api_key,
-  $manage_database       = $::foreman_proxy::plugin::dns::powerdns::params::manage_database,
-  $pdnssec               = $::foreman_proxy::plugin::dns::powerdns::params::pdnssec,
+  Enum['rest', 'mysql', 'postgresql'] $backend  = $::foreman_proxy::plugin::dns::powerdns::params::backend,
+  String $mysql_hostname                        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_hostname,
+  String $mysql_username                        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_username,
+  String $mysql_password                        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_password,
+  String $mysql_database                        = $::foreman_proxy::plugin::dns::powerdns::params::mysql_database,
+  String $postgresql_connection                 = $::foreman_proxy::plugin::dns::powerdns::params::postgresql_connection,
+  Stdlib::HTTPUrl $rest_url                     = $::foreman_proxy::plugin::dns::powerdns::params::rest_url,
+  String $rest_api_key                          = $::foreman_proxy::plugin::dns::powerdns::params::rest_api_key,
+  Boolean $manage_database                      = $::foreman_proxy::plugin::dns::powerdns::params::manage_database,
+  String $pdnssec                               = $::foreman_proxy::plugin::dns::powerdns::params::pdnssec,
 ) inherits foreman_proxy::plugin::dns::powerdns::params {
-  validate_bool($manage_database)
-  validate_re($backend, '^rest|mysql|postgresql$', 'Invalid backend: choose rest, mysql or postgresql')
-  validate_string($mysql_hostname, $mysql_username, $mysql_password, $mysql_database, $postgresql_connection, $rest_url, $rest_api_key, $pdnssec)
 
   if $manage_database and $backend == 'mysql' {
     include ::mysql::server

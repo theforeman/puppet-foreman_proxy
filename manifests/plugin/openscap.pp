@@ -39,24 +39,16 @@
 #                               type:Optional[String]
 #
 class foreman_proxy::plugin::openscap (
-  $configure_openscap_repo = $::foreman_proxy::plugin::openscap::params::configure_openscap_repo,
-  $enabled                 = $::foreman_proxy::plugin::openscap::params::enabled,
-  $version                 = $::foreman_proxy::plugin::openscap::params::version,
-  $listen_on               = $::foreman_proxy::plugin::openscap::params::listen_on,
-  $openscap_send_log_file  = $::foreman_proxy::plugin::openscap::params::openscap_send_log_file,
-  $spooldir                = $::foreman_proxy::plugin::openscap::params::spooldir,
-  $contentdir              = $::foreman_proxy::plugin::openscap::params::contentdir,
-  $reportsdir              = $::foreman_proxy::plugin::openscap::params::reportsdir,
-  $failed_dir              = $::foreman_proxy::plugin::openscap::params::failed_dir,
+  Boolean $configure_openscap_repo              = $::foreman_proxy::plugin::openscap::params::configure_openscap_repo,
+  Boolean $enabled                              = $::foreman_proxy::plugin::openscap::params::enabled,
+  Optional[String] $version                     = $::foreman_proxy::plugin::openscap::params::version,
+  Foreman_proxy::ListenOn $listen_on            = $::foreman_proxy::plugin::openscap::params::listen_on,
+  Stdlib::Absolutepath $openscap_send_log_file  = $::foreman_proxy::plugin::openscap::params::openscap_send_log_file,
+  Stdlib::Absolutepath $spooldir                = $::foreman_proxy::plugin::openscap::params::spooldir,
+  Stdlib::Absolutepath $contentdir              = $::foreman_proxy::plugin::openscap::params::contentdir,
+  Stdlib::Absolutepath $reportsdir              = $::foreman_proxy::plugin::openscap::params::reportsdir,
+  Stdlib::Absolutepath $failed_dir              = $::foreman_proxy::plugin::openscap::params::failed_dir,
 ) inherits foreman_proxy::plugin::openscap::params {
-  validate_bool($configure_openscap_repo)
-  validate_bool($enabled)
-  validate_listen_on($listen_on)
-  validate_absolute_path($spooldir)
-  validate_absolute_path($openscap_send_log_file)
-  validate_absolute_path($contentdir)
-  validate_absolute_path($reportsdir)
-  validate_absolute_path($failed_dir)
 
   if $configure_openscap_repo {
     case $::osfamily {

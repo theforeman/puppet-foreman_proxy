@@ -17,14 +17,11 @@
 #                type:Boolean
 #
 class foreman_proxy::plugin::dhcp::infoblox (
-  $username    = $::foreman_proxy::plugin::dhcp::infoblox::params::username,
-  $password    = $::foreman_proxy::plugin::dhcp::infoblox::params::password,
-  $record_type = $::foreman_proxy::plugin::dhcp::infoblox::params::record_type,
-  $use_ranges  = $::foreman_proxy::plugin::dhcp::infoblox::params::use_ranges,
+  String $username                          = $::foreman_proxy::plugin::dhcp::infoblox::params::username,
+  String $password                          = $::foreman_proxy::plugin::dhcp::infoblox::params::password,
+  Enum['host', 'fixedaddress'] $record_type = $::foreman_proxy::plugin::dhcp::infoblox::params::record_type,
+  Boolean $use_ranges                       = $::foreman_proxy::plugin::dhcp::infoblox::params::use_ranges,
 ) inherits foreman_proxy::plugin::dhcp::infoblox::params {
-  validate_string($username, $password)
-  validate_re($record_type, '^host|fixedaddress$', 'Invalid record type: choose host or fixedaddress')
-  validate_bool($use_ranges)
 
   foreman_proxy::plugin { 'dhcp_infoblox':
   }

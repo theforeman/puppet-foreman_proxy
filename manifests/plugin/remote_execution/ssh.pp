@@ -29,22 +29,18 @@
 # $listen_on::          Proxy feature listens on https, http, or both
 #
 class foreman_proxy::plugin::remote_execution::ssh (
-  $enabled            = $::foreman_proxy::plugin::remote_execution::ssh::params::enabled,
-  $listen_on          = $::foreman_proxy::plugin::remote_execution::ssh::params::listen_on,
-  $generate_keys      = $::foreman_proxy::plugin::remote_execution::ssh::params::generate_keys,
-  $install_key        = $::foreman_proxy::plugin::remote_execution::ssh::params::install_key,
-  $ssh_identity_dir   = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_dir,
-  $ssh_identity_file  = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_file,
-  $ssh_keygen         = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_keygen,
-  $local_working_dir  = $::foreman_proxy::plugin::remote_execution::ssh::params::local_working_dir,
-  $remote_working_dir = $::foreman_proxy::plugin::remote_execution::ssh::params::remote_working_dir,
+  Boolean $enabled                          = $::foreman_proxy::plugin::remote_execution::ssh::params::enabled,
+  Foreman_proxy::ListenOn $listen_on        = $::foreman_proxy::plugin::remote_execution::ssh::params::listen_on,
+  Boolean $generate_keys                    = $::foreman_proxy::plugin::remote_execution::ssh::params::generate_keys,
+  Boolean $install_key                      = $::foreman_proxy::plugin::remote_execution::ssh::params::install_key,
+  Stdlib::Absolutepath $ssh_identity_dir    = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_dir,
+  String $ssh_identity_file                 = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_file,
+  String $ssh_keygen                        = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_keygen,
+  Stdlib::Absolutepath $local_working_dir   = $::foreman_proxy::plugin::remote_execution::ssh::params::local_working_dir,
+  Stdlib::Absolutepath $remote_working_dir  = $::foreman_proxy::plugin::remote_execution::ssh::params::remote_working_dir,
 ) inherits foreman_proxy::plugin::remote_execution::ssh::params {
 
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
-
-  validate_absolute_path($ssh_identity_path, $local_working_dir, $remote_working_dir)
-  validate_bool($enabled, $generate_keys, $install_key)
-  validate_listen_on($listen_on)
 
   include ::foreman_proxy::plugin::dynflow
 

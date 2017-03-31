@@ -376,203 +376,128 @@
 #                               type:Optional[Boolean]
 #
 class foreman_proxy (
-  $repo                       = $foreman_proxy::params::repo,
-  $gpgcheck                   = $foreman_proxy::params::gpgcheck,
-  $custom_repo                = $foreman_proxy::params::custom_repo,
-  $version                    = $foreman_proxy::params::version,
-  $ensure_packages_version    = $foreman_proxy::params::ensure_packages_version,
-  $plugin_version             = $foreman_proxy::params::plugin_version,
-  $bind_host                  = $foreman_proxy::params::bind_host,
-  $http_port                  = $foreman_proxy::params::http_port,
-  $ssl_port                   = $foreman_proxy::params::ssl_port,
-  $dir                        = $foreman_proxy::params::dir,
-  $user                       = $foreman_proxy::params::user,
-  $groups                     = $foreman_proxy::params::groups,
-  $log                        = $foreman_proxy::params::log,
-  $log_level                  = $foreman_proxy::params::log_level,
-  $log_buffer                 = $foreman_proxy::params::log_buffer,
-  $log_buffer_errors          = $foreman_proxy::params::log_buffer_errors,
-  $http                       = $foreman_proxy::params::http,
-  $ssl                        = $foreman_proxy::params::ssl,
-  $ssl_ca                     = $foreman_proxy::params::ssl_ca,
-  $ssl_cert                   = $foreman_proxy::params::ssl_cert,
-  $ssl_key                    = $foreman_proxy::params::ssl_key,
-  $foreman_ssl_ca             = $foreman_proxy::params::foreman_ssl_ca,
-  $foreman_ssl_cert           = $foreman_proxy::params::foreman_ssl_cert,
-  $foreman_ssl_key            = $foreman_proxy::params::foreman_ssl_key,
-  $trusted_hosts              = $foreman_proxy::params::trusted_hosts,
-  $ssl_disabled_ciphers       = $foreman_proxy::params::ssl_disabled_ciphers,
-  $manage_sudoersd            = $foreman_proxy::params::manage_sudoersd,
-  $use_sudoersd               = $foreman_proxy::params::use_sudoersd,
-  $use_sudoers                = $foreman_proxy::params::use_sudoers,
-  $puppetca                   = $foreman_proxy::params::puppetca,
-  $puppetca_listen_on         = $foreman_proxy::params::puppetca_listen_on,
-  $ssldir                     = $foreman_proxy::params::ssldir,
-  $puppetdir                  = $foreman_proxy::params::puppetdir,
-  $puppetca_cmd               = $foreman_proxy::params::puppetca_cmd,
-  $puppet_group               = $foreman_proxy::params::puppet_group,
-  $manage_puppet_group        = $foreman_proxy::params::manage_puppet_group,
-  $puppet                     = $foreman_proxy::params::puppet,
-  $puppet_listen_on           = $foreman_proxy::params::puppet_listen_on,
-  $puppetrun_cmd              = $foreman_proxy::params::puppetrun_cmd,
-  $puppetrun_provider         = $foreman_proxy::params::puppetrun_provider,
-  $customrun_cmd              = $foreman_proxy::params::customrun_cmd,
-  $customrun_args             = $foreman_proxy::params::customrun_args,
-  $mcollective_user           = $foreman_proxy::params::mcollective_user,
-  $puppetssh_sudo             = $foreman_proxy::params::puppetssh_sudo,
-  $puppetssh_command          = $foreman_proxy::params::puppetssh_command,
-  $puppetssh_user             = $foreman_proxy::params::puppetssh_user,
-  $puppetssh_keyfile          = $foreman_proxy::params::puppetssh_keyfile,
-  $puppetssh_wait             = $foreman_proxy::params::puppetssh_wait,
-  $salt_puppetrun_cmd         = $foreman_proxy::params::salt_puppetrun_cmd,
-  $puppet_user                = $foreman_proxy::params::puppet_user,
-  $puppet_url                 = $foreman_proxy::params::puppet_url,
-  $puppet_ssl_ca              = $foreman_proxy::params::ssl_ca,
-  $puppet_ssl_cert            = $foreman_proxy::params::ssl_cert,
-  $puppet_ssl_key             = $foreman_proxy::params::ssl_key,
-  $puppet_use_environment_api = $foreman_proxy::params::puppet_use_environment_api,
-  $puppet_api_timeout         = $foreman_proxy::params::puppet_api_timeout,
-  $templates                  = $foreman_proxy::params::templates,
-  $templates_listen_on        = $foreman_proxy::params::templates_listen_on,
-  $template_url               = $foreman_proxy::params::template_url,
-  $logs                       = $foreman_proxy::params::logs,
-  $logs_listen_on             = $foreman_proxy::params::logs_listen_on,
-  $tftp                       = $foreman_proxy::params::tftp,
-  $tftp_listen_on             = $foreman_proxy::params::tftp_listen_on,
-  $tftp_managed               = $foreman_proxy::params::tftp_managed,
-  $tftp_manage_wget           = $foreman_proxy::params::tftp_manage_wget,
-  $tftp_syslinux_filenames    = $foreman_proxy::params::tftp_syslinux_filenames,
-  $tftp_root                  = $foreman_proxy::params::tftp_root,
-  $tftp_dirs                  = $foreman_proxy::params::tftp_dirs,
-  $tftp_servername            = $foreman_proxy::params::tftp_servername,
-  $dhcp                       = $foreman_proxy::params::dhcp,
-  $dhcp_listen_on             = $foreman_proxy::params::dhcp_listen_on,
-  $dhcp_managed               = $foreman_proxy::params::dhcp_managed,
-  $dhcp_provider              = $foreman_proxy::params::dhcp_provider,
-  $dhcp_subnets               = $foreman_proxy::params::dhcp_subnets,
-  $dhcp_option_domain         = $foreman_proxy::params::dhcp_option_domain,
-  $dhcp_search_domains        = $foreman_proxy::params::dhcp_search_domains,
-  $dhcp_interface             = $foreman_proxy::params::dhcp_interface,
-  $dhcp_gateway               = $foreman_proxy::params::dhcp_gateway,
-  $dhcp_range                 = $foreman_proxy::params::dhcp_range,
-  $dhcp_pxeserver             = $foreman_proxy::params::dhcp_pxeserver,
-  $dhcp_nameservers           = $foreman_proxy::params::dhcp_nameservers,
-  $dhcp_server                = $foreman_proxy::params::dhcp_server,
-  $dhcp_config                = $foreman_proxy::params::dhcp_config,
-  $dhcp_leases                = $foreman_proxy::params::dhcp_leases,
-  $dhcp_key_name              = $foreman_proxy::params::dhcp_key_name,
-  $dhcp_key_secret            = $foreman_proxy::params::dhcp_key_secret,
-  $dhcp_omapi_port            = $foreman_proxy::params::dhcp_omapi_port,
-  $dns                        = $foreman_proxy::params::dns,
-  $dns_listen_on              = $foreman_proxy::params::dns_listen_on,
-  $dns_managed                = $foreman_proxy::params::dns_managed,
-  $dns_provider               = $foreman_proxy::params::dns_provider,
-  $dns_interface              = $foreman_proxy::params::dns_interface,
-  $dns_zone                   = $foreman_proxy::params::dns_zone,
-  $dns_reverse                = $foreman_proxy::params::dns_reverse,
-  $dns_server                 = $foreman_proxy::params::dns_server,
-  $dns_ttl                    = $foreman_proxy::params::dns_ttl,
-  $dns_tsig_keytab            = $foreman_proxy::params::dns_tsig_keytab,
-  $dns_tsig_principal         = $foreman_proxy::params::dns_tsig_principal,
-  $dns_forwarders             = $foreman_proxy::params::dns_forwarders,
-  $libvirt_network            = $foreman_proxy::params::libvirt_network,
-  $libvirt_connection         = $foreman_proxy::params::libvirt_connection,
-  $bmc                        = $foreman_proxy::params::bmc,
-  $bmc_listen_on              = $foreman_proxy::params::bmc_listen_on,
-  $bmc_default_provider       = $foreman_proxy::params::bmc_default_provider,
-  $realm                      = $foreman_proxy::params::realm,
-  $realm_split_config_files   = $foreman_proxy::params::realm_split_config_files,
-  $realm_listen_on            = $foreman_proxy::params::realm_listen_on,
-  $realm_provider             = $foreman_proxy::params::realm_provider,
-  $realm_keytab               = $foreman_proxy::params::realm_keytab,
-  $realm_principal            = $foreman_proxy::params::realm_principal,
-  $freeipa_config             = $foreman_proxy::params::freeipa_config,
-  $freeipa_remove_dns         = $foreman_proxy::params::freeipa_remove_dns,
-  $keyfile                    = $foreman_proxy::params::keyfile,
-  $register_in_foreman        = $foreman_proxy::params::register_in_foreman,
-  $foreman_base_url           = $foreman_proxy::params::foreman_base_url,
-  $registered_name            = $foreman_proxy::params::registered_name,
-  $registered_proxy_url       = $foreman_proxy::params::registered_proxy_url,
-  $oauth_effective_user       = $foreman_proxy::params::oauth_effective_user,
-  $oauth_consumer_key         = $foreman_proxy::params::oauth_consumer_key,
-  $oauth_consumer_secret      = $foreman_proxy::params::oauth_consumer_secret,
-  $puppet_use_cache           = $foreman_proxy::params::puppet_use_cache,
+  String $repo                                                                                = $foreman_proxy::params::repo,
+  Boolean $gpgcheck                                                                           = $foreman_proxy::params::gpgcheck,
+  Boolean $custom_repo                                                                        = $foreman_proxy::params::custom_repo,
+  String $version                                                                             = $foreman_proxy::params::version,
+  Enum['latest', 'present', 'installed', 'absent'] $ensure_packages_version                   = $foreman_proxy::params::ensure_packages_version,
+  Enum['latest', 'present', 'installed', 'absent'] $plugin_version                            = $foreman_proxy::params::plugin_version,
+  Variant[Array[String], String] $bind_host                                                   = $foreman_proxy::params::bind_host,
+  Integer[0, 65535] $http_port                                                                = $foreman_proxy::params::http_port,
+  Integer[0, 65535] $ssl_port                                                                 = $foreman_proxy::params::ssl_port,
+  Stdlib::Absolutepath $dir                                                                   = $foreman_proxy::params::dir,
+  String $user                                                                                = $foreman_proxy::params::user,
+  Array[String] $groups                                                                       = $foreman_proxy::params::groups,
+  Variant[Enum['STDOUT', 'SYSLOG'], Stdlib::Absolutepath] $log                                = $foreman_proxy::params::log,
+  Enum['WARN', 'DEBUG', 'ERROR', 'FATAL', 'INFO', 'UNKNOWN'] $log_level                       = $foreman_proxy::params::log_level,
+  Integer[0] $log_buffer                                                                      = $foreman_proxy::params::log_buffer,
+  Integer[0] $log_buffer_errors                                                               = $foreman_proxy::params::log_buffer_errors,
+  Boolean $http                                                                               = $foreman_proxy::params::http,
+  Boolean $ssl                                                                                = $foreman_proxy::params::ssl,
+  Stdlib::Absolutepath $ssl_ca                                                                = $foreman_proxy::params::ssl_ca,
+  Stdlib::Absolutepath $ssl_cert                                                              = $foreman_proxy::params::ssl_cert,
+  Stdlib::Absolutepath $ssl_key                                                               = $foreman_proxy::params::ssl_key,
+  Optional[Stdlib::Absolutepath] $foreman_ssl_ca                                              = $foreman_proxy::params::foreman_ssl_ca,
+  Optional[Stdlib::Absolutepath] $foreman_ssl_cert                                            = $foreman_proxy::params::foreman_ssl_cert,
+  Optional[Stdlib::Absolutepath] $foreman_ssl_key                                             = $foreman_proxy::params::foreman_ssl_key,
+  Array[String] $trusted_hosts                                                                = $foreman_proxy::params::trusted_hosts,
+  Array[String] $ssl_disabled_ciphers                                                         = $foreman_proxy::params::ssl_disabled_ciphers,
+  Boolean $manage_sudoersd                                                                    = $foreman_proxy::params::manage_sudoersd,
+  Boolean $use_sudoersd                                                                       = $foreman_proxy::params::use_sudoersd,
+  Boolean $use_sudoers                                                                        = $foreman_proxy::params::use_sudoers,
+  Boolean $puppetca                                                                           = $foreman_proxy::params::puppetca,
+  Foreman_proxy::ListenOn $puppetca_listen_on                                                 = $foreman_proxy::params::puppetca_listen_on,
+  Stdlib::Absolutepath $ssldir                                                                = $foreman_proxy::params::ssldir,
+  Stdlib::Absolutepath $puppetdir                                                             = $foreman_proxy::params::puppetdir,
+  String $puppetca_cmd                                                                        = $foreman_proxy::params::puppetca_cmd,
+  String $puppet_group                                                                        = $foreman_proxy::params::puppet_group,
+  Boolean $manage_puppet_group                                                                = $foreman_proxy::params::manage_puppet_group,
+  Boolean $puppet                                                                             = $foreman_proxy::params::puppet,
+  Foreman_proxy::ListenOn $puppet_listen_on                                                   = $foreman_proxy::params::puppet_listen_on,
+  $puppetrun_cmd                                                                              = $foreman_proxy::params::puppetrun_cmd,
+  Optional[Enum['puppetrun', 'mcollective', 'ssh', 'salt', 'customrun']] $puppetrun_provider  = $foreman_proxy::params::puppetrun_provider,
+  String $customrun_cmd                                                                       = $foreman_proxy::params::customrun_cmd,
+  String $customrun_args                                                                      = $foreman_proxy::params::customrun_args,
+  String $mcollective_user                                                                    = $foreman_proxy::params::mcollective_user,
+  Boolean $puppetssh_sudo                                                                     = $foreman_proxy::params::puppetssh_sudo,
+  String $puppetssh_command                                                                   = $foreman_proxy::params::puppetssh_command,
+  String $puppetssh_user                                                                      = $foreman_proxy::params::puppetssh_user,
+  Stdlib::Absolutepath $puppetssh_keyfile                                                     = $foreman_proxy::params::puppetssh_keyfile,
+  Boolean $puppetssh_wait                                                                     = $foreman_proxy::params::puppetssh_wait,
+  String $salt_puppetrun_cmd                                                                  = $foreman_proxy::params::salt_puppetrun_cmd,
+  String $puppet_user                                                                         = $foreman_proxy::params::puppet_user,
+  Stdlib::HTTPUrl $puppet_url                                                                 = $foreman_proxy::params::puppet_url,
+  Stdlib::Absolutepath $puppet_ssl_ca                                                         = $foreman_proxy::params::ssl_ca,
+  Stdlib::Absolutepath $puppet_ssl_cert                                                       = $foreman_proxy::params::ssl_cert,
+  Stdlib::Absolutepath $puppet_ssl_key                                                        = $foreman_proxy::params::ssl_key,
+  Optional[Boolean] $puppet_use_environment_api                                               = $foreman_proxy::params::puppet_use_environment_api,
+  Integer[0] $puppet_api_timeout                                                              = $foreman_proxy::params::puppet_api_timeout,
+  Boolean $templates                                                                          = $foreman_proxy::params::templates,
+  Foreman_proxy::ListenOn $templates_listen_on                                                = $foreman_proxy::params::templates_listen_on,
+  Stdlib::HTTPUrl $template_url                                                               = $foreman_proxy::params::template_url,
+  Boolean $logs                                                                               = $foreman_proxy::params::logs,
+  Foreman_proxy::ListenOn $logs_listen_on                                                     = $foreman_proxy::params::logs_listen_on,
+  Boolean $tftp                                                                               = $foreman_proxy::params::tftp,
+  Foreman_proxy::ListenOn $tftp_listen_on                                                     = $foreman_proxy::params::tftp_listen_on,
+  Boolean $tftp_managed                                                                       = $foreman_proxy::params::tftp_managed,
+  Boolean $tftp_manage_wget                                                                   = $foreman_proxy::params::tftp_manage_wget,
+  Array[Stdlib::Absolutepath] $tftp_syslinux_filenames                                        = $foreman_proxy::params::tftp_syslinux_filenames,
+  Stdlib::Absolutepath $tftp_root                                                             = $foreman_proxy::params::tftp_root,
+  Array[Stdlib::Absolutepath] $tftp_dirs                                                      = $foreman_proxy::params::tftp_dirs,
+  Optional[String] $tftp_servername                                                           = $foreman_proxy::params::tftp_servername,
+  Boolean $dhcp                                                                               = $foreman_proxy::params::dhcp,
+  Foreman_proxy::ListenOn $dhcp_listen_on                                                     = $foreman_proxy::params::dhcp_listen_on,
+  Boolean $dhcp_managed                                                                       = $foreman_proxy::params::dhcp_managed,
+  String $dhcp_provider                                                                       = $foreman_proxy::params::dhcp_provider,
+  Array[String] $dhcp_subnets                                                                 = $foreman_proxy::params::dhcp_subnets,
+  Array[String] $dhcp_option_domain                                                           = $foreman_proxy::params::dhcp_option_domain,
+  Optional[Array[String]] $dhcp_search_domains                                                = $foreman_proxy::params::dhcp_search_domains,
+  String $dhcp_interface                                                                      = $foreman_proxy::params::dhcp_interface,
+  Optional[String] $dhcp_gateway                                                              = $foreman_proxy::params::dhcp_gateway,
+  Optional[String] $dhcp_range                                                                = $foreman_proxy::params::dhcp_range,
+  Optional[String] $dhcp_pxeserver                                                            = $foreman_proxy::params::dhcp_pxeserver,
+  String $dhcp_nameservers                                                                    = $foreman_proxy::params::dhcp_nameservers,
+  String $dhcp_server                                                                         = $foreman_proxy::params::dhcp_server,
+  Stdlib::Absolutepath $dhcp_config                                                           = $foreman_proxy::params::dhcp_config,
+  Stdlib::Absolutepath $dhcp_leases                                                           = $foreman_proxy::params::dhcp_leases,
+  Optional[String] $dhcp_key_name                                                             = $foreman_proxy::params::dhcp_key_name,
+  Optional[String] $dhcp_key_secret                                                           = $foreman_proxy::params::dhcp_key_secret,
+  Integer[0, 65535] $dhcp_omapi_port                                                          = $foreman_proxy::params::dhcp_omapi_port,
+  Boolean $dns                                                                                = $foreman_proxy::params::dns,
+  Foreman_proxy::ListenOn $dns_listen_on                                                      = $foreman_proxy::params::dns_listen_on,
+  Boolean $dns_managed                                                                        = $foreman_proxy::params::dns_managed,
+  String $dns_provider                                                                        = $foreman_proxy::params::dns_provider,
+  String $dns_interface                                                                       = $foreman_proxy::params::dns_interface,
+  String $dns_zone                                                                            = $foreman_proxy::params::dns_zone,
+  Optional[Variant[String, Array[String]]] $dns_reverse                                       = $foreman_proxy::params::dns_reverse,
+  String $dns_server                                                                          = $foreman_proxy::params::dns_server,
+  Integer[0] $dns_ttl                                                                         = $foreman_proxy::params::dns_ttl,
+  String $dns_tsig_keytab                                                                     = $foreman_proxy::params::dns_tsig_keytab,
+  String $dns_tsig_principal                                                                  = $foreman_proxy::params::dns_tsig_principal,
+  Array[String] $dns_forwarders                                                               = $foreman_proxy::params::dns_forwarders,
+  String $libvirt_network                                                                     = $foreman_proxy::params::libvirt_network,
+  String $libvirt_connection                                                                  = $foreman_proxy::params::libvirt_connection,
+  Boolean $bmc                                                                                = $foreman_proxy::params::bmc,
+  Foreman_proxy::ListenOn $bmc_listen_on                                                      = $foreman_proxy::params::bmc_listen_on,
+  Enum['ipmitool', 'freeipmi', 'shell'] $bmc_default_provider                                 = $foreman_proxy::params::bmc_default_provider,
+  Boolean $realm                                                                              = $foreman_proxy::params::realm,
+  Boolean $realm_split_config_files                                                           = $foreman_proxy::params::realm_split_config_files,
+  Foreman_proxy::ListenOn $realm_listen_on                                                    = $foreman_proxy::params::realm_listen_on,
+  String $realm_provider                                                                      = $foreman_proxy::params::realm_provider,
+  Stdlib::Absolutepath $realm_keytab                                                          = $foreman_proxy::params::realm_keytab,
+  String $realm_principal                                                                     = $foreman_proxy::params::realm_principal,
+  Stdlib::Absolutepath $freeipa_config                                                        = $foreman_proxy::params::freeipa_config,
+  Boolean $freeipa_remove_dns                                                                 = $foreman_proxy::params::freeipa_remove_dns,
+  Stdlib::Absolutepath $keyfile                                                               = $foreman_proxy::params::keyfile,
+  Boolean $register_in_foreman                                                                = $foreman_proxy::params::register_in_foreman,
+  Stdlib::HTTPUrl $foreman_base_url                                                           = $foreman_proxy::params::foreman_base_url,
+  String $registered_name                                                                     = $foreman_proxy::params::registered_name,
+  Optional[Stdlib::HTTPUrl] $registered_proxy_url                                             = $foreman_proxy::params::registered_proxy_url,
+  String $oauth_effective_user                                                                = $foreman_proxy::params::oauth_effective_user,
+  String $oauth_consumer_key                                                                  = $foreman_proxy::params::oauth_consumer_key,
+  String $oauth_consumer_secret                                                               = $foreman_proxy::params::oauth_consumer_secret,
+  Optional[Boolean] $puppet_use_cache                                                         = $foreman_proxy::params::puppet_use_cache,
 ) inherits foreman_proxy::params {
-
-  # Validate misc params
-  unless is_array($bind_host) {
-    validate_string($bind_host)
-    warning('foreman_proxy::bind_host should be changed to an array, support for string only is deprecated')
-  }
-  validate_bool($ssl, $manage_sudoersd, $use_sudoers, $use_sudoersd, $register_in_foreman, $manage_puppet_group)
-  validate_array($trusted_hosts, $ssl_disabled_ciphers, $groups)
-  validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
-  validate_re($plugin_version, '^(installed|present|latest|absent)$')
-  validate_re($ensure_packages_version, '^(installed|present|latest|absent)$')
-  # lint:ignore:undef_in_function
-  validate_integer($log_buffer, undef, 0)
-  validate_integer($log_buffer_errors, undef, 0)
-  # lint:endignore
-
-  # Validate puppet params
-  validate_bool($puppet, $puppetssh_wait)
-  validate_string($ssldir, $puppetdir, $puppetca_cmd, $puppetrun_cmd)
-  validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
-  validate_string($mcollective_user, $salt_puppetrun_cmd)
-  validate_integer($puppet_api_timeout)
-  if $puppet_use_cache != undef {
-    validate_bool($puppet_use_cache)
-  }
-  if $puppetrun_provider {
-    validate_string($puppetrun_provider)
-    validate_re($puppetrun_provider, '^puppetrun|mcollective|ssh|salt|customrun$', 'Invalid provider: choose puppetrun, mcollective, ssh, salt or customrun')
-  }
-
-  # Validate template params
-  validate_string($template_url)
-
-  # Validate logs params
-  validate_bool($logs)
-  validate_listen_on($logs_listen_on)
-
-  # Validate tftp params
-  validate_bool($tftp_managed, $tftp_manage_wget)
-  if $tftp_servername {
-    validate_string($tftp_servername)
-  }
-
-  # Validate dhcp params
-  validate_bool($dhcp_managed)
-  validate_array($dhcp_option_domain)
-  validate_integer($dhcp_omapi_port)
-  validate_string($dhcp_provider, $dhcp_server)
-  validate_array($dhcp_subnets)
-  if $dhcp_pxeserver {
-    validate_string($dhcp_pxeserver)
-  }
-
-  # Validate dns params
-  validate_bool($dns)
-  validate_string($dns_interface, $dns_provider, $dns_server, $keyfile)
-  validate_array($dns_forwarders)
-  # $dns_reverse can be a string or an array of strings (to cover /23 networks for example)
-  if ! is_string($dns_reverse) and ! is_array($dns_reverse) {
-    fail('$dns_reverse must be a string or an array of strings')
-  }
-
-  # Validate libvirt params
-  validate_string($libvirt_network, $libvirt_connection)
-
-  # Validate bmc params
-  validate_re($bmc_default_provider, '^(freeipmi|ipmitool|shell)$')
-
-  # Validate realm params
-  validate_bool($freeipa_remove_dns, $realm_split_config_files)
-  validate_string($realm_provider, $realm_principal, $freeipa_config)
-  unless $realm_split_config_files {
-    validate_re($realm_provider, '^freeipa$', 'Invalid provider: choose freeipa')
-  }
-  validate_absolute_path($realm_keytab)
 
   $real_registered_proxy_url = pick($registered_proxy_url, "https://${::fqdn}:${ssl_port}")
 
