@@ -39,10 +39,6 @@ class foreman_proxy::plugin::remote_execution::ssh (
 
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 
-  validate_absolute_path($ssh_identity_path, $local_working_dir, $remote_working_dir)
-  validate_bool($enabled, $generate_keys, $install_key)
-  validate_listen_on($listen_on)
-
   include ::foreman_proxy::plugin::dynflow
 
   foreman_proxy::plugin { 'remote_execution_ssh':

@@ -39,10 +39,6 @@ class foreman_proxy::plugin::chef (
   Boolean $ssl_verify = $::foreman_proxy::plugin::chef::params::ssl_verify,
   Optional[Stdlib::Absolutepath] $ssl_pem_file = $::foreman_proxy::plugin::chef::params::ssl_pem_file,
 ) inherits foreman_proxy::plugin::chef::params {
-
-  validate_bool($enabled)
-  validate_listen_on($listen_on)
-
   foreman_proxy::plugin {'chef':
     version => $version,
   }

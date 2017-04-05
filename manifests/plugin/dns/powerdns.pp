@@ -38,10 +38,6 @@ class foreman_proxy::plugin::dns::powerdns (
   Boolean $manage_database = $::foreman_proxy::plugin::dns::powerdns::params::manage_database,
   String $pdnssec = $::foreman_proxy::plugin::dns::powerdns::params::pdnssec,
 ) inherits foreman_proxy::plugin::dns::powerdns::params {
-  validate_bool($manage_database)
-  validate_re($backend, '^rest|mysql|postgresql$', 'Invalid backend: choose rest, mysql or postgresql')
-  validate_string($mysql_hostname, $mysql_username, $mysql_password, $mysql_database, $postgresql_connection, $rest_url, $rest_api_key, $pdnssec)
-
   if $manage_database and $backend == 'mysql' {
     include ::mysql::server
     mysql::db { $mysql_database:

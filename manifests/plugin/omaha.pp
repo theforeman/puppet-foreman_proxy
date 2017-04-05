@@ -30,15 +30,6 @@ class foreman_proxy::plugin::omaha (
   Optional[Stdlib::HTTPUrl] $http_proxy = $::foreman_proxy::plugin::omaha::params::http_proxy,
   Optional[String] $version = $::foreman_proxy::plugin::omaha::params::version,
 ) inherits foreman_proxy::plugin::omaha::params {
-  validate_bool($enabled)
-  validate_listen_on($listen_on)
-  validate_absolute_path($contentpath)
-  validate_integer($sync_releases)
-
-  if $http_proxy {
-    validate_string($http_proxy)
-  }
-
   foreman_proxy::plugin { 'omaha':
     version => $version,
   }

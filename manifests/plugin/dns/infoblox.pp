@@ -15,8 +15,6 @@ class foreman_proxy::plugin::dns::infoblox (
   String $username = $::foreman_proxy::plugin::dns::infoblox::params::username,
   String $password = $::foreman_proxy::plugin::dns::infoblox::params::password,
 ) inherits foreman_proxy::plugin::dns::infoblox::params {
-  validate_string($dns_server, $username, $password)
-
   foreman_proxy::plugin { 'dns_infoblox':
   }
   -> foreman_proxy::settings_file { 'dns_infoblox':

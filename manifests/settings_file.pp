@@ -32,9 +32,6 @@ define foreman_proxy::settings_file (
   String $mode = '0640',
   String $template_path = "foreman_proxy/${title}.yml.erb",
 ) {
-  validate_bool($module, $enabled)
-  validate_listen_on($listen_on)
-
   # If the config file is for a proxy module, then we need to know
   # whether it's enabled, and if so, where to listen (https, http, or both).
   # If undefined here, look up the values from the foreman_proxy class.
