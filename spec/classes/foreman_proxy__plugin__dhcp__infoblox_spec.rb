@@ -54,16 +54,4 @@ describe 'foreman_proxy::plugin::dhcp::infoblox' do
       ])
     end
   end
-
-  context 'invalid parameters' do
-    let :params do
-      {
-        :username    => 'admin',
-        :password    => 'infoblox',
-        :record_type => 'missing'
-      }
-    end
-
-    it { expect { subject.call } .to raise_error(/Invalid record type: choose host or fixedaddress/) }
-  end
 end
