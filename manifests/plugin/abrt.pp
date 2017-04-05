@@ -46,14 +46,6 @@ class foreman_proxy::plugin::abrt (
   Optional[Stdlib::Absolutepath] $faf_server_ssl_cert = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_cert,
   Optional[Stdlib::Absolutepath] $faf_server_ssl_key = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_key,
 ) inherits foreman_proxy::plugin::abrt::params {
-
-  validate_bool($enabled)
-  validate_listen_on($listen_on)
-  validate_absolute_path($abrt_send_log_file)
-  validate_absolute_path($spooldir)
-  validate_bool($aggregate_reports)
-  validate_bool($faf_server_ssl_noverify)
-
   foreman_proxy::plugin { 'abrt':
     version => $version,
   }

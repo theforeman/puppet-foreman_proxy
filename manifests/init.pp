@@ -377,81 +377,9 @@ class foreman_proxy (
   String $oauth_consumer_secret = $::foreman_proxy::params::oauth_consumer_secret,
   Optional[Boolean] $puppet_use_cache = $::foreman_proxy::params::puppet_use_cache,
 ) inherits foreman_proxy::params {
-
-  # Validate misc params
-  unless is_array($bind_host) {
-    validate_string($bind_host)
+  if $bind_host =~ String {
     warning('foreman_proxy::bind_host should be changed to an array, support for string only is deprecated')
   }
-  validate_bool($ssl, $manage_sudoersd, $use_sudoers, $use_sudoersd, $register_in_foreman, $manage_puppet_group)
-  validate_array($trusted_hosts, $ssl_disabled_ciphers, $groups)
-  validate_re($log_level, '^(UNKNOWN|FATAL|ERROR|WARN|INFO|DEBUG)$')
-  validate_re($plugin_version, '^(installed|present|latest|absent)$')
-  validate_re($ensure_packages_version, '^(installed|present|latest|absent)$')
-  # lint:ignore:undef_in_function
-  validate_integer($log_buffer, undef, 0)
-  validate_integer($log_buffer_errors, undef, 0)
-  # lint:endignore
-
-  # Validate puppet params
-  validate_bool($puppet, $puppetssh_wait)
-  validate_string($ssldir, $puppetdir, $puppetca_cmd, $puppetrun_cmd)
-  validate_string($puppet_url, $puppet_ssl_ca, $puppet_ssl_cert, $puppet_ssl_key)
-  validate_string($mcollective_user, $salt_puppetrun_cmd)
-  validate_integer($puppet_api_timeout)
-  if $puppet_use_cache != undef {
-    validate_bool($puppet_use_cache)
-  }
-  if $puppetrun_provider {
-    validate_string($puppetrun_provider)
-    validate_re($puppetrun_provider, '^puppetrun|mcollective|ssh|salt|customrun$', 'Invalid provider: choose puppetrun, mcollective, ssh, salt or customrun')
-  }
-
-  # Validate template params
-  validate_string($template_url)
-
-  # Validate logs params
-  validate_bool($logs)
-  validate_listen_on($logs_listen_on)
-
-  # Validate tftp params
-  validate_bool($tftp_managed, $tftp_manage_wget)
-  if $tftp_servername {
-    validate_string($tftp_servername)
-  }
-
-  # Validate dhcp params
-  validate_bool($dhcp_managed)
-  validate_array($dhcp_option_domain)
-  validate_integer($dhcp_omapi_port)
-  validate_string($dhcp_provider, $dhcp_server)
-  validate_array($dhcp_subnets)
-  if $dhcp_pxeserver {
-    validate_string($dhcp_pxeserver)
-  }
-
-  # Validate dns params
-  validate_bool($dns)
-  validate_string($dns_interface, $dns_provider, $dns_server, $keyfile)
-  validate_array($dns_forwarders)
-  # $dns_reverse can be a string or an array of strings (to cover /23 networks for example)
-  if ! is_string($dns_reverse) and ! is_array($dns_reverse) {
-    fail('$dns_reverse must be a string or an array of strings')
-  }
-
-  # Validate libvirt params
-  validate_string($libvirt_network, $libvirt_connection)
-
-  # Validate bmc params
-  validate_re($bmc_default_provider, '^(freeipmi|ipmitool|shell)$')
-
-  # Validate realm params
-  validate_bool($freeipa_remove_dns, $realm_split_config_files)
-  validate_string($realm_provider, $realm_principal, $freeipa_config)
-  unless $realm_split_config_files {
-    validate_re($realm_provider, '^freeipa$', 'Invalid provider: choose freeipa')
-  }
-  validate_absolute_path($realm_keytab)
 
   $real_registered_proxy_url = pick($registered_proxy_url, "https://${::fqdn}:${ssl_port}")
 

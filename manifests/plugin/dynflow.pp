@@ -26,12 +26,6 @@ class foreman_proxy::plugin::dynflow (
   String $core_listen = $::foreman_proxy::plugin::dynflow::params::core_listen,
   Integer[0, 65535] $core_port = $::foreman_proxy::plugin::dynflow::params::core_port,
 ) inherits foreman_proxy::plugin::dynflow::params {
-
-  validate_integer($core_port)
-  validate_bool($enabled, $console_auth)
-  validate_listen_on($listen_on)
-  validate_absolute_path($database_path)
-
   if $::foreman_proxy::ssl {
     $core_url = "https://${::fqdn}:${core_port}"
   } else {

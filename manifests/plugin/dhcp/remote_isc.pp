@@ -21,9 +21,6 @@ class foreman_proxy::plugin::dhcp::remote_isc (
   Optional[String] $key_secret = $::foreman_proxy::plugin::dhcp::remote_isc::params::key_secret,
   Integer[0, 65535] $omapi_port = $::foreman_proxy::plugin::dhcp::remote_isc::params::omapi_port,
 ) inherits foreman_proxy::plugin::dhcp::remote_isc::params {
-  validate_string($dhcp_config, $dhcp_leases)
-  validate_integer($omapi_port)
-
   foreman_proxy::plugin { 'dhcp_remote_isc':
   }
   -> foreman_proxy::settings_file { 'dhcp_remote_isc':

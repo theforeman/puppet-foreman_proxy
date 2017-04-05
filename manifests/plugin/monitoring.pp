@@ -24,10 +24,6 @@ class foreman_proxy::plugin::monitoring (
   String $provider = $::foreman_proxy::plugin::monitoring::params::provider,
   Optional[String] $version = $::foreman_proxy::plugin::monitoring::params::version,
 ) inherits foreman_proxy::plugin::monitoring::params {
-  validate_bool($enabled)
-  validate_listen_on($listen_on)
-  validate_string($provider)
-
   foreman_proxy::plugin { 'monitoring':
     version => $version,
   }

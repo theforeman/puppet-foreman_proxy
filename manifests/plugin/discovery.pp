@@ -18,17 +18,11 @@ class foreman_proxy::plugin::discovery (
   Stdlib::HTTPUrl $source_url = $::foreman_proxy::plugin::discovery::params::source_url,
   String $image_name = $::foreman_proxy::plugin::discovery::params::image_name,
 ) inherits foreman_proxy::plugin::discovery::params {
-
-  validate_bool($install_images)
-
   foreman_proxy::plugin {'discovery':
   }
 
   if $install_images {
     $tftp_root_clean = regsubst($tftp_root, '/$', '')
-    validate_absolute_path($tftp_root_clean)
-    validate_string($source_url)
-    validate_string($image_name)
 
     foreman::remote_file {"${tftp_root_clean}/boot/${image_name}":
       remote_location => "${source_url}${image_name}",

@@ -38,20 +38,6 @@ class foreman_proxy::plugin::salt (
   String $api_username = $::foreman_proxy::plugin::salt::params::api_username,
   String $api_password = $::foreman_proxy::plugin::salt::params::api_password,
 ) inherits foreman_proxy::plugin::salt::params {
-
-  validate_bool($enabled, $api)
-  validate_listen_on($listen_on)
-  validate_absolute_path($autosign_file)
-  validate_string($user)
-
-  if $api {
-    validate_string($api_url, $api_auth, $api_username, $api_password)
-  }
-
-  if $group {
-    validate_string($group)
-  }
-
   foreman_proxy::plugin { 'salt':
   }
   -> foreman_proxy::settings_file { 'salt':

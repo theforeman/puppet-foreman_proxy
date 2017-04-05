@@ -37,14 +37,6 @@ class foreman_proxy::plugin::pulp (
   Stdlib::Absolutepath $puppet_content_dir = $::foreman_proxy::plugin::pulp::params::puppet_content_dir,
   Stdlib::Absolutepath $mongodb_dir = $::foreman_proxy::plugin::pulp::params::mongodb_dir,
 ) inherits foreman_proxy::plugin::pulp::params {
-
-  validate_bool($enabled)
-  validate_bool($pulpnode_enabled)
-  validate_absolute_path($pulp_dir)
-  validate_absolute_path($pulp_content_dir)
-  validate_absolute_path($puppet_content_dir)
-  validate_absolute_path($mongodb_dir)
-
   foreman_proxy::plugin {'pulp':
     version => $version,
   }

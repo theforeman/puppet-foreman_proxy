@@ -34,14 +34,6 @@ class foreman_proxy::plugin::monitoring::icinga2 (
   Optional[String] $api_password = $::foreman_proxy::plugin::monitoring::icinga2::params::api_password,
   Boolean $verify_ssl = $::foreman_proxy::plugin::monitoring::icinga2::params::verify_ssl,
 ) inherits foreman_proxy::plugin::monitoring::icinga2::params {
-  validate_bool($enabled)
-  validate_string($server, $api_user, $api_usercert, $api_userkey)
-
-  validate_bool($verify_ssl)
-  if $api_password {
-    validate_string($api_password)
-  }
-
   include ::foreman_proxy::plugin::monitoring
 
   foreman_proxy::settings_file { 'monitoring_icinga2':

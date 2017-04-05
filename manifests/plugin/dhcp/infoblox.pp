@@ -18,10 +18,6 @@ class foreman_proxy::plugin::dhcp::infoblox (
   Enum['host', 'fixedaddress'] $record_type = $::foreman_proxy::plugin::dhcp::infoblox::params::record_type,
   Boolean $use_ranges = $::foreman_proxy::plugin::dhcp::infoblox::params::use_ranges,
 ) inherits foreman_proxy::plugin::dhcp::infoblox::params {
-  validate_string($username, $password)
-  validate_re($record_type, '^host|fixedaddress$', 'Invalid record type: choose host or fixedaddress')
-  validate_bool($use_ranges)
-
   foreman_proxy::plugin { 'dhcp_infoblox':
   }
   -> foreman_proxy::settings_file { 'dhcp_infoblox':
