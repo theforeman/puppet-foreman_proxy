@@ -131,14 +131,4 @@ describe 'foreman_proxy::plugin::dns::powerdns' do
       should_not contain_mysql__db('pdns')
     end
   end
-
-  context 'with an invalid backend' do
-    let :params do
-      {
-        :backend => 'invalid',
-      }
-    end
-
-    it { expect { subject.call } .to raise_error(/Invalid backend: choose rest, mysql or postgresql/) }
-  end
 end

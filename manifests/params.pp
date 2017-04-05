@@ -172,7 +172,7 @@ class foreman_proxy::params {
   # Enable listening on http
   $bind_host = ['*']
   $http      = false
-  $http_port = '8000'
+  $http_port = 8000
 
   # Logging settings
   $log               = '/var/log/foreman-proxy/proxy.log'
@@ -182,7 +182,7 @@ class foreman_proxy::params {
 
   # Enable SSL, ensure proxy is added with "https://" protocol if true
   $ssl      = true
-  $ssl_port = '8443'
+  $ssl_port = 8443
   # If CA is specified, remote Foreman host will be verified
   $ssl_ca = "${ssldir}/certs/ca.pem"
   # Used to communicate to Foreman
@@ -293,7 +293,7 @@ class foreman_proxy::params {
   $dns_reverse            = undef
   # localhost can resolve to ipv6 which ruby doesn't handle well
   $dns_server             = '127.0.0.1'
-  $dns_ttl                = '86400'
+  $dns_ttl                = 86400
   $dns_tsig_keytab        = "${etc}/foreman-proxy/dns.keytab"
   $dns_tsig_principal     = "foremanproxy/${::fqdn}@${dns_realm}"
 

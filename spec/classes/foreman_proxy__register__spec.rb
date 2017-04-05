@@ -32,9 +32,9 @@ describe 'foreman_proxy::register' do
         let :pre_condition do
           "class {'foreman_proxy':
             register_in_foreman   => true,
-            foreman_base_url      => 'my_base',
+            foreman_base_url      => 'https://foreman.example.com',
             registered_name       => 'my_proxy',
-            registered_proxy_url  => 'my_url',
+            registered_proxy_url  => 'https://proxy.example.com:8443',
             oauth_consumer_key    => 'key',
             oauth_consumer_secret => 'secret',
             oauth_effective_user  => 'smartproxy',
@@ -45,9 +45,9 @@ describe 'foreman_proxy::register' do
           should contain_class('foreman_proxy::register')
           should contain_foreman_smartproxy('my_proxy').with({
             'ensure'          => 'present',
-            'base_url'        => 'my_base',
+            'base_url'        => 'https://foreman.example.com',
             'effective_user'  => 'smartproxy',
-            'url'             => 'my_url',
+            'url'             => 'https://proxy.example.com:8443',
             'consumer_key'    => 'key',
             'consumer_secret' => 'secret',
           })
@@ -58,12 +58,12 @@ describe 'foreman_proxy::register' do
         let :pre_condition do
           "class {'foreman_proxy':
             register_in_foreman   => true,
-            foreman_base_url      => 'my_base',
+            foreman_base_url      => 'https://foreman.example.com',
             registered_name       => 'my_proxy',
             oauth_consumer_key    => 'key',
             oauth_consumer_secret => 'secret',
             oauth_effective_user  => 'smartproxy',
-            ssl_port              => '1234',
+            ssl_port              => 1234,
           }"
         end
 
@@ -71,7 +71,7 @@ describe 'foreman_proxy::register' do
           should contain_class('foreman_proxy::register')
           should contain_foreman_smartproxy('my_proxy').with({
             'ensure'          => 'present',
-            'base_url'        => 'my_base',
+            'base_url'        => 'https://foreman.example.com',
             'effective_user'  => 'smartproxy',
             'url'             => "https://#{facts[:fqdn]}:1234",
             'consumer_key'    => 'key',
