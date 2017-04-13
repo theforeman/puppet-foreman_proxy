@@ -1,6 +1,7 @@
 ---
 :enabled: <%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::enabled') %>
 :server: "<%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::server') %>"
+:api_port: <%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::api_port') %>
 :api_cacert: "<%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::api_cacert') %>"
 :api_user: "<%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::api_user') %>"
 <% api_password = scope.lookupvar('::foreman_proxy::plugin::monitoring::icinga2::api_password') -%>
