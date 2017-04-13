@@ -6,6 +6,8 @@
 #
 # $server::                Icinga2 server hostname.
 #
+# $api_port::              Icinga 2 API port.
+#
 # $api_cacert::            Path to Icinga2 server CA certificate file.
 #
 # $api_user::              Icinga2 API username.
@@ -27,6 +29,7 @@
 class foreman_proxy::plugin::monitoring::icinga2 (
   Boolean $enabled = $::foreman_proxy::plugin::monitoring::icinga2::params::enabled,
   String $server = $::foreman_proxy::plugin::monitoring::icinga2::params::server,
+  Integer[0, 65535] $api_port = $::foreman_proxy::plugin::monitoring::icinga2::params::api_port,
   Stdlib::Absolutepath $api_cacert = $::foreman_proxy::plugin::monitoring::icinga2::params::api_cacert,
   String $api_user = $::foreman_proxy::plugin::monitoring::icinga2::params::api_user,
   Stdlib::Absolutepath $api_usercert = $::foreman_proxy::plugin::monitoring::icinga2::params::api_usercert,

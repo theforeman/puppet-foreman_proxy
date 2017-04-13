@@ -3,4 +3,9 @@
 :enabled: <%= @module_enabled %>
 # valid providers:
 #   monitoring_icinga2
-:use_provider: monitoring_<%= scope.lookupvar("::foreman_proxy::plugin::monitoring::provider") %>
+#   monitoring_icingadirector
+:use_provider:
+<%- scope.lookupvar("::foreman_proxy::plugin::monitoring::providers").each do |provider| -%>
+  - monitoring_<%= provider %>
+<%- end -%>
+:collect_status: <%= scope.lookupvar("::foreman_proxy::plugin::monitoring::collect_status") %>

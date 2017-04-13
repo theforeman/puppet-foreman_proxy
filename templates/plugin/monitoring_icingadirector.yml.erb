@@ -1,0 +1,13 @@
+---
+:enabled: <%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icingadirector::enabled') %>
+:director_url: "<%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icingadirector::director_url') %>"
+:director_cacert: "<%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icingadirector::director_cacert') %>"
+<% director_user = scope.lookupvar('::foreman_proxy::plugin::monitoring::icingadirector::director_user') -%>
+<% if !director_user.nil? && director_user != :undef && !director_user.empty? %>
+:director_user: "<%= director_user %>"
+<% end %>
+<% director_password = scope.lookupvar('::foreman_proxy::plugin::monitoring::icingadirector::director_password') -%>
+<% if !director_password.nil? && director_password != :undef && !director_password.empty? %>
+:director_password: "<%= director_password %>"
+<% end %>
+:verify_ssl: <%= scope.lookupvar('::foreman_proxy::plugin::monitoring::icingadirector::verify_ssl') %>
