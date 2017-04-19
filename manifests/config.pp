@@ -33,7 +33,7 @@ class foreman_proxy::config {
     comment => 'Foreman Proxy account',
     groups  => $groups,
     home    => $foreman_proxy::dir,
-    require => Class['foreman_proxy::install'],
+    require => Class['::foreman_proxy::install'],
     notify  => Class['foreman_proxy::service'],
   }
 
