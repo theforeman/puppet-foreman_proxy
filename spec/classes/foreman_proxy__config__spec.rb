@@ -356,11 +356,23 @@ describe 'foreman_proxy::config' do
             end
           else
             it { should contain_package('grub').with_ensure('installed') }
-            it 'should copy grub1 files for Red Hat version 6 and older' do
-              should contain_file('/var/lib/tftpboot/grub/grubx64.efi').
-                with_ensure('file').
-                with_owner('root').
-                with_mode('0644')
+            case facts[:operatingsystem]
+              when /^(RedHat|Scientific|OracleLinux)$/
+                it 'should copy grub1 files for Red Hat version 6 and older' do
+                  should contain_file('/var/lib/tftpboot/grub/grubx64.efi').
+                    with_source('/boot/efi/EFI/redhat/grubx64.efi').
+                    with_ensure('file').
+                    with_owner('root').
+                    with_mode('0644')
+                end
+              when 'CentOS'
+                it 'should copy grub1 files for CentOS version 6 and older' do
+                  should contain_file('/var/lib/tftpboot/grub/grubx64.efi').
+                    with_source('/boot/efi/EFI/centos/grubx64.efi').
+                    with_ensure('file').
+                    with_owner('root').
+                    with_mode('0644')
+                end
             end
             it 'should create shim.efi symlink for Red Hat version 6 and older' do
               should contain_file('/var/lib/tftpboot/grub/shim.efi').with_ensure('link')
