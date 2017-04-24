@@ -37,6 +37,7 @@ class foreman_proxy::plugin::omaha (
     template_path => 'foreman_proxy/plugin/omaha.yml.erb',
     group         => $group,
     enabled       => $enabled,
+    feature       => 'Omaha',
     listen_on     => $listen_on,
   }
 

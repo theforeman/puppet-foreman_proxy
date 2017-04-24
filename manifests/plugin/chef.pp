@@ -45,6 +45,7 @@ class foreman_proxy::plugin::chef (
   -> foreman_proxy::settings_file { 'chef':
     listen_on     => $listen_on,
     enabled       => $enabled,
+    feature       => 'Chef',
     group         => $group,
     template_path => 'foreman_proxy/plugin/chef.yml.erb',
   }

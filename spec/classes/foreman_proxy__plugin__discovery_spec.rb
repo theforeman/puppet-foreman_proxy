@@ -19,6 +19,7 @@ describe 'foreman_proxy::plugin::discovery' do
       end
 
       it { should contain_foreman_proxy__plugin('discovery') }
+      it { should contain_foreman_proxy__feature('Discovery') }
 
       describe 'without paramaters' do
         it { should_not contain_foreman__remote_file("#{tftproot}/boot/fdi-image-latest.tar") }

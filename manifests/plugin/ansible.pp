@@ -33,6 +33,7 @@ class foreman_proxy::plugin::ansible (
   }
   -> foreman_proxy::settings_file { 'ansible':
     enabled       => $enabled,
+    feature       => 'Ansible',
     listen_on     => $listen_on,
     template_path => 'foreman_proxy/plugin/ansible.yml.erb',
   }

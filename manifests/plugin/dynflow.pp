@@ -36,6 +36,7 @@ class foreman_proxy::plugin::dynflow (
   }
   -> foreman_proxy::settings_file { 'dynflow':
     enabled       => $enabled,
+    feature       => 'Dynflow',
     listen_on     => $listen_on,
     template_path => 'foreman_proxy/plugin/dynflow.yml.erb',
   }

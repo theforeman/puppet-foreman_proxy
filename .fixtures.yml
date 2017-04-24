@@ -2,6 +2,7 @@ fixtures:
   repositories:
     apt:      'git://github.com/puppetlabs/puppetlabs-apt'
     concat:   'git://github.com/puppetlabs/puppetlabs-concat'
+    datacat:  'git://github.com/richardc/puppet-datacat'
     dhcp:     'git://github.com/theforeman/puppet-dhcp'
     dns:      'git://github.com/theforeman/puppet-dns'
     extlib:   'git://github.com/voxpupuli/puppet-extlib'
