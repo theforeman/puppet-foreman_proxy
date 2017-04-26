@@ -333,26 +333,14 @@ describe 'foreman_proxy::config' do
             it { should contain_package('shim').with_ensure('installed') }
             case facts[:operatingsystem]
               when /^(RedHat|Scientific|OracleLinux)$/
-                it 'should copy the grubx64.efi for Red Hat and clones' do
-                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/redhat/grubx64.efi')
-                end
-                it 'should copy the shim.efi for Red Hat and clones' do
-                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/redhat/shim.efi')
-                end
+                it { should contain_file("#{tftp_root}/grub2/grubx64.efi").with_source('/boot/efi/EFI/redhat/grubx64.efi') }
+                it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/redhat/shim.efi') }
               when 'Fedora'
-                it 'should copy the grubx64.efi for Red Hat and clones' do
-                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/fedora/grubx64.efi')
-                end
-                it 'should copy the shim.efi for Fedora' do
-                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/fedora/shim.efi')
-                end
+                it { should contain_file("#{tftp_root}/grub2/grubx64.efi").with_source('/boot/efi/EFI/fedora/grubx64.efi') }
+                it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/fedora/shim.efi') }
               when 'CentOS'
-                it 'should copy the grubx64.efi for Red Hat and clones' do
-                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/centos/grubx64.efi')
-                end
-                it 'should copy the shim.efi for CentOS' do
-                  should contain_foreman_proxy__tftp__copy_file('/boot/efi/EFI/centos/shim.efi')
-                end
+                it { should contain_file("#{tftp_root}/grub2/grubx64.efi").with_source('/boot/efi/EFI/centos/grubx64.efi') }
+                it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/centos/shim.efi') }
             end
           else
             it { should contain_package('grub').with_ensure('installed') }
@@ -367,13 +355,9 @@ describe 'foreman_proxy::config' do
             end
             case facts[:operatingsystem]
               when /^(RedHat|Scientific|OracleLinux|CentOS)$/
-                it 'should copy grub.efi for Red Hat and clones' do
-                  should contain_file('/var/lib/tftpboot/grub/grubx64.efi').with_source('/boot/efi/EFI/redhat/grub.efi')
-                end
+                it { should contain_file("#{tftp_root}/grub/grubx64.efi").with_source('/boot/efi/EFI/redhat/grub.efi') }
               when 'Fedora'
-                it 'should copy grub.efi for Fedora' do
-                  should contain_file('/var/lib/tftpboot/grub/grubx64.efi').with_source('/boot/efi/EFI/fedora/grub.efi')
-                end
+                it { should contain_file("#{tftp_root}/grub/grubx64.efi").with_source('/boot/efi/EFI/fedora/grub.efi') }
             end
           end
         end
