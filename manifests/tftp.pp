@@ -23,7 +23,7 @@ class foreman_proxy::tftp (
     ensure  => file,
     owner   => $user,
     mode    => '0644',
-    content => template('foreman_proxy/grub.cfg.erb'),
+    content => file('foreman_proxy/grub.cfg'),
   }
 
   $syslinux_filenames.each |$source_file| {
