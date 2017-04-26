@@ -275,91 +275,8 @@ describe 'foreman_proxy::config' do
           ])
         end
 
-        it 'should create grub2 config' do
-          should contain_file("#{tftp_root}/grub2/grub.cfg").
-            with_mode('0644').
-            with_owner(proxy_user_name)
-        end
-
-        if facts[:osfamily] == 'Debian'
-          it { should contain_package('grub-common').with_ensure('installed') }
-          it { should contain_package('grub-efi-amd64-bin').with_ensure('installed') }
-
-          if facts[:operatingsystem] == 'Ubuntu' && facts[:operatingsystemrelease] == '14.04'
-            it 'should copy the correct default files for Ubuntu 14.04' do
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/chain.c32')
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/mboot.c32')
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/menu.c32')
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/memdisk')
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/pxelinux.0')
-            end
-          else
-            it 'should copy the correct default files for newer Debian/Ubuntu versions' do
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/PXELINUX/pxelinux.0')
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/memdisk')
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/chain.c32')
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/ldlinux.c32')
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/libcom32.c32')
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/libutil.c32')
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/mboot.c32')
-              should contain_foreman_proxy__tftp__copy_file('/usr/lib/syslinux/modules/bios/menu.c32')
-            end
-          end
-
-          it 'should generate efi image from grub2 modules for Debian' do
-            should contain_exec('build-grub2-efi-image').
-              with_unless("/bin/grep -q regexp '#{tftp_root}/grub2/grubx64.efi'")
-            should contain_file("#{tftp_root}/grub2/grubx64.efi").
-              with_mode('0644').
-              with_owner('root').
-              that_requires('Exec[build-grub2-efi-image]')
-          end
-          it 'should create shim.efi symlink' do
-            should contain_file("#{tftp_root}/grub2/shim.efi").with_ensure('link')
-          end
-        elsif facts[:osfamily] == 'RedHat'
-          it 'should copy the correct default files for Red Hat' do
-            should contain_foreman_proxy__tftp__copy_file('/usr/share/syslinux/chain.c32')
-            should contain_foreman_proxy__tftp__copy_file('/usr/share/syslinux/mboot.c32')
-            should contain_foreman_proxy__tftp__copy_file('/usr/share/syslinux/menu.c32')
-            should contain_foreman_proxy__tftp__copy_file('/usr/share/syslinux/memdisk')
-            should contain_foreman_proxy__tftp__copy_file('/usr/share/syslinux/pxelinux.0')
-          end
-
-          if facts[:operatingsystemmajrelease].to_i > 6
-            it { should contain_package('grub2-efi').with_ensure('installed') }
-            it { should contain_package('grub2-efi-modules').with_ensure('installed') }
-            it { should contain_package('grub2-tools').with_ensure('installed') }
-            it { should contain_package('shim').with_ensure('installed') }
-            case facts[:operatingsystem]
-              when /^(RedHat|Scientific|OracleLinux)$/
-                it { should contain_file("#{tftp_root}/grub2/grubx64.efi").with_source('/boot/efi/EFI/redhat/grubx64.efi') }
-                it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/redhat/shim.efi') }
-              when 'Fedora'
-                it { should contain_file("#{tftp_root}/grub2/grubx64.efi").with_source('/boot/efi/EFI/fedora/grubx64.efi') }
-                it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/fedora/shim.efi') }
-              when 'CentOS'
-                it { should contain_file("#{tftp_root}/grub2/grubx64.efi").with_source('/boot/efi/EFI/centos/grubx64.efi') }
-                it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/centos/shim.efi') }
-            end
-          else
-            it { should contain_package('grub').with_ensure('installed') }
-            it 'should copy grub1 files for Red Hat version 6 and older' do
-              should contain_file('/var/lib/tftpboot/grub/grubx64.efi').
-                with_ensure('file').
-                with_owner('root').
-                with_mode('0644')
-            end
-            it 'should create shim.efi symlink for Red Hat version 6 and older' do
-              should contain_file('/var/lib/tftpboot/grub/shim.efi').with_ensure('link')
-            end
-            case facts[:operatingsystem]
-              when /^(RedHat|Scientific|OracleLinux|CentOS)$/
-                it { should contain_file("#{tftp_root}/grub/grubx64.efi").with_source('/boot/efi/EFI/redhat/grub.efi') }
-              when 'Fedora'
-                it { should contain_file("#{tftp_root}/grub/grubx64.efi").with_source('/boot/efi/EFI/fedora/grub.efi') }
-            end
-          end
+        it do
+          should contain_class('foreman_proxy::tftp')
         end
 
         it 'should generate correct realm.yml' do
@@ -534,13 +451,14 @@ describe 'foreman_proxy::config' do
         let :pre_condition do
           'class {"foreman_proxy":
             tftp_managed            => true,
+            tftp_root               => "/tftpboot",
             tftp_syslinux_filenames => [ "/my/file", "/my/anotherfile" ],
           }'
         end
 
         it 'should copy the given files' do
-          should contain_foreman_proxy__tftp__copy_file('/my/file')
-          should contain_foreman_proxy__tftp__copy_file('/my/anotherfile')
+          should contain_file('/tftpboot/file').with_source('/my/file')
+          should contain_file('/tftpboot/anotherfile').with_source('/my/anotherfile')
         end
       end
 
