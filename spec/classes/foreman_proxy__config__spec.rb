@@ -277,6 +277,10 @@ describe 'foreman_proxy::config' do
 
         it do
           should contain_class('foreman_proxy::tftp')
+            .with_user(proxy_user_name)
+            .with_root(tftp_root)
+            .with_manage_wget(true)
+            .with_wget_version('present')
         end
 
         it 'should generate correct realm.yml' do

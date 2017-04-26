@@ -1,41 +1,47 @@
 # Set up the tftp component
-class foreman_proxy::tftp {
+class foreman_proxy::tftp (
+  $user = $::foreman_proxy::user,
+  $root = $::foreman_proxy::tftp_root,
+  $directories = $::foreman_proxy::tftp_dirs,
+  $syslinux_filenames = $::foreman_proxy::tftp_syslinux_filenames,
+  $manage_wget = $::foreman_proxy::tftp_manage_wget,
+  $wget_version = $::foreman_proxy::ensure_packages_version,
+) {
   class { '::tftp':
-    root => $foreman_proxy::tftp_root,
+    root => $root,
   }
 
-  file { $foreman_proxy::tftp_dirs:
+  file { $directories:
     ensure  => directory,
-    owner   => $foreman_proxy::user,
+    owner   => $user,
     mode    => '0644',
     require => Class['foreman_proxy::install', 'tftp::install'],
     recurse => true,
   }
 
-  file { "${foreman_proxy::tftp_root}/grub2/grub.cfg":
+  file { "${root}/grub2/grub.cfg":
     ensure  => file,
-    owner   => $foreman_proxy::user,
+    owner   => $user,
     mode    => '0644',
     content => template('foreman_proxy/grub.cfg.erb'),
   }
 
-  $foreman_proxy::tftp_syslinux_filenames.each |$source_file| {
+  $syslinux_filenames.each |$source_file| {
     $filename = basename($source_file)
-    file {"${foreman_proxy::tftp_root}/${filename}":
+    file {"${root}/${filename}":
       ensure  => file,
       source  => $source_file,
       require => Class['foreman_proxy::install', 'tftp::install'],
     }
   }
 
-  if $foreman_proxy::tftp_manage_wget {
-    ensure_packages(['wget'], { ensure => $foreman_proxy::ensure_packages_version, })
+  if $manage_wget {
+    ensure_packages(['wget'], { ensure => $wget_version, })
   }
 
   case $::osfamily {
     'RedHat': {
-      $osreleasemajor = regsubst($::operatingsystemrelease, '^(\d+)\..*$', '\1') # workaround for the possibly missing operatingsystemmajrelease
-      if versioncmp($osreleasemajor, '6') <= 0 {
+      if versioncmp($::operatingsystemmajrelease, '6') <= 0 {
         $grub_type = 'redhat_old'
         $grub_packages = ['grub']
       } else {
@@ -62,7 +68,7 @@ class foreman_proxy::tftp {
       $grub_efi_path = 'fedora'
     }
     'CentOS': {
-      if versioncmp($osreleasemajor, '6') <= 0 {
+      if versioncmp($::operatingsystemmajrelease, '6') <= 0 {
         $grub_efi_path = 'redhat'
       } else {
         $grub_efi_path = 'centos'
@@ -80,41 +86,41 @@ class foreman_proxy::tftp {
 
   case $grub_type {
     'redhat': {
-      file { "${foreman_proxy::tftp_root}/grub2/grubx64.efi":
+      file { "${root}/grub2/grubx64.efi":
         ensure => file,
         source => "/boot/efi/EFI/${grub_efi_path}/grubx64.efi",
       }
 
-      file { "${foreman_proxy::tftp_root}/grub2/shim.efi":
+      file { "${root}/grub2/shim.efi":
         ensure => file,
         source => "/boot/efi/EFI/${grub_efi_path}/shim.efi",
       }
     }
     'redhat_old': {
-      file {"${foreman_proxy::tftp_root}/grub/grubx64.efi":
+      file {"${root}/grub/grubx64.efi":
         ensure => file,
         owner  => 'root',
         mode   => '0644',
         source => "/boot/efi/EFI/${grub_efi_path}/grub.efi",
       }
 
-      file {"${foreman_proxy::tftp_root}/grub/shim.efi":
+      file {"${root}/grub/shim.efi":
         ensure => 'link',
         target => 'grubx64.efi',
       }
     }
     'debian': {
       exec {'build-grub2-efi-image':
-        command => "/usr/bin/grub-mkimage -O x86_64-efi -d ${efi_dir} -o ${foreman_proxy::tftp_root}/grub2/grubx64.efi -p '' ${grub_modules}",
-        unless  => "/bin/grep -q regexp '${foreman_proxy::tftp_root}/grub2/grubx64.efi'",
-        require => [File[$foreman_proxy::tftp_dirs], Package[$grub_packages]],
+        command => "/usr/bin/grub-mkimage -O x86_64-efi -d ${efi_dir} -o ${root}/grub2/grubx64.efi -p '' ${grub_modules}",
+        unless  => "/bin/grep -q regexp '${root}/grub2/grubx64.efi'",
+        require => [File[$directories], Package[$grub_packages]],
       }
-      -> file {"${foreman_proxy::tftp_root}/grub2/grubx64.efi":
+      -> file {"${root}/grub2/grubx64.efi":
         mode  => '0644',
         owner => 'root',
       }
 
-      file {"${foreman_proxy::tftp_root}/grub2/shim.efi":
+      file {"${root}/grub2/shim.efi":
         ensure => 'link',
         target => 'grubx64.efi',
       }
