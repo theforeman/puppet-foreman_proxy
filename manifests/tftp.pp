@@ -33,18 +33,22 @@ class foreman_proxy::tftp {
       $osreleasemajor = regsubst($::operatingsystemrelease, '^(\d+)\..*$', '\1') # workaround for the possibly missing operatingsystemmajrelease
       if versioncmp($osreleasemajor, '6') <= 0 {
         $grub_type = 'redhat_old'
+        $grub_packages = ['grub']
       } else {
         $grub_type = 'redhat'
+        $grub_packages = ['grub2-efi','grub2-efi-modules','grub2-tools','shim']
       }
     }
     'Debian': {
       $grub_type = 'debian'
+      $grub_packages = ['grub-common','grub-efi-amd64-bin']
       # taken from https://anonscm.debian.org/cgit/pkg-grub/grub.git/tree/debian/build-efi-images + regexp
       $grub_modules = 'all_video boot btrfs cat chain configfile echo efifwsetup efinet ext2 fat font gettext gfxmenu gfxterm gfxterm_background gzio halt hfsplus iso9660 jpeg keystatus loadenv linux lsefi lsefimmap lsefisystab lssal memdisk minicmd normal part_apple part_msdos part_gpt password_pbkdf2 png reboot search search_fs_uuid search_fs_file search_label sleep test true video zfs zfscrypt zfsinfo linuxefi lvm mdraid09 mdraid1x raid5rec raid6rec tftp regexp'
     }
     default: {
       warning("Unable to detect EFI loader for OS family '${::osfamily}'")
       $grub_type = 'unknown'
+      $grub_packages = []
     }
   }
 
@@ -68,44 +72,38 @@ class foreman_proxy::tftp {
     }
   }
 
+  ensure_packages($grub_packages, { ensure => 'installed', })
+
   case $grub_type {
     'redhat': {
-      ensure_packages(['grub2-efi','grub2-efi-modules','grub2-tools','shim'], { ensure => 'installed', })
-
-      foreman_proxy::tftp::copy_file{"/boot/efi/EFI/${grub_efi_path}/grubx64.efi":
-        target_path => "${foreman_proxy::tftp_root}/grub2",
-        require     => File[$foreman_proxy::tftp_dirs],
+      file { "${foreman_proxy::tftp_root}/grub2/grubx64.efi":
+        ensure => file,
+        source => "/boot/efi/EFI/${grub_efi_path}/grubx64.efi",
       }
 
-      foreman_proxy::tftp::copy_file{"/boot/efi/EFI/${grub_efi_path}/shim.efi":
-        target_path => "${foreman_proxy::tftp_root}/grub2",
-        require     => File[$foreman_proxy::tftp_dirs],
+      file { "${foreman_proxy::tftp_root}/grub2/shim.efi":
+        ensure => file,
+        source => "/boot/efi/EFI/${grub_efi_path}/shim.efi",
       }
     }
     'redhat_old': {
-      ensure_packages(['grub'], { ensure => 'installed', })
-
       file {"${foreman_proxy::tftp_root}/grub/grubx64.efi":
-        ensure  => file,
-        owner   => 'root',
-        mode    => '0644',
-        source  => "/boot/efi/EFI/${grub_efi_path}/grub.efi",
-        require => File[$foreman_proxy::tftp_dirs],
+        ensure => file,
+        owner  => 'root',
+        mode   => '0644',
+        source => "/boot/efi/EFI/${grub_efi_path}/grub.efi",
       }
 
       file {"${foreman_proxy::tftp_root}/grub/shim.efi":
-        ensure  => 'link',
-        target  => 'grubx64.efi',
-        require => File[$foreman_proxy::tftp_dirs],
+        ensure => 'link',
+        target => 'grubx64.efi',
       }
     }
     'debian': {
-      ensure_packages(['grub-common','grub-efi-amd64-bin'], { ensure => 'installed', })
-
       exec {'build-grub2-efi-image':
         command => "/usr/bin/grub-mkimage -O x86_64-efi -d ${efi_dir} -o ${foreman_proxy::tftp_root}/grub2/grubx64.efi -p '' ${grub_modules}",
         unless  => "/bin/grep -q regexp '${foreman_proxy::tftp_root}/grub2/grubx64.efi'",
-        require => [File[$foreman_proxy::tftp_dirs], Package['grub-common','grub-efi-amd64-bin']],
+        require => [File[$foreman_proxy::tftp_dirs], Package[$grub_packages]],
       }
       -> file {"${foreman_proxy::tftp_root}/grub2/grubx64.efi":
         mode  => '0644',
@@ -113,9 +111,8 @@ class foreman_proxy::tftp {
       }
 
       file {"${foreman_proxy::tftp_root}/grub2/shim.efi":
-        ensure  => 'link',
-        target  => 'grubx64.efi',
-        require => File[$foreman_proxy::tftp_dirs],
+        ensure => 'link',
+        target => 'grubx64.efi',
       }
     }
     default: {
