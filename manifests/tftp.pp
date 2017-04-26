@@ -19,9 +19,13 @@ class foreman_proxy::tftp {
     content => template('foreman_proxy/grub.cfg.erb'),
   }
 
-  foreman_proxy::tftp::copy_file { $foreman_proxy::tftp_syslinux_filenames:
-    target_path => $foreman_proxy::tftp_root,
-    require     => Class['foreman_proxy::install', 'tftp::install'],
+  $foreman_proxy::tftp_syslinux_filenames.each |$source_file| {
+    $filename = basename($source_file)
+    file {"${foreman_proxy::tftp_root}/${filename}":
+      ensure  => file,
+      source  => $source_file,
+      require => Class['foreman_proxy::install', 'tftp::install'],
+    }
   }
 
   if $foreman_proxy::tftp_manage_wget {
