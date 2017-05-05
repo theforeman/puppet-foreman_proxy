@@ -864,8 +864,7 @@ describe 'foreman_proxy::config' do
         end
 
         it 'should generate foreman_url setting' do
-          content = catalogue.resource('file', "#{etc_dir}/foreman-proxy/settings.yml").send(:parameters)[:content]
-          content.split("\n").select { |c| c =~ /foreman_url/ }.should == [':foreman_url: http://dummy']
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [':foreman_url: http://dummy'])
         end
       end
 
@@ -996,7 +995,7 @@ describe 'foreman_proxy::config' do
           })
 
           changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
-          changes.split("\n").should == [
+          expect(changes.split("\n")).to match_array([
             "set spec[user = '#{proxy_user_name}'][1]/user #{proxy_user_name}",
             "set spec[user = '#{proxy_user_name}'][1]/host_group/host ALL",
             "set spec[user = '#{proxy_user_name}'][1]/host_group/command '#{puppetca_command}'",
@@ -1006,7 +1005,7 @@ describe 'foreman_proxy::config' do
             "rm spec[user = '#{proxy_user_name}'][position() > 1]",
             "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
             "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
-          ]
+          ])
         end
 
         context 'when use_sudoers => false' do
@@ -1032,11 +1031,11 @@ describe 'foreman_proxy::config' do
 
           it "should remove all rules from #{etc_dir}/sudoers" do
             changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
-            changes.split("\n").should == [
+            expect(changes.split("\n")).to match_array([
               "rm spec[user = '#{proxy_user_name}'][position() > 0]",
               "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
               "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
-            ]
+            ])
           end
         end
 
@@ -1050,7 +1049,7 @@ describe 'foreman_proxy::config' do
 
           it "should modify #{etc_dir}/sudoers for puppetca and puppetrun" do
             changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
-            changes.split("\n").should == [
+            expect(changes.split("\n")).to match_array([
               "set spec[user = '#{proxy_user_name}'][1]/user #{proxy_user_name}",
               "set spec[user = '#{proxy_user_name}'][1]/host_group/host ALL",
               "set spec[user = '#{proxy_user_name}'][1]/host_group/command '#{puppetca_command}'",
@@ -1066,7 +1065,7 @@ describe 'foreman_proxy::config' do
               "rm spec[user = '#{proxy_user_name}'][position() > 2]",
               "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
               "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
-            ]
+            ])
           end
         end
       end
