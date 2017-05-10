@@ -28,7 +28,7 @@
     },
     {
       "name": "theforeman/foreman",
-      "version_requirement": ">= 5.2.0 < 9.0.0"
+      "version_requirement": ">= 8.0.0 < 9.0.0"
     },
     {
       "name": "theforeman/puppet",
@@ -45,6 +45,10 @@
     {
       "name": "puppet/extlib",
       "version_requirement": ">= 0.10.4 < 2.0.0"
+    },
+    {
+      "name": "richardc/datacat",
+      "version_requirement": ">= 0.6.0 < 1.0.0"
     }
   ],
   "requirements": [

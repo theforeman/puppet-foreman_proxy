@@ -51,6 +51,7 @@ class foreman_proxy::plugin::abrt (
   }
   -> foreman_proxy::settings_file { 'abrt':
     template_path => 'foreman_proxy/plugin/abrt.yml.erb',
+    feature       => 'Abrt',
     group         => $group,
     listen_on     => $listen_on,
     enabled       => $enabled,

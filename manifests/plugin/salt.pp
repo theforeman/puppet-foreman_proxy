@@ -45,5 +45,6 @@ class foreman_proxy::plugin::salt (
     listen_on     => $listen_on,
     template_path => 'foreman_proxy/plugin/salt.yml.erb',
     group         => $group,
+    feature       => 'Salt',
   }
 }
