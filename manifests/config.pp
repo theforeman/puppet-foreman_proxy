@@ -44,10 +44,12 @@ class foreman_proxy::config {
 
   foreman_proxy::settings_file { 'bmc':
     enabled   => $::foreman_proxy::bmc,
+    feature   => 'BMC',
     listen_on => $::foreman_proxy::bmc_listen_on,
   }
   foreman_proxy::settings_file { 'dhcp':
     enabled   => $::foreman_proxy::dhcp,
+    feature   => 'DHCP',
     listen_on => $::foreman_proxy::dhcp_listen_on,
   }
   foreman_proxy::settings_file { 'dhcp_isc':
@@ -55,6 +57,7 @@ class foreman_proxy::config {
   }
   foreman_proxy::settings_file { 'dns':
     enabled   => $::foreman_proxy::dns,
+    feature   => 'DNS',
     listen_on => $::foreman_proxy::dns_listen_on,
   }
   foreman_proxy::settings_file { ['dns_nsupdate', 'dns_nsupdate_gss']:
@@ -65,6 +68,7 @@ class foreman_proxy::config {
   }
   foreman_proxy::settings_file { 'puppet':
     enabled   => $::foreman_proxy::puppet,
+    feature   => 'Puppet',
     listen_on => $::foreman_proxy::puppet_listen_on,
   }
   foreman_proxy::settings_file { [
@@ -80,10 +84,12 @@ class foreman_proxy::config {
   }
   foreman_proxy::settings_file { 'puppetca':
     enabled   => $::foreman_proxy::puppetca,
+    feature   => 'Puppet CA',
     listen_on => $::foreman_proxy::puppetca_listen_on,
   }
   foreman_proxy::settings_file { 'realm':
     enabled   => $::foreman_proxy::realm,
+    feature   => 'Realm',
     listen_on => $::foreman_proxy::realm_listen_on,
   }
   if $::foreman_proxy::realm_split_config_files {
@@ -93,14 +99,17 @@ class foreman_proxy::config {
   }
   foreman_proxy::settings_file { 'tftp':
     enabled   => $::foreman_proxy::tftp,
+    feature   => 'TFTP',
     listen_on => $::foreman_proxy::tftp_listen_on,
   }
   foreman_proxy::settings_file { 'templates':
     enabled   => $::foreman_proxy::templates,
+    feature   => 'Templates',
     listen_on => $::foreman_proxy::templates_listen_on,
   }
   foreman_proxy::settings_file { 'logs':
     enabled   => $::foreman_proxy::logs,
+    feature   => 'Logs',
     listen_on => $::foreman_proxy::logs_listen_on,
   }
 

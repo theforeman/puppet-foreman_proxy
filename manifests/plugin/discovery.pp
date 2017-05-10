@@ -21,6 +21,8 @@ class foreman_proxy::plugin::discovery (
   foreman_proxy::plugin {'discovery':
   }
 
+  foreman_proxy::feature { 'Discovery': }
+
   if $install_images {
     $tftp_root_clean = regsubst($tftp_root, '/$', '')
 

@@ -34,6 +34,7 @@ class foreman_proxy::plugin::monitoring (
     template_path => 'foreman_proxy/plugin/monitoring.yml.erb',
     group         => $group,
     enabled       => $enabled,
+    feature       => 'Monitoring',
     listen_on     => $listen_on,
   }
 }
