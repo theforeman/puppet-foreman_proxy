@@ -824,6 +824,24 @@ describe 'foreman_proxy::config' do
         end
       end
 
+      context 'with use_autosignfile => true' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            puppetca         => true,
+            use_autosignfile => true,
+          }'
+        end
+
+        it 'should generate correct puppetca.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", [
+              '---',
+              ':enabled: https',
+              ":ssldir: #{ssl_dir}",
+              ":autosignfile: #{puppet_etc_dir}/autosign.conf",
+          ])
+        end
+      end
+
       context 'when puppetca disabled' do
         let :pre_condition do
           'class { "foreman_proxy":

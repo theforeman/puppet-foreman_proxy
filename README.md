@@ -28,9 +28,17 @@ configuration layout changed significantly.
 To configure older versions of the Smart Proxy use version 2.x of this module
 for 1.5 to 1.10 and 3.x for 1.11.
 
+### 1.16 compatibility notes
+
+On Smart Proxy 1.16+ with puppetca support, also set:
+
+    use_autosignfile => true,
+
+to ensure the new `autosignfile` parameter is used instead of `puppetdir`.
+
 ### 1.15 compatibility notes
 
-On Smart Proxy 1.15 with realm support, also set:
+On Smart Proxy 1.15+ with realm support, also set:
 
     realm_split_config_files => true,
 
