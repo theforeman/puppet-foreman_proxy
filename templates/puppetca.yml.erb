@@ -2,4 +2,8 @@
 # PuppetCA management
 :enabled: <%= @module_enabled %>
 :ssldir: <%= scope.lookupvar("foreman_proxy::ssldir") %>
+<% if scope.lookupvar("foreman_proxy::use_autosignfile") -%>
+:autosignfile: <%= scope.lookupvar("foreman_proxy::autosignfile") %>
+<% else -%>
 :puppetdir: <%= scope.lookupvar("foreman_proxy::puppetdir") %>
+<% end -%>

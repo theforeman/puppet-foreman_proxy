@@ -79,6 +79,10 @@
 #
 # $puppet_group::               Groups of Foreman proxy user
 #
+# $autosignfile::               Path to the autosign file. This is needed since version 1.16.
+#
+# $use_autosignfile::           Use $autosignfile? This is needed since version 1.16.
+#
 # $manage_puppet_group::        Whether to ensure the $puppet_group exists.  Also ensures group owner of ssl keys and certs is $puppet_group
 #                               Not applicable when ssl is false.
 #
@@ -290,6 +294,8 @@ class foreman_proxy (
   Stdlib::Absolutepath $puppetdir = $::foreman_proxy::params::puppetdir,
   String $puppetca_cmd = $::foreman_proxy::params::puppetca_cmd,
   String $puppet_group = $::foreman_proxy::params::puppet_group,
+  Stdlib::Absolutepath $autosignfile = $::foreman_proxy::params::autosignfile,
+  Boolean $use_autosignfile = $::foreman_proxy::params::use_autosignfile,
   Boolean $manage_puppet_group = $::foreman_proxy::params::manage_puppet_group,
   Boolean $puppet = $::foreman_proxy::params::puppet,
   Foreman_proxy::ListenOn $puppet_listen_on = $::foreman_proxy::params::puppet_listen_on,
