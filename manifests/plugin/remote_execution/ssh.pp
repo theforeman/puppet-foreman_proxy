@@ -54,15 +54,17 @@ class foreman_proxy::plugin::remote_execution::ssh (
 
   if $ssh_kerberos_auth {
     if $::osfamily == 'RedHat' {
-      $ruby_prefix = 'rubygem-'
+      $rh_ruby_prefix = 'rubygem'
       if $::operatingsystem != 'Fedora' {
-        $ruby_prefix = 'tfm-' + $ruby_prefix
+        $ruby_prefix = "tfm-${rh_ruby_prefix}"
+      } else {
+        $ruby_prefix = $rh_ruby_prefix
       }
     } else {
-      $ruby_prefix = 'ruby-'
+      $ruby_prefix = 'ruby'
     }
 
-    package { $ruby_prefix + 'net-ssh-krb':
+    package { "${ruby_prefix}-net-ssh-krb":
       ensure => present
     }
   }
