@@ -18,6 +18,8 @@
 #
 # $core_port::       Port to use for the local dynflow core service
 #
+# $ssl_disabled_ciphers:: Disable SSL ciphers
+#
 class foreman_proxy::plugin::dynflow (
   Boolean $enabled = $::foreman_proxy::plugin::dynflow::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::dynflow::params::listen_on,
@@ -25,6 +27,7 @@ class foreman_proxy::plugin::dynflow (
   Boolean $console_auth = $::foreman_proxy::plugin::dynflow::params::console_auth,
   String $core_listen = $::foreman_proxy::plugin::dynflow::params::core_listen,
   Integer[0, 65535] $core_port = $::foreman_proxy::plugin::dynflow::params::core_port,
+  Optional[Array[String]] $ssl_disabled_ciphers = $::foreman_proxy::plugin::dynflow::params::ssl_disabled_ciphers,
 ) inherits foreman_proxy::plugin::dynflow::params {
   if $::foreman_proxy::ssl {
     $core_url = "https://${::fqdn}:${core_port}"
