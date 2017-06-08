@@ -54,6 +54,12 @@
 # :ssl_private_key: ssl/localhost.pem
 # :ssl_certificate: ssl/certs/localhost.pem
 
+<% if ssl && ![nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::plugin::dynflow::ssl_disabled_ciphers")) -%>
+:ssl_disabled_ciphers: <%= scope.lookupvar("foreman_proxy::plugin::dynflow::ssl_disabled_ciphers") %>
+<% else -%>
+#:ssl_disabled_ciphers: [CIPHER-SUITE-1, CIPHER-SUITE-2]
+<% end -%>
+
 # File to log to, leave empty for logging to STDOUT
 # :log_file: /var/log/foreman-proxy/smart_proxy_dynflow_core.log
 
