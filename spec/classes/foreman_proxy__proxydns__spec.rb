@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'foreman_proxy::proxydns' do
   on_os_under_test.each do |os, facts|
     context "on #{os}" do
+      let(:node) { 'foo.example.com' }
       context 'without parameters' do
         let(:facts) do
           facts.merge({

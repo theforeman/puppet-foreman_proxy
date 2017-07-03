@@ -8,6 +8,7 @@ describe 'foreman_proxy::plugin::monitoring::icinga2' do
   let :pre_condition do
     'include ::foreman_proxy'
   end
+  let(:node) { 'foo.example.com' }
 
   context 'default parameters' do
     it { should compile.with_all_deps }

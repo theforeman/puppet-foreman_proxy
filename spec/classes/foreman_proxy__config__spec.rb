@@ -31,6 +31,7 @@ describe 'foreman_proxy::config' do
         usr_dir = '/usr'
         ssl_dir = '/var/lib/puppet/ssl'
       end
+      let(:node) { 'foo.example.com' }
 
       puppetca_command = "#{usr_dir}/bin/puppet cert *"
       puppetrun_command = "#{usr_dir}/bin/puppet kick *"

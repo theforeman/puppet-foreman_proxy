@@ -5,6 +5,8 @@ describe 'foreman_proxy::plugin::monitoring::icingadirector' do
     on_supported_os['redhat-7-x86_64']
   end
 
+  let(:node) { 'foo.example.com' }
+
   let :pre_condition do
     'include ::foreman_proxy'
   end

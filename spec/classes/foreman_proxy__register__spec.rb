@@ -4,6 +4,7 @@ describe 'foreman_proxy::register' do
   on_os_under_test.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
+      let(:node) { 'foo.example.com' }
 
       describe 'with default settings' do
         let :pre_condition do
