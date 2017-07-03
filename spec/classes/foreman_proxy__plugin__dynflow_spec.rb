@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'foreman_proxy::plugin::dynflow' do
+  let(:node) { 'foo.example.com' }
   describe 'with default settings' do
     let :facts do
       on_supported_os['redhat-7-x86_64']

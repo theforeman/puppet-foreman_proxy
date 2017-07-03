@@ -11,6 +11,8 @@ describe 'foreman_proxy::plugin::pulp' do
     on_supported_os['redhat-6-x86_64'].merge(:puppet_environmentpath => puppet_environmentpath)
   end
 
+  let(:node) { 'foo.example.com' }
+
   let :etc_dir do
     '/etc'
   end
