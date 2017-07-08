@@ -1,5 +1,22 @@
 # Changelog
 
+## 6.0.0
+* Drop Puppet 3 support
+* New or changed parameters:
+    * Add `$autosignfile` for 1.16+ puppetca proxies and `$use_autosignfile` to be able to still use this module
+      with older proxy versions.
+    * Add `$dhcp_node_type` and `$dhcp_peer_address` for configuring DHCP failover. The behaviour can be configured
+      further with advanced parameters, documented in the class docblock.
+* New or changed parameters on smart proxy plugin classes:
+    * Add `$ssl_disabled_ciphers` to the foreman_proxy::plugin::dynflow class.
+    * Add `$collect_status` to the foreman_proxy::plugin::monitoring class.
+* Other changes and fixes:
+    * Set foreman_smartproxy features for built-in and plugin modules. This verifies the proxy has correctly
+      registered with all the desired features.
+* Compatibility warnings:
+    * On Smart Proxy 1.16+ with puppetca support, `$use_autosignfile` needs to be set to `true` and `$autosignfile` to
+      the full path of the `autosign.conf` file.
+
 ## 5.1.0
 * New or changed parameters:
     * Add `$puppet_api_timeout` parameter to set the timeout in seconds when
