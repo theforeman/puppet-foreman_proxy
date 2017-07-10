@@ -89,8 +89,8 @@ describe 'foreman_proxy::tftp' do
       end
 
       if facts[:osfamily] == 'Debian'
-        it { should contain_package('grub-common').with_ensure('installed') }
-        it { should contain_package('grub-efi-amd64-bin').with_ensure('installed') }
+        it { should contain_package('grub-common').with_ensure('present') }
+        it { should contain_package('grub-efi-amd64-bin').with_ensure('present') }
 
         tftp_root = case facts[:operatingsystem]
                     when 'Ubuntu'
@@ -108,10 +108,10 @@ describe 'foreman_proxy::tftp' do
         it { should contain_file("#{tftp_root}/grub2/shim.efi").with_ensure('link') }
       elsif facts[:osfamily] == 'RedHat'
         if facts[:operatingsystemmajrelease].to_i > 6
-          it { should contain_package('grub2-efi').with_ensure('installed') }
-          it { should contain_package('grub2-efi-modules').with_ensure('installed') }
-          it { should contain_package('grub2-tools').with_ensure('installed') }
-          it { should contain_package('shim').with_ensure('installed') }
+          it { should contain_package('grub2-efi').with_ensure('present') }
+          it { should contain_package('grub2-efi-modules').with_ensure('present') }
+          it { should contain_package('grub2-tools').with_ensure('present') }
+          it { should contain_package('shim').with_ensure('present') }
 
           case facts[:operatingsystem]
           when /^(RedHat|Scientific|OracleLinux)$/
@@ -125,7 +125,7 @@ describe 'foreman_proxy::tftp' do
             it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/centos/shim.efi') }
           end
         else
-          it { should contain_package('grub').with_ensure('installed') }
+          it { should contain_package('grub').with_ensure('present') }
           it { should contain_file('/var/lib/tftpboot/grub/grubx64.efi').with_ensure('file').with_owner('root').with_mode('0644').with_source('/boot/efi/EFI/redhat/grub.efi') }
           it { should contain_file('/var/lib/tftpboot/grub/shim.efi').with_ensure('link') }
         end
