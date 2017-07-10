@@ -24,6 +24,12 @@ class foreman_proxy::proxydhcp {
     $nameservers = split($foreman_proxy::dhcp_nameservers,',')
   }
 
+  if $foreman_proxy::dhcp_node_type =~ /^(primary|secondary)$/ {
+    $failover = 'dhcp-failover'
+  } else {
+    $failover = undef
+  }
+
   class { '::dhcp':
     dnsdomain   => $foreman_proxy::dhcp_option_domain,
     nameservers => $nameservers,
@@ -40,5 +46,21 @@ class foreman_proxy::proxydhcp {
     range          => $foreman_proxy::dhcp_range,
     gateway        => $foreman_proxy::dhcp_gateway,
     search_domains => $foreman_proxy::dhcp_search_domains,
+    failover       => $failover,
+  }
+
+  if $failover {
+    class {'::dhcp::failover':
+      peer_address        => $foreman_proxy::dhcp_peer_address,
+      role                => $foreman_proxy::dhcp_node_type,
+      address             => $foreman_proxy::dhcp_failover_address,
+      port                => $foreman_proxy::dhcp_failover_port,
+      max_response_delay  => $foreman_proxy::dhcp_max_response_delay,
+      max_unacked_updates => $foreman_proxy::dhcp_max_unacked_updates,
+      mclt                => $foreman_proxy::dhcp_mclt,
+      load_split          => $foreman_proxy::dhcp_load_split,
+      load_balance        => $foreman_proxy::dhcp_load_balance,
+      omapi_key           => $foreman_proxy::dhcp_key_secret,
+    }
   }
 }

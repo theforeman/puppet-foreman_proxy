@@ -283,6 +283,15 @@ class foreman_proxy::params {
   $dhcp_key_name   = undef
   $dhcp_key_secret = undef
   $dhcp_omapi_port = 7911
+  $dhcp_node_type = 'standalone'
+  $dhcp_failover_address = $::ipaddress
+  $dhcp_peer_address = undef
+  $dhcp_failover_port = 519
+  $dhcp_max_response_delay = 30
+  $dhcp_max_unacked_updates  = 10
+  $dhcp_mclt  = 300
+  $dhcp_load_split = 255
+  $dhcp_load_balance = 3
 
   # DNS settings - requires optional DNS puppet module
   $dns                    = false

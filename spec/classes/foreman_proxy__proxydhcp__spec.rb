@@ -27,11 +27,14 @@ describe 'foreman_proxy::proxydhcp' do
         ) end
 
         it do should contain_dhcp__pool('example.com').with(
-          'network' => '127.0.0.0',
-          'mask'    => '255.0.0.0',
-          'range'   => 'false',
-          'gateway' => '127.0.0.254'
+          'network'  => '127.0.0.0',
+          'mask'     => '255.0.0.0',
+          'range'    => 'false',
+          'gateway'  => '127.0.0.254',
+          'failover' => nil
         ) end
+
+        it { should_not contain_class('dhcp::failover') }
       end
 
       context "on vlan interface" do
@@ -58,11 +61,14 @@ describe 'foreman_proxy::proxydhcp' do
         ) end
 
         it do should contain_dhcp__pool('example.com').with(
-          'network' => '127.0.0.0',
-          'mask'    => '255.0.0.0',
-          'range'   => 'false',
-          'gateway' => '127.0.0.254'
+          'network'  => '127.0.0.0',
+          'mask'     => '255.0.0.0',
+          'range'    => 'false',
+          'gateway'  => '127.0.0.254',
+          'failover' => nil
         ) end
+
+        it { should_not contain_class('dhcp::failover') }
       end
 
       context "on alias interface" do
@@ -88,11 +94,14 @@ describe 'foreman_proxy::proxydhcp' do
             'pxefilename' => 'pxelinux.0'
         ) end
         it do should contain_dhcp__pool('example.com').with(
-            'network' => '127.0.0.0',
-            'mask'    => '255.0.0.0',
-            'range'   => 'false',
-            'gateway' => '127.0.0.254'
+            'network'  => '127.0.0.0',
+            'mask'     => '255.0.0.0',
+            'range'    => 'false',
+            'gateway'  => '127.0.0.254',
+            'failover' => nil
         ) end
+
+        it { should_not contain_class('dhcp::failover') }
       end
 
 
@@ -132,6 +141,62 @@ describe 'foreman_proxy::proxydhcp' do
 
         it do should contain_class('dhcp').with(
             'pxeserver'   => '127.0.1.200',
+        ) end
+      end
+
+      context "as primary dhcp server" do
+        let :facts do
+          facts.merge({:ipaddress_eth0 => '192.168.100.20',
+                       :ipaddress      => '192.168.100.20',
+                       :netmask_eth0   => '255.255.255.0',
+                       :network_eth0   => '192.168.100.0'})
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy':
+            dhcp_range        => '192.168.100.1 192.168.100.10',
+            dhcp_node_type    => 'primary',
+            dhcp_peer_address => '192.168.1.21',
+          }"
+        end
+
+        it do should contain_class('dhcp::failover').with(
+            'role'         => 'primary',
+            'peer_address' => '192.168.1.21',
+            'address'      => '192.168.100.20'
+        ) end
+
+        it do should contain_class('dhcp').with(
+            'dnsdomain'  => ['example.com'],
+            'interfaces' => ['eth0']
+        ) end
+      end
+
+      context "as secondary dhcp server" do
+        let :facts do
+          facts.merge({:ipaddress_eth0 => '192.168.100.21',
+                       :ipaddress      => '192.168.100.21',
+                       :netmask_eth0   => '255.255.255.0',
+                       :network_eth0   => '192.168.100.0'})
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy':
+            dhcp_range        => '192.168.100.1 192.168.100.10',
+            dhcp_node_type    => 'secondary',
+            dhcp_peer_address => '192.168.1.20',
+          }"
+        end
+
+        it do should contain_class('dhcp::failover').with(
+            'role'         => 'secondary',
+            'peer_address' => '192.168.1.20',
+            'address'      => '192.168.100.21'
+        ) end
+
+        it do should contain_class('dhcp').with(
+            'dnsdomain'  => ['example.com'],
+            'interfaces' => ['eth0']
         ) end
       end
     end
