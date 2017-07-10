@@ -190,6 +190,10 @@
 #
 # $dhcp_omapi_port::            DHCP server OMAPI port
 #
+# $dhcp_node_type::             DHCP node type
+#
+# $dhcp_peer_address::          The other DHCP servers address
+#
 # $dns::                        Enable DNS feature
 #
 # $dns_listen_on::              DNS proxy to listen on https, http, or both
@@ -257,6 +261,22 @@
 # $oauth_consumer_secret::      OAuth secret to be used for REST interaction
 #
 # $puppet_use_cache::           Whether to enable caching of puppet classes
+#
+# === Advanced parameters:
+#
+# $dhcp_failover_address::      Address for DHCP to listen for connections from its peer
+#
+# $dhcp_failover_port::         Port for DHCP to listen & communicate with it DHCP peer
+#
+# $dhcp_max_response_delay::    Seconds after it will assume that connection has failed to DHCP peer
+#
+# $dhcp_max_unacked_updates::   How many BNDUPD messages DHCP can send before it receives a BNDACK from the local system
+#
+# $dhcp_mclt::                  Seconds for which a lease may be renewed by either failover peer without contacting the other
+#
+# $dhcp_load_split::            Split leases between Primary and Secondary. 255 means Primary is chiefly responsible. 0 means Secondary is chiefly responsible.
+#
+# $dhcp_load_balance::          Cutoff after which load balancing is disabled
 #
 class foreman_proxy (
   String $repo = $::foreman_proxy::params::repo,
@@ -348,6 +368,15 @@ class foreman_proxy (
   Optional[String] $dhcp_key_name = $::foreman_proxy::params::dhcp_key_name,
   Optional[String] $dhcp_key_secret = $::foreman_proxy::params::dhcp_key_secret,
   Integer[0, 65535] $dhcp_omapi_port = $::foreman_proxy::params::dhcp_omapi_port,
+  Optional[String] $dhcp_peer_address = $::foreman_proxy::params::dhcp_peer_address,
+  Enum['standalone', 'primary', 'secondary'] $dhcp_node_type = $::foreman_proxy::params::dhcp_node_type,
+  Optional[String] $dhcp_failover_address = $::foreman_proxy::params::dhcp_failover_address,
+  Optional[Integer[0, 65535]] $dhcp_failover_port = $::foreman_proxy::params::dhcp_failover_port,
+  Optional[Integer[0]] $dhcp_max_response_delay = $::foreman_proxy::params::dhcp_max_response_delay,
+  Optional[Integer[0]] $dhcp_max_unacked_updates = $::foreman_proxy::params::dhcp_max_unacked_updates,
+  Optional[Integer[0]] $dhcp_mclt = $::foreman_proxy::params::dhcp_mclt,
+  Optional[Integer[0, 255]] $dhcp_load_split = $::foreman_proxy::params::dhcp_load_split,
+  Optional[Integer[0]] $dhcp_load_balance = $::foreman_proxy::params::dhcp_load_balance,
   Boolean $dns = $::foreman_proxy::params::dns,
   Foreman_proxy::ListenOn $dns_listen_on = $::foreman_proxy::params::dns_listen_on,
   Boolean $dns_managed = $::foreman_proxy::params::dns_managed,
