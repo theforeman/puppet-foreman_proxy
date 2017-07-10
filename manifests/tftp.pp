@@ -82,7 +82,7 @@ class foreman_proxy::tftp (
     }
   }
 
-  ensure_packages($grub_packages, { ensure => 'installed', })
+  ensure_packages($grub_packages, { ensure => 'present', })
 
   case $grub_type {
     'redhat': {
