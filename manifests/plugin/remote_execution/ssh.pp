@@ -65,7 +65,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
     }
 
     package { "${ruby_prefix}-net-ssh-krb":
-      ensure => present
+      ensure => present,
     }
   }
 
