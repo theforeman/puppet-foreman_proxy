@@ -13,7 +13,6 @@ describe 'foreman_proxy::proxydhcp' do
 
         let :pre_condition do
           "class {'foreman_proxy':
-            dhcp_range   => false,
             dhcp_gateway => '127.0.0.254',
           }"
         end
@@ -29,7 +28,7 @@ describe 'foreman_proxy::proxydhcp' do
         it do should contain_dhcp__pool('example.com').with(
           'network'  => '127.0.0.0',
           'mask'     => '255.0.0.0',
-          'range'    => 'false',
+          'range'    => nil,
           'gateway'  => '127.0.0.254',
           'failover' => nil
         ) end
@@ -46,7 +45,6 @@ describe 'foreman_proxy::proxydhcp' do
 
         let :pre_condition do
           "class {'foreman_proxy':
-            dhcp_range     => false,
             dhcp_gateway   => '127.0.0.254',
             dhcp_interface => 'eth0.0',
           }"
@@ -63,7 +61,7 @@ describe 'foreman_proxy::proxydhcp' do
         it do should contain_dhcp__pool('example.com').with(
           'network'  => '127.0.0.0',
           'mask'     => '255.0.0.0',
-          'range'    => 'false',
+          'range'    => nil,
           'gateway'  => '127.0.0.254',
           'failover' => nil
         ) end
@@ -80,7 +78,6 @@ describe 'foreman_proxy::proxydhcp' do
 
         let :pre_condition do
           "class {'foreman_proxy':
-            dhcp_range     => false,
             dhcp_gateway   => '127.0.0.254',
             dhcp_interface => 'eth0:0',
           }"
@@ -96,7 +93,7 @@ describe 'foreman_proxy::proxydhcp' do
         it do should contain_dhcp__pool('example.com').with(
             'network'  => '127.0.0.0',
             'mask'     => '255.0.0.0',
-            'range'    => 'false',
+            'range'    => nil,
             'gateway'  => '127.0.0.254',
             'failover' => nil
         ) end
@@ -114,7 +111,6 @@ describe 'foreman_proxy::proxydhcp' do
 
         let :pre_condition do
           "class {'foreman_proxy':
-            dhcp_range          => false,
             dhcp_gateway        => '127.0.0.254',
             dhcp_search_domains => ['example.com', 'example.org']
           }"
@@ -134,7 +130,6 @@ describe 'foreman_proxy::proxydhcp' do
 
         let :pre_condition do
           "class {'foreman_proxy':
-            dhcp_range     => false,
             dhcp_pxeserver => '127.0.1.200'
           }"
         end
