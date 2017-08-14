@@ -54,17 +54,16 @@ class foreman_proxy::plugin::remote_execution::ssh (
 
   if $ssh_kerberos_auth {
     if $::osfamily == 'RedHat' {
-      $rh_ruby_prefix = 'rubygem'
       if $::operatingsystem != 'Fedora' {
-        $ruby_prefix = "tfm-${rh_ruby_prefix}"
+        $ruby_prefix = 'tfm-rubygem'
       } else {
-        $ruby_prefix = $rh_ruby_prefix
+        $ruby_prefix = 'rubygem'
       }
     } else {
       $ruby_prefix = 'ruby'
     }
-
-    package { "${ruby_prefix}-net-ssh-krb":
+    $kerberos_pkg = "${ruby_prefix}-net-ssh-krb"
+    package { $kerberos_pkg:
       ensure => present,
     }
   }
@@ -100,6 +99,10 @@ class foreman_proxy::plugin::remote_execution::ssh (
   }
 
   if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
+    if $ssh_kerberos_auth {
+      Package[$kerberos_pkg]
+        ~> Service['smart_proxy_dynflow_core']
+    }
     Foreman_proxy::Settings_file['remote_execution_ssh']
       ~> Service['smart_proxy_dynflow_core']
   }
