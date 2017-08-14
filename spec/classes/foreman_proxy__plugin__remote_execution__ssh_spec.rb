@@ -79,7 +79,7 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
     it { should_not contain_exec('generate_ssh_key') }
     it { should_not contain_file('/root/.ssh') }
 
-    it 'should not install tfm-rubygem-net-ssh-krb package' do
+    it 'should install tfm-rubygem-net-ssh-krb package' do
       should contain_package('tfm-rubygem-net-ssh-krb')
     end
   end
