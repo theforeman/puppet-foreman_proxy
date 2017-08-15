@@ -15,6 +15,8 @@
 #
 # $ssh_keygen::         Location of the ssh-keygen binary
 #
+# $ssh_kerberos_auth::  Enable kerberos authentication for SSH
+#
 # $local_working_dir::  Local working directory on the smart proxy
 #
 # $remote_working_dir:: Remote working directory on clients
@@ -35,6 +37,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   String $ssh_keygen = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_keygen,
   Stdlib::Absolutepath $local_working_dir = $::foreman_proxy::plugin::remote_execution::ssh::params::local_working_dir,
   Stdlib::Absolutepath $remote_working_dir = $::foreman_proxy::plugin::remote_execution::ssh::params::remote_working_dir,
+  Boolean $ssh_kerberos_auth = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_kerberos_auth,
 ) inherits foreman_proxy::plugin::remote_execution::ssh::params {
 
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
@@ -47,6 +50,22 @@ class foreman_proxy::plugin::remote_execution::ssh (
     enabled       => $enabled,
     listen_on     => $listen_on,
     template_path => 'foreman_proxy/plugin/remote_execution_ssh.yml.erb',
+  }
+
+  if $ssh_kerberos_auth {
+    if $::osfamily == 'RedHat' {
+      $ruby_prefix = $::operatingsystem ? {
+        'Fedora' => 'rubygem',
+        default  => 'tfm-rubygem',
+      }
+    } else {
+      $ruby_prefix = 'ruby'
+    }
+
+    $kerberos_pkg = "${ruby_prefix}-net-ssh-krb"
+    package { $kerberos_pkg:
+      ensure => present,
+    }
   }
 
   if $generate_keys {
@@ -80,6 +99,10 @@ class foreman_proxy::plugin::remote_execution::ssh (
   }
 
   if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
+    if $ssh_kerberos_auth {
+      Package[$kerberos_pkg]
+        ~> Service['smart_proxy_dynflow_core']
+    }
     Foreman_proxy::Settings_file['remote_execution_ssh']
       ~> Service['smart_proxy_dynflow_core']
   }
