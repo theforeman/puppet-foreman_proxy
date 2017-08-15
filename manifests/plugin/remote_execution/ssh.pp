@@ -53,13 +53,13 @@ class foreman_proxy::plugin::remote_execution::ssh (
   }
 
   if $ssh_kerberos_auth {
-    unless $::osfamily == 'RedHat' {
-      $ruby_prefix = 'ruby'
-    } else {
+    if $::osfamily == 'RedHat' {
       $ruby_prefix = $::operatingsystem ? {
         'Fedora' => 'rubygem',
         default  => 'tfm-rubygem',
       }
+    } else {
+      $ruby_prefix = 'ruby'
     }
 
     $kerberos_pkg = "${ruby_prefix}-net-ssh-krb"
