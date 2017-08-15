@@ -11,4 +11,5 @@ class foreman_proxy::plugin::remote_execution::ssh::params {
   $ssh_identity_dir   = "${::foreman_proxy::params::dir}/.ssh"
   $ssh_identity_file  = 'id_rsa_foreman_proxy'
   $ssh_keygen         = '/usr/bin/ssh-keygen'
+  $ssh_kerberos_auth  = false
 }
