@@ -19,6 +19,7 @@ class foreman_proxy::params {
 
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcpd/dhcpd.leases'
+      $dhcp_manage_acls = true
 
       $keyfile  = '/etc/rndc.key'
       $nsupdate = 'bind-utils'
@@ -45,6 +46,7 @@ class foreman_proxy::params {
 
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
+      $dhcp_manage_acls = false
 
       $keyfile  = '/etc/bind/rndc.key'
       $nsupdate = 'dnsutils'
@@ -89,6 +91,7 @@ class foreman_proxy::params {
 
       $dhcp_config = '/usr/local/etc/dhcpd.conf'
       $dhcp_leases = '/var/db/dhcpd/dhcpd.leases'
+      $dhcp_manage_acls = false
 
       $keyfile  = '/usr/local/etc/namedb/rndc.key'
       $nsupdate = 'bind910'
@@ -121,6 +124,7 @@ class foreman_proxy::params {
 
       $dhcp_config = '/etc/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
+      $dhcp_manage_acls = false
 
       $keyfile  = '/etc/rndc.key'
       $nsupdate = 'bind-tools'
