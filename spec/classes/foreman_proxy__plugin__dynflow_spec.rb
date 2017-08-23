@@ -16,7 +16,7 @@ describe 'foreman_proxy::plugin::dynflow' do
       verify_exact_contents(catalogue, "/etc/foreman-proxy/settings.d/dynflow.yml", [
           '---',
           ':enabled: https',
-          ':database: /var/lib/foreman-proxy/dynflow/dynflow.sqlite',
+          ':database: ',
           ':core_url: https://foo.example.com:8008',
       ])
     end
@@ -29,7 +29,7 @@ describe 'foreman_proxy::plugin::dynflow' do
     it 'should generate correct dynflow core settings.yml' do
       verify_exact_contents(catalogue, "/etc/smart_proxy_dynflow_core/settings.yml", [
           "---",
-          ":database: /var/lib/foreman-proxy/dynflow/dynflow.sqlite",
+          ":database: ",
           ":console_auth: true",
           ":foreman_url: https://foo.example.com",
           ":listen: 0.0.0.0",
@@ -51,6 +51,7 @@ describe 'foreman_proxy::plugin::dynflow' do
       "include foreman_proxy"
     end
     let :params do {
+      :database_path        => '/var/lib/foreman-proxy/dynflow/dynflow.sqlite',
       :ssl_disabled_ciphers => ['NULL-MD5', 'NULL-SHA'],
     } end
 

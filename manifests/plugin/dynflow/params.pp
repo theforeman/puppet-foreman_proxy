@@ -2,7 +2,8 @@
 class foreman_proxy::plugin::dynflow::params {
   $enabled              = true
   $listen_on            = 'https'
-  $database_path        = '/var/lib/foreman-proxy/dynflow/dynflow.sqlite'
+  # use in-memory sqlite by default for performance reasons
+  $database_path        = undef
   $console_auth         = true
   $core_listen          = '0.0.0.0'
   $core_port            = 8008

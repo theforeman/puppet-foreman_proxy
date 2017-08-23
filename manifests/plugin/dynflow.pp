@@ -4,7 +4,7 @@
 #
 # === Parameters:
 #
-# $database_path::   Path to the SQLite database file
+# $database_path::   Path to the SQLite database file, set empty for in-memory sqlite
 #
 # $console_auth::    Whether to enable trusted hosts and ssl for the dynflow console
 #
@@ -23,7 +23,7 @@
 class foreman_proxy::plugin::dynflow (
   Boolean $enabled = $::foreman_proxy::plugin::dynflow::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::dynflow::params::listen_on,
-  Stdlib::Absolutepath $database_path = $::foreman_proxy::plugin::dynflow::params::database_path,
+  Optional[Stdlib::Absolutepath] $database_path = $::foreman_proxy::plugin::dynflow::params::database_path,
   Boolean $console_auth = $::foreman_proxy::plugin::dynflow::params::console_auth,
   String $core_listen = $::foreman_proxy::plugin::dynflow::params::core_listen,
   Integer[0, 65535] $core_port = $::foreman_proxy::plugin::dynflow::params::core_port,
