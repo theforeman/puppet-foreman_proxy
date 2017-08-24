@@ -154,6 +154,8 @@
 #
 # $tftp_servername::            Defines the TFTP Servername to use, overrides the name in the subnet declaration
 #
+# $tftp_replace_grub2_cfg::     Determines if grub2.cfg will be replaced
+#
 # $dhcp::                       Enable DHCP feature
 #
 # $dhcp_listen_on::             DHCP proxy to listen on https, http, or both
@@ -350,6 +352,7 @@ class foreman_proxy (
   Stdlib::Absolutepath $tftp_root = $::foreman_proxy::params::tftp_root,
   Array[Stdlib::Absolutepath] $tftp_dirs = $::foreman_proxy::params::tftp_dirs,
   Optional[String] $tftp_servername = $::foreman_proxy::params::tftp_servername,
+  Boolean $tftp_replace_grub2_cfg = $::foreman_proxy::params::tftp_replace_grub2_cfg,
   Boolean $dhcp = $::foreman_proxy::params::dhcp,
   Foreman_proxy::ListenOn $dhcp_listen_on = $::foreman_proxy::params::dhcp_listen_on,
   Boolean $dhcp_managed = $::foreman_proxy::params::dhcp_managed,

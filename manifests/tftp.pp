@@ -6,6 +6,7 @@ class foreman_proxy::tftp (
   $syslinux_filenames = $::foreman_proxy::tftp_syslinux_filenames,
   $manage_wget = $::foreman_proxy::tftp_manage_wget,
   $wget_version = $::foreman_proxy::ensure_packages_version,
+  $tftp_replace_grub2_cfg = $::foreman_proxy::tftp_replace_grub2_cfg,
 ) {
   class { '::tftp':
     root => $root,
@@ -24,6 +25,7 @@ class foreman_proxy::tftp (
     owner   => $user,
     mode    => '0644',
     content => file('foreman_proxy/grub.cfg'),
+    replace => $tftp_replace_grub2_cfg,
   }
 
   $syslinux_filenames.each |$source_file| {
