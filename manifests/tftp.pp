@@ -44,6 +44,9 @@ class foreman_proxy::tftp (
       if versioncmp($::operatingsystemmajrelease, '6') <= 0 {
         $grub_type = 'redhat_old'
         $grub_packages = ['grub']
+      } elsif versioncmp($::operatingsystemrelease, '7.4') >= 0 and $::operatingsystem != 'Fedora' {
+        $grub_type = 'redhat'
+        $grub_packages = ['grub2-efi-x64','grub2-efi-x64-modules','grub2-tools','shim-x64']
       } else {
         $grub_type = 'redhat'
         $grub_packages = ['grub2-efi','grub2-efi-modules','grub2-tools','shim']
