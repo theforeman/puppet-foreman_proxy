@@ -46,7 +46,7 @@ class foreman_proxy::tftp (
         $grub_packages = ['grub']
       } else {
         $grub_type = 'redhat'
-        $grub_packages = ['grub2-efi','grub2-efi-modules','grub2-tools','shim']
+        $grub_packages = ['grub2-efi-x64','grub2-efi-x64-modules','grub2-tools','shim-x64']
       }
     }
     'Debian': {
