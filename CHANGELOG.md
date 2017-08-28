@@ -1,5 +1,12 @@
 # Changelog
 
+## 6.0.2
+* Fix TFTP grub_packages for RHEL 7.4+
+
+## 6.0.1
+* Add support for REX kerberos auth
+* use in-memory sqlite in smart proxy dynflow
+
 ## 6.0.0
 * Drop Puppet 3 support
 * New or changed parameters:
