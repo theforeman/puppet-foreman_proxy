@@ -13,6 +13,8 @@ describe 'foreman_proxy::tftp' do
 
       it { is_expected.to compile.with_all_deps }
 
+      it { is_expected.to contain_class('foreman_proxy::tftp::netboot') }
+
       tftp_root = case facts[:osfamily]
                   when 'Debian'
                     case facts[:operatingsystem]
