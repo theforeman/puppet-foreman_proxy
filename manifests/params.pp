@@ -255,12 +255,13 @@ class foreman_proxy::params {
   $logs_listen_on = 'https'
 
   # TFTP settings - requires optional TFTP puppet module
-  $tftp             = true
-  $tftp_listen_on   = 'https'
-  $tftp_managed     = true
-  $tftp_manage_wget = true
-  $tftp_dirs        = ["${tftp_root}/pxelinux.cfg","${tftp_root}/grub","${tftp_root}/grub2","${tftp_root}/boot","${tftp_root}/ztp.cfg","${tftp_root}/poap.cfg"]
-  $tftp_servername  = undef
+  $tftp                   = true
+  $tftp_listen_on         = 'https'
+  $tftp_managed           = true
+  $tftp_manage_wget       = true
+  $tftp_dirs              = ["${tftp_root}/pxelinux.cfg","${tftp_root}/grub","${tftp_root}/grub2","${tftp_root}/boot","${tftp_root}/ztp.cfg","${tftp_root}/poap.cfg"]
+  $tftp_servername        = undef
+  $tftp_replace_grub2_cfg = false
 
   # DHCP settings - requires optional DHCP puppet module
   $dhcp                    = false
