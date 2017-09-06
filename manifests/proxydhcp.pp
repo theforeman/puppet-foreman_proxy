@@ -49,6 +49,25 @@ class foreman_proxy::proxydhcp {
     failover       => $failover,
   }
 
+
+  if $foreman_proxy::dhcp_manage_acls {
+
+    package {'acl':
+      ensure => 'installed',
+    }
+    -> exec { 'setfacl_etc_dhcp':
+      command => "setfacl -R -m u:${::foreman_proxy::user}:rx /etc/dhcp",
+      path    => '/usr/bin',
+      onlyif  => "getfacl -p /etc/dhcp | grep user:${::foreman_proxy::user}:r-x",
+    }
+    -> exec { 'setfacl_var_lib_dhcp':
+      command => "setfacl -R -m u:${::foreman_proxy::user}:rx /var/lib/dhcpd",
+      path    => '/usr/bin',
+      onlyif  => "getfacl -p /var/lib/dhcp | grep user:${::foreman_proxy::user}:r-x",
+    }
+
+  }
+
   if $failover {
     class {'::dhcp::failover':
       peer_address        => $foreman_proxy::dhcp_peer_address,
