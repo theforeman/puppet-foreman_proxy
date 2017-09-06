@@ -375,6 +375,9 @@
 # $puppet_use_cache::           Whether to enable caching of puppet classes
 #                               type:Optional[Boolean]
 #
+# $dhcp_manage_acls::           Whether to manage DHCP directory ACLs. This allows the Foreman Proxy user to access even if the directory mode is 0750.
+#                               type:Boolean
+#
 class foreman_proxy (
   $repo                       = $foreman_proxy::params::repo,
   $gpgcheck                   = $foreman_proxy::params::gpgcheck,
@@ -463,6 +466,7 @@ class foreman_proxy (
   $dhcp_key_name              = $foreman_proxy::params::dhcp_key_name,
   $dhcp_key_secret            = $foreman_proxy::params::dhcp_key_secret,
   $dhcp_omapi_port            = $foreman_proxy::params::dhcp_omapi_port,
+  $dhcp_manage_acls           = $foreman_proxy::params::dhcp_manage_acls,
   $dns                        = $foreman_proxy::params::dns,
   $dns_listen_on              = $foreman_proxy::params::dns_listen_on,
   $dns_managed                = $foreman_proxy::params::dns_managed,
