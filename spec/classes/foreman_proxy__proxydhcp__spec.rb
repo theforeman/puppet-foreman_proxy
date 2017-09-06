@@ -194,6 +194,60 @@ describe 'foreman_proxy::proxydhcp' do
             'interfaces' => ['eth0']
         ) end
       end
+
+      context "as manager of ACLs for dhcp" do
+        let :facts do
+          facts.merge({:ipaddress_eth0 => '192.168.100.20',
+                       :ipaddress      => '192.168.100.20',
+                       :netmask_eth0   => '255.255.255.0',
+                       :network_eth0   => '192.168.100.0'})
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy':
+            dhcp_manage_acls  => true,
+          }"
+        end
+
+        it do should contain_exec('setfacl_etc_dhcp').
+          with_command("setfacl -R -m u:foreman-proxy:rx /etc/dhcp")
+        end
+
+        it do should contain_exec('setfacl_var_lib_dhcp').
+          with_command("setfacl -R -m u:foreman-proxy:rx /var/lib/dhcpd")
+        end
+      end
+
+      context "as manager of ACLs for dhcp for RedHat only by default" do
+        let :facts do
+          facts.merge({:ipaddress_eth0 => '192.168.100.20',
+                       :ipaddress      => '192.168.100.20',
+                       :netmask_eth0   => '255.255.255.0',
+                       :network_eth0   => '192.168.100.0'})
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy': }"
+        end
+
+        case facts[:osfamily]
+        when 'RedHat'
+          it do should contain_exec('setfacl_etc_dhcp').
+            with_command("setfacl -R -m u:foreman-proxy:rx /etc/dhcp")
+          end
+        else
+          it { should_not contain_exec('setfacl_etc_dhcp') }
+        end
+
+        case facts[:osfamily]
+        when 'RedHat'
+          it do should contain_exec('setfacl_var_lib_dhcp').
+            with_command("setfacl -R -m u:foreman-proxy:rx /var/lib/dhcpd")
+          end
+        else
+          it { should_not contain_exec('setfacl_var_lib_dhcp') }
+        end
+      end
     end
   end
 end
