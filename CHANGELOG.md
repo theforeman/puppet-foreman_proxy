@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.1.1
+
+* Fix TFTP grub packages for EL 7.4+ (#370)
+
 ## 5.1.0
 * New or changed parameters:
     * Add `$puppet_api_timeout` parameter to set the timeout in seconds when
