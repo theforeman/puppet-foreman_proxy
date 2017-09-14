@@ -282,8 +282,8 @@ describe 'foreman_proxy::config' do
         end
 
         if facts[:osfamily] == 'Debian'
-          it { should contain_package('grub-common').with_ensure('installed') }
-          it { should contain_package('grub-efi-amd64-bin').with_ensure('installed') }
+          it { should contain_package('grub-common').with_ensure('present') }
+          it { should contain_package('grub-efi-amd64-bin').with_ensure('present') }
 
           if facts[:operatingsystem] == 'Ubuntu' && facts[:operatingsystemrelease] == '14.04'
             it 'should copy the correct default files for Ubuntu 14.04' do
@@ -327,10 +327,10 @@ describe 'foreman_proxy::config' do
           end
 
           if facts[:operatingsystemmajrelease].to_i > 6
-            it { should contain_package('grub2-efi').with_ensure('installed') }
-            it { should contain_package('grub2-efi-modules').with_ensure('installed') }
-            it { should contain_package('grub2-tools').with_ensure('installed') }
-            it { should contain_package('shim').with_ensure('installed') }
+            it { should contain_package('grub2-efi').with_ensure('present') }
+            it { should contain_package('grub2-efi-modules').with_ensure('present') }
+            it { should contain_package('grub2-tools').with_ensure('present') }
+            it { should contain_package('shim').with_ensure('present') }
             case facts[:operatingsystem]
               when /^(RedHat|Scientific|OracleLinux)$/
                 it 'should copy the grubx64.efi for Red Hat and clones' do
@@ -355,7 +355,7 @@ describe 'foreman_proxy::config' do
                 end
             end
           else
-            it { should contain_package('grub').with_ensure('installed') }
+            it { should contain_package('grub').with_ensure('present') }
             it 'should copy grub1 files for Red Hat version 6 and older' do
               should contain_file('/var/lib/tftpboot/grub/grubx64.efi').
                 with_ensure('file').
