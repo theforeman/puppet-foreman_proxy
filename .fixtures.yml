@@ -10,6 +10,7 @@ fixtures:
     mysql:    'https://github.com/puppetlabs/puppetlabs-mysql'
     puppet:   'https://github.com/theforeman/puppet-puppet'
     stdlib:   'https://github.com/puppetlabs/puppetlabs-stdlib'
+    systemd:  'https://github.com/camptocamp/puppet-systemd'
     tftp:     'https://github.com/theforeman/puppet-tftp'
     xinetd:   'https://github.com/puppetlabs/puppetlabs-xinetd'
 
