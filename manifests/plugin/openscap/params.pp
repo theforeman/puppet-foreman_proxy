@@ -7,7 +7,7 @@ class foreman_proxy::plugin::openscap::params {
     $major_version = $::operatingsystemmajrelease # facter 1.7+
   }
 
-  $configure_openscap_repo = $::osfamily == 'RedHat' and $major_version == '6'
+  $configure_openscap_repo = false
   $enabled                 = true
   $version                 = undef
   $listen_on               = 'https'
