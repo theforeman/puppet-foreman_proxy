@@ -195,6 +195,20 @@ describe 'foreman_proxy::proxydhcp' do
         ) end
       end
 
+      context "on a non-existing interface" do
+        let :facts do
+          facts
+        end
+
+        let :pre_condition do
+          "class { 'foreman_proxy':
+            dhcp_interface => 'doesnotexist',
+          }"
+        end
+
+        it { should raise_error(Puppet::Error, /Could not get the ip address from fact ipaddress_doesnotexist/) }
+      end
+
       context "as manager of ACLs for dhcp" do
         let :facts do
           facts.merge({:ipaddress_eth0 => '192.168.100.20',
