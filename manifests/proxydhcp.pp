@@ -3,18 +3,18 @@ class foreman_proxy::proxydhcp {
   # puppet fact names are converted from ethX.X and ethX:X to ethX_X
   # so for alias and vlan interfaces we have to modify the name accordingly
   $interface_fact_name = regsubst($foreman_proxy::dhcp_interface, '[.:]', '_')
-  $ip   = pick($::foreman_proxy::dhcp_pxeserver, inline_template("<%= scope.lookupvar('::ipaddress_${interface_fact_name}') %>"))
-  if ! is_ip_address($ip) {
+  $ip = pick_default($::foreman_proxy::dhcp_pxeserver, fact("ipaddress_${interface_fact_name}"))
+  unless ($ip =~ Stdlib::Compat::Ipv4) {
     fail("Could not get the ip address from fact ipaddress_${interface_fact_name}")
   }
 
-  $net  = inline_template("<%= scope.lookupvar('::network_${interface_fact_name}') %>")
-  if ! is_ip_address($net) {
+  $net  = fact("network_${interface_fact_name}")
+  unless ($ip =~ Stdlib::Compat::Ipv4) {
     fail("Could not get the network address from fact network_${interface_fact_name}")
   }
 
-  $mask = inline_template("<%= scope.lookupvar('::netmask_${interface_fact_name}') %>")
-  if ! is_ip_address($mask) {
+  $mask = fact("netmask_${interface_fact_name}")
+  unless ($ip =~ Stdlib::Compat::Ipv4) {
     fail("Could not get the network mask from fact netmask_${interface_fact_name}")
   }
 
