@@ -9,7 +9,8 @@ class foreman_proxy::tftp::netboot::params {
         $grub_installation_type = 'redhat_old'
         $packages = ['grub']
       } elsif versioncmp($::operatingsystemrelease, '7.4') >= 0 and $::operatingsystem != 'Fedora' {
-        $grub_installation_type = 'redhat'
+        # RHEL 7.4 renamed the packages and introduced a regression in the MAC loading of configs
+        $grub_installation_type = 'redhat_exec'
         $packages = ['grub2-efi-x64','grub2-efi-x64-modules','grub2-tools','shim-x64']
       } else {
         $grub_installation_type = 'redhat'
