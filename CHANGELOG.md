@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.1.2
+
+* Work around broken grub 2 on EL 7.4 (#21006)
+* Set ACLs on DHCP directories (#20683)
+
 ## 5.1.1
 
 * Fix TFTP grub packages for EL 7.4+ (#370)
