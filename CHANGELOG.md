@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.1.4
+
+* Fix an incorrect variable in the EL 7.4 grub2 workaround
+
 ## 5.1.3
 
 * Fix the grub 2 workaround on EL 7.4 by adding a missing require
