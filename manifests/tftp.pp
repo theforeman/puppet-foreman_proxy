@@ -83,7 +83,7 @@ class foreman_proxy::tftp {
           unless  => "/bin/grep -q regexp '${foreman_proxy::tftp_root}/grub2/grubx64.efi'",
           require => [File[$foreman_proxy::tftp_dirs], Package[$packages]],
         }
-        -> file { "${foreman_proxy::tft_root}/grub2/grubx64.efi":
+        -> file { "${foreman_proxy::tftp_root}/grub2/grubx64.efi":
           mode  => '0644',
           owner => 'root',
         }
