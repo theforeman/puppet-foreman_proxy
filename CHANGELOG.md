@@ -1,5 +1,16 @@
 # Changelog
 
+## 6.0.3
+
+* New or changed parameters:
+    * Add `$tftp_replace_grub2_cfg` parameter to disable replace of grub2.cfg
+* Other changes and fixes:
+    * Bump allowed version of puppet-extlib to 3.0.0
+    * Stop enabling the openscap repo
+    * Introduce a `foreman_proxy::tftp::netboot` class
+    * Work around broken grub 2 on EL 7.4 (#21006)
+    * Set ACLs on DHCP directories (#20683)
+
 ## 6.0.2
 * Fix TFTP grub_packages for RHEL 7.4+
 
