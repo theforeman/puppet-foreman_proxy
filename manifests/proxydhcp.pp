@@ -9,12 +9,12 @@ class foreman_proxy::proxydhcp {
   }
 
   $net  = fact("network_${interface_fact_name}")
-  unless ($ip =~ Stdlib::Compat::Ipv4) {
+  unless ($net =~ Stdlib::Compat::Ipv4) {
     fail("Could not get the network address from fact network_${interface_fact_name}")
   }
 
   $mask = fact("netmask_${interface_fact_name}")
-  unless ($ip =~ Stdlib::Compat::Ipv4) {
+  unless ($mask =~ Stdlib::Compat::Ipv4) {
     fail("Could not get the network mask from fact netmask_${interface_fact_name}")
   }
 
