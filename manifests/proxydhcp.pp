@@ -55,15 +55,14 @@ class foreman_proxy::proxydhcp {
     package {'acl':
       ensure => 'installed',
     }
-    -> exec { 'setfacl_etc_dhcp':
-      command => "setfacl -R -m u:${::foreman_proxy::user}:rx /etc/dhcp",
-      path    => '/usr/bin',
-      onlyif  => "getfacl -p /etc/dhcp | grep user:${::foreman_proxy::user}:r-x",
-    }
-    -> exec { 'setfacl_var_lib_dhcp':
-      command => "setfacl -R -m u:${::foreman_proxy::user}:rx /var/lib/dhcpd",
-      path    => '/usr/bin',
-      onlyif  => "getfacl -p /var/lib/dhcp | grep user:${::foreman_proxy::user}:r-x",
+
+    ['/etc/dhcp', '/var/lib/dhcpd'].each |$path| {
+      exec { "Allow ${::foreman_proxy::user} to read ${path}":
+        command => "setfacl -R -m u:${::foreman_proxy::user}:rx ${path}",
+        path    => '/usr/bin',
+        unless  => "getfacl -p ${path} | grep user:${::foreman_proxy::user}:r-x",
+        require => Package['acl'],
+      }
     }
 
   }
