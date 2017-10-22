@@ -223,11 +223,11 @@ describe 'foreman_proxy::proxydhcp' do
           }"
         end
 
-        it do should contain_exec('setfacl_etc_dhcp').
+        it do should contain_exec('Allow foreman-proxy to read /etc/dhcp').
           with_command("setfacl -R -m u:foreman-proxy:rx /etc/dhcp")
         end
 
-        it do should contain_exec('setfacl_var_lib_dhcp').
+        it do should contain_exec('Allow foreman-proxy to read /var/lib/dhcpd').
           with_command("setfacl -R -m u:foreman-proxy:rx /var/lib/dhcpd")
         end
       end
@@ -246,20 +246,22 @@ describe 'foreman_proxy::proxydhcp' do
 
         case facts[:osfamily]
         when 'RedHat'
-          it do should contain_exec('setfacl_etc_dhcp').
-            with_command("setfacl -R -m u:foreman-proxy:rx /etc/dhcp")
+          it do should contain_exec('Allow foreman-proxy to read /etc/dhcp').
+            with_command('setfacl -R -m u:foreman-proxy:rx /etc/dhcp').
+            with_unless('getfacl -p /etc/dhcp | grep user:foreman-proxy:r-x')
           end
         else
-          it { should_not contain_exec('setfacl_etc_dhcp') }
+          it { should_not contain_exec('Allow foreman-proxy to read /etc/dhcp') }
         end
 
         case facts[:osfamily]
         when 'RedHat'
-          it do should contain_exec('setfacl_var_lib_dhcp').
-            with_command("setfacl -R -m u:foreman-proxy:rx /var/lib/dhcpd")
+          it do should contain_exec('Allow foreman-proxy to read /var/lib/dhcpd').
+            with_command("setfacl -R -m u:foreman-proxy:rx /var/lib/dhcpd").
+            with_unless('getfacl -p /var/lib/dhcpd | grep user:foreman-proxy:r-x')
           end
         else
-          it { should_not contain_exec('setfacl_var_lib_dhcp') }
+          it { should_not contain_exec('Allow foreman-proxy to read /var/lib/dhcpd') }
         end
       end
     end
