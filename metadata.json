@@ -61,48 +61,39 @@
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "6",
         "7"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "6",
         "7"
       ]
     },
     {
       "operatingsystem": "Scientific",
       "operatingsystemrelease": [
-        "6",
         "7"
-      ]
-    },
-    {
-      "operatingsystem": "Fedora",
-      "operatingsystemrelease": [
-        "24"
       ]
     },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "14.04",
         "16.04"
       ]
     },
     {
       "operatingsystem": "FreeBSD",
       "operatingsystemrelease": [
-        "9",
-        "10"
+        "10",
+        "11"
       ]
     },
     {
@@ -111,8 +102,6 @@
     {
       "operatingsystem": "DragonFly",
       "operatingsystemrelease": [
-        "3.6",
-        "3.8",
         "4"
       ]
     }

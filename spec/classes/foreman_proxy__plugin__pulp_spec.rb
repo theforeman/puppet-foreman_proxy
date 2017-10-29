@@ -8,7 +8,7 @@ describe 'foreman_proxy::plugin::pulp' do
   end
 
   let :facts do
-    on_supported_os['redhat-6-x86_64'].merge(:puppet_environmentpath => puppet_environmentpath)
+    on_supported_os['redhat-7-x86_64'].merge(:puppet_environmentpath => puppet_environmentpath)
   end
 
   let :etc_dir do

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'foreman_proxy::plugin::salt' do
 
   let :facts do
-    on_supported_os['redhat-6-x86_64']
+    on_supported_os['redhat-7-x86_64']
   end
 
   describe 'with default settings' do
