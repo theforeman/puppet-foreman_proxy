@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'foreman_proxy::plugin::openscap' do
   let :facts do
-    on_supported_os['redhat-6-x86_64']
+    on_supported_os['redhat-7-x86_64']
   end
 
   let :pre_condition do
