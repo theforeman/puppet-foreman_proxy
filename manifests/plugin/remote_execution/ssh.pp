@@ -100,10 +100,8 @@ class foreman_proxy::plugin::remote_execution::ssh (
 
   if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
     if $ssh_kerberos_auth {
-      Package[$kerberos_pkg]
-        ~> Service['smart_proxy_dynflow_core']
+      Package[$kerberos_pkg] ~> Service['smart_proxy_dynflow_core']
     }
-    Foreman_proxy::Settings_file['remote_execution_ssh']
-      ~> Service['smart_proxy_dynflow_core']
+    Foreman_proxy::Settings_file['remote_execution_ssh'] ~> Service['smart_proxy_dynflow_core']
   }
 }
