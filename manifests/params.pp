@@ -25,11 +25,13 @@ class foreman_proxy::params {
       $nsupdate = 'bind-utils'
 
       $tftp_root  = '/var/lib/tftpboot'
-      $tftp_syslinux_filenames = ['/usr/share/syslinux/chain.c32',
-                                  '/usr/share/syslinux/mboot.c32',
-                                  '/usr/share/syslinux/menu.c32',
-                                  '/usr/share/syslinux/memdisk',
-                                  '/usr/share/syslinux/pxelinux.0']
+      $tftp_syslinux_filenames = [
+        '/usr/share/syslinux/chain.c32',
+        '/usr/share/syslinux/mboot.c32',
+        '/usr/share/syslinux/menu.c32',
+        '/usr/share/syslinux/memdisk',
+        '/usr/share/syslinux/pxelinux.0',
+      ]
     }
     'Debian': {
       # if set to true, no repo will be added by this module, letting you to
@@ -57,20 +59,24 @@ class foreman_proxy::params {
         $tftp_root = '/srv/tftp'
       }
       if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease == '14.04' {
-        $tftp_syslinux_filenames = ['/usr/lib/syslinux/chain.c32',
-                                    '/usr/lib/syslinux/mboot.c32',
-                                    '/usr/lib/syslinux/menu.c32',
-                                    '/usr/lib/syslinux/memdisk',
-                                    '/usr/lib/syslinux/pxelinux.0']
+        $tftp_syslinux_filenames = [
+          '/usr/lib/syslinux/chain.c32',
+          '/usr/lib/syslinux/mboot.c32',
+          '/usr/lib/syslinux/menu.c32',
+          '/usr/lib/syslinux/memdisk',
+          '/usr/lib/syslinux/pxelinux.0',
+        ]
       } else {
-        $tftp_syslinux_filenames = ['/usr/lib/PXELINUX/pxelinux.0',
-                                    '/usr/lib/syslinux/memdisk',
-                                    '/usr/lib/syslinux/modules/bios/chain.c32',
-                                    '/usr/lib/syslinux/modules/bios/ldlinux.c32',
-                                    '/usr/lib/syslinux/modules/bios/libcom32.c32',
-                                    '/usr/lib/syslinux/modules/bios/libutil.c32',
-                                    '/usr/lib/syslinux/modules/bios/mboot.c32',
-                                    '/usr/lib/syslinux/modules/bios/menu.c32']
+        $tftp_syslinux_filenames = [
+          '/usr/lib/PXELINUX/pxelinux.0',
+          '/usr/lib/syslinux/memdisk',
+          '/usr/lib/syslinux/modules/bios/chain.c32',
+          '/usr/lib/syslinux/modules/bios/ldlinux.c32',
+          '/usr/lib/syslinux/modules/bios/libcom32.c32',
+          '/usr/lib/syslinux/modules/bios/libutil.c32',
+          '/usr/lib/syslinux/modules/bios/mboot.c32',
+          '/usr/lib/syslinux/modules/bios/menu.c32',
+        ]
       }
     }
     /^(FreeBSD|DragonFly)$/: {
@@ -97,14 +103,16 @@ class foreman_proxy::params {
       $nsupdate = 'bind910'
 
       $tftp_root = '/tftpboot'
-      $tftp_syslinux_filenames = ['/usr/local/share/syslinux/bios/core/pxelinux.0',
-                                  '/usr/local/share/syslinux/bios/memdisk/memdisk',
-                                  '/usr/local/share/syslinux/bios/com32/chain/chain.c32',
-                                  '/usr/local/share/syslinux/bios/com32/elflink/ldlinux/ldlinux.c32',
-                                  '/usr/local/share/syslinux/bios/com32/lib/libcom32.c32',
-                                  '/usr/local/share/syslinux/bios/com32/libutil/libutil.c32',
-                                  '/usr/local/share/syslinux/bios/com32/mboot/mboot.c32',
-                                  '/usr/local/share/syslinux/bios/com32/menu/menu.c32']
+      $tftp_syslinux_filenames = [
+        '/usr/local/share/syslinux/bios/core/pxelinux.0',
+        '/usr/local/share/syslinux/bios/memdisk/memdisk',
+        '/usr/local/share/syslinux/bios/com32/chain/chain.c32',
+        '/usr/local/share/syslinux/bios/com32/elflink/ldlinux/ldlinux.c32',
+        '/usr/local/share/syslinux/bios/com32/lib/libcom32.c32',
+        '/usr/local/share/syslinux/bios/com32/libutil/libutil.c32',
+        '/usr/local/share/syslinux/bios/com32/mboot/mboot.c32',
+        '/usr/local/share/syslinux/bios/com32/menu/menu.c32',
+      ]
     }
     'Archlinux': {
       # if set to true, no repo will be added by this module, letting you to
@@ -130,12 +138,14 @@ class foreman_proxy::params {
       $nsupdate = 'bind-tools'
 
       $tftp_root = '/srv/tftp'
-      $tftp_syslinux_filenames = ['/usr/lib/syslinux/bios/pxelinux.0',
-                                  '/usr/lib/syslinux/bios/memdisk',
-                                  '/usr/lib/syslinux/bios/chain.c32',
-                                  '/usr/lib/syslinux/bios/ldlinux.c32',
-                                  '/usr/lib/syslinux/bios/libutil.c32',
-                                  '/usr/lib/syslinux/bios/menu.c32']
+      $tftp_syslinux_filenames = [
+        '/usr/lib/syslinux/bios/pxelinux.0',
+        '/usr/lib/syslinux/bios/memdisk',
+        '/usr/lib/syslinux/bios/chain.c32',
+        '/usr/lib/syslinux/bios/ldlinux.c32',
+        '/usr/lib/syslinux/bios/libutil.c32',
+        '/usr/lib/syslinux/bios/menu.c32',
+      ]
     }
     default: {
       fail("${::hostname}: This module does not support osfamily ${::osfamily}")
