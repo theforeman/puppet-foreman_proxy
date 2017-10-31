@@ -72,15 +72,15 @@ class foreman_proxy::config {
     listen_on => $::foreman_proxy::puppet_listen_on,
   }
   foreman_proxy::settings_file { [
-    'puppet_proxy_customrun',
-    'puppet_proxy_legacy',
-    'puppet_proxy_mcollective',
-    'puppet_proxy_puppet_api',
-    'puppet_proxy_puppetrun',
-    'puppet_proxy_salt',
-    'puppet_proxy_ssh',
-  ]:
-    module => false,
+      'puppet_proxy_customrun',
+      'puppet_proxy_legacy',
+      'puppet_proxy_mcollective',
+      'puppet_proxy_puppet_api',
+      'puppet_proxy_puppetrun',
+      'puppet_proxy_salt',
+      'puppet_proxy_ssh',
+    ]:
+      module => false,
   }
   foreman_proxy::settings_file { 'puppetca':
     enabled   => $::foreman_proxy::puppetca,
