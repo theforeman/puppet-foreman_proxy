@@ -116,9 +116,7 @@ class foreman_proxy::config {
   if $foreman_proxy::puppetca or $foreman_proxy::puppet {
     if $foreman_proxy::use_sudoersd {
       if $foreman_proxy::manage_sudoersd {
-        file { "${::foreman_proxy::sudoers}.d":
-          ensure => directory,
-        }
+        ensure_resource('file', "${::foreman_proxy::sudoers}.d", {'ensure' => 'directory'})
       }
 
       file { "${::foreman_proxy::sudoers}.d/foreman-proxy":
