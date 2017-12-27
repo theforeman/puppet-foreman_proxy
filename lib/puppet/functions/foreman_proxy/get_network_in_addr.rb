@@ -1,21 +1,22 @@
-module Puppet::Parser::Functions
-  newfunction(:get_network_in_addr, :type => :rvalue,
-              :doc => 'Get the in-addr.arpa notation for the given IP address and a netmask'
-  ) do |args|
-    require 'ipaddr'
+# Get the in-addr.arpa notation for the given IP address and a netmask
 
-    if args.length != 2 then
-      raise Puppet::ParseError, ("get_network_in_addr(): must give an address and a netmask)")
-    end
+require 'ipaddr'
 
+Puppet::Functions.create_function(:'foreman_proxy::get_network_in_addr') do
+  dispatch :get_network_in_addr do
+    required_param 'String', :addr
+    required_param 'String', :netm
+  end
+
+  def get_network_in_addr(addr, netm)
     begin
-      address = IPAddr.new(args[0])
+      address = IPAddr.new(addr)
     rescue
       raise Puppet::ParseError.new("get_network_in_addr(): address is not a valid IPv4 address")
     end
 
     begin
-      netmask = IPAddr.new(args[1])
+      netmask = IPAddr.new(netm)
     rescue
       raise Puppet::ParseError.new("get_network_in_addr(): netmask is not a valid IPv4 address")
     end

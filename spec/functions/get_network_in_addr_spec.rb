@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe 'get_network_in_addr' do
+describe 'foreman_proxy::get_network_in_addr' do
   it 'should exist' do
-    expect(Puppet::Parser::Functions.function('get_network_in_addr')).to eq 'function_get_network_in_addr'
+    is_expected.not_to eq(nil)
   end
 
   it 'should throw an error with bad number of arguments' do
-    is_expected.to run.with_params().and_raise_error(Puppet::ParseError)
-    is_expected.to run.with_params('192.168.1.0').and_raise_error(Puppet::ParseError)
-    is_expected.to run.with_params('192.168.1.0', '255.255.255.0', 'additional').and_raise_error(Puppet::ParseError)
+    is_expected.to run.with_params().and_raise_error(ArgumentError)
+    is_expected.to run.with_params('192.168.1.0').and_raise_error(ArgumentError)
+    is_expected.to run.with_params('192.168.1.0', '255.255.255.0', 'additional').and_raise_error(ArgumentError)
   end
 
   it 'should throw an error on invalid parameters' do

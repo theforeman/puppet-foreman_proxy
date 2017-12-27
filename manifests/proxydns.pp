@@ -48,7 +48,7 @@ class foreman_proxy::proxydns(
     unless is_ip_address($netmask) {
       fail("Could not get the netmask from fact netmask_${interface_fact_name}")
     }
-    $reverse = get_network_in_addr($ip, $netmask)
+    $reverse = foreman_proxy::get_network_in_addr($ip, $netmask)
     assert_type(String[1], $reverse) |$expected, $actual| {
       fail("Could not determine reverse for ${ip}/${netmask}")
     }
