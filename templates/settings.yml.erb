@@ -28,9 +28,9 @@
 <% end -%>
 
 # Use this option only if you need to disable certain cipher suites.
-# Note: we use the OpenSSL suite name, take a look at:
-# https://www.openssl.org/docs/manmaster/apps/ciphers.html#CIPHER-SUITE-NAMES
-# for more information.
+# Note: we use the OpenSSL suite name, such as "RC4-MD5". 
+# The complete list of cipher suite names can be found at: 
+# https://www.openssl.org/docs/manmaster/man1/ciphers.html#CIPHER-SUITE-NAMES
 <% if ciphers = scope.lookupvar("foreman_proxy::ssl_disabled_ciphers") and ciphers.any? -%>
 :ssl_disabled_ciphers:
 <% ciphers.each do |c| -%>
