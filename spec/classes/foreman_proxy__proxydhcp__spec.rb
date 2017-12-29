@@ -209,7 +209,7 @@ describe 'foreman_proxy::proxydhcp' do
         it { should raise_error(Puppet::Error, /Could not get the ip address from fact ipaddress_doesnotexist/) }
       end
 
-      context "as manager of ACLs for dhcp" do
+      context "as manager of ACLs for dhcp" unless ['FreeBSD', 'DragonFly'].include?(facts[:osfamily]) do
         let :facts do
           facts.merge({:ipaddress_eth0 => '192.168.100.20',
                        :ipaddress      => '192.168.100.20',
