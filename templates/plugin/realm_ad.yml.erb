@@ -1,0 +1,40 @@
+---
+# Authentication for Kerberos-based Realms
+:realm: <%= scope.lookupvar('foreman_proxy::plugin::realm::ad::realm') %>
+
+# Kerberos pricipal used to authenticate against Active Directory
+:principal: <%= scope.lookupvar('foreman_proxy::realm_principal') %>
+
+# Path to the keytab used to authenticate against Active Directory
+:keytab_path: <%= scope.lookupvar('foreman_proxy::realm_keytab') %>
+
+# FQDN of the Domain Controller
+:domain_controller: <%= scope.lookupvar('foreman_proxy::plugin::realm::ad::domain_controller') %>
+
+# Optional: OU where the machine account shall be placed
+<% if [nil, :undefined, :undef].include?(scope.lookupvar('foreman_proxy::plugin::realm::ad::ou')) -%>
+#:ou: OU=Linux,OU=Servers,DC=example,DC=com
+<% else %>
+:ou: '<%= scope.lookupvar('foreman_proxy::plugin::realm::ad::ou') %>'
+<% end %>
+
+# Optional: Prefix for the computername
+<% if [nil, :undefined, :undef].include?(scope.lookupvar('foreman_proxy::plugin::realm::ad::computername_prefix')) -%>
+#:computername_prefix: ''
+<% else %>
+:computername_prefix: '<%= scope.lookupvar('foreman_proxy::plugin::realm::ad::computername_prefix') %>'
+<% end %>
+
+# Optional: Generate the computername by calculating the SHA256 hexdigest of the hostname
+<% if [nil, :undefined, :undef].include?(scope.lookupvar('foreman_proxy::plugin::realm::ad::computername_hash')) -%>
+#:computername_hash: false
+<% else %>
+:computername_hash: <%= scope.lookupvar('foreman_proxy::plugin::realm::ad::computername_hash') %>
+<% end %>
+
+# Optional: use the fqdn of the host to generate the computername
+<% if [nil, :undefined, :undef].include?(scope.lookupvar('foreman_proxy::plugin::realm::ad::computername_use_fqdn')) -%>
+#:computername_use_fqdn: false
+<% else %>
+:computername_use_fqdn: <%= scope.lookupvar('foreman_proxy::plugin::realm::ad::computername_use_fqdn') %>
+<% end %>
