@@ -1112,7 +1112,7 @@ describe 'foreman_proxy::config' do
           }'
         end
 
-        it 'should set ssl_disabled_ciphers to YAML array in setting.yml' do
+        it 'should set ssl_disabled_ciphers to YAML array in settings.yml' do
           verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
             ':ssl_disabled_ciphers:',
             '  - CIPHER-SUITE-1',
@@ -1128,7 +1128,7 @@ describe 'foreman_proxy::config' do
           }'
         end
 
-        it 'should set ssl_disabled_ciphers to YAML array in setting.yml' do
+        it 'should set tls_disabled_versions to YAML array in settings.yml' do
           verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
             ':tls_disabled_versions:',
             '  - 1.1'
