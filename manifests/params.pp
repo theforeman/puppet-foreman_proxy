@@ -203,6 +203,7 @@ class foreman_proxy::params {
   $ssl_cert = "${ssldir}/certs/${lower_fqdn}.pem"
   $ssl_key = "${ssldir}/private_keys/${lower_fqdn}.pem"
   $ssl_disabled_ciphers = []
+  $tls_disabled_versions = []
 
   $foreman_ssl_ca  = undef
   $foreman_ssl_cert = undef

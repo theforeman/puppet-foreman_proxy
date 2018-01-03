@@ -1120,6 +1120,22 @@ describe 'foreman_proxy::config' do
           ])
         end
       end
+
+      context 'with tls_disabled_versions' do
+        let :pre_condition do
+          'class {"foreman_proxy":
+            tls_disabled_versions => ["1.1"],
+          }'
+        end
+
+        it 'should set ssl_disabled_ciphers to YAML array in setting.yml' do
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
+            ':tls_disabled_versions:',
+            '  - 1.1'
+          ])
+        end
+      end
+
       describe 'manage_puppet_group' do
         context 'when puppet and puppetca are false' do
           context 'when manage_puppet_group = true and ssl = true' do
