@@ -2,7 +2,7 @@
 .travis.yml:
   env:
     global:
-      - PARALLEL_TEST_PROCESSORS=16
+      - PARALLEL_TEST_PROCESSORS=8
 Rakefile:
   param_docs_pattern:
     - manifests/init.pp
