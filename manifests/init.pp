@@ -57,6 +57,8 @@
 #                               When not specified, the ssl_key is used instead.
 #
 # $ssl_disabled_ciphers::       List of OpenSSL cipher suite names that will be disabled from the default
+
+# $tls_disabled_versions::      List of TLS versions that will be disabled from the default
 #
 # $trusted_hosts::              Only hosts listed will be permitted, empty array to disable authorization
 #
@@ -309,6 +311,7 @@ class foreman_proxy (
   Optional[Stdlib::Absolutepath] $foreman_ssl_key = $::foreman_proxy::params::foreman_ssl_key,
   Array[String] $trusted_hosts = $::foreman_proxy::params::trusted_hosts,
   Array[String] $ssl_disabled_ciphers = $::foreman_proxy::params::ssl_disabled_ciphers,
+  Array[String] $tls_disabled_versions = $::foreman_proxy::params::tls_disabled_versions,
   Boolean $manage_sudoersd = $::foreman_proxy::params::manage_sudoersd,
   Boolean $use_sudoersd = $::foreman_proxy::params::use_sudoersd,
   Boolean $use_sudoers = $::foreman_proxy::params::use_sudoers,

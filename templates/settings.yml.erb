@@ -40,6 +40,18 @@
 #:ssl_disabled_ciphers: [CIPHER-SUITE-1, CIPHER-SUITE-2]
 <% end -%>
 
+# Use this option only if you need to strictly specify TLS versions to be
+# disabled. SSLv3 and TLS v1.0 are always disabled and cannot be configured.
+# Specify versions like: '1.1', or '1.2'
+<% if versions = scope.lookupvar("foreman_proxy::tls_disabled_versions") and versions.any? -%>
+:tls_disabled_versions:
+<% versions.each do |v| -%>
+<%= "  - #{v}" %>
+<% end -%>
+<% else -%>
+#:tls_disabled_versions: []
+<% end -%>
+
 # the hosts which the proxy accepts connections from
 # commenting the following lines would mean every verified SSL connection allowed
 <% if thosts = scope.lookupvar("foreman_proxy::trusted_hosts") and thosts.any? -%>
