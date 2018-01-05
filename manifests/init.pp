@@ -57,7 +57,7 @@
 #                               When not specified, the ssl_key is used instead.
 #
 # $ssl_disabled_ciphers::       List of OpenSSL cipher suite names that will be disabled from the default
-
+#
 # $tls_disabled_versions::      List of TLS versions that will be disabled from the default
 #
 # $trusted_hosts::              Only hosts listed will be permitted, empty array to disable authorization
