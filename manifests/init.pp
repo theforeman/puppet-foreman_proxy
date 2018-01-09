@@ -174,6 +174,11 @@
 #
 # $dhcp_interface::             DHCP listen interface
 #
+# $dhcp_additional_interfaces:: Additional DHCP listen interfaces (in addition to dhcp_interface). Note: as opposed to dhcp_interface
+#                               *no* subnet will be provisioned for any of the additional DHCP listen interfaces. Please configure any
+#                               additional subnets using `dhcp::pool` and related resource types (provided by the theforeman/puppet-dhcp
+#                               module).
+#
 # $dhcp_gateway::               DHCP pool gateway
 #
 # $dhcp_range::                 Space-separated DHCP pool range
@@ -366,6 +371,7 @@ class foreman_proxy (
   Array[String] $dhcp_option_domain = $::foreman_proxy::params::dhcp_option_domain,
   Optional[Array[String]] $dhcp_search_domains = $::foreman_proxy::params::dhcp_search_domains,
   String $dhcp_interface = $::foreman_proxy::params::dhcp_interface,
+  Array[String] $dhcp_additional_interfaces = $::foreman_proxy::params::dhcp_additional_interfaces,
   Optional[String] $dhcp_gateway = $::foreman_proxy::params::dhcp_gateway,
   Variant[Undef, Boolean, String] $dhcp_range = $::foreman_proxy::params::dhcp_range,
   Optional[String] $dhcp_pxeserver = $::foreman_proxy::params::dhcp_pxeserver,

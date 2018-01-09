@@ -33,7 +33,7 @@ class foreman_proxy::proxydhcp {
   class { '::dhcp':
     dnsdomain   => $foreman_proxy::dhcp_option_domain,
     nameservers => $nameservers,
-    interfaces  => [$foreman_proxy::dhcp_interface],
+    interfaces  => [$foreman_proxy::dhcp_interface] + $foreman_proxy::dhcp_additional_interfaces,
     pxeserver   => $ip,
     pxefilename => 'pxelinux.0',
     omapi_name  => $foreman_proxy::dhcp_key_name,
