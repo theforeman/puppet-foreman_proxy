@@ -238,7 +238,6 @@ class foreman_proxy::params {
   $puppetca_cmd       = "${puppet_cmd} cert"
   $puppet_group       = 'puppet'
   $autosignfile       = "${puppetdir}/autosign.conf"
-  $use_autosignfile   = false
 
   # The puppet-agent package, (puppet 4 AIO) doesn't create a puppet group
   $manage_puppet_group = versioncmp($::puppetversion, '4.0') > 0
@@ -343,7 +342,6 @@ class foreman_proxy::params {
   $realm_principal    = 'realm-proxy@EXAMPLE.COM'
   $freeipa_config     = '/etc/ipa/default.conf'
   $freeipa_remove_dns = true
-  $realm_split_config_files = false
 
   # Proxy can register itself within a Foreman instance
   $register_in_foreman = true
