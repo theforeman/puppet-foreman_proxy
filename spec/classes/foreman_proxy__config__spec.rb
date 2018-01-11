@@ -247,7 +247,7 @@ describe 'foreman_proxy::config' do
             '---',
             ':enabled: https',
             ":ssldir: #{ssl_dir}",
-            ":puppetdir: #{puppet_etc_dir}",
+            ":autosignfile: #{puppet_etc_dir}/autosign.conf",
           ])
         end
 
@@ -287,10 +287,17 @@ describe 'foreman_proxy::config' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/realm.yml", [
             '---',
             ':enabled: false',
-            ':realm_provider: freeipa',
-            ":realm_keytab: #{etc_dir}/foreman-proxy/freeipa.keytab",
-            ':realm_principal: realm-proxy@EXAMPLE.COM',
-            ':freeipa_remove_dns: true',
+            ':use_provider: realm_freeipa',
+          ])
+        end
+
+        it 'should generate correct realm_freeipa.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/realm_freeipa.yml", [
+            '---',
+            ":keytab_path: #{etc_dir}/foreman-proxy/freeipa.keytab",
+            ':principal: realm-proxy@EXAMPLE.COM',
+            ':ipa_config: /etc/ipa/default.conf',
+            ':remove_dns: true',
           ])
         end
 
@@ -420,33 +427,6 @@ describe 'foreman_proxy::config' do
           verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", [
             ':enabled: https',
             ':bmc_default_provider: shell',
-          ])
-        end
-      end
-
-      context 'with realm_split_config_files => true' do
-        let :pre_condition do
-          'class {"foreman_proxy":
-            realm => true,
-            realm_split_config_files => true,
-          }'
-        end
-
-        it 'should generate correct realm.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/realm.yml", [
-            '---',
-            ':enabled: https',
-            ':use_provider: realm_freeipa',
-          ])
-        end
-
-        it 'should generate correct realm_freeipa.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/realm_freeipa.yml", [
-            '---',
-            ":keytab_path: #{etc_dir}/foreman-proxy/freeipa.keytab",
-            ':principal: realm-proxy@EXAMPLE.COM',
-            ':ipa_config: /etc/ipa/default.conf',
-            ':remove_dns: true',
           ])
         end
       end
@@ -820,24 +800,6 @@ describe 'foreman_proxy::config' do
             "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
             "#{proxy_user_name} ALL = (some_puppet_user) NOPASSWD : #{puppetrun_command}",
             "Defaults:#{proxy_user_name} !requiretty",
-          ])
-        end
-      end
-
-      context 'with use_autosignfile => true' do
-        let :pre_condition do
-          'class {"foreman_proxy":
-            puppetca         => true,
-            use_autosignfile => true,
-          }'
-        end
-
-        it 'should generate correct puppetca.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", [
-              '---',
-              ':enabled: https',
-              ":ssldir: #{ssl_dir}",
-              ":autosignfile: #{puppet_etc_dir}/autosign.conf",
           ])
         end
       end
