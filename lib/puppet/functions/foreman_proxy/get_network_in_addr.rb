@@ -4,26 +4,13 @@ require 'ipaddr'
 
 Puppet::Functions.create_function(:'foreman_proxy::get_network_in_addr') do
   dispatch :get_network_in_addr do
-    required_param 'String', :addr
-    required_param 'String', :netm
+    required_param 'Stdlib::Compat::Ipv4', :address
+    required_param 'Stdlib::Compat::Ipv4', :netmask
   end
 
-  def get_network_in_addr(addr, netm)
-    begin
-      address = IPAddr.new(addr)
-    rescue
-      raise Puppet::ParseError.new("get_network_in_addr(): address is not a valid IPv4 address")
-    end
-
-    begin
-      netmask = IPAddr.new(netm)
-    rescue
-      raise Puppet::ParseError.new("get_network_in_addr(): netmask is not a valid IPv4 address")
-    end
-
-    unless address.ipv4? and netmask.ipv4?
-      raise Puppet::ParseError.new("get_network_in_addr(): only IPv4 is supported")
-    end
+  def get_network_in_addr(address_string, netmask_string)
+    address = IPAddr.new(address_string)
+    netmask = IPAddr.new(netmask_string)
 
     # The following gets the bits from the netmask, so it turns /255.255.255.0 into
     # /24. We then get the number of times we need to split. Here we rely on
@@ -34,7 +21,7 @@ Puppet::Functions.create_function(:'foreman_proxy::get_network_in_addr') do
 
     bits = 31 if bits == 32
     if bits < 8
-      raise Puppet::ParseError.new("get_network_in_addr(): subnets smaller than /8 are not supported")
+      raise ArgumentError.new("get_network_in_addr(): subnets smaller than /8 are not supported")
     end
 
     parts = 5 - (bits / 8)
