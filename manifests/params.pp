@@ -285,6 +285,7 @@ class foreman_proxy::params {
   $dhcp_provider           = 'isc'
   $dhcp_subnets            = []
   $dhcp_interface          = 'eth0'
+  $dhcp_additional_interfaces = []
   $dhcp_gateway            = '192.168.100.1'
   $dhcp_range              = undef
   $dhcp_option_domain      = [$::domain]

@@ -101,6 +101,103 @@ describe 'foreman_proxy::proxydhcp' do
         it { should_not contain_class('dhcp::failover') }
       end
 
+      context "with additional dhcp listen interfaces" do
+        let :facts do
+          facts.merge({:ipaddress_eth0 => '127.0.1.1',
+                       :netmask_eth0   => '255.0.0.0',
+                       :network_eth0   => '127.0.0.0'})
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy':
+            dhcp_gateway => '127.0.0.254',
+            dhcp_additional_interfaces => [ 'vlan8', 'vlan9', 'vlan120' ],
+          }"
+        end
+
+        it do should contain_class('dhcp').with(
+          'dnsdomain'   => ['example.com'],
+          'nameservers' => ['127.0.1.1'],
+          'interfaces'  => ['eth0', 'vlan8', 'vlan9', 'vlan120' ],
+          'pxeserver'   => '127.0.1.1',
+          'pxefilename' => 'pxelinux.0'
+        ) end
+
+        it do should contain_dhcp__pool('example.com').with(
+          'network'  => '127.0.0.0',
+          'mask'     => '255.0.0.0',
+          'range'    => nil,
+          'gateway'  => '127.0.0.254',
+          'failover' => nil
+        ) end
+
+        it { should_not contain_class('dhcp::failover') }
+      end
+
+      context "with one additional dhcp listen interface" do
+        let :facts do
+          facts.merge({:ipaddress_eth0 => '127.0.1.1',
+                       :netmask_eth0   => '255.0.0.0',
+                       :network_eth0   => '127.0.0.0'})
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy':
+            dhcp_gateway => '127.0.0.254',
+            dhcp_additional_interfaces => [ 'vlan83' ]
+          }"
+        end
+
+        it do should contain_class('dhcp').with(
+          'dnsdomain'   => ['example.com'],
+          'nameservers' => ['127.0.1.1'],
+          'interfaces'  => ['eth0', 'vlan83'],
+          'pxeserver'   => '127.0.1.1',
+          'pxefilename' => 'pxelinux.0'
+        ) end
+
+        it do should contain_dhcp__pool('example.com').with(
+          'network'  => '127.0.0.0',
+          'mask'     => '255.0.0.0',
+          'range'    => nil,
+          'gateway'  => '127.0.0.254',
+          'failover' => nil
+        ) end
+
+        it { should_not contain_class('dhcp::failover') }
+      end
+
+      context "with additional dhcp listen interfaces wrongly specified as String data type" do
+        let :facts do
+          facts.merge({:ipaddress_eth0 => '127.0.1.1',
+                       :netmask_eth0   => '255.0.0.0',
+                       :network_eth0   => '127.0.0.0'})
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy':
+            dhcp_gateway => '127.0.0.254',
+            dhcp_additional_interfaces => 'vlan55',
+          }"
+        end
+        it { should raise_error(Puppet::PreformattedError, /expects an Array value, got String/) }
+      end
+
+      context "with additional dhcp listen interfaces wrongly specified as Hash data type" do
+        let :facts do
+          facts.merge({:ipaddress_eth0 => '127.0.1.1',
+                       :netmask_eth0   => '255.0.0.0',
+                       :network_eth0   => '127.0.0.0'})
+        end
+
+        let :pre_condition do
+          "class {'foreman_proxy':
+            dhcp_gateway => '127.0.0.254',
+            dhcp_additional_interfaces => { 'name' => 'vlan55' }
+          }"
+        end
+        it { should raise_error(Puppet::PreformattedError, /expects an Array value, got Struct/) }
+      end
 
       context "with dhcp_search_domains" do
         let :facts do
