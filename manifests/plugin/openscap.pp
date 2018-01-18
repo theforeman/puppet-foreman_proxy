@@ -4,8 +4,6 @@
 #
 # === Parameters:
 #
-# $configure_openscap_repo::    Enable custom yum repo with packages needed for smart_proxy_openscap,
-#
 # $openscap_send_log_file::     Log file for the forwarding script
 #
 # $spooldir::                   Directory where OpenSCAP audits are stored
@@ -30,7 +28,6 @@
 #                               can be set to specific version number, 'latest', 'present' etc.
 #
 class foreman_proxy::plugin::openscap (
-  Boolean $configure_openscap_repo = $::foreman_proxy::plugin::openscap::params::configure_openscap_repo,
   Boolean $enabled = $::foreman_proxy::plugin::openscap::params::enabled,
   Optional[String] $version = $::foreman_proxy::plugin::openscap::params::version,
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::openscap::params::listen_on,
@@ -40,28 +37,6 @@ class foreman_proxy::plugin::openscap (
   Stdlib::Absolutepath $reportsdir = $::foreman_proxy::plugin::openscap::params::reportsdir,
   Stdlib::Absolutepath $failed_dir = $::foreman_proxy::plugin::openscap::params::failed_dir,
 ) inherits foreman_proxy::plugin::openscap::params {
-  if $configure_openscap_repo {
-    case $::osfamily {
-      'RedHat': {
-
-        $repo = $::operatingsystem ? {
-          'Fedora' => 'fedora',
-          default  => 'epel',
-        }
-
-        yumrepo { 'isimluk-openscap':
-          enabled  => 1,
-          gpgcheck => 0,
-          baseurl  => "http://copr-be.cloud.fedoraproject.org/results/isimluk/OpenSCAP/${repo}-${$::foreman_proxy::plugin::openscap::params::major_version}-\$basearch/",
-          before   => [ Foreman_proxy::Plugin['openscap'] ],
-        }
-      }
-      default: {
-        fail("Unsupported osfamily ${::osfamily}")
-      }
-    }
-  }
-
   foreman_proxy::plugin { 'openscap':
     version => $version,
   }
