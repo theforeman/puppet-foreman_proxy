@@ -54,10 +54,23 @@
 # :ssl_private_key: ssl/localhost.pem
 # :ssl_certificate: ssl/certs/localhost.pem
 
+# Use this option only if you need to disable certain cipher suites.
+# Note: we use the OpenSSL suite name, take a look at:
+# https://www.openssl.org/docs/manmaster/apps/ciphers.html#CIPHER-SUITE-NAMES
+# for more information.
 <% if ssl && ![nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::plugin::dynflow::ssl_disabled_ciphers")) -%>
 :ssl_disabled_ciphers: <%= scope.lookupvar("foreman_proxy::plugin::dynflow::ssl_disabled_ciphers") %>
 <% else -%>
 #:ssl_disabled_ciphers: [CIPHER-SUITE-1, CIPHER-SUITE-2]
+<% end -%>
+
+# Use this option only if you need to strictly specify TLS versions to be
+# disabled. SSLv3 and TLS v1.0 are always disabled and cannot be configured.
+# Specify versions like: '1.1', or '1.2'
+<% if ssl && ![nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::plugin::dynflow::tls_disabled_versions")) -%>
+:tls_disabled_versions: <%= scope.lookupvar("foreman_proxy::plugin::dynflow::tls_disabled_versions") %>
+<% else -%>
+#:tls_disabled_versions: []
 <% end -%>
 
 # File to log to, leave empty for logging to STDOUT

@@ -51,8 +51,9 @@ describe 'foreman_proxy::plugin::dynflow' do
       "include foreman_proxy"
     end
     let :params do {
-      :database_path        => '/var/lib/foreman-proxy/dynflow/dynflow.sqlite',
-      :ssl_disabled_ciphers => ['NULL-MD5', 'NULL-SHA'],
+      :database_path         => '/var/lib/foreman-proxy/dynflow/dynflow.sqlite',
+      :ssl_disabled_ciphers  => ['NULL-MD5', 'NULL-SHA'],
+      :tls_disabled_versions => ['1.1']
     } end
 
     it { should contain_foreman_proxy__plugin('dynflow') }
@@ -75,6 +76,7 @@ describe 'foreman_proxy::plugin::dynflow' do
           ":ssl_certificate: /var/lib/puppet/ssl/certs/foo.example.com.pem",
           ":ssl_private_key: /var/lib/puppet/ssl/private_keys/foo.example.com.pem",
           ':ssl_disabled_ciphers: ["NULL-MD5", "NULL-SHA"]'
+          ':tls_disabled_versions: ["1.1"]'
       ])
     end
   end
