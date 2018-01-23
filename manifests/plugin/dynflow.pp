@@ -4,21 +4,23 @@
 #
 # === Parameters:
 #
-# $database_path::   Path to the SQLite database file, set empty for in-memory sqlite
+# $database_path::         Path to the SQLite database file, set empty for in-memory sqlite
 #
-# $console_auth::    Whether to enable trusted hosts and ssl for the dynflow console
+# $console_auth::          Whether to enable trusted hosts and ssl for the dynflow console
 #
 # === Advanced parameters:
 #
-# $enabled::         Enables/disables the dynflow plugin
+# $enabled::               Enables/disables the dynflow plugin
 #
-# $listen_on::       Proxy feature listens on https, http, or both
+# $listen_on::             Proxy feature listens on https, http, or both
 #
-# $core_listen::     Address to listen on for the dynflow core service
+# $core_listen::           Address to listen on for the dynflow core service
 #
-# $core_port::       Port to use for the local dynflow core service
+# $core_port::             Port to use for the local dynflow core service
 #
-# $ssl_disabled_ciphers:: Disable SSL ciphers
+# $ssl_disabled_ciphers::  Disable SSL ciphers
+#
+# $tls_disabled_versions:: Disable TLS versions
 #
 class foreman_proxy::plugin::dynflow (
   Boolean $enabled = $::foreman_proxy::plugin::dynflow::params::enabled,
@@ -28,6 +30,7 @@ class foreman_proxy::plugin::dynflow (
   String $core_listen = $::foreman_proxy::plugin::dynflow::params::core_listen,
   Integer[0, 65535] $core_port = $::foreman_proxy::plugin::dynflow::params::core_port,
   Optional[Array[String]] $ssl_disabled_ciphers = $::foreman_proxy::plugin::dynflow::params::ssl_disabled_ciphers,
+  Optional[Array[String]] $tls_disabled_versions = $::foreman_proxy::plugin::dynflow::params::tls_disabled_versions,
 ) inherits foreman_proxy::plugin::dynflow::params {
   if $::foreman_proxy::ssl {
     $core_url = "https://${::fqdn}:${core_port}"
