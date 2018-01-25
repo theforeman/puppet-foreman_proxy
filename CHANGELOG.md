@@ -1,5 +1,31 @@
 # Changelog
 
+## [7.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/7.0.0) (2018-01-25)
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/6.0.3...7.0.0)
+
+**Breaking changes:**
+
+- Remove the configure\_openscap\_repo parameter [\#403](https://github.com/theforeman/puppet-foreman_proxy/pull/403) ([ekohl](https://github.com/ekohl))
+- Use puppet4 functions-api [\#402](https://github.com/theforeman/puppet-foreman_proxy/pull/402) ([juliantodt](https://github.com/juliantodt))
+- Use modern defaults and document compatibility [\#401](https://github.com/theforeman/puppet-foreman_proxy/pull/401) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Allow foreman 9.x and tftp 4.x [\#406](https://github.com/theforeman/puppet-foreman_proxy/pull/406) ([ekohl](https://github.com/ekohl))
+- Support tls\_disabled\_versions for dynflow core [\#404](https://github.com/theforeman/puppet-foreman_proxy/pull/404) ([stbenjam](https://github.com/stbenjam))
+- Add support for additional DHCP listen interfaces [\#399](https://github.com/theforeman/puppet-foreman_proxy/pull/399) ([antaflos](https://github.com/antaflos))
+- refs [\#21350](https://projects.theforeman.org/issues/21350) - installer support for disable\_tls\_versions [\#397](https://github.com/theforeman/puppet-foreman_proxy/pull/397) ([stbenjam](https://github.com/stbenjam))
+- refs [\#4917](https://projects.theforeman.org/issues/4917) - add realm ad plugin support [\#396](https://github.com/theforeman/puppet-foreman_proxy/pull/396) ([timogoebel](https://github.com/timogoebel))
+- Use ensure\_resource for sudoers.d [\#391](https://github.com/theforeman/puppet-foreman_proxy/pull/391) ([ekohl](https://github.com/ekohl))
+- remove EOL OSes, add new ones [\#387](https://github.com/theforeman/puppet-foreman_proxy/pull/387) ([mmoll](https://github.com/mmoll))
+
+**Fixed bugs:**
+
+- Refs [\#20542](https://projects.theforeman.org/issues/20542) - correct link to cipher suite names [\#394](https://github.com/theforeman/puppet-foreman_proxy/pull/394) ([tbrisker](https://github.com/tbrisker))
+- Fixes [\#21943](https://projects.theforeman.org/issues/21943) - Renamed netboot packages for F27 [\#393](https://github.com/theforeman/puppet-foreman_proxy/pull/393) ([ShimShtein](https://github.com/ShimShtein))
+- Fixes [\#21419](https://projects.theforeman.org/issues/21419) - Fix DHCP directory ACL [\#386](https://github.com/theforeman/puppet-foreman_proxy/pull/386) ([ekohl](https://github.com/ekohl))
+- Use the correct variables when checking [\#385](https://github.com/theforeman/puppet-foreman_proxy/pull/385) ([ekohl](https://github.com/ekohl))
+
 ## 6.0.3
 
 * New or changed parameters:
