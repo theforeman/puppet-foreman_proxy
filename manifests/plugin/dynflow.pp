@@ -18,9 +18,9 @@
 #
 # $core_port::             Port to use for the local dynflow core service
 #
-# $ssl_disabled_ciphers::  Disable SSL ciphers
+# $ssl_disabled_ciphers::  Disable SSL ciphers. For example: ['NULL-MD5', 'NULL-SHA']
 #
-# $tls_disabled_versions:: Disable TLS versions
+# $tls_disabled_versions:: Disable TLS versions. Version 1.0 is always disabled. For example: ['1.1']
 #
 class foreman_proxy::plugin::dynflow (
   Boolean $enabled = $::foreman_proxy::plugin::dynflow::params::enabled,
