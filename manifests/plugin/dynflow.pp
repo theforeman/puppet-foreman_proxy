@@ -22,6 +22,8 @@
 #
 # $tls_disabled_versions:: Disable TLS versions. Version 1.0 is always disabled. For example: ['1.1']
 #
+# $open_file_limit::       Limit number of open files - Only Red Hat Operating Systems with Software Collections.
+#
 class foreman_proxy::plugin::dynflow (
   Boolean $enabled = $::foreman_proxy::plugin::dynflow::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::dynflow::params::listen_on,
@@ -31,6 +33,7 @@ class foreman_proxy::plugin::dynflow (
   Integer[0, 65535] $core_port = $::foreman_proxy::plugin::dynflow::params::core_port,
   Optional[Array[String]] $ssl_disabled_ciphers = $::foreman_proxy::plugin::dynflow::params::ssl_disabled_ciphers,
   Optional[Array[String]] $tls_disabled_versions = $::foreman_proxy::plugin::dynflow::params::tls_disabled_versions,
+  Integer[1] $open_file_limit = $::foreman_proxy::plugin::dynflow::params::open_file_limit,
 ) inherits foreman_proxy::plugin::dynflow::params {
   if $::foreman_proxy::ssl {
     $core_url = "https://${::fqdn}:${core_port}"
@@ -65,6 +68,12 @@ class foreman_proxy::plugin::dynflow (
     ~> file { '/etc/smart_proxy_dynflow_core/settings.d':
       ensure => link,
       target => '/etc/foreman-proxy/settings.d',
+    }
+    ~> systemd::service_limits { 'smart_proxy_dynflow_core.service':
+      limits          => {
+        'LimitNOFILE' => $open_file_limit,
+      },
+      restart_service => false,
     }
     ~> service { 'smart_proxy_dynflow_core':
       ensure => running,
