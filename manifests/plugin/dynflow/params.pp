@@ -9,4 +9,5 @@ class foreman_proxy::plugin::dynflow::params {
   $core_port             = 8008
   $ssl_disabled_ciphers  = undef
   $tls_disabled_versions = undef
+  $open_file_limit       = 1000000
 }
