@@ -44,6 +44,11 @@ describe 'foreman_proxy::plugin::dynflow' do
               with_ensure('link').with_target("#{etc_dir}/foreman-proxy/settings.d")
           end
 
+          it 'should create systemd service limits' do
+            should contain_systemd__service_limits('smart_proxy_dynflow_core.service').
+              with_limits({'LimitNOFILE' => 1000000}).that_notifies('Service[smart_proxy_dynflow_core]')
+          end
+
           it 'should generate correct dynflow core settings.yml' do
             verify_exact_contents(catalogue, "#{etc_dir}/smart_proxy_dynflow_core/settings.yml", [
               "---",
@@ -63,6 +68,7 @@ describe 'foreman_proxy::plugin::dynflow' do
           it { should_not contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.d") }
           it { should_not contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.yml") }
           it { should_not contain_service('smart_proxy_dynflow_core') }
+          it { should_not contain_systemd__service_limits('smart_proxy_dynflow_core.service') }
         end
       end
 
@@ -70,7 +76,8 @@ describe 'foreman_proxy::plugin::dynflow' do
         let :params do {
           :database_path         => '/var/lib/foreman-proxy/dynflow/dynflow.sqlite',
           :ssl_disabled_ciphers  => ['NULL-MD5', 'NULL-SHA'],
-          :tls_disabled_versions => ['1.1']
+          :tls_disabled_versions => ['1.1'],
+          :open_file_limit       => 8000
         } end
 
         it { should compile.with_all_deps }
@@ -80,6 +87,11 @@ describe 'foreman_proxy::plugin::dynflow' do
           it 'should create settings.d symlink' do
             should contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.d").
               with_ensure('link').with_target("#{etc_dir}/foreman-proxy/settings.d")
+          end
+
+          it 'should create systemd service limits' do
+            should contain_systemd__service_limits('smart_proxy_dynflow_core.service').
+              with_limits({'LimitNOFILE' => 8000}).that_notifies('Service[smart_proxy_dynflow_core]')
           end
 
           it 'should generate correct dynflow core settings.yml' do
@@ -103,6 +115,7 @@ describe 'foreman_proxy::plugin::dynflow' do
           it { should_not contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.d") }
           it { should_not contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.yml") }
           it { should_not contain_service('smart_proxy_dynflow_core') }
+          it { should_not contain_systemd__service_limits('smart_proxy_dynflow_core.service') }
         end
       end
     end
