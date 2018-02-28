@@ -283,7 +283,7 @@ class foreman_proxy::params {
   $dhcp_managed            = true
   $dhcp_provider           = 'isc'
   $dhcp_subnets            = []
-  $dhcp_interface          = 'eth0'
+  $dhcp_interface          = pick(fact('networking.primary'), 'eth0')
   $dhcp_additional_interfaces = []
   $dhcp_gateway            = '192.168.100.1'
   $dhcp_range              = undef
@@ -314,7 +314,7 @@ class foreman_proxy::params {
   $dns_listen_on          = 'https'
   $dns_managed            = true
   $dns_provider           = 'nsupdate'
-  $dns_interface          = 'eth0'
+  $dns_interface          = pick(fact('networking.primary'), 'eth0')
   $dns_zone               = $::domain
   $dns_realm              = upcase($dns_zone)
   $dns_reverse            = undef
