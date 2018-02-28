@@ -1,6 +1,6 @@
 # = Foreman Proxy Infoblox DHCP
 #
-# This class installs the Infoblox DNS plugin for Foreman proxy
+# This class installs the Infoblox DHCP plugin for Foreman proxy
 #
 # === Parameters:
 #
