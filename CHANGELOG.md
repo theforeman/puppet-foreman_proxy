@@ -1,5 +1,14 @@
 # Changelog
 
+## [7.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/7.1.0) (2018-02-28)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.0.0...7.1.0)
+
+**Implemented enhancements:**
+
+- Fixes [\#22479](https://projects.theforeman.org/issues/22479) - Handle remote directory with undefined parent [\#410](https://github.com/theforeman/puppet-foreman_proxy/pull/410) ([ekohl](https://github.com/ekohl))
+- Refs [\#22513](https://projects.theforeman.org/issues/22513) - Expose the dynflow file limit [\#409](https://github.com/theforeman/puppet-foreman_proxy/pull/409) ([chris1984](https://github.com/chris1984))
+
 ## [7.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/7.0.0) (2018-01-25)
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/6.0.3...7.0.0)
 
