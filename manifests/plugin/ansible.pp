@@ -13,11 +13,19 @@
 #
 # $listen_on::   Proxy feature listens on https, http, or both
 #
+# $host_key_checking:: Whether to ignore errors when a host is reinstalled
+#                      so it has a different key in ~/.ssh/known_hosts
+#                      If a host is not initially in 'known_hosts' setting
+#                      this to True will result in prompting for confirmation
+#                      of the key, which is not possible from non-interactive
+#                      environments like Foreman Remote Execution or cron
+#
 class foreman_proxy::plugin::ansible (
   Boolean $enabled = $::foreman_proxy::plugin::ansible::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::ansible::params::listen_on,
   Stdlib::Absolutepath $ansible_dir = $::foreman_proxy::plugin::ansible::params::ansible_dir,
   Optional[Stdlib::Absolutepath] $working_dir = $::foreman_proxy::plugin::ansible::params::working_dir,
+  Boolean $host_key_checking = $::foreman_proxy::plugin::ansible::params::host_key_checking,
 ) inherits foreman_proxy::plugin::ansible::params {
   file {"${::foreman_proxy::dir}/.ansible.cfg":
     ensure  => file,
