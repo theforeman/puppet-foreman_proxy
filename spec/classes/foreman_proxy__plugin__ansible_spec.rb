@@ -22,10 +22,12 @@ describe 'foreman_proxy::plugin::ansible' do
         end
 
         it 'should configure ansible.cfg' do
-          should contain_file('/usr/share/foreman-proxy/.ansible.cfg').
-            with_content(%r{[default]}).
-            with_content(%r{callback_whitelist = foreman}).
-            with_content(%r{local_tmp = /tmp})
+          verify_exact_contents(catalogue, '/usr/share/foreman-proxy/.ansible.cfg', [
+            '[defaults]',
+            'callback_whitelist = foreman',
+            'local_tmp = /tmp',
+            'host_key_checking = False',
+          ])
         end
       end
 
@@ -36,9 +38,10 @@ describe 'foreman_proxy::plugin::ansible' do
 
         let :params do
           {
-            :enabled     => true,
-            :ansible_dir => '/etc/ansible-test',
-            :working_dir => '/tmp/ansible'
+            :enabled           => true,
+            :ansible_dir       => '/etc/ansible-test',
+            :working_dir       => '/tmp/ansible',
+            :host_key_checking => true,
           }
         end
 
@@ -52,10 +55,12 @@ describe 'foreman_proxy::plugin::ansible' do
         end
 
         it 'should configure ansible.cfg' do
-          should contain_file('/usr/share/foreman-proxy/.ansible.cfg').
-            with_content(%r{[default]}).
-            with_content(%r{callback_whitelist = foreman}).
-            with_content(%r{local_tmp = /tmp/ansible})
+          verify_exact_contents(catalogue, '/usr/share/foreman-proxy/.ansible.cfg', [
+            '[defaults]',
+            'callback_whitelist = foreman',
+            'local_tmp = /tmp/ansible',
+            'host_key_checking = True',
+          ])
         end
       end
     end
