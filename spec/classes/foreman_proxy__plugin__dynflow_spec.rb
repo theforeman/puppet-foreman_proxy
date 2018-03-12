@@ -60,7 +60,7 @@ describe 'foreman_proxy::plugin::dynflow' do
               ":use_https: true",
               ":ssl_ca_file: /var/lib/puppet/ssl/certs/ca.pem",
               ":ssl_certificate: /var/lib/puppet/ssl/certs/foo.example.com.pem",
-              ":ssl_private_key: /var/lib/puppet/ssl/private_keys/foo.example.com.pem"
+              ":ssl_private_key: /var/lib/puppet/ssl/private_keys/foo.example.com.pem",
             ])
           end
         else
@@ -77,7 +77,7 @@ describe 'foreman_proxy::plugin::dynflow' do
           :database_path         => '/var/lib/foreman-proxy/dynflow/dynflow.sqlite',
           :ssl_disabled_ciphers  => ['NULL-MD5', 'NULL-SHA'],
           :tls_disabled_versions => ['1.1'],
-          :open_file_limit       => 8000
+          :open_file_limit       => 8000,
         } end
 
         it { should compile.with_all_deps }
