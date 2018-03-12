@@ -5,21 +5,6 @@ interact with, e.g. DNS, DHCP and Puppet and TFTP.
 
 Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 
-## PowerDNS support
-
-To use the PowerDNS plugin, the following variables need to be set on the main
-`foreman_proxy` class.
-
-    $dns          => true
-    $dns_managed  => false
-    $dns_provider => 'powerdns'
-
-Then you also need to include `foreman_proxy::plugin::dns::powerdns`.
-
-The powerdns plugin can optionally manage the database. If that's used, then
-the puppetlabs-mysql module must be added to the modulepath, otherwise it's not
-required.
-
 ## Compatibility
 
 | Module version | Proxy versions | Notes                                           |
@@ -45,6 +30,25 @@ class{'::foreman_proxy':
   realm    => false,
 }
 ```
+
+### PowerDNS support
+
+To use the PowerDNS plugin, the following variables need to be set on the main
+`foreman_proxy` class.
+
+```puppet
+class{'::foreman_proxy':
+  dns          => true,
+  dns_managed  => false,
+  dns_provider => 'powerdns',
+}
+```
+
+Then you also need to include `foreman_proxy::plugin::dns::powerdns`.
+
+The powerdns plugin can optionally manage the database. If that's used, then
+the puppetlabs-mysql module must be added to the modulepath, otherwise it's not
+required.
 
 ## Contributing
 
