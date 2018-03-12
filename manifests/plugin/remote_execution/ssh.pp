@@ -27,6 +27,8 @@
 #
 # $listen_on::          Proxy feature listens on https, http, or both
 #
+# $async_ssh::          Whether to run remote execution jobs asynchronously.
+#
 class foreman_proxy::plugin::remote_execution::ssh (
   Boolean $enabled = $::foreman_proxy::plugin::remote_execution::ssh::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::remote_execution::ssh::params::listen_on,
@@ -38,6 +40,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   Stdlib::Absolutepath $local_working_dir = $::foreman_proxy::plugin::remote_execution::ssh::params::local_working_dir,
   Stdlib::Absolutepath $remote_working_dir = $::foreman_proxy::plugin::remote_execution::ssh::params::remote_working_dir,
   Boolean $ssh_kerberos_auth = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_kerberos_auth,
+  Boolean $async_ssh = $::foreman_proxy::plugin::remote_execution::ssh::params::async_ssh,
 ) inherits foreman_proxy::plugin::remote_execution::ssh::params {
 
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
