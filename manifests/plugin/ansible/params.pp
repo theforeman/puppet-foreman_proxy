@@ -4,4 +4,5 @@ class foreman_proxy::plugin::ansible::params {
   $listen_on   = 'https'
   $ansible_dir = '/etc/ansible'
   $working_dir = '/tmp'
+  $host_key_checking = false
 }
