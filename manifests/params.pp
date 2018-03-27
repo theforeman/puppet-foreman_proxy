@@ -184,7 +184,11 @@ class foreman_proxy::params {
   $plugin_version          = 'installed'
 
   # Enable listening on http
-  $bind_host = ['*']
+  if $::osfamily == 'RedHat' and versioncmp($::operatingsystemmajrelease, '7') <= 0 {
+    $bind_host = ['::']
+  } else {
+    $bind_host = ['*']
+  }
   $http      = false
   $http_port = 8000
 

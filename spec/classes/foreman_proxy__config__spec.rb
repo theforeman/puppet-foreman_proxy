@@ -32,6 +32,12 @@ describe 'foreman_proxy::config' do
         ssl_dir = '/var/lib/puppet/ssl'
       end
 
+      if facts[:osfamily] == 'RedHat' and facts[:operatingsystemmajrelease].to_i <= 7
+        bind_host = '::'
+      else
+        bind_host = '*'
+      end
+
       puppetca_command = "#{usr_dir}/bin/puppet cert *"
       puppetrun_command = "#{usr_dir}/bin/puppet kick *"
 
@@ -103,7 +109,7 @@ describe 'foreman_proxy::config' do
             "  - #{facts[:fqdn]}",
             ":foreman_url: https://#{facts[:fqdn]}",
             ':daemon: true',
-            ':bind_host: \'*\'',
+            ":bind_host: '#{bind_host}'",
             ':https_port: 8443',
             ':log_file: /var/log/foreman-proxy/proxy.log',
             ':log_level: INFO',
