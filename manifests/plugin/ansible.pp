@@ -27,12 +27,16 @@ class foreman_proxy::plugin::ansible (
   Optional[Stdlib::Absolutepath] $working_dir = $::foreman_proxy::plugin::ansible::params::working_dir,
   Boolean $host_key_checking = $::foreman_proxy::plugin::ansible::params::host_key_checking,
 ) inherits foreman_proxy::plugin::ansible::params {
-  file {"${::foreman_proxy::dir}/.ansible.cfg":
+  file {"${::foreman_proxy::etc}/foreman-proxy/ansible.cfg":
     ensure  => file,
     content => template('foreman_proxy/plugin/ansible.cfg.erb'),
     owner   => 'root',
     group   => $::foreman_proxy::user,
     mode    => '0640',
+  }
+  ~> file { "${::foreman_proxy::dir}/.ansible.cfg":
+    ensure => link,
+    target => "${::foreman_proxy::etc}/foreman-proxy/ansible.cfg",
   }
 
   include ::foreman_proxy::plugin::dynflow
