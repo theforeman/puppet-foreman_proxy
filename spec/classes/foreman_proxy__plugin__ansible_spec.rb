@@ -22,7 +22,7 @@ describe 'foreman_proxy::plugin::ansible' do
         end
 
         it 'should configure ansible.cfg' do
-          verify_exact_contents(catalogue, '/usr/share/foreman-proxy/.ansible.cfg', [
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.cfg', [
             '[defaults]',
             'callback_whitelist = foreman',
             'local_tmp = /tmp',
@@ -55,7 +55,7 @@ describe 'foreman_proxy::plugin::ansible' do
         end
 
         it 'should configure ansible.cfg' do
-          verify_exact_contents(catalogue, '/usr/share/foreman-proxy/.ansible.cfg', [
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.cfg', [
             '[defaults]',
             'callback_whitelist = foreman',
             'local_tmp = /tmp/ansible',
