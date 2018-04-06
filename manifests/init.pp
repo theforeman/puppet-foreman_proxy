@@ -185,6 +185,12 @@
 #
 # $dhcp_pxeserver::             DHCP "next-server" value, defaults otherwise to IP of dhcp_interface
 #
+# $dhcp_pxefilename::           DHCP "filename" value, defaults otherwise to pxelinux.0
+#
+# $dhcp_network::               DHCP server network value, defaults otherwise to undef
+#
+# $dhcp_netmask::               DHCP server netmask value, defaults otherwise to undef
+#
 # $dhcp_server::                Address of DHCP server to manage
 #
 # $dhcp_config::                DHCP config file path
@@ -370,6 +376,9 @@ class foreman_proxy (
   Optional[String] $dhcp_gateway = $::foreman_proxy::params::dhcp_gateway,
   Variant[Undef, Boolean, String] $dhcp_range = $::foreman_proxy::params::dhcp_range,
   Optional[String] $dhcp_pxeserver = $::foreman_proxy::params::dhcp_pxeserver,
+  Optional[String] $dhcp_pxefilename = $::foreman_proxy::params::dhcp_pxefilename,
+  Optional[String] $dhcp_network = $::foreman_proxy::params::dhcp_network,
+  Optional[String] $dhcp_netmask = $::foreman_proxy::params::dhcp_netmask,
   String $dhcp_nameservers = $::foreman_proxy::params::dhcp_nameservers,
   String $dhcp_server = $::foreman_proxy::params::dhcp_server,
   Stdlib::Absolutepath $dhcp_config = $::foreman_proxy::params::dhcp_config,

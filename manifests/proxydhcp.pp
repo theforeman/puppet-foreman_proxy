@@ -8,12 +8,12 @@ class foreman_proxy::proxydhcp {
     fail("Could not get the ip address from fact ipaddress_${interface_fact_name}")
   }
 
-  $net  = fact("network_${interface_fact_name}")
+  $net  = pick_default($::foreman_proxy::dhcp_network, fact("network_${interface_fact_name}"))
   unless ($net =~ Stdlib::Compat::Ipv4) {
     fail("Could not get the network address from fact network_${interface_fact_name}")
   }
 
-  $mask = fact("netmask_${interface_fact_name}")
+  $mask = pick_default($::foreman_proxy::dhcp_netmask, fact("netmask_${interface_fact_name}"))
   unless ($mask =~ Stdlib::Compat::Ipv4) {
     fail("Could not get the network mask from fact netmask_${interface_fact_name}")
   }
@@ -35,7 +35,7 @@ class foreman_proxy::proxydhcp {
     nameservers => $nameservers,
     interfaces  => [$foreman_proxy::dhcp_interface] + $foreman_proxy::dhcp_additional_interfaces,
     pxeserver   => $ip,
-    pxefilename => 'pxelinux.0',
+    pxefilename => $foreman_proxy::dhcp_pxefilename,
     omapi_name  => $foreman_proxy::dhcp_key_name,
     omapi_key   => $foreman_proxy::dhcp_key_secret,
   }
