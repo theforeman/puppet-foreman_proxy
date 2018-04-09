@@ -30,7 +30,7 @@ class foreman_proxy::config {
   user { $foreman_proxy::user:
     ensure  => 'present',
     shell   => $::foreman_proxy::shell,
-    comment => 'Foreman Proxy account',
+    comment => 'Foreman Proxy daemon user',
     groups  => $groups,
     home    => $foreman_proxy::dir,
     require => Class['foreman_proxy::install'],
