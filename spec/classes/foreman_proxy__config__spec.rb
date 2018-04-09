@@ -63,7 +63,7 @@ describe 'foreman_proxy::config' do
           should contain_user("#{proxy_user_name}").with({
             :ensure  => 'present',
             :shell   => "#{shell}",
-            :comment => 'Foreman Proxy account',
+            :comment => 'Foreman Proxy daemon user',
             :groups  => ['puppet'],
             :home    => "#{home_dir}",
             :require => 'Class[Foreman_proxy::Install]',
@@ -372,7 +372,7 @@ describe 'foreman_proxy::config' do
           should contain_user("#{proxy_user_name}").with({
             :ensure  => 'present',
             :shell   => "#{shell}",
-            :comment => 'Foreman Proxy account',
+            :comment => 'Foreman Proxy daemon user',
             :groups  => ['test_group1', 'test_group2', 'puppet'],
             :home    => "#{home_dir}",
             :require => 'Class[Foreman_proxy::Install]',
