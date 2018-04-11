@@ -27,6 +27,11 @@ class foreman_proxy::plugin::ansible (
   Optional[Stdlib::Absolutepath] $working_dir = $::foreman_proxy::plugin::ansible::params::working_dir,
   Boolean $host_key_checking = $::foreman_proxy::plugin::ansible::params::host_key_checking,
 ) inherits foreman_proxy::plugin::ansible::params {
+  $foreman_url = $::foreman_proxy::foreman_base_url
+  $foreman_ssl_cert = pick($::foreman_proxy::foreman_ssl_cert, $::foreman_proxy::ssl_cert)
+  $foreman_ssl_key = pick($::foreman_proxy::foreman_ssl_key, $::foreman_proxy::ssl_key)
+  $foreman_ssl_ca = pick($::foreman_proxy::foreman_ssl_ca, $::foreman_proxy::ssl_ca)
+
   file {"${::foreman_proxy::etc}/foreman-proxy/ansible.cfg":
     ensure  => file,
     content => template('foreman_proxy/plugin/ansible.cfg.erb'),
