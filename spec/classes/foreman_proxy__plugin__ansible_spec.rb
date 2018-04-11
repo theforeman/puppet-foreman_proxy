@@ -27,6 +27,11 @@ describe 'foreman_proxy::plugin::ansible' do
             'callback_whitelist = foreman',
             'local_tmp = /tmp',
             'host_key_checking = False',
+            '[callback_foreman]',
+            'url = https://foo.example.com',
+            'ssl_key = /var/lib/puppet/ssl/private_keys/foo.example.com.pem',
+            'ssl_cert = /var/lib/puppet/ssl/certs/foo.example.com.pem',
+            'verify_certs = /var/lib/puppet/ssl/certs/ca.pem',
           ])
         end
       end
@@ -60,6 +65,11 @@ describe 'foreman_proxy::plugin::ansible' do
             'callback_whitelist = foreman',
             'local_tmp = /tmp/ansible',
             'host_key_checking = True',
+            '[callback_foreman]',
+            'url = https://foo.example.com',
+            'ssl_key = /var/lib/puppet/ssl/private_keys/foo.example.com.pem',
+            'ssl_cert = /var/lib/puppet/ssl/certs/foo.example.com.pem',
+            'verify_certs = /var/lib/puppet/ssl/certs/ca.pem',
           ])
         end
       end
