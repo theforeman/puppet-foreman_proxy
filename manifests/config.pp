@@ -138,6 +138,11 @@ class foreman_proxy::config {
         changes => template('foreman_proxy/sudo_augeas.erb'),
       }
     }
+    if $foreman_proxy::puppetca {
+      if $::foreman_proxy::puppet_user != 'root' {
+        ensure_resources('user', { $::foreman_proxy::puppet_user => { groups => $::foreman_proxy::user } }, { ensure => 'present' })
+      }
+    }
   } else {
     # The puppet-agent (puppet 4 AIO package) doesn't create a puppet user and group
     # but the foreman proxy still needs to be able to read the agent's private key
