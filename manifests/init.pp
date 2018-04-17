@@ -83,6 +83,8 @@
 #
 # $autosignfile::               Hostname-Whitelisting only: Location of puppets autosign.conf
 #
+# $puppetca_tokens_file::       Token-Whitelisting only: Location of the tokens.yaml
+#
 # $manage_puppet_group::        Whether to ensure the $puppet_group exists.  Also ensures group owner of ssl keys and certs is $puppet_group
 #                               Not applicable when ssl is false.
 #
@@ -295,6 +297,12 @@
 #
 # $puppetca_provider::          Whether to use puppetca_hostname_whitelisting or puppetca_token_whitelisting
 #
+# $puppetca_sign_all::          Token-whitelisting only: Whether to sign all CSRs without checking their token
+#
+# $puppetca_token_ttl::         Token-whitelisting only: Fallback time (in minutes) after which tokens will expire
+#
+# $puppetca_certificate::       Token-whitelisting only: Certificate to use when encrypting tokens (undef to use SSL certificate)
+#
 class foreman_proxy (
   String $repo = $::foreman_proxy::params::repo,
   Boolean $gpgcheck = $::foreman_proxy::params::gpgcheck,
@@ -335,6 +343,10 @@ class foreman_proxy (
   Boolean $puppetca_modular = $::foreman_proxy::params::puppetca_modular,
   String $puppetca_provider = $::foreman_proxy::params::puppetca_provider,
   Stdlib::Absolutepath $autosignfile = $::foreman_proxy::params::autosignfile,
+  Boolean $puppetca_sign_all = $::foreman_proxy::params::puppetca_sign_all,
+  Stdlib::Absolutepath $puppetca_tokens_file = $::foreman_proxy::params::puppetca_tokens_file,
+  Integer[0] $puppetca_token_ttl = $::foreman_proxy::params::puppetca_token_ttl,
+  Optional[Stdlib::Absolutepath] $puppetca_certificate = $::foreman_proxy::params::puppetca_certificate,
   Boolean $manage_puppet_group = $::foreman_proxy::params::manage_puppet_group,
   Boolean $puppet = $::foreman_proxy::params::puppet,
   Foreman_proxy::ListenOn $puppet_listen_on = $::foreman_proxy::params::puppet_listen_on,
