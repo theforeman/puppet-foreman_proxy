@@ -244,6 +244,10 @@ class foreman_proxy::params {
   $puppetca_cmd          = "${puppet_cmd} cert"
   $puppet_group          = 'puppet'
   $autosignfile          = "${puppetdir}/autosign.conf"
+  $puppetca_sign_all     = false
+  $puppetca_tokens_file  = '/var/lib/foreman-proxy/tokens.yml'
+  $puppetca_token_ttl    = 360
+  $puppetca_certificate  = undef
 
   # The puppet-agent package, (puppet 4 AIO) doesn't create a puppet group
   $manage_puppet_group = versioncmp($::puppetversion, '4.0') > 0

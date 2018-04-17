@@ -90,6 +90,7 @@ class foreman_proxy::config {
   if $::foreman_proxy::puppetca_modular {
     foreman_proxy::settings_file { [
         'puppetca_hostname_whitelisting',
+        'puppetca_token_whitelisting',
       ]:
         module => false,
     }
