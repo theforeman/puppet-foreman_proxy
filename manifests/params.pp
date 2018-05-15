@@ -348,6 +348,7 @@ class foreman_proxy::params {
   $realm_provider     = 'freeipa'
   $realm_keytab       = "${etc}/foreman-proxy/freeipa.keytab"
   $realm_principal    = 'realm-proxy@EXAMPLE.COM'
+  $ad_config          = undef
   $freeipa_config     = '/etc/ipa/default.conf'
   $freeipa_remove_dns = true
 
