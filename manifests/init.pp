@@ -417,7 +417,7 @@ class foreman_proxy (
   Enum['ipmitool', 'freeipmi', 'shell'] $bmc_default_provider = $::foreman_proxy::params::bmc_default_provider,
   Boolean $realm = $::foreman_proxy::params::realm,
   Foreman_proxy::ListenOn $realm_listen_on = $::foreman_proxy::params::realm_listen_on,
-  Enum['freeipa', 'ad'] $realm_provider = $::foreman_proxy::params::realm_provider,
+  String $realm_provider = $::foreman_proxy::params::realm_provider,
   Stdlib::Absolutepath $realm_keytab = $::foreman_proxy::params::realm_keytab,
   String $realm_principal = $::foreman_proxy::params::realm_principal,
   Optional[Foreman_proxy::AdConfig] $ad_config = $::foreman_proxy::params::ad_config,
