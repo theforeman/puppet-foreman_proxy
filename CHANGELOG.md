@@ -14,6 +14,7 @@
 - Fixes [\#22862](https://projects.theforeman.org/issues/22862) - add async\_ssh param [\#418](https://github.com/theforeman/puppet-foreman_proxy/pull/418) ([chris1984](https://github.com/chris1984))
 - Fixes [\#22845](https://projects.theforeman.org/issues/22845) - Install python-requests with Ansible [\#417](https://github.com/theforeman/puppet-foreman_proxy/pull/417) ([dLobatog](https://github.com/dLobatog))
 - Fixes [\#22842](https://projects.theforeman.org/issues/22842) - Create .ansible.cfg in /etc/foreman-proxy [\#415](https://github.com/theforeman/puppet-foreman_proxy/pull/415) ([dLobatog](https://github.com/dLobatog))
+- attempt a more accurate DNS/DHCP default interface [\#412](https://github.com/theforeman/puppet-foreman_proxy/pull/412) ([sean797](https://github.com/sean797))
 
 **Fixed bugs:**
 
@@ -24,7 +25,6 @@
 - Pin facterdb to 0.5.0 [\#420](https://github.com/theforeman/puppet-foreman_proxy/pull/420) ([ekohl](https://github.com/ekohl))
 - Rewrite PowerDNS support as an example [\#419](https://github.com/theforeman/puppet-foreman_proxy/pull/419) ([ekohl](https://github.com/ekohl))
 - Fix the documentation for the infoblox DHCP plugin [\#414](https://github.com/theforeman/puppet-foreman_proxy/pull/414) ([ekohl](https://github.com/ekohl))
-- attempt a more accurate DNS/DHCP default interface [\#412](https://github.com/theforeman/puppet-foreman_proxy/pull/412) ([sean797](https://github.com/sean797))
 
 ## [7.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/7.1.0) (2018-02-28)
 
