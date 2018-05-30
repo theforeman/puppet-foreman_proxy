@@ -1,6 +1,14 @@
 # Changelog
 
-## [7.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/7.2.0) (2018-05-09)
+## [7.2.1](https://github.com/theforeman/puppet-foreman_proxy/tree/7.2.1) (2018-05-30)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.2.0...7.2.1)
+
+**Merged pull requests:**
+
+- Allow theforeman/puppet 9.x [\#430](https://github.com/theforeman/puppet-foreman_proxy/pull/430) ([ekohl](https://github.com/ekohl))
+
+## [7.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/7.2.0) (2018-05-29)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.1.0...7.2.0)
 
