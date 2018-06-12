@@ -18,7 +18,7 @@ describe 'foreman_proxy::plugin::ansible' do
         it 'should configure ansible.yml' do
           should contain_file('/etc/foreman-proxy/settings.d/ansible.yml').
             with_content(/:enabled: https/).
-            with_content(%r{:ansible_dir: /etc/ansible})
+            with_content(%r{:ansible_dir: /usr/share/foreman-proxy})
         end
 
         it 'should configure ansible.cfg' do
