@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.2.2](https://github.com/theforeman/puppet-foreman_proxy/tree/7.2.2) (2018-06-18)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.2.1...7.2.2)
+
+**Fixed bugs:**
+
+- Fixes [\#23905](https://projects.theforeman.org/issues/23905) - Use /usr/share/foreman-proxy as ansible\_dir [\#432](https://github.com/theforeman/puppet-foreman_proxy/pull/432) ([dLobatog](https://github.com/dLobatog))
+
 ## [7.2.1](https://github.com/theforeman/puppet-foreman_proxy/tree/7.2.1) (2018-05-30)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.2.0...7.2.1)
