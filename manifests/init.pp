@@ -81,7 +81,7 @@
 #
 # $puppet_group::               Groups of Foreman proxy user
 #
-# $autosignfile::               Path to the autosign file
+# $autosignfile::               Hostname-Whitelisting only: Location of puppets autosign.conf
 #
 # $manage_puppet_group::        Whether to ensure the $puppet_group exists.  Also ensures group owner of ssl keys and certs is $puppet_group
 #                               Not applicable when ssl is false.
@@ -291,6 +291,10 @@
 #
 # $dhcp_manage_acls::           Whether to manage DHCP directory ACLs. This allows the Foreman Proxy user to access even if the directory mode is 0750.
 #
+# $puppetca_modular::           Whether the PuppetCa implementation is modular. This is true for 1.19 or later.
+#
+# $puppetca_provider::          Whether to use puppetca_hostname_whitelisting or puppetca_token_whitelisting
+#
 class foreman_proxy (
   String $repo = $::foreman_proxy::params::repo,
   Boolean $gpgcheck = $::foreman_proxy::params::gpgcheck,
@@ -328,6 +332,8 @@ class foreman_proxy (
   Stdlib::Absolutepath $puppetdir = $::foreman_proxy::params::puppetdir,
   String $puppetca_cmd = $::foreman_proxy::params::puppetca_cmd,
   String $puppet_group = $::foreman_proxy::params::puppet_group,
+  Boolean $puppetca_modular = $::foreman_proxy::params::puppetca_modular,
+  String $puppetca_provider = $::foreman_proxy::params::puppetca_provider,
   Stdlib::Absolutepath $autosignfile = $::foreman_proxy::params::autosignfile,
   Boolean $manage_puppet_group = $::foreman_proxy::params::manage_puppet_group,
   Boolean $puppet = $::foreman_proxy::params::puppet,

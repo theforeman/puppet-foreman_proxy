@@ -87,6 +87,13 @@ class foreman_proxy::config {
     feature   => 'Puppet CA',
     listen_on => $::foreman_proxy::puppetca_listen_on,
   }
+  if $::foreman_proxy::puppetca_modular {
+    foreman_proxy::settings_file { [
+        'puppetca_hostname_whitelisting',
+      ]:
+        module => false,
+    }
+  }
   foreman_proxy::settings_file { 'realm':
     enabled   => $::foreman_proxy::realm,
     feature   => 'Realm',
