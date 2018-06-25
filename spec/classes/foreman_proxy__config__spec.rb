@@ -82,7 +82,8 @@ describe 'foreman_proxy::config' do
             'settings.d/dns_nsupdate.yml', 'settings.d/dns_nsupdate_gss.yml',
             'settings.d/dns_libvirt.yml', 'settings.d/dhcp.yml', 'settings.d/dhcp_isc.yml',
             'settings.d/dhcp_libvirt.yml', 'settings.d/logs.yml', 'settings.d/puppet.yml',
-            'settings.d/puppetca.yml', 'settings.d/puppet_proxy_customrun.yml',
+            'settings.d/puppetca.yml', 'settings.d/puppetca_hostname_whitelisting.yml',
+            'settings.d/puppet_proxy_customrun.yml',
             'settings.d/puppet_proxy_legacy.yml', 'settings.d/puppet_proxy_mcollective.yml',
             'settings.d/puppet_proxy_puppet_api.yml', 'settings.d/puppet_proxy_puppetrun.yml',
             'settings.d/puppet_proxy_salt.yml', 'settings.d/puppet_proxy_ssh.yml',
@@ -252,7 +253,14 @@ describe 'foreman_proxy::config' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", [
             '---',
             ':enabled: https',
+            ':use_provider: puppetca_hostname_whitelisting',
             ":ssldir: #{ssl_dir}",
+          ])
+        end
+
+        it 'should generate correct puppetca_hostname_whitelisting.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppetca_hostname_whitelisting.yml", [
+            '---',
             ":autosignfile: #{puppet_etc_dir}/autosign.conf",
           ])
         end
@@ -772,6 +780,28 @@ describe 'foreman_proxy::config' do
             "#{proxy_user_name} ALL = (root) NOPASSWD : puppet cert *",
             "Defaults:#{proxy_user_name} !requiretty",
           ])
+        end
+      end
+
+      context 'using the non-modular legacy puppetca' do
+        let :pre_condition do
+          'class { "foreman_proxy":
+            puppetca_modular => false,
+            autosignfile => "/bar/baz.conf",
+          }'
+        end
+
+        it 'should generate correct puppetca.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", [
+            '---',
+            ':enabled: https',
+            ":ssldir: #{ssl_dir}",
+            ":autosignfile: /bar/baz.conf",
+          ])
+        end
+
+        it 'should not generate a puppetca_hostname_whitelisting' do
+          should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet_hostname_whitelisting")
         end
       end
 

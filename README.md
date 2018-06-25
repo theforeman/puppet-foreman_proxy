@@ -9,11 +9,22 @@ Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 
 | Module version | Proxy versions | Notes                                           |
 |----------------|----------------|-------------------------------------------------|
-| 5.x            | 1.16 and newer |                                                 |
+| 5.x            | 1.16 and newer | See compatibility notes here for 1.16-1.18      |
 | 4.x            | 1.12 - 1.17    | See compatibility notes in its README for 1.15+ |
 | 3.x            | 1.11           |                                                 |
 | 2.x            | 1.5 - 1.10     |                                                 |
 | 1.x            | 1.4 and older  |                                                 |
+
+### Compatibility notes for Smart Proxy < 1.18
+
+On Smart Proxy 1.16, 1.17 & 1.18, also set
+
+```puppet
+puppetca_modular => false,
+```
+
+to ensure that it only uses the `puppetca.yml` configuration not the provider settings files.
+
 
 ## Examples
 

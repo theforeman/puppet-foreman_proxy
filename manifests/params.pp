@@ -237,11 +237,13 @@ class foreman_proxy::params {
   $puppet_api_timeout         = 30
 
   # puppetca settings
-  $puppetca           = true
-  $puppetca_listen_on = 'https'
-  $puppetca_cmd       = "${puppet_cmd} cert"
-  $puppet_group       = 'puppet'
-  $autosignfile       = "${puppetdir}/autosign.conf"
+  $puppetca              = true
+  $puppetca_modular      = true
+  $puppetca_provider     = 'puppetca_hostname_whitelisting'
+  $puppetca_listen_on    = 'https'
+  $puppetca_cmd          = "${puppet_cmd} cert"
+  $puppet_group          = 'puppet'
+  $autosignfile          = "${puppetdir}/autosign.conf"
 
   # The puppet-agent package, (puppet 4 AIO) doesn't create a puppet group
   $manage_puppet_group = versioncmp($::puppetversion, '4.0') > 0
