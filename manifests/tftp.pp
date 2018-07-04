@@ -32,6 +32,8 @@ class foreman_proxy::tftp (
     $filename = basename($source_file)
     file {"${root}/${filename}":
       ensure  => file,
+      owner   => $user,
+      mode    => '0644',
       source  => $source_file,
       require => Class['foreman_proxy::install', 'tftp::install'],
     }
