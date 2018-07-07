@@ -58,26 +58,16 @@ class foreman_proxy::params {
       } else {
         $tftp_root = '/srv/tftp'
       }
-      if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease == '14.04' {
-        $tftp_syslinux_filenames = [
-          '/usr/lib/syslinux/chain.c32',
-          '/usr/lib/syslinux/mboot.c32',
-          '/usr/lib/syslinux/menu.c32',
-          '/usr/lib/syslinux/memdisk',
-          '/usr/lib/syslinux/pxelinux.0',
-        ]
-      } else {
-        $tftp_syslinux_filenames = [
-          '/usr/lib/PXELINUX/pxelinux.0',
-          '/usr/lib/syslinux/memdisk',
-          '/usr/lib/syslinux/modules/bios/chain.c32',
-          '/usr/lib/syslinux/modules/bios/ldlinux.c32',
-          '/usr/lib/syslinux/modules/bios/libcom32.c32',
-          '/usr/lib/syslinux/modules/bios/libutil.c32',
-          '/usr/lib/syslinux/modules/bios/mboot.c32',
-          '/usr/lib/syslinux/modules/bios/menu.c32',
-        ]
-      }
+      $tftp_syslinux_filenames = [
+        '/usr/lib/PXELINUX/pxelinux.0',
+        '/usr/lib/syslinux/memdisk',
+        '/usr/lib/syslinux/modules/bios/chain.c32',
+        '/usr/lib/syslinux/modules/bios/ldlinux.c32',
+        '/usr/lib/syslinux/modules/bios/libcom32.c32',
+        '/usr/lib/syslinux/modules/bios/libutil.c32',
+        '/usr/lib/syslinux/modules/bios/mboot.c32',
+        '/usr/lib/syslinux/modules/bios/menu.c32',
+      ]
     }
     /^(FreeBSD|DragonFly)$/: {
       # if set to true, no repo will be added by this module, letting you to
