@@ -40,26 +40,16 @@ describe 'foreman_proxy::tftp' do
         }
       when 'Debian'
         tftp_root = facts[:operatingsystem] == 'Ubuntu' ?  '/var/lib/tftpboot' : '/srv/tftp'
-        if facts[:operatingsystem] == 'Ubuntu' && facts[:operatingsystemrelease] == '14.04'
-          names = {
-            '/usr/lib/syslinux/chain.c32'  => "#{tftp_root}/chain.c32",
-            '/usr/lib/syslinux/mboot.c32'  => "#{tftp_root}/mboot.c32",
-            '/usr/lib/syslinux/menu.c32'   => "#{tftp_root}/menu.c32",
-            '/usr/lib/syslinux/memdisk'    => "#{tftp_root}/memdisk",
-            '/usr/lib/syslinux/pxelinux.0' => "#{tftp_root}/pxelinux.0",
-          }
-        else
-          names = {
-            '/usr/lib/PXELINUX/pxelinux.0'                => "#{tftp_root}/pxelinux.0",
-            '/usr/lib/syslinux/memdisk'                   => "#{tftp_root}/memdisk",
-            '/usr/lib/syslinux/modules/bios/chain.c32'    => "#{tftp_root}/chain.c32",
-            '/usr/lib/syslinux/modules/bios/ldlinux.c32'  => "#{tftp_root}/ldlinux.c32",
-            '/usr/lib/syslinux/modules/bios/libcom32.c32' => "#{tftp_root}/libcom32.c32",
-            '/usr/lib/syslinux/modules/bios/libutil.c32'  => "#{tftp_root}/libutil.c32",
-            '/usr/lib/syslinux/modules/bios/mboot.c32'    => "#{tftp_root}/mboot.c32",
-            '/usr/lib/syslinux/modules/bios/menu.c32'     => "#{tftp_root}/menu.c32",
-          }
-        end
+        names = {
+          '/usr/lib/PXELINUX/pxelinux.0'                => "#{tftp_root}/pxelinux.0",
+          '/usr/lib/syslinux/memdisk'                   => "#{tftp_root}/memdisk",
+          '/usr/lib/syslinux/modules/bios/chain.c32'    => "#{tftp_root}/chain.c32",
+          '/usr/lib/syslinux/modules/bios/ldlinux.c32'  => "#{tftp_root}/ldlinux.c32",
+          '/usr/lib/syslinux/modules/bios/libcom32.c32' => "#{tftp_root}/libcom32.c32",
+          '/usr/lib/syslinux/modules/bios/libutil.c32'  => "#{tftp_root}/libutil.c32",
+          '/usr/lib/syslinux/modules/bios/mboot.c32'    => "#{tftp_root}/mboot.c32",
+          '/usr/lib/syslinux/modules/bios/menu.c32'     => "#{tftp_root}/menu.c32",
+        }
       when 'FreeBSD', 'DragonFly'
         tftp_root = '/tftpboot'
         names = {
