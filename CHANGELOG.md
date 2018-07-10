@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.2.3](https://github.com/theforeman/puppet-foreman_proxy/tree/7.2.3) (2018-07-10)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.2.2...7.2.3)
+
+**Fixed bugs:**
+
+- Fixes [\#24155](https://projects.theforeman.org/issues/24155) - explicitly set owner and permissions [\#436](https://github.com/theforeman/puppet-foreman_proxy/pull/436) ([lzap](https://github.com/lzap))
+
 ## [7.2.2](https://github.com/theforeman/puppet-foreman_proxy/tree/7.2.2) (2018-06-18)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.2.1...7.2.2)
