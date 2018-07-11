@@ -10,7 +10,6 @@ gem 'rspec', '~> 3.0'
 gem 'rdoc', '~> 5.1.0', {"platforms"=>["ruby_21"]}
 gem 'rspec-puppet', '~> 2.3'
 gem 'rspec-puppet-facts', '>= 1.7'
-gem 'facterdb', '0.5.0'
 gem 'puppetlabs_spec_helper', '>= 2.1.1'
 gem 'puppet-lint', '>= 2'
 gem 'puppet-lint-absolute_classname-check'
@@ -36,5 +35,6 @@ gem 'metadata-json-lint'
 gem 'kafo_module_lint'
 gem 'rgen'
 gem 'parallel_tests'
+gem 'facterdb', '0.5.0'
 
 # vim:ft=ruby
