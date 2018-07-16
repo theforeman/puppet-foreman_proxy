@@ -1,5 +1,25 @@
 # Changelog
 
+## [8.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/8.0.0) (2018-07-16)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.2.3...8.0.0)
+
+**Breaking changes:**
+
+- Refs [\#24012](https://projects.theforeman.org/issues/24012) - Add PuppetCA providers settings [\#435](https://github.com/theforeman/puppet-foreman_proxy/pull/435) ([juliantodt](https://github.com/juliantodt))
+
+**Implemented enhancements:**
+
+- support Ubuntu/bionic [\#437](https://github.com/theforeman/puppet-foreman_proxy/pull/437) ([mmoll](https://github.com/mmoll))
+
+## [7.2.3](https://github.com/theforeman/puppet-foreman_proxy/tree/7.2.3) (2018-07-11)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.2.2...7.2.3)
+
+**Fixed bugs:**
+
+- Fixes [\#24155](https://projects.theforeman.org/issues/24155) - explicitly set owner and permissions [\#436](https://github.com/theforeman/puppet-foreman_proxy/pull/436) ([lzap](https://github.com/lzap))
+
 ## [7.2.2](https://github.com/theforeman/puppet-foreman_proxy/tree/7.2.2) (2018-06-18)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.2.1...7.2.2)
@@ -51,7 +71,8 @@
 - Fixes [\#22479](https://projects.theforeman.org/issues/22479) - Handle remote directory with undefined parent [\#410](https://github.com/theforeman/puppet-foreman_proxy/pull/410) ([ekohl](https://github.com/ekohl))
 - Refs [\#22513](https://projects.theforeman.org/issues/22513) - Expose the dynflow file limit [\#409](https://github.com/theforeman/puppet-foreman_proxy/pull/409) ([chris1984](https://github.com/chris1984))
 
-## [7.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/7.0.0) (2018-01-25)
+## [7.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/7.0.0) (2018-01-29)
+
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/6.0.3...7.0.0)
 
 **Breaking changes:**
