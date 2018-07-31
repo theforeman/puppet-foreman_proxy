@@ -18,6 +18,9 @@
 # $failed_dir::                 Directory where OpenSCAP report XML are stored
 #                               In case sending to Foreman succeeded, yet failed to save to reportsdir
 #
+# $proxy_name::                 Proxy name to send to Foreman with parsed report
+#                               Foreman matches it against names of registered proxies to find the report source
+#
 # === Advanced parameters:
 #
 # $enabled::                    enables/disables the openscap plugin
@@ -36,7 +39,9 @@ class foreman_proxy::plugin::openscap (
   Stdlib::Absolutepath $contentdir = $::foreman_proxy::plugin::openscap::params::contentdir,
   Stdlib::Absolutepath $reportsdir = $::foreman_proxy::plugin::openscap::params::reportsdir,
   Stdlib::Absolutepath $failed_dir = $::foreman_proxy::plugin::openscap::params::failed_dir,
+  Optional[String] $proxy_name = $::foreman_proxy::plugin::openscap::params::proxy_name,
 ) inherits foreman_proxy::plugin::openscap::params {
+  $registered_proxy_name = pick($proxy_name, $foreman_proxy::registered_name)
   foreman_proxy::plugin { 'openscap':
     version => $version,
   }

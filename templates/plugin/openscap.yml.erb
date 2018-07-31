@@ -24,3 +24,11 @@
 # Directory where corrupted OpenSCAP report XML are stored
 # when proxy cannot parse the report sent by client
 :corrupted_dir: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::corrupted_dir') %>
+
+# Proxy name to send to Foreman with parsed report
+# Foreman matches it against names of registered proxies to find the report source
+:registered_proxy_name: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::registered_proxy_name') %>
+
+# Proxy url to send to Foreman with parsed report
+# Foreman matches it against urls of registered proxies to find the report source
+:registered_proxy_url: <%= scope.lookupvar('::foreman_proxy::real_registered_proxy_url') %>
