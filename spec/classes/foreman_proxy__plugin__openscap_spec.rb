@@ -31,7 +31,8 @@ describe 'foreman_proxy::plugin::openscap' do
         ':reportsdir: /var/lib/foreman-proxy/openscap/reports',
         ':failed_dir: /var/lib/foreman-proxy/openscap/failed',
         ':corrupted_dir: /var/lib/foreman-proxy/openscap/corrupted',
-
+        ':registered_proxy_name: foo.example.com',
+        ':registered_proxy_url: https://foo.example.com:8443',
       ])
     end
   end
@@ -58,6 +59,8 @@ describe 'foreman_proxy::plugin::openscap' do
         ':reportsdir: /var/lib/foreman-proxy/openscap/reports',
         ':failed_dir: /var/lib/foreman-proxy/openscap/failed',
         ':corrupted_dir: /var/lib/foreman-proxy/openscap/corrupted',
+        ':registered_proxy_name: foo.example.com',
+        ':registered_proxy_url: https://foo.example.com:8443',
       ])
     end
   end
