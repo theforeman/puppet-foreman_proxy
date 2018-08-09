@@ -221,7 +221,7 @@
 #
 # $dns_reverse::                DNS reverse zone name
 #
-# $dns_server::                 Address of DNS server to manage
+# $dns_server::                 Address of DNS server to manage, set to an empty string to let nsupdate automatically determine the master server
 #
 # $dns_ttl::                    DNS default TTL override
 #

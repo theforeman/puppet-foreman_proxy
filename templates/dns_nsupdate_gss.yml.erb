@@ -3,8 +3,10 @@
 # Configuration file for 'nsupdate_gss' dns provider with GSS-TSIG support
 #
 
-# use this setting if you are managing a dns server which is not localhost though this proxy
+# DNS server to talk to, usually localhost but can be an arbitrary (remote) host.
+# This can be also set to a blank value to let nsupdate to detect master server of a zone.
 :dns_server: <%= scope.lookupvar("foreman_proxy::dns_server") %>
+
 # use dns_tsig_* for GSS-TSIG updates using Kerberos.  Required for Windows MS DNS with
 # Secure Dynamic Updates, or BIND as used in FreeIPA.  Set dns_provider to nsupdate_gss.
 :dns_tsig_keytab: <%= scope.lookupvar("foreman_proxy::dns_tsig_keytab") %>
