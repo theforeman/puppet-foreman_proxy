@@ -8,9 +8,14 @@ class foreman_proxy::tftp::netboot::params {
       if versioncmp($::operatingsystemmajrelease, '6') <= 0 {
         $grub_installation_type = 'redhat_old'
         $packages = ['grub']
-      } elsif versioncmp($::operatingsystemrelease, '7.4') >= 0 and $::operatingsystem != 'Fedora' {
-        # RHEL 7.4 renamed the packages and introduced a regression in the MAC loading of configs
+      } elsif versioncmp($::operatingsystemrelease, '7.4') == 0 and $::operatingsystem != 'Fedora' {
+        # RHEL 7.4 renamed packages and introduced a regression in the MAC
+        # loading of configs, it was fixed in 7.5
+        # https://bugzilla.redhat.com/show_bug.cgi?id=1483740
         $grub_installation_type = 'redhat_exec'
+        $packages = ['grub2-efi-x64','grub2-efi-x64-modules','grub2-tools','shim-x64']
+      } elsif versioncmp($::operatingsystemrelease, '7.4') > 0 and $::operatingsystem != 'Fedora' {
+        $grub_installation_type = 'redhat'
         $packages = ['grub2-efi-x64','grub2-efi-x64-modules','grub2-tools','shim-x64']
       } elsif versioncmp($::operatingsystemrelease, '27') >= 0 and $::operatingsystem == 'Fedora' {
         # Fedora 27 started using RHEL7.4 naming scheme for grub2* packages 
