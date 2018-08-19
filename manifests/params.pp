@@ -167,7 +167,7 @@ class foreman_proxy::params {
   $groups = []
 
   # Packaging
-  $repo                    = 'stable'
+  $repo                    = '1.18'
   $gpgcheck                = true
   $version                 = 'present'
   $ensure_packages_version = 'present'
