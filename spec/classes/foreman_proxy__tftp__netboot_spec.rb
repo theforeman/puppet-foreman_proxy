@@ -12,6 +12,11 @@ describe 'foreman_proxy::tftp::netboot' do
       end
 
       it { is_expected.to compile.with_all_deps }
+
+      it 'should create grub2 boot symlink' do
+        should contain_file("/tftproot/grub2/boot").
+          with_ensure('link').with_target("../boot")
+      end
     end
   end
 end
