@@ -7,6 +7,12 @@ class foreman_proxy::tftp::netboot (
 ) inherits foreman_proxy::tftp::netboot::params {
   ensure_packages($packages, { ensure => 'present', })
 
+  # The symlink from grub2/boot to boot is needed for UEFI HTTP boot
+  file {"${root}/grub2/boot":
+    ensure => 'link',
+    target => '../boot',
+  }
+
   case $grub_installation_type {
     'redhat_exec': {
       $efi_lib_dir = '/usr/lib/grub/x86_64-efi'
