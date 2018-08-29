@@ -1,5 +1,14 @@
 # Changelog
 
+## [8.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/8.0.1) (2018-08-29)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/8.0.0...8.0.1)
+
+**Fixed bugs:**
+
+- Move the REX SSH directory to /var/lib/foreman-proxy [\#451](https://github.com/theforeman/puppet-foreman_proxy/pull/451) ([ekohl](https://github.com/ekohl))
+- fixes [\#24690](https://projects.theforeman.org/issues/24690) - add symlink grub2/boot to ../boot [\#449](https://github.com/theforeman/puppet-foreman_proxy/pull/449) ([stbenjam](https://github.com/stbenjam))
+
 ## [8.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/8.0.0) (2018-07-16)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.2.3...8.0.0)
