@@ -6,7 +6,9 @@ fixtures:
     dhcp:     'https://github.com/theforeman/puppet-dhcp'
     dns:      'https://github.com/theforeman/puppet-dns'
     extlib:   'https://github.com/voxpupuli/puppet-extlib'
-    foreman:  'https://github.com/theforeman/puppet-foreman'
+    foreman:
+      repo:   'https://github.com/theforeman/puppet-foreman'
+      branch: '9.2-stable'
     mysql:    'https://github.com/puppetlabs/puppetlabs-mysql'
     puppet:   'https://github.com/theforeman/puppet-puppet'
     stdlib:   'https://github.com/puppetlabs/puppetlabs-stdlib'
