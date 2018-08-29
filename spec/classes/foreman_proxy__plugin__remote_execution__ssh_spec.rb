@@ -17,7 +17,7 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
     it 'should configure remote_execution_ssh.yml' do
       should contain_file('/etc/foreman-proxy/settings.d/remote_execution_ssh.yml').
         with_content(/^:enabled: https/).
-        with_content(%r{:ssh_identity_key_file: /usr/share/foreman-proxy/.ssh/id_rsa_foreman_proxy}).
+        with_content(%r{:ssh_identity_key_file: /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy}).
         with_content(%r{:kerberos_auth: false}).
         with({
           :ensure  => 'file',
@@ -29,7 +29,7 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
     it 'should configure ssh key' do
       should contain_exec('generate_ssh_key').
         with({
-          :command => "/usr/bin/ssh-keygen -f /usr/share/foreman-proxy/.ssh/id_rsa_foreman_proxy -N ''"
+          :command => "/usr/bin/ssh-keygen -f /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy -N ''"
         })
     end
 
