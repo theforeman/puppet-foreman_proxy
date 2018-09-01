@@ -13,8 +13,3 @@ fixtures:
     systemd:  'https://github.com/camptocamp/puppet-systemd'
     tftp:     'https://github.com/theforeman/puppet-tftp'
     xinetd:   'https://github.com/puppetlabs/puppetlabs-xinetd'
-
-
-  symlinks:
-    foreman_proxy: "#{source_dir}"
-    test: "#{source_dir}/spec/static_fixtures/test_module"
