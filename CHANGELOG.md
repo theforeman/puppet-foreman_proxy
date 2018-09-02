@@ -1,5 +1,13 @@
 # Changelog
 
+## [8.0.2](https://github.com/theforeman/puppet-foreman_proxy/tree/8.0.2) (2018-08-29)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/8.0.1...8.0.2)
+
+**Closed issues:**
+
+- forge-8.0.1 contains modules directory [\#454](https://github.com/theforeman/puppet-foreman_proxy/issues/454) ([tabakhase](https://github.com/tabakhase))
+
 ## [8.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/8.0.1) (2018-08-29)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/8.0.0...8.0.1)
