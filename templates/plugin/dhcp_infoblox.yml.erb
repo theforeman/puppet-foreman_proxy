@@ -15,3 +15,6 @@
 # Use  pre-definded ranges in networks to find available IP's
 #
 :use_ranges: <%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::use_ranges') %>
+
+:dns_view: "<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::dns_view') %>"
+:network_view: "<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::network_view') %>"
