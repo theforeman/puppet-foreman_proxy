@@ -11,6 +11,12 @@ class foreman_proxy::register {
       url             => $foreman_proxy::real_registered_proxy_url,
     }
 
+    # Ensure the service is started after registering the Foreman proxy
+    # Relationship is duplicated there as defined() is parse-order dependent
+    if defined(Class['puppet::agent::service']) {
+      Foreman_smartproxy[$foreman_proxy::registered_name] -> Class['puppet::agent::service']
+    }
+
     # Assign the 'features' array from the enabled_features datacat resources to
     # the above foreman_smartproxy's 'features' parameter, collecting all
     # expected features from built-in and plugin modules.
