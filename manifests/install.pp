@@ -18,8 +18,8 @@ class foreman_proxy::install {
   }
 
   if $foreman_proxy::register_in_foreman {
-    include ::foreman::providers
-    $repo -> Class['foreman::providers'] -> anchor { 'foreman_proxy::install_end': }
+    contain foreman::providers
+    $repo -> Class['foreman::providers']
   }
 
   if $foreman_proxy::bmc and $foreman_proxy::bmc_default_provider != 'shell' {
