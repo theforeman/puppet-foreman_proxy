@@ -11,11 +11,11 @@ class foreman_proxy::register {
       url             => $foreman_proxy::real_registered_proxy_url,
     }
 
-    # Ensure the service is started after registering the Foreman proxy
-    # Relationship is duplicated there as defined() is parse-order dependent
-    if defined(Class['puppet::agent::service']) {
-      Foreman_smartproxy[$foreman_proxy::registered_name] -> Class['puppet::agent::service']
-    }
+    # Ensure puppet agent is started after registering the Foreman proxy
+    # By using collectors, we don't have to test if the collected resource actually exists
+    Foreman_smartproxy[$foreman_proxy::registered_name] -> Cron <| title == 'puppet' |>
+    Foreman_smartproxy[$foreman_proxy::registered_name] -> Service <| title == 'puppet' |>
+    Foreman_smartproxy[$foreman_proxy::registered_name] -> Service <| title == 'puppet-run.timer' |>
 
     # Assign the 'features' array from the enabled_features datacat resources to
     # the above foreman_smartproxy's 'features' parameter, collecting all
