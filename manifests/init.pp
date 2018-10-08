@@ -33,7 +33,7 @@
 #
 # $groups::                     Array of additional groups for the foreman proxy user
 #
-# $log::                        Foreman proxy log file, 'STDOUT' or 'SYSLOG'
+# $log::                        Foreman proxy log file, 'STDOUT', 'SYSLOG' or 'JOURNAL'
 #
 # $log_level::                  Foreman proxy log level
 #
@@ -316,7 +316,7 @@ class foreman_proxy (
   Stdlib::Absolutepath $dir = $::foreman_proxy::params::dir,
   String $user = $::foreman_proxy::params::user,
   Array[String] $groups = $::foreman_proxy::params::groups,
-  Variant[Enum['STDOUT', 'SYSLOG'], Stdlib::Absolutepath] $log = $::foreman_proxy::params::log,
+  Variant[Enum['STDOUT', 'SYSLOG', 'JOURNAL'], Stdlib::Absolutepath] $log = $::foreman_proxy::params::log,
   Enum['WARN', 'DEBUG', 'ERROR', 'FATAL', 'INFO', 'UNKNOWN'] $log_level = $::foreman_proxy::params::log_level,
   Integer[0] $log_buffer = $::foreman_proxy::params::log_buffer,
   Integer[0] $log_buffer_errors = $::foreman_proxy::params::log_buffer_errors,
