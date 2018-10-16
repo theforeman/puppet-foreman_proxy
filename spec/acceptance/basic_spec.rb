@@ -37,6 +37,10 @@ describe 'Scenario: install foreman-proxy' do
 
   it_behaves_like 'a idempotent resource'
 
+  describe package('foreman-proxy-journald') do
+    it { is_expected.not_to be_installed }
+  end
+
   describe service('foreman-proxy') do
     it { is_expected.to be_enabled }
     it { is_expected.to be_running }

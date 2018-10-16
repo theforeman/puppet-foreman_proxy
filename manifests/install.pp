@@ -17,6 +17,12 @@ class foreman_proxy::install {
     require => $repo,
   }
 
+  if $foreman_proxy::log == 'JOURNALD' {
+    package { 'foreman-proxy-journald':
+      ensure => installed,
+    }
+  }
+
   if $foreman_proxy::register_in_foreman {
     contain foreman::providers
     $repo -> Class['foreman::providers']
