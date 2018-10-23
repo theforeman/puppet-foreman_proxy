@@ -25,7 +25,7 @@
 #
 class foreman_proxy::plugin::realm::ad (
   String $realm = $::foreman_proxy::plugin::realm::ad::params::realm,
-  String $domain_controller = $::foreman_proxy::plugin::realm::ad::params::domain_controller,
+  Optional[String] $domain_controller = $::foreman_proxy::plugin::realm::ad::params::domain_controller,
   Optional[String] $ou = $::foreman_proxy::plugin::realm::ad::params::ou,
   Optional[String] $computername_prefix = $::foreman_proxy::plugin::realm::ad::params::computername_prefix,
   Optional[Boolean] $computername_hash = $::foreman_proxy::plugin::realm::ad::params::computername_hash,
