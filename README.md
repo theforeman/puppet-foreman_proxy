@@ -1,3 +1,6 @@
+[![Puppet Forge](https://img.shields.io/puppetforge/v/theforeman/foreman_proxy.svg)](https://forge.puppetlabs.com/theforeman/foreman_proxy)
+[![Build Status](https://travis-ci.org/theforeman/puppet-foreman_proxy.svg?branch=master)](https://travis-ci.org/theforeman/puppet-foreman_proxy)
+
 # Puppet module for managing the Foreman Smart Proxy
 
 Installs and configures the Foreman Smart Proxy and services that it can
