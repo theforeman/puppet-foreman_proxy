@@ -32,7 +32,7 @@ describe 'foreman_proxy::config' do
         ssl_dir = '/var/lib/puppet/ssl'
       end
 
-      if facts[:osfamily] == 'RedHat' and facts[:operatingsystemmajrelease].to_i <= 7
+      if facts[:osfamily] == 'RedHat' and facts[:operatingsystemmajrelease].to_i <= 7 and facts[:ipaddress6]
         bind_host = '::'
       else
         bind_host = '*'
