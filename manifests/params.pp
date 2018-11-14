@@ -174,7 +174,7 @@ class foreman_proxy::params {
   $plugin_version          = 'installed'
 
   # Enable listening on http
-  if $::osfamily == 'RedHat' and versioncmp($::operatingsystemmajrelease, '7') <= 0 {
+  if $::osfamily == 'RedHat' and versioncmp($::operatingsystemmajrelease, '7') <= 0 and has_key($facts, 'ipaddress6') {
     $bind_host = ['::']
   } else {
     $bind_host = ['*']
