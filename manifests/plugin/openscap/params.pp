@@ -10,4 +10,5 @@ class foreman_proxy::plugin::openscap::params {
   $failed_dir              = '/var/lib/foreman-proxy/openscap/failed'
   $corrupted_dir           = '/var/lib/foreman-proxy/openscap/corrupted'
   $proxy_name              = undef
+  $timeout                 = 60
 }

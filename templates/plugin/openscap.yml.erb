@@ -32,3 +32,6 @@
 # Proxy url to send to Foreman with parsed report
 # Foreman matches it against urls of registered proxies to find the report source
 :registered_proxy_url: <%= scope.lookupvar('::foreman_proxy::real_registered_proxy_url') %>
+
+# Timeout to send ARF reports to Foreman, in seconds
+:timeout: <%= scope.lookupvar('::foreman_proxy::plugin::openscap::timeout') %>
