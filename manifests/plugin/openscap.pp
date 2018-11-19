@@ -21,6 +21,8 @@
 # $proxy_name::                 Proxy name to send to Foreman with parsed report
 #                               Foreman matches it against names of registered proxies to find the report source
 #
+# $timeout::                    Timeout for sending ARF reports to foreman
+#
 # === Advanced parameters:
 #
 # $enabled::                    enables/disables the openscap plugin
@@ -40,6 +42,7 @@ class foreman_proxy::plugin::openscap (
   Stdlib::Absolutepath $reportsdir = $::foreman_proxy::plugin::openscap::params::reportsdir,
   Stdlib::Absolutepath $failed_dir = $::foreman_proxy::plugin::openscap::params::failed_dir,
   Optional[String] $proxy_name = $::foreman_proxy::plugin::openscap::params::proxy_name,
+  Integer[0] $timeout = $::foreman_proxy::plugin::openscap::params::timeout,
 ) inherits foreman_proxy::plugin::openscap::params {
   $registered_proxy_name = pick($proxy_name, $foreman_proxy::registered_name)
   foreman_proxy::plugin { 'openscap':

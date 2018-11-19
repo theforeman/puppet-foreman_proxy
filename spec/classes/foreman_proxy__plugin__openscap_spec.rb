@@ -33,6 +33,7 @@ describe 'foreman_proxy::plugin::openscap' do
         ':corrupted_dir: /var/lib/foreman-proxy/openscap/corrupted',
         ':registered_proxy_name: foo.example.com',
         ':registered_proxy_url: https://foo.example.com:8443',
+        ':timeout: 60',
       ])
     end
   end
@@ -61,6 +62,7 @@ describe 'foreman_proxy::plugin::openscap' do
         ':corrupted_dir: /var/lib/foreman-proxy/openscap/corrupted',
         ':registered_proxy_name: foo.example.com',
         ':registered_proxy_url: https://foo.example.com:8443',
+        ':timeout: 60',
       ])
     end
   end
