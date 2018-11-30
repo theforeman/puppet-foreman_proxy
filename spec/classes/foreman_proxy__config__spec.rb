@@ -32,12 +32,6 @@ describe 'foreman_proxy::config' do
         ssl_dir = '/var/lib/puppet/ssl'
       end
 
-      if facts[:osfamily] == 'RedHat' and facts[:operatingsystemmajrelease].to_i <= 7 and facts[:ipaddress6]
-        bind_host = '::'
-      else
-        bind_host = '*'
-      end
-
       puppetca_command = "#{usr_dir}/bin/puppet cert *"
       puppetrun_command = "#{usr_dir}/bin/puppet kick *"
 
@@ -99,24 +93,64 @@ describe 'foreman_proxy::config' do
           end
         end
 
-        it 'should generate correct settings.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            '---',
-            ":settings_directory: #{etc_dir}/foreman-proxy/settings.d",
-            ":ssl_ca_file: #{ssl_dir}/certs/ca.pem",
-            ":ssl_certificate: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
-            ":ssl_private_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
-            ':trusted_hosts:',
-            "  - #{facts[:fqdn]}",
-            ":foreman_url: https://#{facts[:fqdn]}",
-            ':daemon: true',
-            ":bind_host: '#{bind_host}'",
-            ':https_port: 8443',
-            ':log_file: /var/log/foreman-proxy/proxy.log',
-            ':log_level: INFO',
-            ':log_buffer: 2000',
-            ':log_buffer_errors: 1000',
-          ])
+        context 'with IPv6' do
+          let :facts do
+            facts.merge({:ipaddress6 => '2001:db8::1'})
+          end
+
+          it 'should generate correct settings.yml' do
+            if facts[:osfamily] == 'RedHat' and facts[:operatingsystemmajrelease].to_i <= 7
+              bind_host = '::'
+            else
+              bind_host = '*'
+            end
+
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
+              '---',
+              ":settings_directory: #{etc_dir}/foreman-proxy/settings.d",
+              ":ssl_ca_file: #{ssl_dir}/certs/ca.pem",
+              ":ssl_certificate: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
+              ":ssl_private_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
+              ':trusted_hosts:',
+              "  - #{facts[:fqdn]}",
+              ":foreman_url: https://#{facts[:fqdn]}",
+              ':daemon: true',
+              ":bind_host: '#{bind_host}'",
+              ':https_port: 8443',
+              ':log_file: /var/log/foreman-proxy/proxy.log',
+              ':log_level: INFO',
+              ':log_buffer: 2000',
+              ':log_buffer_errors: 1000',
+            ])
+          end
+        end
+
+        context 'without IPv6' do
+          let :facts do
+            facts.reject { |fact| fact == :ipaddress6 }
+          end
+
+          it 'should generate correct settings.yml' do
+            bind_host = '*'
+
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
+              '---',
+              ":settings_directory: #{etc_dir}/foreman-proxy/settings.d",
+              ":ssl_ca_file: #{ssl_dir}/certs/ca.pem",
+              ":ssl_certificate: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
+              ":ssl_private_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
+              ':trusted_hosts:',
+              "  - #{facts[:fqdn]}",
+              ":foreman_url: https://#{facts[:fqdn]}",
+              ':daemon: true',
+              ":bind_host: '#{bind_host}'",
+              ':https_port: 8443',
+              ':log_file: /var/log/foreman-proxy/proxy.log',
+              ':log_level: INFO',
+              ':log_buffer: 2000',
+              ':log_buffer_errors: 1000',
+            ])
+          end
         end
 
         it 'should generate correct bmc.yml' do
