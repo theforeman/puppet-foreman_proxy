@@ -160,6 +160,18 @@ describe 'foreman_proxy::proxydns' do
           end
         end
 
+        context 'with invalid interface' do
+          let :facts do
+            facts
+          end
+
+          let :params do
+            base_params.merge(:interface => 'invalid')
+          end
+
+          it { should raise_error(Puppet::Error, /Could not get a valid IP address from fact ipaddress_invalid: '' \(Undef\)/) }
+        end
+
         context "with dns_reverse value" do
           let :facts do
             facts.merge(
@@ -207,14 +219,14 @@ describe 'foreman_proxy::proxydns' do
         context 'with an invalid reverse' do
           context 'missing netmask fact' do
             let :facts do
-              facts
+              facts.merge(ipaddress_invalid: '192.0.2.1')
             end
 
             let :params do
               base_params.merge(:interface => 'invalid')
             end
 
-            it { should raise_error(Puppet::Error, /Could not get the /) }
+            it { should raise_error(Puppet::Error, /Could not get a valid netmask from fact netmask_invalid: '' \(Undef\)/) }
           end
 
           context 'invalid netmask fact' do
