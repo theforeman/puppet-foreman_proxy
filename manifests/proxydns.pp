@@ -35,18 +35,18 @@ class foreman_proxy::proxydns(
   # puppet fact names are converted from ethX.X and ethX:X to ethX_X
   # so for alias and vlan interfaces we have to modify the name accordingly
   $interface_fact_name = regsubst($interface, '[.:]', '_')
-  $ip = getvar("::ipaddress_${interface_fact_name}")
+  $ip = fact("ipaddress_${interface_fact_name}")
 
-  unless is_ip_address($ip) {
-    fail("Could not get the ip address from fact ipaddress_${interface_fact_name}")
+  assert_type(Stdlib::Compat::Ipv4, $ip) |$expected, $actual| {
+    fail("Could not get a valid IP address from fact ipaddress_${interface_fact_name}: '${ip}' (${actual})")
   }
 
   if $reverse_zone {
     $reverse = $reverse_zone
   } else {
-    $netmask = getvar("::netmask_${interface_fact_name}")
-    unless is_ip_address($netmask) {
-      fail("Could not get the netmask from fact netmask_${interface_fact_name}")
+    $netmask = fact("netmask_${interface_fact_name}")
+    assert_type(Stdlib::Compat::Ipv4, $netmask) |$expected, $actual| {
+      fail("Could not get a valid netmask from fact netmask_${interface_fact_name}: '${netmask}' (${actual})")
     }
     $reverse = foreman_proxy::get_network_in_addr($ip, $netmask)
     assert_type(String[1], $reverse) |$expected, $actual| {
