@@ -243,6 +243,18 @@
 #
 # $bmc_default_provider::       BMC default provider.
 #
+# $bmc_ssh_user::               BMC SSH user.
+#
+# $bmc_ssh_key::                BMC SSH key location.
+#
+# $bmc_ssh_powerstatus::        BMC SSH powerstatus command.
+#
+# $bmc_ssh_powercycle::         BMC SSH powercycle command.
+#
+# $bmc_ssh_poweroff::           BMC SSH poweroff command.
+#
+# $bmc_ssh_poweron::            BMC SSH poweron command.
+#
 # $keyfile::                    DNS server keyfile path
 #
 # $realm::                      Enable realm management feature
@@ -430,7 +442,13 @@ class foreman_proxy (
   String $libvirt_connection = $::foreman_proxy::params::libvirt_connection,
   Boolean $bmc = $::foreman_proxy::params::bmc,
   Foreman_proxy::ListenOn $bmc_listen_on = $::foreman_proxy::params::bmc_listen_on,
-  Enum['ipmitool', 'freeipmi', 'shell'] $bmc_default_provider = $::foreman_proxy::params::bmc_default_provider,
+  Enum['ipmitool', 'freeipmi', 'shell', 'ssh'] $bmc_default_provider = $::foreman_proxy::params::bmc_default_provider,
+  String $bmc_ssh_user = $::foreman_proxy::params::bmc_ssh_user,
+  String $bmc_ssh_key = $::foreman_proxy::params::bmc_ssh_key,
+  String $bmc_ssh_powerstatus = $::foreman_proxy::params::bmc_ssh_powerstatus,
+  String $bmc_ssh_powercycle = $::foreman_proxy::params::bmc_ssh_powercycle,
+  String $bmc_ssh_poweroff = $::foreman_proxy::params::bmc_ssh_poweroff,
+  String $bmc_ssh_poweron = $::foreman_proxy::params::bmc_ssh_poweron,
   Boolean $realm = $::foreman_proxy::params::realm,
   Foreman_proxy::ListenOn $realm_listen_on = $::foreman_proxy::params::realm_listen_on,
   String $realm_provider = $::foreman_proxy::params::realm_provider,
