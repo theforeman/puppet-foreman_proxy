@@ -444,7 +444,7 @@ class foreman_proxy (
   Foreman_proxy::ListenOn $bmc_listen_on = $::foreman_proxy::params::bmc_listen_on,
   Enum['ipmitool', 'freeipmi', 'shell', 'ssh'] $bmc_default_provider = $::foreman_proxy::params::bmc_default_provider,
   String $bmc_ssh_user = $::foreman_proxy::params::bmc_ssh_user,
-  String $bmc_ssh_key = $::foreman_proxy::params::bmc_ssh_key,
+  Stdlib::Absolutepath $bmc_ssh_key = $::foreman_proxy::params::bmc_ssh_key,
   String $bmc_ssh_powerstatus = $::foreman_proxy::params::bmc_ssh_powerstatus,
   String $bmc_ssh_powercycle = $::foreman_proxy::params::bmc_ssh_powercycle,
   String $bmc_ssh_poweroff = $::foreman_proxy::params::bmc_ssh_poweroff,
