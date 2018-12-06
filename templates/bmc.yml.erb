@@ -8,8 +8,8 @@
 <% if scope.lookupvar("foreman_proxy::bmc_default_provider") == 'ssh' -%>
 :bmc_ssh_user: <%= scope.lookupvar("foreman_proxy::bmc_ssh_user") %>
 :bmc_ssh_key: <%= scope.lookupvar("foreman_proxy::bmc_ssh_key") %>
-:bmc_ssh_powerstatus: <%= scope.lookupvar("foreman_proxy::bmc_ssh_powerstatus") %>
-:bmc_ssh_powercycle: <%= scope.lookupvar("foreman_proxy::bmc_ssh_powercycle") %>
-:bmc_ssh_poweroff: <%= scope.lookupvar("foreman_proxy::bmc_ssh_poweroff") %>
-:bmc_ssh_poweron: <%= scope.lookupvar("foreman_proxy::bmc_ssh_poweron") %>
+:bmc_ssh_powerstatus: "<%= scope.lookupvar("foreman_proxy::bmc_ssh_powerstatus") %>"
+:bmc_ssh_powercycle: "<%= scope.lookupvar("foreman_proxy::bmc_ssh_powercycle") %>"
+:bmc_ssh_poweroff: "<%= scope.lookupvar("foreman_proxy::bmc_ssh_poweroff") %>"
+:bmc_ssh_poweron: "<%= scope.lookupvar("foreman_proxy::bmc_ssh_poweron") %>"
 <% end -%>
