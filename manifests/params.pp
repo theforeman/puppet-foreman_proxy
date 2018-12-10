@@ -339,10 +339,12 @@ class foreman_proxy::params {
   $bmc_default_provider = 'ipmitool'
   $bmc_ssh_user         = 'root'
   $bmc_ssh_key          = '/usr/share/foreman/.ssh/id_rsa'
-  $bmc_ssh_powerstatus  = 'true'
   $bmc_ssh_powercycle   = 'shutdown -r +1'
   $bmc_ssh_poweroff     = 'shutdown +1'
+  # lint:ignore:quoted_booleans
   $bmc_ssh_poweron      = 'false'
+  $bmc_ssh_powerstatus  = 'true'
+  # lint:endignore
 
   # Realm management options
   $realm              = false
