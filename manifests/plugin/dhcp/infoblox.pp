@@ -10,8 +10,6 @@
 #
 # $record_type:: Record type to manage
 #
-# $use_ranges::  Use pre-definded ranges in networks to find available IP's
-#
 # $dns_view::    The DNS view to use
 #
 # $network_view:: The network view to use
@@ -20,7 +18,6 @@ class foreman_proxy::plugin::dhcp::infoblox (
   String $username = undef,
   String $password = undef,
   Enum['host', 'fixedaddress'] $record_type = 'fixedaddress',
-  Boolean $use_ranges = false,
   String $dns_view = 'default',
   String $network_view = 'default',
 ) {

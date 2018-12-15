@@ -29,7 +29,6 @@ describe 'foreman_proxy::plugin::dhcp::infoblox' do
         ':username: "admin"',
         ':password: "infoblox"',
         ':record_type: "fixedaddress"',
-        ':use_ranges: false',
         ':dns_view: "default"',
         ':network_view: "default"',
       ])
@@ -41,7 +40,6 @@ describe 'foreman_proxy::plugin::dhcp::infoblox' do
       {
         :username     => 'admin',
         :password     => 'infoblox',
-        :use_ranges   => true,
         :record_type  => 'host',
         :dns_view     => 'non-default',
         :network_view => 'another-non-default',
@@ -54,7 +52,6 @@ describe 'foreman_proxy::plugin::dhcp::infoblox' do
         ':username: "admin"',
         ':password: "infoblox"',
         ':record_type: "host"',
-        ':use_ranges: true',
         ':dns_view: "non-default"',
         ':network_view: "another-non-default"',
       ])
