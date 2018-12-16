@@ -11,6 +11,8 @@ describe 'foreman_proxy' do
         should contain_class('foreman_proxy::service')
         should contain_class('foreman_proxy::register')
       end
+
+      it { should_not contain_class('foreman::repo') }
     end
   end
 end

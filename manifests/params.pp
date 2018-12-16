@@ -7,7 +7,6 @@ class foreman_proxy::params {
     'RedHat': {
       # if set to true, no repo will be added by this module, letting you to
       # set it to some custom location.
-      $custom_repo         = false
       $plugin_prefix       = 'rubygem-smart_proxy_'
 
       $dir   = '/usr/share/foreman-proxy'
@@ -36,7 +35,6 @@ class foreman_proxy::params {
     'Debian': {
       # if set to true, no repo will be added by this module, letting you to
       # set it to some custom location.
-      $custom_repo         = false
       $plugin_prefix       = 'ruby-smart-proxy-'
 
       $dir   = '/usr/share/foreman-proxy'
@@ -72,7 +70,6 @@ class foreman_proxy::params {
     /^(FreeBSD|DragonFly)$/: {
       # if set to true, no repo will be added by this module, letting you to
       # set it to some custom location.
-      $custom_repo         = true # as foreman packages are in standard FreeBSD ports
       $plugin_prefix       = 'rubygem-smart_proxy_'
 
       $dir   = '/usr/local/share/foreman-proxy'
@@ -107,7 +104,6 @@ class foreman_proxy::params {
     'Archlinux': {
       # if set to true, no repo will be added by this module, letting you to
       # set it to some custom location.
-      $custom_repo         = true # package is in the AUR
       $plugin_prefix       = 'ruby-smart-proxy-'
 
       $dir   = '/usr/share/foreman-proxy'
@@ -167,7 +163,7 @@ class foreman_proxy::params {
   $groups = []
 
   # Packaging
-  $repo                    = '1.18'
+  $repo                    = undef
   $gpgcheck                = true
   $version                 = 'present'
   $ensure_packages_version = 'present'

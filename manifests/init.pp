@@ -2,14 +2,6 @@
 #
 # === Parameters:
 #
-# $repo::                       This can be stable, rc, or nightly
-#
-# $gpgcheck::                   Turn on/off gpg check in repo files (effective only on RedHat family systems)
-#
-# $custom_repo::                No need to change anything here by default
-#                               if set to true, no repo will be added by this module, letting you to
-#                               set it to some custom location.
-#
 # $version::                    foreman package version, it's passed to ensure parameter of package resource
 #                               can be set to specific version number, 'latest', 'present' etc.
 #
@@ -289,6 +281,10 @@
 #
 # === Advanced parameters:
 #
+# $repo::                       Which repository to use. Can be a specific version or nightly. Will not configure anything when undefined.
+#
+# $gpgcheck::                   Turn on/off gpg check in repo files (effective only on RedHat family systems)
+#
 # $dhcp_failover_address::      Address for DHCP to listen for connections from its peer
 #
 # $dhcp_failover_port::         Port for DHCP to listen & communicate with it DHCP peer
@@ -316,9 +312,8 @@
 # $puppetca_certificate::       Token-whitelisting only: Certificate to use when encrypting tokens (undef to use SSL certificate)
 #
 class foreman_proxy (
-  String $repo = $::foreman_proxy::params::repo,
+  Optional[String] $repo = $::foreman_proxy::params::repo,
   Boolean $gpgcheck = $::foreman_proxy::params::gpgcheck,
-  Boolean $custom_repo = $::foreman_proxy::params::custom_repo,
   String $version = $::foreman_proxy::params::version,
   Enum['latest', 'present', 'installed', 'absent'] $ensure_packages_version = $::foreman_proxy::params::ensure_packages_version,
   Enum['latest', 'present', 'installed', 'absent'] $plugin_version = $::foreman_proxy::params::plugin_version,

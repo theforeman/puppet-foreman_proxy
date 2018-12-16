@@ -1,20 +1,15 @@
 # Install the foreman proxy
 class foreman_proxy::install {
-  if ! $foreman_proxy::custom_repo {
+  if $foreman_proxy::repo {
     foreman::repos { 'foreman_proxy':
       repo     => $foreman_proxy::repo,
       gpgcheck => $foreman_proxy::gpgcheck,
+      before   => Package['foreman-proxy'],
     }
   }
 
-  $repo = $foreman_proxy::custom_repo ? {
-    true    => [],
-    default => Foreman::Repos['foreman_proxy'],
-  }
-
   package {'foreman-proxy':
-    ensure  => $foreman_proxy::version,
-    require => $repo,
+    ensure => $foreman_proxy::version,
   }
 
   if $foreman_proxy::log == 'JOURNALD' {
@@ -25,7 +20,9 @@ class foreman_proxy::install {
 
   if $foreman_proxy::register_in_foreman {
     contain foreman::providers
-    $repo -> Class['foreman::providers']
+    if $foreman_proxy::repo {
+      Foreman::Repos['foreman_proxy'] -> Class['foreman::providers']
+    }
   }
 
   if $foreman_proxy::bmc and $foreman_proxy::bmc_default_provider != 'shell' {

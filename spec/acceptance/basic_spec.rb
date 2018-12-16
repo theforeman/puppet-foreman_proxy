@@ -27,7 +27,6 @@ describe 'Scenario: install foreman-proxy' do
 
     # Actual test
     class { '::foreman_proxy':
-      custom_repo         => false,
       repo                => 'nightly',
       puppet_group        => 'root',
       register_in_foreman => false,
