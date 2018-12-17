@@ -15,3 +15,5 @@ Rakefile:
   param_docs_pattern:
     - manifests/init.pp
     - manifests/plugin/**/*.pp
+spec/spec_helper_acceptance.rb:
+  install_epel: true

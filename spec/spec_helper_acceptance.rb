@@ -21,6 +21,8 @@ RSpec.configure do |c|
         on host, 'sed -i "s/keepcache=.*/keepcache=1/" /etc/yum.conf'
         # refresh check if cache needs refresh on next yum command
         on host, 'yum clean expire-cache'
+        # We always need EPEL
+        on host, puppet('resource', 'package', 'epel-release', 'ensure=installed')
       end
     end
   end
