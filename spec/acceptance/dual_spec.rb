@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'Scenario: install foreman-proxy' do
+describe 'Scenario: install foreman-proxy with http and https enabled' do
   before(:context) do
     case os[:family]
     when /redhat|fedora/
@@ -38,15 +38,12 @@ describe 'Scenario: install foreman-proxy' do
       ssl_ca              => $certificate,
       ssl_cert            => $certificate,
       ssl_key             => $key,
+      http                => true,
     }
     EOS
   end
 
   it_behaves_like 'a idempotent resource'
-
-  describe package('foreman-proxy-journald') do
-    it { is_expected.not_to be_installed }
-  end
 
   describe service('foreman-proxy') do
     it { is_expected.to be_enabled }
@@ -54,7 +51,7 @@ describe 'Scenario: install foreman-proxy' do
   end
 
   describe port(8000) do
-    it { is_expected.not_to be_listening }
+    it { is_expected.to be_listening }
   end
 
   describe port(8443) do
