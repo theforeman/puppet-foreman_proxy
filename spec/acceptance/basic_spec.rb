@@ -4,7 +4,6 @@ describe 'Scenario: install foreman-proxy' do
   before(:context) do
     case os[:family]
     when /redhat|fedora/
-      on default, puppet('resource package epel-release ensure=present')
       on default, 'yum -y remove foreman* tfm-*'
     when /debian|ubuntu/
       on default, 'apt-get purge -y foreman*', { :acceptable_exit_codes => [0, 100] }
