@@ -224,7 +224,6 @@ class foreman_proxy::params {
 
   # puppetca settings
   $puppetca              = true
-  $puppetca_modular      = true
   $puppetca_provider     = 'puppetca_hostname_whitelisting'
   $puppetca_listen_on    = 'https'
   $puppetca_cmd          = "${puppet_cmd} cert"
