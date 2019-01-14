@@ -826,32 +826,6 @@ describe 'foreman_proxy::config' do
         end
       end
 
-      context 'using the non-modular legacy puppetca' do
-        let :pre_condition do
-          'class { "foreman_proxy":
-            puppetca_modular => false,
-            autosignfile => "/bar/baz.conf",
-          }'
-        end
-
-        it 'should generate correct puppetca.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppetca.yml", [
-            '---',
-            ':enabled: https',
-            ":ssldir: #{ssl_dir}",
-            ":autosignfile: /bar/baz.conf",
-          ])
-        end
-
-        it 'should not generate a puppetca_hostname_whitelisting' do
-          should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet_hostname_whitelisting")
-        end
-
-        it 'should not generate a puppetca_hostname_whitelisting' do
-          should_not contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet_token_whitelisting")
-        end
-      end
-
       context 'with custom puppetca params' do
         let :pre_condition do
           'class { "foreman_proxy":

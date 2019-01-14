@@ -301,8 +301,6 @@
 #
 # $dhcp_manage_acls::           Whether to manage DHCP directory ACLs. This allows the Foreman Proxy user to access even if the directory mode is 0750.
 #
-# $puppetca_modular::           Whether the PuppetCa implementation is modular. This is true for 1.19 or later.
-#
 # $puppetca_provider::          Whether to use puppetca_hostname_whitelisting or puppetca_token_whitelisting
 #
 # $puppetca_sign_all::          Token-whitelisting only: Whether to sign all CSRs without checking their token
@@ -347,7 +345,6 @@ class foreman_proxy (
   Stdlib::Absolutepath $puppetdir = $::foreman_proxy::params::puppetdir,
   String $puppetca_cmd = $::foreman_proxy::params::puppetca_cmd,
   String $puppet_group = $::foreman_proxy::params::puppet_group,
-  Boolean $puppetca_modular = $::foreman_proxy::params::puppetca_modular,
   String $puppetca_provider = $::foreman_proxy::params::puppetca_provider,
   Stdlib::Absolutepath $autosignfile = $::foreman_proxy::params::autosignfile,
   Boolean $puppetca_sign_all = $::foreman_proxy::params::puppetca_sign_all,
