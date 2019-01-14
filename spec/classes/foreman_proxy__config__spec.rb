@@ -473,18 +473,46 @@ describe 'foreman_proxy::config' do
       end
 
       context 'with bmc' do
-        let :pre_condition do
-          'class {"foreman_proxy":
-            bmc                  => true,
-            bmc_default_provider => "shell",
-          }'
+        context 'shell provider' do
+          let :pre_condition do
+            'class {"foreman_proxy":
+              bmc                  => true,
+              bmc_default_provider => "shell",
+            }'
+          end
+
+          it 'should enable bmc with shell' do
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", [
+              '---',
+              ':enabled: https',
+              ':bmc_default_provider: shell',
+            ])
+          end
         end
 
-        it 'should enable bmc with shell' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", [
-            ':enabled: https',
-            ':bmc_default_provider: shell',
-          ])
+        context 'ssh provider' do
+          let :pre_condition do
+            <<-PUPPET
+            class {'foreman_proxy':
+              bmc                  => true,
+              bmc_default_provider => 'ssh',
+            }
+            PUPPET
+          end
+
+          it 'should enable bmc with ssh' do
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", [
+              '---',
+              ':enabled: https',
+              ':bmc_default_provider: ssh',
+              ':bmc_ssh_user: root',
+              ':bmc_ssh_key: /usr/share/foreman/.ssh/id_rsa',
+              ':bmc_ssh_powerstatus: "true"',
+              ':bmc_ssh_powercycle: "shutdown -r +1"',
+              ':bmc_ssh_poweroff: "shutdown +1"',
+              ':bmc_ssh_poweron: "false"',
+            ])
+          end
         end
       end
 

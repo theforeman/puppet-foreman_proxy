@@ -1,13 +1,19 @@
 ---
 # BMC management (Bare metal power and bios controls)
 :enabled: <%= @module_enabled %>
+
 # Available providers:
 # - freeipmi / ipmitool - requires the appropriate package installed, and the rubyipmi gem
 # - shell - for local reboot control (requires sudo access to /sbin/shutdown for the proxy user)
+# - ssh - limited remote control (status, reboot, turn off)
 :bmc_default_provider: <%= scope.lookupvar("foreman_proxy::bmc_default_provider") %>
 <% if scope.lookupvar("foreman_proxy::bmc_default_provider") == 'ssh' -%>
+
+# default user and ssh key for ssh provider
 :bmc_ssh_user: <%= scope.lookupvar("foreman_proxy::bmc_ssh_user") %>
 :bmc_ssh_key: <%= scope.lookupvar("foreman_proxy::bmc_ssh_key") %>
+
+# individual commands for actions
 :bmc_ssh_powerstatus: "<%= scope.lookupvar("foreman_proxy::bmc_ssh_powerstatus") %>"
 :bmc_ssh_powercycle: "<%= scope.lookupvar("foreman_proxy::bmc_ssh_powercycle") %>"
 :bmc_ssh_poweroff: "<%= scope.lookupvar("foreman_proxy::bmc_ssh_poweroff") %>"
