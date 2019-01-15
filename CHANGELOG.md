@@ -1,5 +1,36 @@
 # Changelog
 
+## [10.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/10.0.0) (2019-01-15)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/9.0.0...10.0.0)
+
+**Breaking changes:**
+
+- Remove puppetca\_modular parameter [\#476](https://github.com/theforeman/puppet-foreman_proxy/pull/476) ([ekohl](https://github.com/ekohl))
+- Remove the default gateway [\#475](https://github.com/theforeman/puppet-foreman_proxy/pull/475) ([ekohl](https://github.com/ekohl))
+- Disable repository management by default [\#472](https://github.com/theforeman/puppet-foreman_proxy/pull/472) ([ekohl](https://github.com/ekohl))
+- Fixes [\#25591](https://projects.theforeman.org/issues/25591) - Remove $use\_ranges from infoblox dhcp [\#471](https://github.com/theforeman/puppet-foreman_proxy/pull/471) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Allow foreman and puppet 11.x versions [\#478](https://github.com/theforeman/puppet-foreman_proxy/pull/478) ([ekohl](https://github.com/ekohl))
+- Add support for SSH BMC provider [\#470](https://github.com/theforeman/puppet-foreman_proxy/pull/470) ([mzhaase](https://github.com/mzhaase))
+- Use modern facts and IP address validation [\#469](https://github.com/theforeman/puppet-foreman_proxy/pull/469) ([ekohl](https://github.com/ekohl))
+- Add Puppet 6 support [\#468](https://github.com/theforeman/puppet-foreman_proxy/pull/468) ([ekohl](https://github.com/ekohl))
+- Add setting for openscap report upload timeout [\#467](https://github.com/theforeman/puppet-foreman_proxy/pull/467) ([xprazak2](https://github.com/xprazak2))
+- realm\_ad: Allow using unspecified DC [\#464](https://github.com/theforeman/puppet-foreman_proxy/pull/464) ([ananace](https://github.com/ananace))
+- Install foreman-proxy-journald when JOURNALD is set [\#461](https://github.com/theforeman/puppet-foreman_proxy/pull/461) ([lzap](https://github.com/lzap))
+- namespace extlib functions [\#460](https://github.com/theforeman/puppet-foreman_proxy/pull/460) ([mmoll](https://github.com/mmoll))
+
+**Fixed bugs:**
+
+- Fixes [\#25460](https://projects.theforeman.org/issues/25460) - only set the bind\_host to :: if IPv6 is available [\#466](https://github.com/theforeman/puppet-foreman_proxy/pull/466) ([evgeni](https://github.com/evgeni))
+- fixes [\#24653](https://projects.theforeman.org/issues/24653) - only use grub mkimage on RHEL 7.4 [\#446](https://github.com/theforeman/puppet-foreman_proxy/pull/446) ([stbenjam](https://github.com/stbenjam))
+
+**Merged pull requests:**
+
+- Refs [\#25825](https://projects.theforeman.org/issues/25825) - Add tests around BMC SSH parameters [\#477](https://github.com/theforeman/puppet-foreman_proxy/pull/477) ([ekohl](https://github.com/ekohl))
+
 ## [9.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/9.0.0) (2018-10-18)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/8.0.2...9.0.0)
