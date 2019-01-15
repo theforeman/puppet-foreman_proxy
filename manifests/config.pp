@@ -94,9 +94,13 @@ class foreman_proxy::config {
     feature   => 'Realm',
     listen_on => $::foreman_proxy::realm_listen_on,
   }
-  foreman_proxy::settings_file { 'realm_freeipa':
-    module => false,
+
+  if $foreman_proxy::realm_provider == 'freeipa' {
+    foreman_proxy::settings_file { 'realm_freeipa':
+      module => false,
+    }
   }
+
   foreman_proxy::settings_file { 'tftp':
     enabled   => $::foreman_proxy::tftp,
     feature   => 'TFTP',

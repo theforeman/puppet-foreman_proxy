@@ -259,6 +259,8 @@
 #
 # $realm_principal::            Kerberos principal for realm updates
 #
+# $ad_config::                  Active Directory config to pass into plugin
+#
 # $freeipa_config::             Path to FreeIPA default.conf configuration file
 #
 # $freeipa_remove_dns::         Remove DNS entries from FreeIPA when deleting hosts from realm
@@ -446,6 +448,7 @@ class foreman_proxy (
   String $realm_provider = $::foreman_proxy::params::realm_provider,
   Stdlib::Absolutepath $realm_keytab = $::foreman_proxy::params::realm_keytab,
   String $realm_principal = $::foreman_proxy::params::realm_principal,
+  Optional[Foreman_proxy::AdConfig] $ad_config = $::foreman_proxy::params::ad_config,
   Stdlib::Absolutepath $freeipa_config = $::foreman_proxy::params::freeipa_config,
   Boolean $freeipa_remove_dns = $::foreman_proxy::params::freeipa_remove_dns,
   Variant[Undef, String[0], Stdlib::Absolutepath] $keyfile = $::foreman_proxy::params::keyfile,
@@ -467,6 +470,18 @@ class foreman_proxy (
   contain foreman_proxy::config
   contain foreman_proxy::service
   contain foreman_proxy::register
+
+  if $realm_provider == 'ad' {
+    class { '::foreman_proxy::plugin::realm::ad':
+      realm                 => $ad_config['realm'],
+      domain_controller     => $ad_config['domain_controller'],
+      ou                    => $ad_config['ou'],
+      computername_prefix   => $ad_config['computername_prefix'],
+      computername_hash     => $ad_config['computername_hash'],
+      computername_use_fqdn => $ad_config['computername_use_fqdn'],
+      version               => $ad_config['version'],
+    }
+  }
 
   # lint:ignore:spaceship_operator_without_tag
   Class['foreman_proxy::install']

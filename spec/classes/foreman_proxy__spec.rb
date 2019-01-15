@@ -5,11 +5,28 @@ describe 'foreman_proxy' do
     context "on #{os}" do
       let(:facts) { facts }
 
-      it 'should include classes' do
-        should contain_class('foreman_proxy::install')
-        should contain_class('foreman_proxy::config')
-        should contain_class('foreman_proxy::service')
-        should contain_class('foreman_proxy::register')
+      describe 'with defaults' do
+        it 'should include classes' do
+          should contain_class('foreman_proxy::install')
+          should contain_class('foreman_proxy::config')
+          should contain_class('foreman_proxy::service')
+          should contain_class('foreman_proxy::register')
+        end
+      end
+
+      describe 'with realm_provider => ad' do
+        let(:params) do
+          {
+            :realm_provider => 'ad',
+            :ad_config => {
+              'realm'             => 'EXAMPLE.COM',
+              'domain_controller' => 'dc.example.com'
+            }
+          }
+        end
+        it 'should include ad realm' do
+          should contain_class('foreman_proxy::plugin::realm::ad')
+        end
       end
 
       it { should_not contain_class('foreman::repo') }
