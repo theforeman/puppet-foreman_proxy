@@ -30,6 +30,8 @@ class foreman_proxy::proxydns(
     forwarders => $forwarders,
   }
 
+  $user_group = $dns::group
+
   ensure_packages([$nsupdate], { ensure => $ensure_packages_version, })
 
   # puppet fact names are converted from ethX.X and ethX:X to ethX_X

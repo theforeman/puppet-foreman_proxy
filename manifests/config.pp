@@ -21,17 +21,23 @@ class foreman_proxy::config {
 
   if $foreman_proxy::dns and $foreman_proxy::dns_managed {
     include ::foreman_proxy::proxydns
-    include ::dns::params
-    $groups = [$dns::params::group, $foreman_proxy::puppet_group]
+    $dns_groups = [$foreman_proxy::proxydns::user_group]
   } else {
-    $groups = concat($foreman_proxy::groups, $foreman_proxy::puppet_group)
+    $dns_groups = []
+  }
+
+  # uses the certs to connect to puppetserver
+  if $foreman_proxy::puppet or $foreman_proxy::puppetca or ($foreman_proxy::manage_puppet_group and $foreman_proxy::ssl) {
+    $puppet_groups = [$foreman_proxy::puppet_group]
+  } else {
+    $puppet_groups = []
   }
 
   user { $foreman_proxy::user:
     ensure  => 'present',
     shell   => $::foreman_proxy::shell,
     comment => 'Foreman Proxy daemon user',
-    groups  => $groups,
+    groups  => $foreman_proxy::groups + $dns_groups + $puppet_groups,
     home    => $foreman_proxy::dir,
     require => Class['foreman_proxy::install'],
     notify  => Class['foreman_proxy::service'],

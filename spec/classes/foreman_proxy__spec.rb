@@ -33,6 +33,8 @@ describe 'foreman_proxy' do
         ssl_dir = '/var/lib/puppet/ssl'
       end
 
+      dns_group = facts[:osfamily] == 'RedHat' ? 'named' : 'bind'
+
       puppetca_command = "#{usr_dir}/bin/puppet cert *"
       puppetrun_command = "#{usr_dir}/bin/puppet kick *"
 
@@ -450,19 +452,74 @@ describe 'foreman_proxy' do
         end
       end
 
-      context 'with custom groups defined' do
-        let(:params) { super().merge(groups: ['test_group1', 'test_group2']) }
+      describe 'group management' do
+        let(:params) { super().merge(manage_puppet_group: false) }
 
-        it "should create the #{proxy_user_name} user" do
-          should contain_user("#{proxy_user_name}").with({
-            :ensure  => 'present',
-            :shell   => "#{shell}",
-            :comment => 'Foreman Proxy daemon user',
-            :groups  => ['test_group1', 'test_group2', 'puppet'],
-            :home    => "#{home_dir}",
-            :require => 'Class[Foreman_proxy::Install]',
-            :notify  => 'Class[Foreman_proxy::Service]',
-          })
+        context 'with puppet => false' do
+          let(:params) { super().merge(puppet: false) }
+
+          context 'with puppetca => false' do
+            let(:params) { super().merge(puppetca: false) }
+
+            context 'with dns => false' do
+              let(:params) { super().merge(dns: false) }
+              it { should compile.with_all_deps }
+              it { should contain_user(proxy_user_name).with_groups([]) }
+            end
+
+            context 'with dns => true' do
+              let(:facts) { super().merge(ipaddress_eth0: '192.168.0.2', netmask_eth0: '255.255.255.0') }
+              let(:params) { super().merge(dns: true) }
+              it { should compile.with_all_deps }
+              it { should contain_user(proxy_user_name).with_groups([dns_group]) }
+            end
+          end
+
+          context 'with puppetca => true' do
+            let(:params) { super().merge(puppetca: true) }
+            it { should compile.with_all_deps }
+            it { should contain_user(proxy_user_name).with_groups(['puppet']) }
+          end
+        end
+
+        context 'with puppet => true' do
+          let(:params) { super().merge(puppet: true) }
+
+          context 'with puppetca => false' do
+            let(:params) { super().merge(puppetca: false) }
+            it { should compile.with_all_deps }
+            it { should contain_user(proxy_user_name).with_groups(['puppet']) }
+          end
+
+          context 'with puppetca => true' do
+            let(:params) { super().merge(puppetca: true) }
+            it { should compile.with_all_deps }
+            it { should contain_user(proxy_user_name).with_groups(['puppet']) }
+          end
+
+          context 'with dns => true' do
+            let(:facts) { super().merge(ipaddress_eth0: '192.168.0.2', netmask_eth0: '255.255.255.0') }
+            let(:params) { super().merge(dns: true) }
+            it { should compile.with_all_deps }
+            it { should contain_user(proxy_user_name).with_groups([dns_group, 'puppet']) }
+          end
+        end
+
+        context 'with custom groups defined' do
+          let(:params) { super().merge(groups: ['test_group1', 'test_group2']) }
+
+          context 'with dns => false' do
+            let(:params) { super().merge(dns: false) }
+            it { should compile.with_all_deps }
+            it { should contain_user(proxy_user_name).with_groups(['test_group1', 'test_group2', 'puppet']) }
+          end
+
+          context 'with dns => true' do
+            let(:facts) { super().merge(ipaddress_eth0: '192.168.0.2', netmask_eth0: '255.255.255.0') }
+            let(:params) { super().merge(dns: true) }
+            it { should compile.with_all_deps }
+            it { should contain_user(proxy_user_name).with_groups(['test_group1', 'test_group2', dns_group, 'puppet']) }
+          end
         end
       end
 
@@ -1151,6 +1208,9 @@ describe 'foreman_proxy' do
           context 'when ssl = true' do
             let(:params) { super().merge(ssl: true) }
 
+            it { should compile.with_all_deps }
+            it { should contain_user(proxy_user_name).with_groups(['puppet']) }
+
             it 'manages puppet group' do
               should contain_group('puppet').with_ensure('present').that_comes_before("User[#{proxy_user_name}]")
             end
@@ -1165,6 +1225,8 @@ describe 'foreman_proxy' do
 
             context 'when puppet group is already being managed' do
               let(:pre_condition) { 'group {"puppet": ensure => present}' }
+              it { should compile.with_all_deps }
+              it { should contain_user(proxy_user_name).with_groups(['puppet']) }
               it 'does not manage puppet group' do
                 should_not contain_group('puppet').with_before("User[#{proxy_user_name}]")
               end
@@ -1173,6 +1235,8 @@ describe 'foreman_proxy' do
 
           context 'when ssl = false' do
             let(:params) { super().merge(ssl: false) }
+            it { should compile.with_all_deps }
+            it { should contain_user(proxy_user_name).with_groups([]) }
             it 'does not manage puppet group' do
               should_not contain_group('puppet')
             end
