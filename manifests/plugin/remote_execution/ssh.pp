@@ -84,6 +84,13 @@ class foreman_proxy::plugin::remote_execution::ssh (
       cwd     => $ssh_identity_dir,
       creates => $ssh_identity_path,
     }
+    file { "${ssh_identity_dir}/config":
+      ensure  => file,
+      owner   => $::foreman_proxy::user,
+      group   => $::foreman_proxy::user,
+      mode    => '0640',
+      content => "Host *\n  ProxyCommand none\n",
+    }
     if $install_key {
       # Ensure the .ssh directory exists with the right permissions
       file { '/root/.ssh':

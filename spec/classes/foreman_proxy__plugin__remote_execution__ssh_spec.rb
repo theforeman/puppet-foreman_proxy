@@ -33,6 +33,18 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
         })
     end
 
+    it 'should configure the foreman-proxy\'s ssh client options' do
+      is_expected.to contain_file('/var/lib/foreman-proxy/ssh/config').
+        with_content(%r{^Host \*$}).
+        with_content(%r{^  ProxyCommand none$}).
+        with({
+        :ensure => 'file',
+        :owner  => 'foreman-proxy',
+        :group  => 'foreman-proxy',
+        :mode   => '0640',
+      })
+    end
+
     it 'should not install the ssh key' do
       should_not contain_file('/root/.ssh')
     end
