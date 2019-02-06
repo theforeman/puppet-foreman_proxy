@@ -108,13 +108,13 @@ describe 'foreman_proxy::tftp' do
           case facts[:operatingsystem]
           when /^(RedHat|Scientific|OracleLinux)$/
             it { should contain_file("#{tftp_root}/grub2/grubx64.efi").with_source('/boot/efi/EFI/redhat/grubx64.efi') }
-            it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/redhat/shim.efi') }
+            it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/redhat/shim.efi').with_owner('root').with_mode('0644') }
           when 'Fedora'
             it { should contain_file("#{tftp_root}/grub2/grubx64.efi").with_source('/boot/efi/EFI/fedora/grubx64.efi') }
-            it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/fedora/shim.efi') }
+            it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/fedora/shim.efi').with_owner('root').with_mode('0644') }
           when 'CentOS'
             it { should contain_file("#{tftp_root}/grub2/grubx64.efi").with_source('/boot/efi/EFI/centos/grubx64.efi') }
-            it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/centos/shim.efi') }
+            it { should contain_file("#{tftp_root}/grub2/shim.efi").with_source('/boot/efi/EFI/centos/shim.efi').with_owner('root').with_mode('0644') }
           end
         else
           it { should contain_package('grub').with_ensure('present') }

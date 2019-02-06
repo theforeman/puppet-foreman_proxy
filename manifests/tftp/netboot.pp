@@ -34,6 +34,8 @@ class foreman_proxy::tftp::netboot (
       file { "${root}/grub2/shim.efi":
         ensure => file,
         source => "/boot/efi/EFI/${grub_efi_path}/shim.efi",
+        mode   => '0644',
+        owner  => 'root',
       }
     }
     'redhat': {
@@ -50,6 +52,8 @@ class foreman_proxy::tftp::netboot (
       file { "${root}/grub2/shim.efi":
         ensure => file,
         source => "/boot/efi/EFI/${grub_efi_path}/shim.efi",
+        mode   => '0644',
+        owner  => 'root',
       }
     }
     'redhat_old': {
