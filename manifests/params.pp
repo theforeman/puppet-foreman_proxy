@@ -14,8 +14,6 @@ class foreman_proxy::params {
       $shell = '/bin/false'
       $user  = 'foreman-proxy'
 
-      $puppet_home = '/var/lib/puppet'
-
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcpd/dhcpd.leases'
       $dhcp_manage_acls = true
@@ -41,8 +39,6 @@ class foreman_proxy::params {
       $etc   = '/etc'
       $shell = '/bin/false'
       $user  = 'foreman-proxy'
-
-      $puppet_home = '/var/lib/puppet'
 
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
@@ -77,10 +73,9 @@ class foreman_proxy::params {
       $shell = '/usr/bin/false'
       $user  = 'foreman_proxy'
 
-      $puppet_home   = '/var/puppet'
       $puppet_bindir = '/usr/local/bin'
       $puppetdir     = '/usr/local/etc/puppet'
-      $ssldir        = "${puppet_home}/ssl"
+      $ssldir        = '/var/puppet/ssl'
 
       $dhcp_config = '/usr/local/etc/dhcpd.conf'
       $dhcp_leases = '/var/db/dhcpd/dhcpd.leases'
@@ -111,7 +106,6 @@ class foreman_proxy::params {
       $shell = '/usr/bin/false'
       $user  = 'foreman-proxy'
 
-      $puppet_home   = '/var/lib/puppet'
       $puppet_bindir = '/usr/bin'
       $puppetdir     = '/etc/puppetlabs/puppet'
       $ssldir        = "${puppetdir}/ssl"
@@ -138,23 +132,15 @@ class foreman_proxy::params {
     }
   }
 
-  if versioncmp($::puppetversion, '4.0') < 0 {
-    $aio_package = false
-  } elsif $::rubysitedir =~ /\/opt\/puppetlabs\/puppet/ {
-    $aio_package = true
-  } else {
-    $aio_package = false
-  }
-
   if $::osfamily !~ /^(FreeBSD|DragonFly|Archlinux)$/ {
-    if $aio_package {
+    if $::rubysitedir =~ /\/opt\/puppetlabs\/puppet/ {
       $puppet_bindir = '/opt/puppetlabs/bin'
       $puppetdir     = '/etc/puppetlabs/puppet'
       $ssldir        = "${puppetdir}/ssl"
     } else {
       $puppet_bindir = '/usr/bin'
       $puppetdir     = '/etc/puppet'
-      $ssldir        = "${puppet_home}/ssl"
+      $ssldir        = '/var/lib/puppet/ssl'
     }
   }
 
