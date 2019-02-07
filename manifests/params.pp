@@ -5,9 +5,7 @@ class foreman_proxy::params {
 
   case $::osfamily {
     'RedHat': {
-      # if set to true, no repo will be added by this module, letting you to
-      # set it to some custom location.
-      $plugin_prefix       = 'rubygem-smart_proxy_'
+      $plugin_prefix = 'rubygem-smart_proxy_'
 
       $dir   = '/usr/share/foreman-proxy'
       $etc   = '/etc'
@@ -31,9 +29,7 @@ class foreman_proxy::params {
       ]
     }
     'Debian': {
-      # if set to true, no repo will be added by this module, letting you to
-      # set it to some custom location.
-      $plugin_prefix       = 'ruby-smart-proxy-'
+      $plugin_prefix = 'ruby-smart-proxy-'
 
       $dir   = '/usr/share/foreman-proxy'
       $etc   = '/etc'
@@ -64,9 +60,7 @@ class foreman_proxy::params {
       ]
     }
     /^(FreeBSD|DragonFly)$/: {
-      # if set to true, no repo will be added by this module, letting you to
-      # set it to some custom location.
-      $plugin_prefix       = 'rubygem-smart_proxy_'
+      $plugin_prefix = 'rubygem-smart_proxy_'
 
       $dir   = '/usr/local/share/foreman-proxy'
       $etc   = '/usr/local/etc'
@@ -97,9 +91,7 @@ class foreman_proxy::params {
       ]
     }
     'Archlinux': {
-      # if set to true, no repo will be added by this module, letting you to
-      # set it to some custom location.
-      $plugin_prefix       = 'ruby-smart-proxy-'
+      $plugin_prefix = 'ruby-smart-proxy-'
 
       $dir   = '/usr/share/foreman-proxy'
       $etc   = '/etc'
