@@ -113,8 +113,17 @@ class foreman_proxy::config {
     listen_on => $::foreman_proxy::logs_listen_on,
   }
 
+  if $foreman_proxy::puppetca_split_configs {
+    foreman_proxy::settings_file { [
+        'puppetca_http_api',
+        'puppetca_puppet_cert',
+      ]:
+        module => false,
+    }
+  }
+
   if $foreman_proxy::puppetca or $foreman_proxy::puppet {
-    $puppetca_sudo = $foreman_proxy::puppetca
+    $puppetca_sudo = $foreman_proxy::puppetca and versioncmp($facts['puppetversion'], '6.0') < 0
     $puppetrun_sudo = $foreman_proxy::puppet and $foreman_proxy::puppetrun_provider == 'puppetrun'
     $uses_sudo = $puppetrun_sudo or $puppetca_sudo
 

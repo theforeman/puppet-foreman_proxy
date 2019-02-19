@@ -301,6 +301,9 @@
 #
 # $dhcp_manage_acls::           Whether to manage DHCP directory ACLs. This allows the Foreman Proxy user to access even if the directory mode is 0750.
 #
+# $puppetca_split_configs::     Whether to split the puppetca configs. This is only supported on 1.22+.
+#                               Set to false for older versions.
+#
 # $puppetca_provider::          Whether to use puppetca_hostname_whitelisting or puppetca_token_whitelisting
 #
 # $puppetca_sign_all::          Token-whitelisting only: Whether to sign all CSRs without checking their token
@@ -340,6 +343,7 @@ class foreman_proxy (
   Boolean $use_sudoersd = $::foreman_proxy::params::use_sudoersd,
   Boolean $use_sudoers = $::foreman_proxy::params::use_sudoers,
   Boolean $puppetca = $::foreman_proxy::params::puppetca,
+  Boolean $puppetca_split_configs = $::foreman_proxy::params::puppetca_split_configs,
   Foreman_proxy::ListenOn $puppetca_listen_on = $::foreman_proxy::params::puppetca_listen_on,
   Stdlib::Absolutepath $ssldir = $::foreman_proxy::params::ssldir,
   Stdlib::Absolutepath $puppetdir = $::foreman_proxy::params::puppetdir,
