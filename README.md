@@ -10,14 +10,17 @@ Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 
 ## Compatibility
 
-| Module version | Proxy versions | Notes                                           |
-|----------------|----------------|-------------------------------------------------|
-| 10.x           | 1.19 and newer |                                                 |
-| 5.x - 9.x      | 1.16 - 1.20    | See compatibility notes here for 1.16-1.18      |
-| 4.x            | 1.12 - 1.17    | See compatibility notes in its README for 1.15+ |
-| 3.x            | 1.11           |                                                 |
-| 2.x            | 1.5 - 1.10     |                                                 |
-| 1.x            | 1.4 and older  |                                                 |
+| Module version | Proxy versions | Notes                                               |
+|----------------|----------------|-----------------------------------------------------|
+| 11.x           | 1.19 and newer | See compatibility notes in its README for 1.19-1.21 |
+| 10.x           | 1.19 - 1.21    |                                                     |
+| 5.x - 9.x      | 1.16 - 1.20    | See compatibility notes in its README for 1.16-1.18 |
+| 4.x            | 1.12 - 1.17    | See compatibility notes in its README for 1.15+     |
+| 3.x            | 1.11           |                                                     |
+| 2.x            | 1.5 - 1.10     |                                                     |
+| 1.x            | 1.4 and older  |                                                     |
+
+Starting version 1.22 the Puppet CA configuration is split depending on the provider. When using the module with 1.19 - 1.21, set `puppetca_split_configs` to `false`.
 
 ## Examples
 
