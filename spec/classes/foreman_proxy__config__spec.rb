@@ -610,6 +610,22 @@ describe 'foreman_proxy::config' do
         end
       end
 
+      context 'with dns => true and dns_managed => true' do
+        let(:facts) { facts.merge(ipaddress_eth0: '192.168.0.2', netmask_eth0: '255.255.255.0') }
+        let :pre_condition do
+          <<-PUPPET
+          class {'foreman_proxy':
+            dns         => true,
+            dns_managed => false,
+          }
+          PUPPET
+        end
+
+        it { should compile.with_all_deps }
+        it { should_not contain_class('foreman_proxy::proxydns') }
+        it { should_not contain_class('dns') }
+      end
+
       context 'empty keyfile' do
         let :pre_condition do
           'class {"foreman_proxy":
