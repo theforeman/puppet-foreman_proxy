@@ -1140,12 +1140,6 @@ describe 'foreman_proxy::config' do
       end
 
       context 'with dhcp enabled' do
-        let :facts do
-          facts.merge({
-            :concat_basedir => '/doesnotexist',
-          })
-        end
-
         case facts[:osfamily]
         when 'FreeBSD', 'DragonFly'
           dhcp_interface = 'lo0'
