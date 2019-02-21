@@ -27,6 +27,7 @@ describe 'foreman_proxy::plugin::ansible' do
             'callback_whitelist = foreman',
             'local_tmp = /tmp',
             'host_key_checking = False',
+            'stdout_callback = yaml',
             '[callback_foreman]',
             'url = https://foo.example.com',
             'ssl_key = /var/lib/puppet/ssl/private_keys/foo.example.com.pem',
@@ -47,6 +48,7 @@ describe 'foreman_proxy::plugin::ansible' do
             :ansible_dir       => '/etc/ansible-test',
             :working_dir       => '/tmp/ansible',
             :host_key_checking => true,
+            :stdout_callback   => 'debug',
           }
         end
 
@@ -65,6 +67,7 @@ describe 'foreman_proxy::plugin::ansible' do
             'callback_whitelist = foreman',
             'local_tmp = /tmp/ansible',
             'host_key_checking = True',
+            'stdout_callback = debug',
             '[callback_foreman]',
             'url = https://foo.example.com',
             'ssl_key = /var/lib/puppet/ssl/private_keys/foo.example.com.pem',
