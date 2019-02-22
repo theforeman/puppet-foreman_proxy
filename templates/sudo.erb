@@ -1,7 +1,7 @@
-<% if scope.lookupvar("foreman_proxy::puppetca") -%>
+<% if @puppetca_sudo -%>
 <%= scope.lookupvar("foreman_proxy::user") %> ALL = (root) NOPASSWD : <%= scope.lookupvar("foreman_proxy::puppetca_cmd") %> *
 <% end -%>
-<% if scope.lookupvar("foreman_proxy::puppet") and scope.lookupvar("foreman_proxy::puppetrun_provider") == 'puppetrun' -%>
+<% if @puppetrun_sudo -%>
 <%= scope.lookupvar("foreman_proxy::user") %> ALL = (<%= scope.lookupvar("foreman_proxy::puppet_user") %>) NOPASSWD : <%= scope.lookupvar("foreman_proxy::puppetrun_cmd") %> *
 <% end -%>
 Defaults:<%= scope.lookupvar("foreman_proxy::user") %> !requiretty
