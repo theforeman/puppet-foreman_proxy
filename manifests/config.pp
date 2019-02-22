@@ -114,13 +114,17 @@ class foreman_proxy::config {
   }
 
   if $foreman_proxy::puppetca or $foreman_proxy::puppet {
+    $puppetca_sudo = $foreman_proxy::puppetca
+    $puppetrun_sudo = $foreman_proxy::puppet and $foreman_proxy::puppetrun_provider == 'puppetrun'
+    $uses_sudo = $puppetrun_sudo or $puppetca_sudo
+
     if $foreman_proxy::use_sudoersd {
-      if $foreman_proxy::manage_sudoersd {
+      if $uses_sudo and $foreman_proxy::manage_sudoersd {
         ensure_resource('file', "${::foreman_proxy::sudoers}.d", {'ensure' => 'directory'})
       }
 
       file { "${::foreman_proxy::sudoers}.d/foreman-proxy":
-        ensure  => file,
+        ensure  => bool2str($uses_sudo, 'file', 'absent'),
         owner   => 'root',
         group   => 0,
         mode    => '0440',

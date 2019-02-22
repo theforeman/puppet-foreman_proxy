@@ -827,6 +827,7 @@ describe 'foreman_proxy' do
           end
 
           it "should set puppetrun_cmd" do
+            should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('file')
             verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
               "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
               "#{proxy_user_name} ALL = (root) NOPASSWD : mco puppet runonce *",
@@ -839,6 +840,7 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(puppet_user: 'some_puppet_user') }
 
           it "should set puppetrun_cmd" do
+            should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('file')
             verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
               "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
               "#{proxy_user_name} ALL = (some_puppet_user) NOPASSWD : #{puppetrun_command}",
@@ -850,18 +852,14 @@ describe 'foreman_proxy' do
 
       context 'when puppetca disabled' do
         let(:params) { super().merge(puppetca: false) }
-
-        it "should not set puppetca" do
-          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
-            "Defaults:#{proxy_user_name} !requiretty",
-          ])
-        end
+        it { should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('absent') }
       end
 
       context 'when puppet disabled' do
         let(:params) { super().merge(puppet: false) }
 
         it "should not set puppetrun" do
+          should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('file')
           verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
             "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
             "Defaults:#{proxy_user_name} !requiretty",
@@ -873,6 +871,7 @@ describe 'foreman_proxy' do
         let(:params) { super().merge(puppetrun_provider: 'salt') }
 
         it "should not set puppetrun" do
+          should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('file')
           verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
             "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
             "Defaults:#{proxy_user_name} !requiretty",
