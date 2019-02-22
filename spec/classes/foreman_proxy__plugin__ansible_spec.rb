@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'foreman_proxy::plugin::ansible' do
 
-  ['redhat-7-x86_64', 'debian-8-x86_64'].each do |os|
+  ['redhat-7-x86_64', 'debian-9-x86_64'].each do |os|
     context "on #{os}" do
       let :facts do
         on_supported_os[os]
