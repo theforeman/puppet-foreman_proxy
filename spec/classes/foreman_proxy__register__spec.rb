@@ -44,7 +44,7 @@ describe 'foreman_proxy::register' do
           before { subject.resource('Datacat_collector[foreman_proxy::enabled_features]').provider.exists? }
 
           it 'should populate features on foreman_smartproxy' do
-            expect(subject.resource("Foreman_smartproxy[#{facts[:fqdn]}]").parameters[:features].should.sort).to match_array(["Logs", "Puppet", "Puppet CA", "TFTP"])
+            expect(subject.resource("Foreman_smartproxy[#{facts[:fqdn]}]").parameters[:features].should.sort).to match_array(["HTTPBoot", "Logs", "Puppet", "Puppet CA", "TFTP"])
           end
         end
       end
