@@ -75,7 +75,8 @@ describe 'foreman_proxy::config' do
           [ 'settings.yml', 'settings.d/bmc.yml', 'settings.d/dns.yml',
             'settings.d/dns_nsupdate.yml', 'settings.d/dns_nsupdate_gss.yml',
             'settings.d/dns_libvirt.yml', 'settings.d/dhcp.yml', 'settings.d/dhcp_isc.yml',
-            'settings.d/dhcp_libvirt.yml', 'settings.d/logs.yml', 'settings.d/puppet.yml',
+            'settings.d/dhcp_libvirt.yml', 'settings.d/httpboot.yml',
+            'settings.d/logs.yml', 'settings.d/puppet.yml',
             'settings.d/puppetca.yml', 'settings.d/puppetca_hostname_whitelisting.yml',
             'settings.d/puppetca_token_whitelisting.yml', 'settings.d/puppet_proxy_customrun.yml',
             'settings.d/puppet_proxy_legacy.yml', 'settings.d/puppet_proxy_mcollective.yml',
@@ -323,6 +324,15 @@ describe 'foreman_proxy::config' do
                     else
                       '/var/lib/tftpboot'
                     end
+
+        it 'should generate correct httpboot.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/httpboot.yml", [
+            '---',
+            ':enabled: true',
+            ":root_dir: #{tftp_root}",
+          ])
+        end
+
 
         it 'should generate correct tftp.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/tftp.yml", [

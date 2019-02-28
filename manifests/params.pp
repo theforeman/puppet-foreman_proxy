@@ -263,6 +263,10 @@ class foreman_proxy::params {
   $logs           = true
   $logs_listen_on = 'https'
 
+  # HTTPBoot settings - requires optional httpboot puppet module
+  $httpboot           = undef
+  $httpboot_listen_on = 'both'
+
   # TFTP settings - requires optional TFTP puppet module
   $tftp                   = true
   $tftp_listen_on         = 'https'
