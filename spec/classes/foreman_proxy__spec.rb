@@ -89,7 +89,7 @@ describe 'foreman_proxy' do
             'bmc',
             'dns', 'dns_libvirt', 'dns_nsupdate', 'dns_nsupdate_gss',
             'dhcp', 'dhcp_isc', 'dhcp_libvirt',
-            'logs',
+            'logs', 'httpboot',
             'puppet', 'puppet_proxy_legacy', 'puppet_proxy_puppet_api',
             'puppet_proxy_customrun', 'puppet_proxy_mcollective', 'puppet_proxy_puppetrun', 'puppet_proxy_salt', 'puppet_proxy_ssh',
             'puppetca', 'puppetca_http_api', 'puppetca_puppet_cert',
@@ -348,6 +348,14 @@ describe 'foreman_proxy' do
                     else
                       '/var/lib/tftpboot'
                     end
+
+        it 'should generate correct httpboot.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/httpboot.yml", [
+            '---',
+            ':enabled: both',
+            ":root_dir: #{tftp_root}",
+          ])
+        end
 
         it 'should generate correct tftp.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/tftp.yml", [
