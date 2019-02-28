@@ -295,6 +295,10 @@
 #
 # $puppetca_modular::           Whether the PuppetCa implementation is modular. This is true for 1.19 or later.
 #
+# $httpboot::                   Enable HTTPBoot feature
+#
+# $httpboot_listen_on::         HTTPBoot proxy to listen on https, http, or both
+#
 # $puppetca_provider::          Whether to use puppetca_hostname_whitelisting or puppetca_token_whitelisting
 #
 # $puppetca_sign_all::          Token-whitelisting only: Whether to sign all CSRs without checking their token
@@ -373,6 +377,8 @@ class foreman_proxy (
   Stdlib::HTTPUrl $template_url = $::foreman_proxy::params::template_url,
   Boolean $logs = $::foreman_proxy::params::logs,
   Foreman_proxy::ListenOn $logs_listen_on = $::foreman_proxy::params::logs_listen_on,
+  Optional[Boolean] $httpboot = $::foreman_proxy::params::httpboot,
+  Foreman_proxy::ListenOn $httpboot_listen_on = $::foreman_proxy::params::httpboot_listen_on,
   Boolean $tftp = $::foreman_proxy::params::tftp,
   Foreman_proxy::ListenOn $tftp_listen_on = $::foreman_proxy::params::tftp_listen_on,
   Boolean $tftp_managed = $::foreman_proxy::params::tftp_managed,
