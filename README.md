@@ -57,6 +57,23 @@ The powerdns plugin can optionally manage the database. If that's used, then
 the puppetlabs-mysql module must be added to the modulepath, otherwise it's not
 required.
 
+### Remote Execution User Management
+
+This module can also be used to manage the ssh user on
+[Foreman Remote Execution](https://github.com/theforeman/foreman_remote_execution)
+clients.
+
+```puppet
+include foreman_proxy::plugin::remote_execution::ssh_user
+```
+
+The class will make use of the `remote_execution_*` host parameters available
+in the ENC data provided by Foreman.
+
+It will manage the user, (by default `foreman_ssh`), install/update the ssh
+keys and manage the sudo rules (using [saz/sudo](https://forge.puppet.com/saz/sudo)
+if available in your environment).
+
 ## Contributing
 
 * Fork the project
