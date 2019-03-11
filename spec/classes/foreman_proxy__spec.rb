@@ -352,7 +352,7 @@ describe 'foreman_proxy' do
         it 'should generate correct httpboot.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/httpboot.yml", [
             '---',
-            ':enabled: both',
+            ':enabled: true',
             ":root_dir: #{tftp_root}",
           ])
         end

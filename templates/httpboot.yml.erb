@@ -5,6 +5,6 @@
 
 # Enables the module, make sure to enable TFTP module as well to allow
 # configuration files deployment.
-:enabled: <%= scope.lookupvar('foreman_proxy::httpboot_listen_on') %>
+:enabled: <%= @module_enabled %>
 
 :root_dir: <%= scope.lookupvar('foreman_proxy::tftp_root') %>
