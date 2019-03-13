@@ -1,5 +1,15 @@
 # Changelog
 
+## [10.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/10.1.0) (2019-03-13)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/10.0.0...10.1.0)
+
+**Implemented enhancements:**
+
+- Fixes [\#25590](https://projects.theforeman.org/issues/25590) - Add httpboot support [\#494](https://github.com/theforeman/puppet-foreman_proxy/pull/494) ([ekohl](https://github.com/ekohl))
+- Configure ansible's stdout\_callback to yaml for nicer output [\#492](https://github.com/theforeman/puppet-foreman_proxy/pull/492) ([iNecas](https://github.com/iNecas))
+- remote\_execution ssh\_user management [\#483](https://github.com/theforeman/puppet-foreman_proxy/pull/483) ([alexjfisher](https://github.com/alexjfisher))
+
 ## [10.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/10.0.0) (2019-01-15)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/9.0.0...10.0.0)
