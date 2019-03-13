@@ -2,7 +2,7 @@
 
 ## [9.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/9.1.0) (2019-03-13)
 
-[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/10.0.0...9.1.0)
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/9.0.0...9.1.0)
 
 **Implemented enhancements:**
 
