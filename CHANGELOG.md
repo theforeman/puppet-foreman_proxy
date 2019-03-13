@@ -1,5 +1,13 @@
 # Changelog
 
+## [9.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/9.1.0) (2019-03-13)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/10.0.0...9.1.0)
+
+**Implemented enhancements:**
+
+- Fixes [\#25590](https://projects.theforeman.org/issues/25590) - Add httpboot support [\#494](https://github.com/theforeman/puppet-foreman_proxy/pull/494) ([ekohl](https://github.com/ekohl))
+
 ## [9.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/9.0.0) (2018-10-18)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/8.0.2...9.0.0)
