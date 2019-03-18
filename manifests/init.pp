@@ -136,7 +136,7 @@
 #
 # $tftp_listen_on::             TFTP proxy to listen on https, http, or both
 #
-# $tftp_managed::               TFTP is managed by Foreman proxy
+# $tftp_managed::               The TFTP daemon is managed by this module.
 #
 # $tftp_manage_wget::           If enabled will install the wget package
 #
@@ -154,9 +154,9 @@
 #
 # $dhcp_listen_on::             DHCP proxy to listen on https, http, or both
 #
-# $dhcp_managed::               DHCP is managed by Foreman proxy
+# $dhcp_managed::               The DHCP daemon is managed by this module
 #
-# $dhcp_provider::              DHCP provider
+# $dhcp_provider::              DHCP provider for the DHCP module
 #
 # $dhcp_subnets::               Subnets list to restrict DHCP management to
 #
@@ -205,7 +205,7 @@
 #
 # $dns_listen_on::              DNS proxy to listen on https, http, or both
 #
-# $dns_managed::                DNS is managed by Foreman proxy
+# $dns_managed::                The DNS daemon is managed by this module
 #
 # $dns_provider::               DNS provider
 #
