@@ -22,14 +22,14 @@
 #                       can be set to specific version number, 'latest', 'present' etc.
 #
 class foreman_proxy::plugin::omaha (
-  Boolean $enabled = $::foreman_proxy::plugin::omaha::params::enabled,
-  Optional[String] $group = $::foreman_proxy::plugin::omaha::params::group,
-  Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::omaha::params::listen_on,
-  Stdlib::Absolutepath $contentpath = $::foreman_proxy::plugin::omaha::params::contentpath,
-  Integer[0] $sync_releases = $::foreman_proxy::plugin::omaha::params::sync_releases,
-  Optional[Stdlib::HTTPUrl] $http_proxy = $::foreman_proxy::plugin::omaha::params::http_proxy,
-  Optional[String] $version = $::foreman_proxy::plugin::omaha::params::version,
-) inherits foreman_proxy::plugin::omaha::params {
+  Boolean $enabled = true,
+  Optional[String] $group = undef,
+  Foreman_proxy::ListenOn $listen_on = 'https',
+  Stdlib::Absolutepath $contentpath = '/var/lib/foreman-proxy/omaha/content',
+  Integer[0] $sync_releases = 2,
+  Optional[Stdlib::HTTPUrl] $http_proxy = undef,
+  Optional[String] $version = undef,
+) {
   foreman_proxy::plugin { 'omaha':
     version => $version,
   }

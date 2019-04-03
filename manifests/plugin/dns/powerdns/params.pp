@@ -1,3 +1,5 @@
+# PowerDNS plugin defaults
+# @api private
 class foreman_proxy::plugin::dns::powerdns::params {
   $backend               = 'mysql'
   $mysql_hostname        = 'localhost'

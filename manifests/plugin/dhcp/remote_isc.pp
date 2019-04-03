@@ -15,12 +15,12 @@
 # $omapi_port::             DHCP server OMAPI port
 #
 class foreman_proxy::plugin::dhcp::remote_isc (
-  Stdlib::Absolutepath $dhcp_config = $::foreman_proxy::plugin::dhcp::remote_isc::params::dhcp_config,
-  Stdlib::Absolutepath $dhcp_leases = $::foreman_proxy::plugin::dhcp::remote_isc::params::dhcp_leases,
-  Optional[String] $key_name = $::foreman_proxy::plugin::dhcp::remote_isc::params::key_name,
-  Optional[String] $key_secret = $::foreman_proxy::plugin::dhcp::remote_isc::params::key_secret,
-  Integer[0, 65535] $omapi_port = $::foreman_proxy::plugin::dhcp::remote_isc::params::omapi_port,
-) inherits foreman_proxy::plugin::dhcp::remote_isc::params {
+  Stdlib::Absolutepath $dhcp_config = '/etc/dhcp/dhcpd.conf',
+  Stdlib::Absolutepath $dhcp_leases = '/var/lib/dhcpd/dhcpd.leases',
+  Optional[String] $key_name = undef,
+  Optional[String] $key_secret = undef,
+  Stdlib::Port $omapi_port = 7911,
+) {
   foreman_proxy::plugin { 'dhcp_remote_isc':
   }
   -> foreman_proxy::settings_file { 'dhcp_remote_isc':

@@ -30,18 +30,18 @@
 # $async_ssh::          Whether to run remote execution jobs asynchronously.
 #
 class foreman_proxy::plugin::remote_execution::ssh (
-  Boolean $enabled = $::foreman_proxy::plugin::remote_execution::ssh::params::enabled,
-  Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::remote_execution::ssh::params::listen_on,
-  Boolean $generate_keys = $::foreman_proxy::plugin::remote_execution::ssh::params::generate_keys,
-  Boolean $install_key = $::foreman_proxy::plugin::remote_execution::ssh::params::install_key,
-  Stdlib::Absolutepath $ssh_identity_dir = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_dir,
-  String $ssh_identity_file = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_identity_file,
-  String $ssh_keygen = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_keygen,
-  Stdlib::Absolutepath $local_working_dir = $::foreman_proxy::plugin::remote_execution::ssh::params::local_working_dir,
-  Stdlib::Absolutepath $remote_working_dir = $::foreman_proxy::plugin::remote_execution::ssh::params::remote_working_dir,
-  Boolean $ssh_kerberos_auth = $::foreman_proxy::plugin::remote_execution::ssh::params::ssh_kerberos_auth,
-  Boolean $async_ssh = $::foreman_proxy::plugin::remote_execution::ssh::params::async_ssh,
-) inherits foreman_proxy::plugin::remote_execution::ssh::params {
+  Boolean $enabled = true,
+  Foreman_proxy::ListenOn $listen_on = 'https',
+  Boolean $generate_keys = true,
+  Boolean $install_key = false,
+  Stdlib::Absolutepath $ssh_identity_dir = '/var/lib/foreman-proxy/ssh',
+  String $ssh_identity_file = 'id_rsa_foreman_proxy',
+  String $ssh_keygen = '/usr/bin/ssh-keygen',
+  Stdlib::Absolutepath $local_working_dir = '/var/tmp',
+  Stdlib::Absolutepath $remote_working_dir = '/var/tmp',
+  Boolean $ssh_kerberos_auth = false,
+  Boolean $async_ssh = false,
+) {
 
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 

@@ -6,6 +6,14 @@
 #
 # $backend::               The backend to select, either mysql or postgresql.
 #
+# $pdnssec::               pdnssec command to run rectify-zone with. Can be an
+#                          empty string.
+#
+# === MySQL parameters:
+#
+# $manage_database::       Whether to manage the database. Only works for
+#                          mysql. Includes the mysql server.
+#
 # $mysql_hostname::        MySQL server hostname. Only used when the backend is mysql.
 #
 # $mysql_username::        MySQL server username. Only used when the backend is mysql.
@@ -14,17 +22,15 @@
 #
 # $mysql_database::        MySQL server database. Only used when the backend is mysql.
 #
+# === PostgreSQL parameters:
+#
 # $postgresql_connection:: The postgresql connection string.
+#
+# === REST parameters:
 #
 # $rest_url::              The REST API URL
 #
 # $rest_api_key::          The REST API key
-#
-# $manage_database::       Whether to manage the database. Only works for
-#                          mysql. Includes the mysql server.
-#
-# $pdnssec::               pdnssec command to run rectify-zone with. Can be an
-#                          empty string.
 #
 class foreman_proxy::plugin::dns::powerdns (
   Enum['rest', 'mysql', 'postgresql'] $backend = $::foreman_proxy::plugin::dns::powerdns::params::backend,

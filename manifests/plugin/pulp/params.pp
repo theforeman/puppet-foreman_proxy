@@ -1,4 +1,5 @@
 # Default parameters for the Pulp smart proxy plugin
+# @api private
 class foreman_proxy::plugin::pulp::params {
   include ::foreman_proxy::params
 

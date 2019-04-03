@@ -18,6 +18,8 @@
 # $failed_dir::                 Directory where OpenSCAP report XML are stored
 #                               In case sending to Foreman succeeded, yet failed to save to reportsdir
 #
+# $corrupted_dir::              Directory where corrupted OpenSCAP report XML are stored
+#
 # $proxy_name::                 Proxy name to send to Foreman with parsed report
 #                               Foreman matches it against names of registered proxies to find the report source
 #
@@ -33,17 +35,18 @@
 #                               can be set to specific version number, 'latest', 'present' etc.
 #
 class foreman_proxy::plugin::openscap (
-  Boolean $enabled = $::foreman_proxy::plugin::openscap::params::enabled,
-  Optional[String] $version = $::foreman_proxy::plugin::openscap::params::version,
-  Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::openscap::params::listen_on,
-  Stdlib::Absolutepath $openscap_send_log_file = $::foreman_proxy::plugin::openscap::params::openscap_send_log_file,
-  Stdlib::Absolutepath $spooldir = $::foreman_proxy::plugin::openscap::params::spooldir,
-  Stdlib::Absolutepath $contentdir = $::foreman_proxy::plugin::openscap::params::contentdir,
-  Stdlib::Absolutepath $reportsdir = $::foreman_proxy::plugin::openscap::params::reportsdir,
-  Stdlib::Absolutepath $failed_dir = $::foreman_proxy::plugin::openscap::params::failed_dir,
-  Optional[String] $proxy_name = $::foreman_proxy::plugin::openscap::params::proxy_name,
-  Integer[0] $timeout = $::foreman_proxy::plugin::openscap::params::timeout,
-) inherits foreman_proxy::plugin::openscap::params {
+  Boolean $enabled = true,
+  Optional[String] $version = undef,
+  Foreman_proxy::ListenOn $listen_on = 'https',
+  Stdlib::Absolutepath $openscap_send_log_file = '/var/log/foreman-proxy/openscap-send.log',
+  Stdlib::Absolutepath $spooldir = '/var/spool/foreman-proxy/openscap',
+  Stdlib::Absolutepath $contentdir = '/var/lib/foreman-proxy/openscap/content',
+  Stdlib::Absolutepath $reportsdir = '/var/lib/foreman-proxy/openscap/reports',
+  Stdlib::Absolutepath $failed_dir = '/var/lib/foreman-proxy/openscap/failed',
+  Stdlib::Absolutepath $corrupted_dir = '/var/lib/foreman-proxy/openscap/corrupted',
+  Optional[String] $proxy_name = undef,
+  Integer[0] $timeout = 60,
+) {
   $registered_proxy_name = pick($proxy_name, $foreman_proxy::registered_name)
   foreman_proxy::plugin { 'openscap':
     version => $version,

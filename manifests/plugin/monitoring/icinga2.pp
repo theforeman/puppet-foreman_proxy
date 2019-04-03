@@ -27,16 +27,16 @@
 # $enabled::               Enable this plugin.
 #
 class foreman_proxy::plugin::monitoring::icinga2 (
-  Boolean $enabled = $::foreman_proxy::plugin::monitoring::icinga2::params::enabled,
-  String $server = $::foreman_proxy::plugin::monitoring::icinga2::params::server,
-  Integer[0, 65535] $api_port = $::foreman_proxy::plugin::monitoring::icinga2::params::api_port,
-  Stdlib::Absolutepath $api_cacert = $::foreman_proxy::plugin::monitoring::icinga2::params::api_cacert,
-  String $api_user = $::foreman_proxy::plugin::monitoring::icinga2::params::api_user,
-  Stdlib::Absolutepath $api_usercert = $::foreman_proxy::plugin::monitoring::icinga2::params::api_usercert,
-  Stdlib::Absolutepath $api_userkey = $::foreman_proxy::plugin::monitoring::icinga2::params::api_userkey,
-  Optional[String] $api_password = $::foreman_proxy::plugin::monitoring::icinga2::params::api_password,
-  Boolean $verify_ssl = $::foreman_proxy::plugin::monitoring::icinga2::params::verify_ssl,
-) inherits foreman_proxy::plugin::monitoring::icinga2::params {
+  Boolean $enabled = true,
+  Stdlib::Host $server = $::fqdn,
+  Stdlib::Port $api_port = 5665,
+  Stdlib::Absolutepath $api_cacert = '/etc/foreman-proxy/monitoring/ca.crt',
+  String $api_user = 'foreman',
+  Stdlib::Absolutepath $api_usercert = '/etc/foreman-proxy/monitoring/foreman.crt',
+  Stdlib::Absolutepath $api_userkey = '/etc/foreman-proxy/monitoring/foreman.key',
+  Optional[String] $api_password = undef,
+  Boolean $verify_ssl = true,
+) {
   include ::foreman_proxy::plugin::monitoring
 
   foreman_proxy::settings_file { 'monitoring_icinga2':
