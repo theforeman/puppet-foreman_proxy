@@ -1,4 +1,5 @@
 # Default parameters for the Chef smart proxy plugin
+# @api private
 class foreman_proxy::plugin::chef::params {
   include ::foreman_proxy::params
 

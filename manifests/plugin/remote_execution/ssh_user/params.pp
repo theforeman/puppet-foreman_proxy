@@ -1,4 +1,5 @@
 # Remote Execution SSH user default parameters
+# @api private
 class foreman_proxy::plugin::remote_execution::ssh_user::params {
 
   # `getvar()` is used because the top scope variables being accessed here are *not* facts.

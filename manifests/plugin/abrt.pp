@@ -33,19 +33,19 @@
 #                               can be set to specific version number, 'latest', 'present' etc.
 #
 class foreman_proxy::plugin::abrt (
-  Boolean $enabled = $::foreman_proxy::plugin::abrt::params::enabled,
-  Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::abrt::params::listen_on,
-  Optional[String] $version = $::foreman_proxy::plugin::abrt::params::version,
-  Optional[String] $group = $::foreman_proxy::plugin::abrt::params::group,
-  Stdlib::Absolutepath $abrt_send_log_file = $::foreman_proxy::plugin::abrt::params::abrt_send_log_file,
-  Stdlib::Absolutepath $spooldir = $::foreman_proxy::plugin::abrt::params::spooldir,
-  Boolean $aggregate_reports = $::foreman_proxy::plugin::abrt::params::aggregate_reports,
-  Integer[0] $send_period = $::foreman_proxy::plugin::abrt::params::send_period,
-  Optional[String] $faf_server_url = $::foreman_proxy::plugin::abrt::params::faf_server_url,
-  Boolean $faf_server_ssl_noverify = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_noverify,
-  Optional[Stdlib::Absolutepath] $faf_server_ssl_cert = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_cert,
-  Optional[Stdlib::Absolutepath] $faf_server_ssl_key = $::foreman_proxy::plugin::abrt::params::faf_server_ssl_key,
-) inherits foreman_proxy::plugin::abrt::params {
+  Boolean $enabled = true,
+  Foreman_proxy::ListenOn $listen_on = 'https',
+  Optional[String] $version = undef,
+  Optional[String] $group = undef,
+  Stdlib::Absolutepath $abrt_send_log_file = '/var/log/foreman-proxy/abrt-send.log',
+  Stdlib::Absolutepath $spooldir = '/var/spool/foreman-proxy-abrt',
+  Boolean $aggregate_reports = true,
+  Integer[0] $send_period = 600,
+  Optional[String] $faf_server_url = undef,
+  Boolean $faf_server_ssl_noverify = true,
+  Optional[Stdlib::Absolutepath] $faf_server_ssl_cert = undef,
+  Optional[Stdlib::Absolutepath] $faf_server_ssl_key = undef,
+) {
   foreman_proxy::plugin { 'abrt':
     version => $version,
   }

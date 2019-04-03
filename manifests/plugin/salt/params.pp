@@ -1,4 +1,5 @@
 # Default parameters for the Salt smart proxy plugin
+# @api private
 class foreman_proxy::plugin::salt::params {
   include ::foreman_proxy::params
 

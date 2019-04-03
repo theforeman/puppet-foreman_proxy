@@ -20,13 +20,13 @@
 #                       can be set to specific version number, 'latest', 'present' etc.
 #
 class foreman_proxy::plugin::monitoring (
-  Boolean $enabled = $::foreman_proxy::plugin::monitoring::params::enabled,
-  Optional[String] $group = $::foreman_proxy::plugin::monitoring::params::group,
-  Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::monitoring::params::listen_on,
-  Array[String] $providers = $::foreman_proxy::plugin::monitoring::params::providers,
-  Optional[String] $version = $::foreman_proxy::plugin::monitoring::params::version,
-  Boolean $collect_status = $::foreman_proxy::plugin::monitoring::params::collect_status,
-) inherits foreman_proxy::plugin::monitoring::params {
+  Boolean $enabled = true,
+  Optional[String] $group = undef,
+  Foreman_proxy::ListenOn $listen_on = 'https',
+  Array[String] $providers = ['icinga2'],
+  Optional[String] $version = undef,
+  Boolean $collect_status = true,
+) {
   foreman_proxy::plugin { 'monitoring':
     version => $version,
   }

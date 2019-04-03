@@ -13,11 +13,11 @@
 # $dns_view::   The Infoblox DNS View
 #
 class foreman_proxy::plugin::dns::infoblox (
-  String $dns_server = $::foreman_proxy::plugin::dns::infoblox::params::dns_server,
-  String $username = $::foreman_proxy::plugin::dns::infoblox::params::username,
-  String $password = $::foreman_proxy::plugin::dns::infoblox::params::password,
-  String $dns_view = $::foreman_proxy::plugin::dns::infoblox::params::dns_view,
-) inherits foreman_proxy::plugin::dns::infoblox::params {
+  Stdlib::Host $dns_server = undef,
+  String $username = undef,
+  String $password = undef,
+  String $dns_view = 'default',
+) {
   foreman_proxy::plugin { 'dns_infoblox':
   }
   -> foreman_proxy::settings_file { 'dns_infoblox':

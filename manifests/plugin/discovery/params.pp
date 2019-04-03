@@ -1,4 +1,5 @@
 # Default parameters for foreman_proxy::plugin::discovery
+# @api private
 class foreman_proxy::plugin::discovery::params {
   include ::foreman_proxy::params
 
