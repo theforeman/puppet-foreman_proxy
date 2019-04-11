@@ -15,5 +15,10 @@ Rakefile:
   param_docs_pattern:
     - manifests/init.pp
     - manifests/plugin/**/*.pp
+spec/spec_helper.rb:
+  custom_facts:
+    - name: sudoversion
+      value: 1.8.23
+      source: saz-sudo
 spec/spec_helper_acceptance.rb:
   install_epel: true
