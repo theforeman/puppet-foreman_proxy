@@ -1,5 +1,41 @@
 # Changelog
 
+## [11.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/11.0.0) (2019-04-17)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/10.1.0...11.0.0)
+
+**Breaking changes:**
+
+- drop Puppet 4 [\#498](https://github.com/theforeman/puppet-foreman_proxy/pull/498) ([mmoll](https://github.com/mmoll))
+- drop FreeBSD 10 \(EOL\), add FreeBSD 12 [\#497](https://github.com/theforeman/puppet-foreman_proxy/pull/497) ([mmoll](https://github.com/mmoll))
+- Add puppet http api support [\#488](https://github.com/theforeman/puppet-foreman_proxy/pull/488) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Add pulp3 options to the pulp plugin [\#503](https://github.com/theforeman/puppet-foreman_proxy/pull/503) ([ekohl](https://github.com/ekohl))
+- Fixes [\#26388](https://projects.theforeman.org/issues/26388) - Clarify the managed parameter docs [\#499](https://github.com/theforeman/puppet-foreman_proxy/pull/499) ([ekohl](https://github.com/ekohl))
+- Raise minimum foreman and puppet module versions [\#493](https://github.com/theforeman/puppet-foreman_proxy/pull/493) ([ekohl](https://github.com/ekohl))
+- Ensure shim permissions [\#486](https://github.com/theforeman/puppet-foreman_proxy/pull/486) ([lzap](https://github.com/lzap))
+- Fixes [\#26330](https://projects.theforeman.org/issues/26330) - Conditionally handle the puppet group [\#481](https://github.com/theforeman/puppet-foreman_proxy/pull/481) ([ekohl](https://github.com/ekohl))
+
+**Fixed bugs:**
+
+- Fix path to mco in example [\#496](https://github.com/theforeman/puppet-foreman_proxy/pull/496) ([smortex](https://github.com/smortex))
+
+**Merged pull requests:**
+
+- Allow newest module versions [\#502](https://github.com/theforeman/puppet-foreman_proxy/pull/502) ([ekohl](https://github.com/ekohl))
+
+## [10.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/10.1.0) (2019-03-13)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/10.0.0...10.1.0)
+
+**Implemented enhancements:**
+
+- Fixes [\#25590](https://projects.theforeman.org/issues/25590) - Add httpboot support [\#494](https://github.com/theforeman/puppet-foreman_proxy/pull/494) ([ekohl](https://github.com/ekohl))
+- Configure ansible's stdout\_callback to yaml for nicer output [\#492](https://github.com/theforeman/puppet-foreman_proxy/pull/492) ([iNecas](https://github.com/iNecas))
+- remote\_execution ssh\_user management [\#483](https://github.com/theforeman/puppet-foreman_proxy/pull/483) ([alexjfisher](https://github.com/alexjfisher))
+
 ## [10.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/10.0.0) (2019-01-15)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/9.0.0...10.0.0)

@@ -1,3 +1,114 @@
+## [11.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/11.0.0) (2019-04-17)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/10.1.0...11.0.0)
+
+**Breaking changes:**
+
+- drop Puppet 4 [\#498](https://github.com/theforeman/puppet-foreman_proxy/pull/498) ([mmoll](https://github.com/mmoll))
+- drop FreeBSD 10 \(EOL\), add FreeBSD 12 [\#497](https://github.com/theforeman/puppet-foreman_proxy/pull/497) ([mmoll](https://github.com/mmoll))
+- Add puppet http api support [\#488](https://github.com/theforeman/puppet-foreman_proxy/pull/488) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Add pulp3 options to the pulp plugin [\#503](https://github.com/theforeman/puppet-foreman_proxy/pull/503) ([ekohl](https://github.com/ekohl))
+- Fixes [\#26388](https://projects.theforeman.org/issues/26388) - Clarify the managed parameter docs [\#499](https://github.com/theforeman/puppet-foreman_proxy/pull/499) ([ekohl](https://github.com/ekohl))
+- Raise minimum foreman and puppet module versions [\#493](https://github.com/theforeman/puppet-foreman_proxy/pull/493) ([ekohl](https://github.com/ekohl))
+- Ensure shim permissions [\#486](https://github.com/theforeman/puppet-foreman_proxy/pull/486) ([lzap](https://github.com/lzap))
+- Fixes [\#26330](https://projects.theforeman.org/issues/26330) - Conditionally handle the puppet group [\#481](https://github.com/theforeman/puppet-foreman_proxy/pull/481) ([ekohl](https://github.com/ekohl))
+
+**Fixed bugs:**
+
+- Fix path to mco in example [\#496](https://github.com/theforeman/puppet-foreman_proxy/pull/496) ([smortex](https://github.com/smortex))
+
+**Merged pull requests:**
+
+- Allow newest module versions [\#502](https://github.com/theforeman/puppet-foreman_proxy/pull/502) ([ekohl](https://github.com/ekohl))
+
+## [10.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/10.1.0) (2019-03-13)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/10.0.0...10.1.0)
+
+**Implemented enhancements:**
+
+- Fixes [\#25590](https://projects.theforeman.org/issues/25590) - Add httpboot support [\#494](https://github.com/theforeman/puppet-foreman_proxy/pull/494) ([ekohl](https://github.com/ekohl))
+- Configure ansible's stdout\_callback to yaml for nicer output [\#492](https://github.com/theforeman/puppet-foreman_proxy/pull/492) ([iNecas](https://github.com/iNecas))
+- remote\_execution ssh\_user management [\#483](https://github.com/theforeman/puppet-foreman_proxy/pull/483) ([alexjfisher](https://github.com/alexjfisher))
+
+## [10.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/10.0.0) (2019-01-15)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/9.0.0...10.0.0)
+
+**Breaking changes:**
+
+- Remove puppetca\_modular parameter [\#476](https://github.com/theforeman/puppet-foreman_proxy/pull/476) ([ekohl](https://github.com/ekohl))
+- Remove the default gateway [\#475](https://github.com/theforeman/puppet-foreman_proxy/pull/475) ([ekohl](https://github.com/ekohl))
+- Disable repository management by default [\#472](https://github.com/theforeman/puppet-foreman_proxy/pull/472) ([ekohl](https://github.com/ekohl))
+- Fixes [\#25591](https://projects.theforeman.org/issues/25591) - Remove $use\_ranges from infoblox dhcp [\#471](https://github.com/theforeman/puppet-foreman_proxy/pull/471) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Allow foreman and puppet 11.x versions [\#478](https://github.com/theforeman/puppet-foreman_proxy/pull/478) ([ekohl](https://github.com/ekohl))
+- Add support for SSH BMC provider [\#470](https://github.com/theforeman/puppet-foreman_proxy/pull/470) ([mzhaase](https://github.com/mzhaase))
+- Use modern facts and IP address validation [\#469](https://github.com/theforeman/puppet-foreman_proxy/pull/469) ([ekohl](https://github.com/ekohl))
+- Add Puppet 6 support [\#468](https://github.com/theforeman/puppet-foreman_proxy/pull/468) ([ekohl](https://github.com/ekohl))
+- Add setting for openscap report upload timeout [\#467](https://github.com/theforeman/puppet-foreman_proxy/pull/467) ([xprazak2](https://github.com/xprazak2))
+- realm\_ad: Allow using unspecified DC [\#464](https://github.com/theforeman/puppet-foreman_proxy/pull/464) ([ananace](https://github.com/ananace))
+- Install foreman-proxy-journald when JOURNALD is set [\#461](https://github.com/theforeman/puppet-foreman_proxy/pull/461) ([lzap](https://github.com/lzap))
+- namespace extlib functions [\#460](https://github.com/theforeman/puppet-foreman_proxy/pull/460) ([mmoll](https://github.com/mmoll))
+
+**Fixed bugs:**
+
+- Fixes [\#25460](https://projects.theforeman.org/issues/25460) - only set the bind\_host to :: if IPv6 is available [\#466](https://github.com/theforeman/puppet-foreman_proxy/pull/466) ([evgeni](https://github.com/evgeni))
+- fixes [\#24653](https://projects.theforeman.org/issues/24653) - only use grub mkimage on RHEL 7.4 [\#446](https://github.com/theforeman/puppet-foreman_proxy/pull/446) ([stbenjam](https://github.com/stbenjam))
+
+**Merged pull requests:**
+
+- Refs [\#25825](https://projects.theforeman.org/issues/25825) - Add tests around BMC SSH parameters [\#477](https://github.com/theforeman/puppet-foreman_proxy/pull/477) ([ekohl](https://github.com/ekohl))
+
+## [9.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/9.0.0) (2018-10-18)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/8.0.2...9.0.0)
+
+**Breaking changes:**
+
+- Drop use of the stable repository [\#447](https://github.com/theforeman/puppet-foreman_proxy/pull/447) ([mmoll](https://github.com/mmoll))
+
+**Implemented enhancements:**
+
+- Added JOURNAL option for log\_file [\#458](https://github.com/theforeman/puppet-foreman_proxy/pull/458) ([lzap](https://github.com/lzap))
+- Add {dns,network}\_view parameters to infoblox [\#455](https://github.com/theforeman/puppet-foreman_proxy/pull/455) ([ekohl](https://github.com/ekohl))
+- Fixes [\#24505](https://projects.theforeman.org/issues/24505) - Add proxy name + url into scap settings [\#443](https://github.com/theforeman/puppet-foreman_proxy/pull/443) ([xprazak2](https://github.com/xprazak2))
+- Fixes [\#24012](https://projects.theforeman.org/issues/24012) - Add PuppetCA providers settings [\#433](https://github.com/theforeman/puppet-foreman_proxy/pull/433) ([juliantodt](https://github.com/juliantodt))
+
+**Fixed bugs:**
+
+- Fixes [\#25036](https://projects.theforeman.org/issues/25036) - ensure proxy registration happens before puppet [\#456](https://github.com/theforeman/puppet-foreman_proxy/pull/456) ([evgeni](https://github.com/evgeni))
+- Move the REX SSH directory to /var/lib/foreman-proxy [\#451](https://github.com/theforeman/puppet-foreman_proxy/pull/451) ([ekohl](https://github.com/ekohl))
+- fixes [\#24690](https://projects.theforeman.org/issues/24690) - add symlink grub2/boot to ../boot [\#449](https://github.com/theforeman/puppet-foreman_proxy/pull/449) ([stbenjam](https://github.com/stbenjam))
+
+**Closed issues:**
+
+- Custom infoblox views [\#431](https://github.com/theforeman/puppet-foreman_proxy/issues/431)
+
+**Merged pull requests:**
+
+- Mark compatible with theforeman/puppet 10.x [\#462](https://github.com/theforeman/puppet-foreman_proxy/pull/462) ([ekohl](https://github.com/ekohl))
+- allow extlib 3.x [\#459](https://github.com/theforeman/puppet-foreman_proxy/pull/459) ([mmoll](https://github.com/mmoll))
+- Contain classes [\#457](https://github.com/theforeman/puppet-foreman_proxy/pull/457) ([ekohl](https://github.com/ekohl))
+- allow puppetlabs-stdlib 5.x [\#450](https://github.com/theforeman/puppet-foreman_proxy/pull/450) ([mmoll](https://github.com/mmoll))
+
+## [8.0.2](https://github.com/theforeman/puppet-foreman_proxy/tree/8.0.2) (2018-09-02)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/8.0.1...8.0.2)
+
+**Closed issues:**
+
+- forge-8.0.1 contains modules directory [\#454](https://github.com/theforeman/puppet-foreman_proxy/issues/454)
+
+## [8.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/8.0.1) (2018-08-29)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/8.0.0...8.0.1)
+
 ## [8.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/8.0.0) (2018-07-16)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/7.2.3...8.0.0)
