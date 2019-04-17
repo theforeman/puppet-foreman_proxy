@@ -7,6 +7,8 @@ class foreman_proxy::plugin::pulp::params {
   $version            = undef
   $group              = undef
   $pulpnode_enabled   = false
+  $pulp3_enabled      = false
+  $pulp3_mirror       = false
   $pulp_url           = "https://${::fqdn}/pulp"
   $pulp_dir           = '/var/lib/pulp'
   $pulp_content_dir   = '/var/lib/pulp/content'
