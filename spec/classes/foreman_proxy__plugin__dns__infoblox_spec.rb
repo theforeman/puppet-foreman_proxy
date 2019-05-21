@@ -15,6 +15,7 @@ describe 'foreman_proxy::plugin::dns::infoblox' do
         :dns_server => 'localhost',
         :username   => 'admin',
         :password   => 'infoblox',
+        :dns_view   => 'default',
       }
     end
 
@@ -30,6 +31,7 @@ describe 'foreman_proxy::plugin::dns::infoblox' do
         ':dns_server: "localhost"',
         ':username: "admin"',
         ':password: "infoblox"',
+        ':dns_view: "default"',
       ])
     end
   end
