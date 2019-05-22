@@ -61,6 +61,4 @@ class foreman_proxy::plugin::ansible (
   if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
     Foreman_proxy::Settings_file['ansible'] ~> Service['smart_proxy_dynflow_core']
   }
-
-  ensure_packages(['python-requests'], { ensure => 'present', })
 }
