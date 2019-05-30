@@ -57,9 +57,10 @@ class foreman_proxy::plugin::remote_execution::ssh (
 
   if $ssh_kerberos_auth {
     if $::osfamily == 'RedHat' {
-      $ruby_prefix = $::operatingsystem ? {
-        'Fedora' => 'rubygem',
-        default  => 'tfm-rubygem',
+      if versioncmp($facts['operatingsystemmajrelease'], '8') >= 0 {
+        $ruby_prefix = 'rubygem'
+      } else {
+        $ruby_prefix = 'tfm-rubygem'
       }
     } else {
       $ruby_prefix = 'ruby'

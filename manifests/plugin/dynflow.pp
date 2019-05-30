@@ -50,14 +50,14 @@ class foreman_proxy::plugin::dynflow (
     template_path => 'foreman_proxy/plugin/dynflow.yml.erb',
   }
 
-  if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
-    $scl_prefix = 'tfm-'
-  } else {
-    $scl_prefix = '' # lint:ignore:empty_string_assignment
-  }
+  if $::osfamily == 'RedHat' {
 
-  # Currently the service is only needed on Red Hat OS's with SCL
-  if $scl_prefix != '' {
+    if versioncmp($facts['operatingsystemmajrelease'], '8') >= 0 {
+      $scl_prefix = '' # lint:ignore:empty_string_assignment
+    } else {
+      $scl_prefix = 'tfm-'
+    }
+
     foreman_proxy::plugin { 'dynflow_core':
       package => "${scl_prefix}${::foreman_proxy::plugin_prefix}dynflow_core",
     }
