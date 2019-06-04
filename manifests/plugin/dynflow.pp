@@ -50,7 +50,7 @@ class foreman_proxy::plugin::dynflow (
     template_path => 'foreman_proxy/plugin/dynflow.yml.erb',
   }
 
-  if $::osfamily == 'RedHat' {
+  if $facts['osfamily'] == 'RedHat' {
 
     if versioncmp($facts['operatingsystemmajrelease'], '8') >= 0 {
       $scl_prefix = '' # lint:ignore:empty_string_assignment
