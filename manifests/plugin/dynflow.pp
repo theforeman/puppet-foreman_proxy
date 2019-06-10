@@ -24,7 +24,7 @@
 #
 # $open_file_limit::       Limit number of open files - Only Red Hat Operating Systems with Software Collections.
 #
-# $external_core::         Forces usagge of external/internal Dynflow core
+# $external_core::         Forces usage of external/internal Dynflow core
 class foreman_proxy::plugin::dynflow (
   Boolean $enabled = $::foreman_proxy::plugin::dynflow::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::dynflow::params::listen_on,
