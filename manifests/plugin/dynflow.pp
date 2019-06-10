@@ -24,6 +24,7 @@
 #
 # $open_file_limit::       Limit number of open files - Only Red Hat Operating Systems with Software Collections.
 #
+# $external_core::         Forces usagge of external/internal Dynflow core
 class foreman_proxy::plugin::dynflow (
   Boolean $enabled = $::foreman_proxy::plugin::dynflow::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::dynflow::params::listen_on,
@@ -34,6 +35,7 @@ class foreman_proxy::plugin::dynflow (
   Optional[Array[String]] $ssl_disabled_ciphers = $::foreman_proxy::plugin::dynflow::params::ssl_disabled_ciphers,
   Optional[Array[String]] $tls_disabled_versions = $::foreman_proxy::plugin::dynflow::params::tls_disabled_versions,
   Integer[1] $open_file_limit = $::foreman_proxy::plugin::dynflow::params::open_file_limit,
+  Optional[Boolean] $external_core = $::foreman_proxy::plugin::dynflow::params::external_core,
 ) inherits foreman_proxy::plugin::dynflow::params {
   if $::foreman_proxy::ssl {
     $core_url = "https://${::fqdn}:${core_port}"

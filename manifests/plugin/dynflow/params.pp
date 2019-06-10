@@ -10,4 +10,5 @@ class foreman_proxy::plugin::dynflow::params {
   $ssl_disabled_ciphers  = undef
   $tls_disabled_versions = undef
   $open_file_limit       = 1000000
+  $external_core         = undef
 }
