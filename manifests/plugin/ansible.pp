@@ -73,7 +73,7 @@ class foreman_proxy::plugin::ansible (
     template_path => 'foreman_proxy/plugin/ansible.yml.erb',
   }
 
-  if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
+  if $::osfamily == 'Debian' or ($::osfamily == 'RedHat' and $::operatingsystem != 'Fedora') {
     Foreman_proxy::Settings_file['ansible'] ~> Service['smart_proxy_dynflow_core']
   }
 }

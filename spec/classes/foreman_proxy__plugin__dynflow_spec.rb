@@ -20,7 +20,7 @@ describe 'foreman_proxy::plugin::dynflow' do
         end
       end
 
-      has_core = facts[:osfamily] == 'RedHat' && facts[:operatingsystem] != 'Fedora'
+      has_core = facts[:osfamily] == 'Debian' || (facts[:osfamily] == 'RedHat' && facts[:operatingsystem] != 'Fedora')
 
       describe 'with default settings' do
         it { should compile.with_all_deps }
