@@ -1,5 +1,19 @@
 # Changelog
 
+## [11.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/11.1.0) (2019-06-13)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/11.0.0...11.1.0)
+
+**Implemented enhancements:**
+
+- Allow for non tfm- packages on Fedora and RHEL8 [\#510](https://github.com/theforeman/puppet-foreman_proxy/pull/510) ([ehelms](https://github.com/ehelms))
+- Fixes [\#26839](https://projects.theforeman.org/issues/26839) - add dns\_view option [\#507](https://github.com/theforeman/puppet-foreman_proxy/pull/507) ([lzap](https://github.com/lzap))
+
+**Merged pull requests:**
+
+- allow newer extlib version [\#509](https://github.com/theforeman/puppet-foreman_proxy/pull/509) ([mmoll](https://github.com/mmoll))
+- Allow `puppetlabs/stdlib` 6.x [\#506](https://github.com/theforeman/puppet-foreman_proxy/pull/506) ([alexjfisher](https://github.com/alexjfisher))
+
 ## [11.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/11.0.0) (2019-04-17)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/10.1.0...11.0.0)
