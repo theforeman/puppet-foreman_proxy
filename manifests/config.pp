@@ -84,15 +84,20 @@ class foreman_proxy::config {
   }
   foreman_proxy::settings_file { [
       'puppet_proxy_customrun',
-      'puppet_proxy_legacy',
       'puppet_proxy_mcollective',
       'puppet_proxy_puppet_api',
-      'puppet_proxy_puppetrun',
       'puppet_proxy_salt',
       'puppet_proxy_ssh',
       'puppetca_hostname_whitelisting',
       'puppetca_token_whitelisting',
     ]:
+      module => false,
+  }
+  foreman_proxy::settings_file { [
+      'puppet_proxy_legacy',
+      'puppet_proxy_puppetrun',
+    ]:
+      ensure => 'absent',
       module => false,
   }
   foreman_proxy::settings_file { 'puppetca':
@@ -134,9 +139,7 @@ class foreman_proxy::config {
   }
 
   if $foreman_proxy::puppetca or $foreman_proxy::puppet {
-    $puppetca_sudo = $foreman_proxy::puppetca and versioncmp($facts['puppetversion'], '6.0') < 0
-    $puppetrun_sudo = $foreman_proxy::puppet and $foreman_proxy::puppetrun_provider == 'puppetrun'
-    $uses_sudo = $puppetrun_sudo or $puppetca_sudo
+    $uses_sudo = $foreman_proxy::puppetca and versioncmp($facts['puppetversion'], '6.0') < 0
 
     if $foreman_proxy::use_sudoersd {
       if $uses_sudo and $foreman_proxy::manage_sudoersd {

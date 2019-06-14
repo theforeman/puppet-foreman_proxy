@@ -86,8 +86,6 @@
 #
 # $puppetrun_provider::         Provider for running/kicking Puppet agents
 #
-# $puppetrun_cmd::              Puppet run/kick command to be allowed in sudoers
-#
 # $customrun_cmd::              Puppet customrun command
 #
 # $customrun_args::             Puppet customrun command arguments
@@ -116,9 +114,6 @@
 # $puppet_ssl_cert::            SSL certificate used when accessing the Puppet master API
 #
 # $puppet_ssl_key::             SSL private key used when accessing the Puppet master API
-#
-# $puppet_use_environment_api:: Override use of Puppet's API to list environments.  When unset, the proxy will
-#                               try to determine this automatically.
 #
 # $puppet_api_timeout::         Timeout in seconds when accessing Puppet environment classes API
 #
@@ -277,8 +272,6 @@
 #
 # $oauth_consumer_secret::      OAuth secret to be used for REST interaction
 #
-# $puppet_use_cache::           Whether to enable caching of puppet classes
-#
 # === Advanced parameters:
 #
 # $repo::                       Which repository to use. Can be a specific version or nightly. Will not configure anything when undefined.
@@ -362,8 +355,7 @@ class foreman_proxy (
   Boolean $manage_puppet_group = $::foreman_proxy::params::manage_puppet_group,
   Boolean $puppet = $::foreman_proxy::params::puppet,
   Foreman_proxy::ListenOn $puppet_listen_on = $::foreman_proxy::params::puppet_listen_on,
-  String $puppetrun_cmd = $::foreman_proxy::params::puppetrun_cmd,
-  Optional[Enum['puppetrun', 'mcollective', 'ssh', 'salt', 'customrun']] $puppetrun_provider = $::foreman_proxy::params::puppetrun_provider,
+  Optional[Enum['mcollective', 'ssh', 'salt', 'customrun']] $puppetrun_provider = $::foreman_proxy::params::puppetrun_provider,
   String $customrun_cmd = $::foreman_proxy::params::customrun_cmd,
   String $customrun_args = $::foreman_proxy::params::customrun_args,
   String $mcollective_user = $::foreman_proxy::params::mcollective_user,
@@ -378,7 +370,6 @@ class foreman_proxy (
   Stdlib::Absolutepath $puppet_ssl_ca = $::foreman_proxy::params::ssl_ca,
   Stdlib::Absolutepath $puppet_ssl_cert = $::foreman_proxy::params::ssl_cert,
   Stdlib::Absolutepath $puppet_ssl_key = $::foreman_proxy::params::ssl_key,
-  Optional[Boolean] $puppet_use_environment_api = $::foreman_proxy::params::puppet_use_environment_api,
   Integer[0] $puppet_api_timeout = $::foreman_proxy::params::puppet_api_timeout,
   Boolean $templates = $::foreman_proxy::params::templates,
   Foreman_proxy::ListenOn $templates_listen_on = $::foreman_proxy::params::templates_listen_on,
@@ -466,7 +457,6 @@ class foreman_proxy (
   String $oauth_effective_user = $::foreman_proxy::params::oauth_effective_user,
   String $oauth_consumer_key = $::foreman_proxy::params::oauth_consumer_key,
   String $oauth_consumer_secret = $::foreman_proxy::params::oauth_consumer_secret,
-  Optional[Boolean] $puppet_use_cache = $::foreman_proxy::params::puppet_use_cache,
 ) inherits foreman_proxy::params {
   if $bind_host =~ String {
     warning('foreman_proxy::bind_host should be changed to an array, support for string only is deprecated')

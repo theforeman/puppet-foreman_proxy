@@ -36,7 +36,6 @@ describe 'foreman_proxy' do
       dns_group = facts[:osfamily] == 'RedHat' ? 'named' : 'bind'
 
       puppetca_command = "#{usr_dir}/bin/puppet cert *"
-      puppetrun_command = "#{usr_dir}/bin/puppet kick *"
 
       context 'without parameters' do
         it { should compile.with_all_deps }
@@ -91,9 +90,8 @@ describe 'foreman_proxy' do
             'bmc',
             'dns', 'dns_libvirt', 'dns_nsupdate', 'dns_nsupdate_gss',
             'dhcp', 'dhcp_isc', 'dhcp_libvirt',
-            'logs', 'httpboot',
-            'puppet', 'puppet_proxy_legacy', 'puppet_proxy_puppet_api',
-            'puppet_proxy_customrun', 'puppet_proxy_mcollective', 'puppet_proxy_puppetrun', 'puppet_proxy_salt', 'puppet_proxy_ssh',
+            'logs', 'httpboot', 'puppet', 'puppet_proxy_puppet_api',
+            'puppet_proxy_customrun', 'puppet_proxy_mcollective', 'puppet_proxy_salt', 'puppet_proxy_ssh',
             'puppetca', 'puppetca_http_api', 'puppetca_puppet_cert',
             'puppetca_hostname_whitelisting', 'puppetca_token_whitelisting',
             'realm', 'templates', 'tftp'
@@ -105,6 +103,11 @@ describe 'foreman_proxy' do
               .that_requires('Class[Foreman_proxy::Install]')
               .that_notifies('Class[Foreman_proxy::Service]')
           end
+        end
+
+        it 'should remove old config files' do
+          should contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_legacy.yml").with_ensure('absent')
+          should contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_puppetrun.yml").with_ensure('absent')
         end
 
         context 'with IPv6' do
@@ -227,7 +230,6 @@ describe 'foreman_proxy' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
             '---',
             ':enabled: https',
-            ":puppet_version: #{Puppet.version}",
           ])
         end
 
@@ -236,17 +238,6 @@ describe 'foreman_proxy' do
             '---',
             ":command: #{shell}",
             ':command_arguments: -ay -f -s',
-          ])
-        end
-
-        it 'should generate correct puppet_proxy_legacy.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_legacy.yml", [
-            '---',
-            ":puppet_conf: #{puppet_etc_dir}/puppet.conf",
-            ":puppet_url: https://#{facts[:fqdn]}:8140",
-            ":puppet_ssl_ca: #{ssl_dir}/certs/ca.pem",
-            ":puppet_ssl_cert: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
-            ":puppet_ssl_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
           ])
         end
 
@@ -265,13 +256,6 @@ describe 'foreman_proxy' do
             ":puppet_ssl_cert: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
             ":puppet_ssl_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
             ":api_timeout: 30",
-          ])
-        end
-
-        it 'should generate correct puppet_proxy_puppetrun.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_puppetrun.yml", [
-            '---',
-            ':user: root',
           ])
         end
 
@@ -813,27 +797,11 @@ describe 'foreman_proxy' do
         end
       end
 
-      context 'when puppet_use_environment_api set' do
-        let(:params) { super().merge(puppet_use_environment_api: false) }
-
-        it 'should set puppet_use_environment_api' do
-          should contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_legacy.yml").with_content(/^:use_environment_api: false$/)
-        end
-      end
-
       context 'when puppet_api_timeout set' do
         let(:params) { super().merge(puppet_api_timeout: 600) }
 
         it 'should set puppet_api_timeout' do
           should contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_puppet_api.yml").with_content(/^:api_timeout: 600$/)
-        end
-      end
-
-      context 'with puppet use_cache enabled' do
-        let(:params) { super().merge(puppet_use_cache: true) }
-
-        it 'should set use_cache' do
-          should contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_legacy.yml").with_content(/^:use_cache: true$/)
         end
       end
 
@@ -900,190 +868,6 @@ describe 'foreman_proxy' do
             ':token_ttl: 42',
             ':certificate: /bar/baz.pem',
           ])
-        end
-      end
-
-      context 'when puppetrun_provider => puppetrun' do
-        let(:params) { super().merge(puppetrun_provider: 'puppetrun', puppetca: false) }
-
-        context 'when puppetrun_provider and puppetrun_cmd set' do
-          let(:params) do
-            super().merge(
-              puppet: true,
-              puppetrun_provider: 'puppetrun',
-              puppetrun_cmd: 'mco puppet runonce',
-            )
-          end
-
-          it "should set puppetrun_cmd" do
-            should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('file')
-            verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
-              "#{proxy_user_name} ALL = (root) NOPASSWD : mco puppet runonce *",
-              "Defaults:#{proxy_user_name} !requiretty",
-            ])
-          end
-        end
-
-        context 'when puppet_user set with puppetrun_provider puppet' do
-          let(:params) { super().merge(puppet_user: 'some_puppet_user') }
-
-          it "should set puppetrun_cmd" do
-            should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('file')
-            verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
-              "#{proxy_user_name} ALL = (some_puppet_user) NOPASSWD : #{puppetrun_command}",
-              "Defaults:#{proxy_user_name} !requiretty",
-            ])
-          end
-        end
-      end
-
-      context 'when puppetca disabled' do
-        let(:params) { super().merge(puppetca: false) }
-        it { should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('absent') }
-      end
-
-      context 'when puppet disabled' do
-        let(:params) { super().merge(puppet: false) }
-
-        it "should not set puppetrun", if: Puppet.version < '6.0' do
-          should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('file')
-          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
-            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
-            "Defaults:#{proxy_user_name} !requiretty",
-          ])
-        end
-
-        it "should remove sudoers.d", if: Puppet.version >= '6.0' do
-          should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('absent')
-        end
-      end
-
-      context 'when puppet enabled, but not provider puppetrun' do
-        let(:params) { super().merge(puppetrun_provider: 'salt') }
-
-        it "should not set puppetrun", if: Puppet.version < '6.0' do
-          should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('file')
-          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
-            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
-            "Defaults:#{proxy_user_name} !requiretty",
-          ])
-        end
-
-        it "should remove sudoers.d", if: Puppet.version >= '6.0' do
-          should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('absent')
-        end
-      end
-
-      context 'when puppetca and puppet disabled' do
-        let(:params) do
-          super().merge(
-            puppet: false,
-            puppetca: false,
-          )
-        end
-
-        it { should_not contain_file("#{etc_dir}/sudoers.d") }
-        it { should_not contain_file("#{etc_dir}/sudoers.d/foreman-proxy") }
-      end
-
-      context 'when use_sudoersd => false' do
-        let(:params) { super().merge(use_sudoersd: false) }
-
-        it "should not manage #{etc_dir}/sudoers.d" do
-          should_not contain_file("#{etc_dir}/sudoers.d")
-        end
-
-        it "should not manage #{etc_dir}/sudoers.d/foreman-proxy" do
-          should_not contain_file("#{etc_dir}/sudoers.d/foreman-proxy")
-        end
-
-        it "should modify #{etc_dir}/sudoers", if: Puppet.version < '6.0' do
-          should contain_augeas('sudo-foreman-proxy').with_context("/files#{etc_dir}/sudoers")
-
-          changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
-          expect(changes.split("\n")).to match_array([
-            "set spec[user = '#{proxy_user_name}'][1]/user #{proxy_user_name}",
-            "set spec[user = '#{proxy_user_name}'][1]/host_group/host ALL",
-            "set spec[user = '#{proxy_user_name}'][1]/host_group/command '#{puppetca_command}'",
-            "set spec[user = '#{proxy_user_name}'][1]/host_group/command/runas_user root",
-            "set spec[user = '#{proxy_user_name}'][1]/host_group/command/tag NOPASSWD",
-            "rm spec[user = '#{proxy_user_name}'][1]/host_group/command[position() > 1]",
-            "rm spec[user = '#{proxy_user_name}'][position() > 1]",
-            "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
-            "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
-          ])
-        end
-
-        it "should modify #{etc_dir}/sudoers", if: Puppet.version >= '6.0' do
-          should contain_augeas('sudo-foreman-proxy').with_context("/files#{etc_dir}/sudoers")
-
-          changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
-          expect(changes.split("\n")).to match_array([
-            "rm spec[user = '#{proxy_user_name}'][position() > 0]",
-            "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
-            "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
-          ])
-        end
-
-        context 'when use_sudoers => false' do
-          let(:params) { super().merge(use_sudoers: false) }
-
-          it "should not modify #{etc_dir}/sudoers" do
-            should_not contain_augeas('sudo-foreman-proxy')
-          end
-        end
-
-        context 'when puppetca => false' do
-          let(:params) { super().merge(puppetca: false) }
-
-          it "should remove all rules from #{etc_dir}/sudoers" do
-            changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
-            expect(changes.split("\n")).to match_array([
-              "rm spec[user = '#{proxy_user_name}'][position() > 0]",
-              "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
-              "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
-            ])
-          end
-        end
-
-        context 'when puppetrun_provider == puppetrun' do
-          let(:params) { super().merge(puppetrun_provider: 'puppetrun') }
-
-          it "should modify #{etc_dir}/sudoers for puppetca and puppetrun", if: Puppet.version < '6.0' do
-            changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
-            expect(changes.split("\n")).to match_array([
-              "set spec[user = '#{proxy_user_name}'][1]/user #{proxy_user_name}",
-              "set spec[user = '#{proxy_user_name}'][1]/host_group/host ALL",
-              "set spec[user = '#{proxy_user_name}'][1]/host_group/command '#{puppetca_command}'",
-              "set spec[user = '#{proxy_user_name}'][1]/host_group/command/runas_user root",
-              "set spec[user = '#{proxy_user_name}'][1]/host_group/command/tag NOPASSWD",
-              "rm spec[user = '#{proxy_user_name}'][1]/host_group/command[position() > 1]",
-              "set spec[user = '#{proxy_user_name}'][2]/user #{proxy_user_name}",
-              "set spec[user = '#{proxy_user_name}'][2]/host_group/host ALL",
-              "set spec[user = '#{proxy_user_name}'][2]/host_group/command '#{puppetrun_command}'",
-              "set spec[user = '#{proxy_user_name}'][2]/host_group/command/runas_user root",
-              "set spec[user = '#{proxy_user_name}'][2]/host_group/command/tag NOPASSWD",
-              "rm spec[user = '#{proxy_user_name}'][2]/host_group/command[position() > 1]",
-              "rm spec[user = '#{proxy_user_name}'][position() > 2]",
-              "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
-              "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
-            ])
-          end
-
-          it "should modify #{etc_dir}/sudoers for puppetrun", if: Puppet.version >= '6.0' do
-            changes = catalogue.resource('augeas', 'sudo-foreman-proxy').send(:parameters)[:changes]
-            expect(changes.split("\n")).to match_array([
-              "set spec[user = '#{proxy_user_name}'][1]/user #{proxy_user_name}",
-              "set spec[user = '#{proxy_user_name}'][1]/host_group/host ALL",
-              "set spec[user = '#{proxy_user_name}'][1]/host_group/command '#{puppetrun_command}'",
-              "set spec[user = '#{proxy_user_name}'][1]/host_group/command/runas_user root",
-              "set spec[user = '#{proxy_user_name}'][1]/host_group/command/tag NOPASSWD",
-              "rm spec[user = '#{proxy_user_name}'][1]/host_group/command[position() > 1]",
-              "rm spec[user = '#{proxy_user_name}'][position() > 1]",
-              "set Defaults[type = ':#{proxy_user_name}']/type :#{proxy_user_name}",
-              "set Defaults[type = ':#{proxy_user_name}']/requiretty/negate ''",
-            ])
-          end
         end
       end
 

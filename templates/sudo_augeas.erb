@@ -12,16 +12,6 @@ set spec[user = '<%= user %>'][<%=index%>]/host_group/command/runas_user root
 set spec[user = '<%= user %>'][<%=index%>]/host_group/command/tag NOPASSWD
 rm spec[user = '<%= user %>'][<%=index%>]/host_group/command[position() > 1]<%# delete any other command in the rule %>
 <% end -%>
-<% if @puppetrun_sudo
-  index += 1
--%>
-set spec[user = '<%= user %>'][<%=index%>]/user <%= user %>
-set spec[user = '<%= user %>'][<%=index%>]/host_group/host ALL
-set spec[user = '<%= user %>'][<%=index%>]/host_group/command '<%= scope.lookupvar('foreman_proxy::puppetrun_cmd') %> *'
-set spec[user = '<%= user %>'][<%=index%>]/host_group/command/runas_user <%= scope.lookupvar('foreman_proxy::puppet_user') %>
-set spec[user = '<%= user %>'][<%=index%>]/host_group/command/tag NOPASSWD
-rm spec[user = '<%= user %>'][<%=index%>]/host_group/command[position() > 1]<%# delete any other command in the rule %>
-<% end -%>
 rm spec[user = '<%= user %>'][position() > <%= index %>]<%# delete any other rule for the user %>
 set Defaults[type = ':<%= user %>']/type :<%= user %>
 set Defaults[type = ':<%= user %>']/requiretty/negate ''
