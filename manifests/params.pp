@@ -196,8 +196,6 @@ class foreman_proxy::params {
 
   # puppet settings
   $puppet_url                 = "https://${::fqdn}:8140"
-  $puppet_use_environment_api = undef
-  $puppet_use_cache           = undef
   $puppet_api_timeout         = 30
 
   # puppetca settings
@@ -220,7 +218,6 @@ class foreman_proxy::params {
   $puppet = true
   $puppet_listen_on = 'https'
 
-  $puppetrun_cmd       = "${puppet_cmd} kick"
   $puppetrun_provider  = undef
   $customrun_cmd       = $shell
   $customrun_args      = '-ay -f -s'

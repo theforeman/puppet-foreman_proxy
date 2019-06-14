@@ -18,21 +18,24 @@
 #
 # $owner::         Settings file's owner
 #
-# $group:          Settings file's group
+# $group::         Settings file's group
 #
-# $mode:           Settings file's mode
+# $mode::          Settings file's mode
 #
 # $feature::       Feature name advertised by proxy module
 #                  If set, foreman_proxy::register will validate the feature name is loaded and advertised.
 #
+# $ensure::        Whether the config file should be a file or absent
+#
 define foreman_proxy::settings_file (
+  Enum['file', 'absent'] $ensure = 'file',
   Boolean $module = true,
   Boolean $enabled = true,
   Foreman_proxy::ListenOn $listen_on = 'https',
   Stdlib::Absolutepath $path = "${::foreman_proxy::etc}/foreman-proxy/settings.d/${title}.yml",
   String $owner = 'root',
   String $group = $::foreman_proxy::user,
-  String $mode = '0640',
+  Stdlib::Filemode $mode = '0640',
   String $template_path = "foreman_proxy/${title}.yml.erb",
   Optional[String] $feature = undef,
 ) {
@@ -49,7 +52,7 @@ define foreman_proxy::settings_file (
         default => false,
       }
 
-      if $feature {
+      if $feature and $ensure != 'absent' {
         foreman_proxy::feature { $feature: }
       }
     } else {
@@ -57,9 +60,15 @@ define foreman_proxy::settings_file (
     }
   }
 
+  if $ensure == 'absent' {
+    $content = undef
+  } else {
+    $content = template($template_path)
+  }
+
   file {$path:
-    ensure  => file,
-    content => template($template_path),
+    ensure  => $ensure,
+    content => $content,
     owner   => $owner,
     group   => $group,
     mode    => $mode,
