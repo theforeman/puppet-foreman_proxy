@@ -8,4 +8,5 @@ class foreman_proxy::plugin::ansible::params {
   $stdout_callback = 'yaml'
   $roles_path = ['/etc/ansible/roles', '/usr/share/ansible/roles']
   $ssh_args = '-o ProxyCommand=none'
+  $manage_runner_repo = true
 }
