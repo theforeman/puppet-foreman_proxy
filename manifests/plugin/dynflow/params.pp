@@ -11,7 +11,7 @@ class foreman_proxy::plugin::dynflow::params {
   $tls_disabled_versions = undef
   $open_file_limit       = 1000000
   $external_core         = $facts['osfamily'] ? {
-    'RedHat' => true,
-    default  => undef
+    /RedHat|Debian/ => true,
+    default         => undef
   }
 }
