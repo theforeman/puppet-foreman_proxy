@@ -6,4 +6,5 @@ class foreman_proxy::plugin::ansible::params {
   $working_dir = '/tmp'
   $host_key_checking = false
   $stdout_callback = 'yaml'
+  $roles_path = ['/etc/ansible/roles', '/usr/share/ansible/roles']
 }
