@@ -23,7 +23,6 @@
 # $stdout_callback:: Ansible's stdout_callback setting
 #
 # $roles_path:: Paths where we look for ansible roles.
-
 #
 class foreman_proxy::plugin::ansible (
   Boolean $enabled = $::foreman_proxy::plugin::ansible::params::enabled,
