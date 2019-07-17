@@ -30,21 +30,26 @@ class foreman_proxy::proxydns(
   # so for alias and vlan interfaces we have to modify the name accordingly
   $interface_fact_name = regsubst($interface, '[.:]', '_')
   $ip = fact("ipaddress_${interface_fact_name}")
+  $ip6 = fact("ipaddress6_${interface_fact_name}")
 
-  assert_type(Stdlib::Compat::Ipv4, $ip) |$expected, $actual| {
-    fail("Could not get a valid IP address from fact ipaddress_${interface_fact_name}: '${ip}' (${actual})")
+  unless $ip or $ip6 {
+    fail("Could not get a valid IP address from fact ipaddress_${interface_fact_name} ('${ip}') or ipaddress6_${interface_fact_name} ('${ip6}')")
   }
 
   if $reverse_zone {
     $reverse = $reverse_zone
   } else {
-    $netmask = fact("netmask_${interface_fact_name}")
-    assert_type(Stdlib::Compat::Ipv4, $netmask) |$expected, $actual| {
-      fail("Could not get a valid netmask from fact netmask_${interface_fact_name}: '${netmask}' (${actual})")
-    }
-    $reverse = foreman_proxy::get_network_in_addr($ip, $netmask)
-    assert_type(String[1], $reverse) |$expected, $actual| {
-      fail("Could not determine reverse for ${ip}/${netmask}")
+    if $ip {
+      $netmask = fact("netmask_${interface_fact_name}")
+      unless $netmask =~ Stdlib::IP::Address::V4::Nosubnet {
+        fail("Could not get a valid netmask from fact netmask_${interface_fact_name}: '${netmask}'")
+      }
+      $reverse = foreman_proxy::get_network_in_addr($ip, $netmask)
+      unless $reverse =~ String[1] {
+        fail("Could not determine reverse for ${ip}/${netmask}")
+      }
+    } else {
+      $reverse = undef
     }
   }
 
@@ -52,10 +57,13 @@ class foreman_proxy::proxydns(
     soa     => $soa,
     reverse => false,
     soaip   => $ip,
+    soaipv6 => $ip6,
   }
 
-  dns::zone { $reverse:
-    soa     => $soa,
-    reverse => true,
+  if $reverse {
+    dns::zone { $reverse:
+      soa     => $soa,
+      reverse => true,
+    }
   }
 }

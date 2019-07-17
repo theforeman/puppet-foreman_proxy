@@ -150,12 +150,12 @@ describe 'foreman_proxy::proxydns' do
         context 'with invalid interface' do
           let(:params) { super().merge(interface: 'invalid') }
 
-          it { should compile.and_raise_error(/Could not get a valid IP address from fact ipaddress_invalid: '' \(Undef\)/) }
+          it { should compile.and_raise_error(/Could not get a valid IP address from fact ipaddress_invalid/) }
 
           context 'missing netmask fact' do
             let(:facts) { facts.merge(ipaddress_invalid: '192.0.2.1') }
 
-            it { should compile.and_raise_error(/Could not get a valid netmask from fact netmask_invalid: '' \(Undef\)/) }
+            it { should compile.and_raise_error(/Could not get a valid netmask from fact netmask_invalid/) }
           end
         end
       end
