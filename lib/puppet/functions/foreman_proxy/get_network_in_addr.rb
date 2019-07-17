@@ -4,8 +4,8 @@ require 'ipaddr'
 
 Puppet::Functions.create_function(:'foreman_proxy::get_network_in_addr') do
   dispatch :get_network_in_addr do
-    required_param 'Stdlib::Compat::Ipv4', :address
-    required_param 'Stdlib::Compat::Ipv4', :netmask
+    required_param 'Stdlib::IP::Address::V4::Nosubnet', :address
+    required_param 'Stdlib::IP::Address::V4::Nosubnet', :netmask
   end
 
   def get_network_in_addr(address_string, netmask_string)
