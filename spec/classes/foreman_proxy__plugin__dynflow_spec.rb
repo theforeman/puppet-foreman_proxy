@@ -27,12 +27,16 @@ describe 'foreman_proxy::plugin::dynflow' do
         it { should contain_foreman_proxy__plugin('dynflow') }
 
         it 'should generate correct dynflow.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dynflow.yml", [
+          lines = [
             '---',
             ':enabled: https',
             ':database: ',
             ':core_url: https://foo.example.com:8008',
-          ])
+          ]
+          lines << ':external_core: true' if has_core
+          verify_exact_contents(catalogue,
+                                "#{etc_dir}/foreman-proxy/settings.d/dynflow.yml",
+                                lines)
         end
 
         if has_core
@@ -78,6 +82,7 @@ describe 'foreman_proxy::plugin::dynflow' do
           :ssl_disabled_ciphers  => ['NULL-MD5', 'NULL-SHA'],
           :tls_disabled_versions => ['1.1'],
           :open_file_limit       => 8000,
+          :external_core         => false,
         } end
 
         it { should compile.with_all_deps }
@@ -108,6 +113,16 @@ describe 'foreman_proxy::plugin::dynflow' do
               ':ssl_private_key: /var/lib/puppet/ssl/private_keys/foo.example.com.pem',
               ':ssl_disabled_ciphers: ["NULL-MD5", "NULL-SHA"]',
               ':tls_disabled_versions: ["1.1"]',
+            ])
+          end
+
+          it 'should generate correct dynflow.yml' do
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dynflow.yml", [
+              '---',
+              ':enabled: https',
+              ':database: /var/lib/foreman-proxy/dynflow/dynflow.sqlite',
+              ':core_url: https://foo.example.com:8008',
+              ':external_core: false',
             ])
           end
         else
