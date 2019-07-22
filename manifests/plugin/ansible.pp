@@ -24,6 +24,8 @@
 #
 # $roles_path:: Paths where we look for ansible roles.
 #
+# $ssh_args::          The ssh_args parameter in ansible.cfg under [ssh_connection]
+#
 class foreman_proxy::plugin::ansible (
   Boolean $enabled = $::foreman_proxy::plugin::ansible::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::ansible::params::listen_on,
@@ -32,6 +34,7 @@ class foreman_proxy::plugin::ansible (
   Boolean $host_key_checking = $::foreman_proxy::plugin::ansible::params::host_key_checking,
   String $stdout_callback = $::foreman_proxy::plugin::ansible::params::stdout_callback,
   Array[Stdlib::Absolutepath] $roles_path = $::foreman_proxy::plugin::ansible::params::roles_path,
+  String $ssh_args = $::foreman_proxy::plugin::ansible::params::ssh_args,
 ) inherits foreman_proxy::plugin::ansible::params {
   $foreman_url = $::foreman_proxy::foreman_base_url
   $foreman_ssl_cert = pick($::foreman_proxy::foreman_ssl_cert, $::foreman_proxy::ssl_cert)
