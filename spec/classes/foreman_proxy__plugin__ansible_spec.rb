@@ -34,6 +34,8 @@ describe 'foreman_proxy::plugin::ansible' do
             'ssl_cert = /var/lib/puppet/ssl/certs/foo.example.com.pem',
             'verify_certs = /var/lib/puppet/ssl/certs/ca.pem',
             'roles_path = /etc/ansible/roles:/usr/share/ansible/roles',
+            '[ssh_connection]',
+            'ssh_args = -o ProxyCommand=none',
           ])
         end
       end
@@ -75,6 +77,8 @@ describe 'foreman_proxy::plugin::ansible' do
             'ssl_cert = /var/lib/puppet/ssl/certs/foo.example.com.pem',
             'verify_certs = /var/lib/puppet/ssl/certs/ca.pem',
             'roles_path = /etc/ansible/roles:/usr/share/ansible/roles',
+            '[ssh_connection]',
+            'ssh_args = -o ProxyCommand=none',
           ])
         end
       end
