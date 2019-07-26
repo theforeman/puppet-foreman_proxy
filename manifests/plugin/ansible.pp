@@ -26,6 +26,8 @@
 #
 # $ssh_args::          The ssh_args parameter in ansible.cfg under [ssh_connection]
 #
+# $install_runner:: If true, installs ansible-runner package to support running ansible by ansible-runner
+#
 # $manage_runner_repo:: If true, adds upstream repositories to install ansible-runner package from
 #
 class foreman_proxy::plugin::ansible (
@@ -37,6 +39,7 @@ class foreman_proxy::plugin::ansible (
   String $stdout_callback = $::foreman_proxy::plugin::ansible::params::stdout_callback,
   Array[Stdlib::Absolutepath] $roles_path = $::foreman_proxy::plugin::ansible::params::roles_path,
   String $ssh_args = $::foreman_proxy::plugin::ansible::params::ssh_args,
+  Boolean $install_runner = $::foreman_proxy::plugin::ansible::params::install_runner,
   Boolean $manage_runner_repo = $::foreman_proxy::plugin::ansible::params::manage_runner_repo,
 ) inherits foreman_proxy::plugin::ansible::params {
   $foreman_url = $::foreman_proxy::foreman_base_url
@@ -57,7 +60,9 @@ class foreman_proxy::plugin::ansible (
   }
 
   include ::foreman_proxy::plugin::dynflow
-  include ::foreman_proxy::plugin::ansible::runner
+  if $install_runner {
+    include ::foreman_proxy::plugin::ansible::runner
+  }
 
   foreman_proxy::plugin { 'ansible':
   }

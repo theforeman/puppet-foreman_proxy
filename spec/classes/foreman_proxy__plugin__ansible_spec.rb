@@ -8,11 +8,11 @@ describe 'foreman_proxy::plugin::ansible' do
         on_supported_os[os]
       end
 
-      describe 'with default settings' do
-        let :pre_condition do
-          "include foreman_proxy"
-        end
+      let :pre_condition do
+        "include foreman_proxy"
+      end
 
+      describe 'with default settings' do
         it { should contain_foreman_proxy__plugin('dynflow') }
 
         case os
@@ -29,7 +29,7 @@ describe 'foreman_proxy::plugin::ansible' do
         when 'redhat-7-x86_64'
           it 'should include ansible-runner upstream repo' do
             should contain_yumrepo('ansible-runner')
-                   .with_baseurl("https://releases.ansible.com/ansible-runner/rpm/epel-7-x86_64/")
+                   .with_baseurl("https://releases.ansible.com/ansible-runner/rpm/epel-7-$basearch/")
                    .with_gpgcheck(true)
                    .with_gpgkey('https://releases.ansible.com/keys/RPM-GPG-KEY-ansible-release.pub')
                    .with_enabled('1')
@@ -64,10 +64,6 @@ describe 'foreman_proxy::plugin::ansible' do
       end
 
       describe 'with override parameters' do
-        let :pre_condition do
-          "include foreman_proxy"
-        end
-
         let :params do
           {
             enabled: true,
@@ -113,6 +109,23 @@ describe 'foreman_proxy::plugin::ansible' do
             'ssh_args = -o ProxyCommand=none',
           ])
         end
+      end
+
+      describe 'with disabled ansible-runner install' do
+        let :params do
+          { install_runner: false }
+        end
+
+        it { should_not contain_class('foreman_proxy::plugin::ansible::runner') }
+
+        case os
+        when 'debian-9-x86_64'
+          it { should_not contain_apt__source('ansible-runner') }
+        when 'redhat-7-x86_64'
+          it { should_not contain_yumrepo('ansible-runner') }
+        end
+
+        it { should_not contain_package('ansible-runner') }
       end
     end
   end
