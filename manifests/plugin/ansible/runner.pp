@@ -28,7 +28,7 @@ class foreman_proxy::plugin::ansible::runner(
       'RedHat': {
         yumrepo { 'ansible-runner':
           descr    => 'Ansible runner',
-          baseurl  => "https://releases.ansible.com/ansible-runner/rpm/epel-${facts['os']['release']['major']}-\$basearch}/",
+          baseurl  => "https://releases.ansible.com/ansible-runner/rpm/epel-${facts['os']['release']['major']}-\$basearch/",
           gpgcheck => true,
           gpgkey   => 'https://releases.ansible.com/keys/RPM-GPG-KEY-ansible-release.pub',
           enabled  => '1',
