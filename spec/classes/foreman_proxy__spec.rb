@@ -8,6 +8,7 @@ describe 'foreman_proxy' do
 
       case facts[:osfamily]
       when 'FreeBSD', 'DragonFly'
+        dns_group = 'bind'
         etc_dir = '/usr/local/etc'
         puppet_etc_dir = "#{etc_dir}/puppet"
         home_dir = '/usr/local/share/foreman-proxy'
@@ -16,6 +17,7 @@ describe 'foreman_proxy' do
         usr_dir = '/usr/local'
         ssl_dir = '/var/puppet/ssl'
       when 'Archlinux'
+        dns_group = 'named'
         etc_dir = '/etc'
         puppet_etc_dir = "#{etc_dir}/puppetlabs/puppet"
         home_dir = '/usr/share/foreman-proxy'
@@ -24,6 +26,7 @@ describe 'foreman_proxy' do
         usr_dir = '/usr'
         ssl_dir = "#{puppet_etc_dir}/ssl"
       else
+        dns_group = facts[:osfamily] == 'RedHat' ? 'named' : 'bind'
         etc_dir = '/etc'
         puppet_etc_dir = "#{etc_dir}/puppet"
         home_dir = '/usr/share/foreman-proxy'
@@ -32,8 +35,6 @@ describe 'foreman_proxy' do
         usr_dir = '/usr'
         ssl_dir = '/var/lib/puppet/ssl'
       end
-
-      dns_group = facts[:osfamily] == 'RedHat' ? 'named' : 'bind'
 
       puppetca_command = "#{usr_dir}/bin/puppet cert *"
       puppetrun_command = "#{usr_dir}/bin/puppet kick *"
