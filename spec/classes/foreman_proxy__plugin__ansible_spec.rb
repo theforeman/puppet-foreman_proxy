@@ -8,12 +8,35 @@ describe 'foreman_proxy::plugin::ansible' do
         on_supported_os[os]
       end
 
+      let :pre_condition do
+        "include foreman_proxy"
+      end
+
       describe 'with default settings' do
-        let :pre_condition do
-          "include foreman_proxy"
+        it { should contain_foreman_proxy__plugin('dynflow') }
+
+        case os
+        when 'debian-9-x86_64'
+          it 'should include ansible-runner upstream repo' do
+            should contain_apt__source('ansible-runner')
+              .with_location('https://releases.ansible.com/ansible-runner/deb')
+              .with_repos('main')
+              .with_key(
+                'id' => 'AC48AC71DA695CA15F2D39C4B84E339C442667A9',
+                'source' => 'https://releases.ansible.com/keys/RPM-GPG-KEY-ansible-release.pub'
+              )
+          end
+        when 'redhat-7-x86_64'
+          it 'should include ansible-runner upstream repo' do
+            should contain_yumrepo('ansible-runner')
+                   .with_baseurl("https://releases.ansible.com/ansible-runner/rpm/epel-7-$basearch/")
+                   .with_gpgcheck(true)
+                   .with_gpgkey('https://releases.ansible.com/keys/RPM-GPG-KEY-ansible-release.pub')
+                   .with_enabled('1')
+          end
         end
 
-        it { should contain_foreman_proxy__plugin('dynflow') }
+        it { should contain_package('ansible-runner').with_ensure('installed') }
 
         it 'should configure ansible.yml' do
           should contain_file('/etc/foreman-proxy/settings.d/ansible.yml').
@@ -41,21 +64,26 @@ describe 'foreman_proxy::plugin::ansible' do
       end
 
       describe 'with override parameters' do
-        let :pre_condition do
-          "include foreman_proxy"
-        end
-
         let :params do
           {
-            :enabled           => true,
-            :ansible_dir       => '/etc/ansible-test',
-            :working_dir       => '/tmp/ansible',
-            :host_key_checking => true,
-            :stdout_callback   => 'debug',
+            enabled: true,
+            ansible_dir: '/etc/ansible-test',
+            working_dir: '/tmp/ansible',
+            host_key_checking: true,
+            stdout_callback: 'debug',
+            manage_runner_repo: false,
           }
         end
 
         it { should contain_foreman_proxy__plugin('dynflow') }
+
+        case os
+        when 'debian-9-x86_64'
+          it { should_not contain_apt__source('ansible-runner') }
+        when 'redhat-7-x86_64'
+          it { should_not contain_yumrepo('ansible-runner') }
+        end
+        it { should contain_package('ansible-runner').with_ensure('installed') }
 
         it 'should configure ansible.yml' do
           should contain_file('/etc/foreman-proxy/settings.d/ansible.yml').
@@ -81,6 +109,23 @@ describe 'foreman_proxy::plugin::ansible' do
             'ssh_args = -o ProxyCommand=none',
           ])
         end
+      end
+
+      describe 'with disabled ansible-runner install' do
+        let :params do
+          { install_runner: false }
+        end
+
+        it { should_not contain_class('foreman_proxy::plugin::ansible::runner') }
+
+        case os
+        when 'debian-9-x86_64'
+          it { should_not contain_apt__source('ansible-runner') }
+        when 'redhat-7-x86_64'
+          it { should_not contain_yumrepo('ansible-runner') }
+        end
+
+        it { should_not contain_package('ansible-runner') }
       end
     end
   end
