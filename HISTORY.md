@@ -1,3 +1,42 @@
+## [12.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/12.0.0) (2019-07-30)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/11.1.0...12.0.0)
+
+Version 12.0.0 drops support for the Puppet 3 plugins in Foreman Proxy. This follows Foreman 1.23 but in practice this would have been nearly impossible to deploy with this module since it dropped support for running under Puppet 3 a long time ago.
+
+It also changes the installation the Ansible plugin. It no longer installs python-requests but relies on packaging to do so. Doing this in packaging avoids the need for platform specific knowledge such as Python 2 or Python 3.
+
+Lastly it installs ansible-runner by default when using the Ansible plugin. This is optional in Foreman 1.23 but the authors are looking to make this default in 1.24. Note that this installs an external repository since it's not present in EPEL nor Debian. The repository also includes a major new version of python2-psutil (5.x) compared to EPEL7 (2.x). There's an option to disable the repository management or the installation altogether.
+
+**Breaking changes:**
+
+- Fixes [\#27264](https://projects.theforeman.org/issues/27264) - Install ansible-runner package [\#515](https://github.com/theforeman/puppet-foreman_proxy/pull/515) ([ezr-ondrej](https://github.com/ezr-ondrej))
+- Fixes [\#27053](https://projects.theforeman.org/issues/27053) - Drop Puppet 3 support from the proxy [\#514](https://github.com/theforeman/puppet-foreman_proxy/pull/514) ([ekohl](https://github.com/ekohl))
+- Move python-requests to packaging for ansible [\#508](https://github.com/theforeman/puppet-foreman_proxy/pull/508) ([ehelms](https://github.com/ehelms))
+
+**Implemented enhancements:**
+
+- Fixes [\#27196](https://projects.theforeman.org/issues/27196) - Add roles\_path to ansible.cfg [\#518](https://github.com/theforeman/puppet-foreman_proxy/pull/518) ([xprazak2](https://github.com/xprazak2))
+- Add support for external Dynflow core  [\#512](https://github.com/theforeman/puppet-foreman_proxy/pull/512) ([adamruzicka](https://github.com/adamruzicka))
+
+**Fixed bugs:**
+
+- Fixes [\#25481](https://projects.theforeman.org/issues/25481) - Set ProxyCommand=none for Ansible [\#511](https://github.com/theforeman/puppet-foreman_proxy/pull/511) ([ekohl](https://github.com/ekohl))
+
+## [11.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/11.1.0) (2019-06-13)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/11.0.0...11.1.0)
+
+**Implemented enhancements:**
+
+- Allow for non tfm- packages on Fedora and RHEL8 [\#510](https://github.com/theforeman/puppet-foreman_proxy/pull/510) ([ehelms](https://github.com/ehelms))
+- Fixes [\#26839](https://projects.theforeman.org/issues/26839) - add dns\_view option to plugin::dns::infoblox [\#507](https://github.com/theforeman/puppet-foreman_proxy/pull/507) ([lzap](https://github.com/lzap))
+
+**Merged pull requests:**
+
+- allow newer extlib version [\#509](https://github.com/theforeman/puppet-foreman_proxy/pull/509) ([mmoll](https://github.com/mmoll))
+- Allow `puppetlabs/stdlib` 6.x [\#506](https://github.com/theforeman/puppet-foreman_proxy/pull/506) ([alexjfisher](https://github.com/alexjfisher))
+
 ## [11.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/11.0.0) (2019-04-17)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/10.1.0...11.0.0)
