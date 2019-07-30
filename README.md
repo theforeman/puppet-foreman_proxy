@@ -74,6 +74,24 @@ It will manage the user, (by default `foreman_ssh`), install/update the ssh
 keys and manage the sudo rules (using [saz/sudo](https://forge.puppet.com/saz/sudo)
 if available in your environment).
 
+### Ansible integration
+
+The Foreman Proxy Ansible plugin installs the optional package for
+[ansible-runner](https://github.com/ansible/ansible-runner) by default.
+Additional repositories are enabled since this isn't present in the
+repositories we depend on (base OS and EPEL). There is a parameter to disable
+this behavior in which case the user is expected to ensure an `ansible-runner`
+package can be installed. There is also an option to fully disable installing.
+The plugin authors consider ansible-runner the preferred way to run so
+disabling is discouraged.
+
+```puppet
+class { 'foreman_proxy::plugin::ansible':
+  install_runner     => false, # defaults to true
+  manage_runner_repo => false, # defaults to true, redundant when install_runner is false
+}
+```
+
 ## Contributing
 
 * Fork the project
