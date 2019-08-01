@@ -231,6 +231,7 @@ describe 'foreman_proxy' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
             '---',
             ':enabled: https',
+            ":puppet_version: #{Puppet.version}",
           ])
         end
 
