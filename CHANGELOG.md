@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/12.0.1) (2019-08-01)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/12.0.0...12.0.1)
+
+**Fixed bugs:**
+
+- Re-add :puppet\_version setting to puppet.yml [\#528](https://github.com/theforeman/puppet-foreman_proxy/pull/528) ([antaflos](https://github.com/antaflos))
+
 ## [12.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/12.0.0) (2019-07-30)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/11.1.0...12.0.0)
