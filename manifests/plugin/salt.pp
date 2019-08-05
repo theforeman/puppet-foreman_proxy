@@ -18,6 +18,8 @@
 #
 # $api_password::    Salt API password
 #
+# $saltfile::        Path to Saltfile
+#
 # === Advanced parameters:
 #
 # $enabled::         Enables/disables the salt plugin
@@ -37,6 +39,7 @@ class foreman_proxy::plugin::salt (
   String $api_auth = $::foreman_proxy::plugin::salt::params::api_auth,
   String $api_username = $::foreman_proxy::plugin::salt::params::api_username,
   String $api_password = $::foreman_proxy::plugin::salt::params::api_password,
+  Optional[String] $saltfile = $::foreman_proxy::plugin::salt::params::saltfile,
 ) inherits foreman_proxy::plugin::salt::params {
   foreman_proxy::plugin { 'salt':
   }
