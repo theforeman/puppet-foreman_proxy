@@ -12,9 +12,12 @@ class foreman_proxy::install {
     ensure => $foreman_proxy::version,
   }
 
-  if $foreman_proxy::log == 'JOURNALD' {
+  if $foreman_proxy::log == 'JOURNAL' {
     package { 'foreman-proxy-journald':
       ensure => installed,
+    }
+    if $foreman_proxy::repo {
+      Foreman::Repos['foreman_proxy'] -> Package['foreman-proxy-journald']
     }
   }
 

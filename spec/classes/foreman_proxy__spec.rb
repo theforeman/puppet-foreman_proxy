@@ -1131,6 +1131,12 @@ describe 'foreman_proxy' do
         end
       end
 
+      context 'with journald' do
+        let(:params) { super().merge(log: 'JOURNAL') }
+        it { is_expected.to contain_package('foreman-proxy-journald') }
+        it { is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.yml").with_content(%r{^:log_file: JOURNAL$}) }
+      end
+
       context 'with dhcp enabled' do
         case facts[:osfamily]
         when 'FreeBSD', 'DragonFly'
