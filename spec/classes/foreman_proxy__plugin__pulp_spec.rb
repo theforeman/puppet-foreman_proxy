@@ -63,7 +63,6 @@ describe 'foreman_proxy::plugin::pulp' do
                               ":pulp_url: https://#{facts[:fqdn]}/pulp",
                               ':pulp_dir: /var/lib/pulp',
                               ':pulp_content_dir: /var/lib/pulp/content',
-                              ':puppet_content_dir: /etc/puppetlabs/code/environments',
                               ':mirror: false'
                             ])
     end
