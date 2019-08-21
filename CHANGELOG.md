@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.1.1](https://github.com/theforeman/puppet-foreman_proxy/tree/11.1.1) (2019-08-21)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/11.0.0...11.1.1)
+
+**Implemented enhancements:**
+
+- Fixes [\#27196](https://projects.theforeman.org/issues/27196) - Add roles\_path to ansible.cfg [\#518](https://github.com/theforeman/puppet-foreman_proxy/pull/518) ([xprazak2](https://github.com/xprazak2))
+
+**Fixed bugs:**
+
+- Fixes [\#27552](https://projects.theforeman.org/issues/27552) - Fix journald logging [\#531](https://github.com/theforeman/puppet-foreman_proxy/pull/531) ([ekohl](https://github.com/ekohl))
+- Fixes [\#25481](https://projects.theforeman.org/issues/25481) - Set ProxyCommand=none for Ansible [\#511](https://github.com/theforeman/puppet-foreman_proxy/pull/511) ([ekohl](https://github.com/ekohl))
+
 ## [11.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/11.1.0) (2019-06-13)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/11.0.0...11.1.0)
