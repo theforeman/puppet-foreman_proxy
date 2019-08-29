@@ -8,3 +8,9 @@
 :api_auth: <%= scope.lookupvar('::foreman_proxy::plugin::salt::api_auth') %>
 :api_username: <%= scope.lookupvar('::foreman_proxy::plugin::salt::api_username') %>
 :api_password: <%= scope.lookupvar('::foreman_proxy::plugin::salt::api_password') %>
+<% saltfile = scope.lookupvar('::foreman_proxy::plugin::salt::saltfile') %>
+<% if [nil, :undefined, :undef].include?(saltfile) %>
+# :saltfile: '/etc/foreman-proxy/settings.d/salt.saltfile'
+<% else %>
+:saltfile: <%= saltfile %>
+<% end %>

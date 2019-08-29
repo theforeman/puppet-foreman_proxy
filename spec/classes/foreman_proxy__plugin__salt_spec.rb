@@ -36,6 +36,7 @@ describe 'foreman_proxy::plugin::salt' do
       :api_auth      => 'ldap',
       :api_username  => 'saltapi',
       :api_password  => 'letmein',
+      :saltfile      => '/etc/salt/Saltfile',
     } end
 
     it 'should change salt.yml parameters' do
@@ -46,7 +47,8 @@ describe 'foreman_proxy::plugin::salt' do
         with_content(/:api_url: http:\/\/foreman.example.com/).
         with_content(/:api_auth: ldap/).
         with_content(/:api_username: saltapi/).
-        with_content(/:api_password: letmein/)
+        with_content(/:api_password: letmein/).
+        with_content(/:saltfile: \/etc\/salt\/Saltfile/)
     end
   end
 
