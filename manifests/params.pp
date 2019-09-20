@@ -278,7 +278,7 @@ class foreman_proxy::params {
   $dhcp_key_secret = undef
   $dhcp_omapi_port = 7911
   $dhcp_node_type = 'standalone'
-  $dhcp_failover_address = $::ipaddress
+  $dhcp_failover_address = fact('ipaddress')
   $dhcp_peer_address = undef
   $dhcp_failover_port = 519
   $dhcp_max_response_delay = 30

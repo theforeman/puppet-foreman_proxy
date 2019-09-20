@@ -141,6 +141,12 @@ describe 'foreman_proxy' do
           end
         end
 
+        context 'without IPv4' do
+          let(:facts) { super().reject { |fact| fact == :ipaddress } }
+
+          it { is_expected.to compile.with_all_deps }
+        end
+
         context 'without IPv6' do
           let(:facts) { super().reject { |fact| fact == :ipaddress6 } }
 
