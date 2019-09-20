@@ -131,7 +131,6 @@ describe 'foreman_proxy::plugin::pulp' do
                               ':pulp_url: https://pulp.example.com',
                               ':pulp_dir: /tmp/pulp',
                               ':pulp_content_dir: /tmp/content',
-                              ':puppet_content_dir: /tmp/puppet',
                               ':mirror: true'
                             ])
     end
