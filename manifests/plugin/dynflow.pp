@@ -54,14 +54,7 @@ class foreman_proxy::plugin::dynflow (
 
   if $facts['osfamily'] == 'RedHat' {
 
-    if versioncmp($facts['operatingsystemmajrelease'], '8') >= 0 {
-      $scl_prefix = '' # lint:ignore:empty_string_assignment
-    } else {
-      $scl_prefix = 'tfm-'
-    }
-
     foreman_proxy::plugin { 'dynflow_core':
-      package => "${scl_prefix}${::foreman_proxy::plugin_prefix}dynflow_core",
     }
     ~> file { '/etc/smart_proxy_dynflow_core/settings.yml':
       ensure  => file,
