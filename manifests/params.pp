@@ -5,7 +5,11 @@ class foreman_proxy::params {
 
   case $::osfamily {
     'RedHat': {
-      $plugin_prefix = 'rubygem-smart_proxy_'
+      if versioncmp($facts['os']['release']['major'], '7') <= 0 {
+        $plugin_prefix = 'tfm-rubygem-smart_proxy_'
+      } else {
+        $plugin_prefix = 'rubygem-smart_proxy_'
+      }
 
       $dir   = '/usr/share/foreman-proxy'
       $etc   = '/etc'
@@ -119,11 +123,7 @@ class foreman_proxy::params {
   $plugin_version          = 'installed'
 
   # Enable listening on http
-  if $::osfamily == 'RedHat' and versioncmp($::operatingsystemmajrelease, '7') <= 0 and fact('ipaddress6') {
-    $bind_host = ['::']
-  } else {
-    $bind_host = ['*']
-  }
+  $bind_host = ['*']
   $http      = false
   $http_port = 8000
 

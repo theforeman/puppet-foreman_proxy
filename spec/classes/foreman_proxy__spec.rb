@@ -102,36 +102,6 @@ describe 'foreman_proxy' do
           should contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_puppetrun.yml").with_ensure('absent')
         end
 
-        context 'with IPv6' do
-          let(:facts) { super().merge(ipaddress6: '2001:db8::1') }
-
-          it 'should generate correct settings.yml' do
-            if facts[:osfamily] == 'RedHat' and facts[:operatingsystemmajrelease].to_i <= 7
-              bind_host = '::'
-            else
-              bind_host = '*'
-            end
-
-            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-              '---',
-              ":settings_directory: #{etc_dir}/foreman-proxy/settings.d",
-              ":ssl_ca_file: #{ssl_dir}/certs/ca.pem",
-              ":ssl_certificate: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
-              ":ssl_private_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
-              ':trusted_hosts:',
-              "  - #{facts[:fqdn]}",
-              ":foreman_url: https://#{facts[:fqdn]}",
-              ':daemon: true',
-              ":bind_host: '#{bind_host}'",
-              ':https_port: 8443',
-              ':log_file: /var/log/foreman-proxy/proxy.log',
-              ':log_level: INFO',
-              ':log_buffer: 2000',
-              ':log_buffer_errors: 1000',
-            ])
-          end
-        end
-
         context 'without IPv4' do
           let(:facts) { super().reject { |fact| fact == :ipaddress } }
 
