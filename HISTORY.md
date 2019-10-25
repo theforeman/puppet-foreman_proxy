@@ -1,3 +1,29 @@
+## [12.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/12.1.0) (2019-10-25)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/12.0.1...12.1.0)
+
+**Implemented enhancements:**
+
+- Allow configuring saltfile path for salt [\#530](https://github.com/theforeman/puppet-foreman_proxy/pull/530) ([adamruzicka](https://github.com/adamruzicka))
+
+**Fixed bugs:**
+
+- Gracefully handle a missing IP address [\#537](https://github.com/theforeman/puppet-foreman_proxy/pull/537) ([ekohl](https://github.com/ekohl))
+- Fixes [\#27552](https://projects.theforeman.org/issues/27552) - Fix journald logging [\#531](https://github.com/theforeman/puppet-foreman_proxy/pull/531) ([ekohl](https://github.com/ekohl))
+
+**Merged pull requests:**
+
+- Allow theforeman/foreman 13.x [\#539](https://github.com/theforeman/puppet-foreman_proxy/pull/539) ([ekohl](https://github.com/ekohl))
+- Remove unused setting from pulp3 [\#532](https://github.com/theforeman/puppet-foreman_proxy/pull/532) ([ekohl](https://github.com/ekohl))
+
+## [12.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/12.0.1) (2019-08-01)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/12.0.0...12.0.1)
+
+**Fixed bugs:**
+
+- Re-add :puppet\_version setting to puppet.yml [\#528](https://github.com/theforeman/puppet-foreman_proxy/pull/528) ([antaflos](https://github.com/antaflos))
+
 ## [12.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/12.0.0) (2019-07-30)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/11.1.0...12.0.0)
