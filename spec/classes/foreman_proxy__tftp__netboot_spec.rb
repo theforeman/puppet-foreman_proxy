@@ -19,6 +19,7 @@ describe 'foreman_proxy::tftp::netboot' do
       end
 
       if facts[:osfamily] == 'Debian'
+        it { is_expected.to contain_class('foreman_proxy::tftp::netboot').with_grub_installation_type('debian') }
         it { should contain_package('grub-common').with_ensure('present') }
         it { should contain_package('grub-efi-amd64-bin').with_ensure('present') }
 
@@ -32,10 +33,11 @@ describe 'foreman_proxy::tftp::netboot' do
         it { should contain_file("/tftproot/grub2/shim.efi").with_ensure('link') }
       elsif facts[:osfamily] == 'RedHat'
         if facts[:operatingsystemmajrelease].to_i > 6
-          it { should contain_package('grub2-efi').with_ensure('present') }
-          it { should contain_package('grub2-efi-modules').with_ensure('present') }
+          it { is_expected.to contain_class('foreman_proxy::tftp::netboot').with_grub_installation_type('redhat') }
+          it { should contain_package('grub2-efi-x64').with_ensure('present') }
+          it { should contain_package('grub2-efi-x64-modules').with_ensure('present') }
           it { should contain_package('grub2-tools').with_ensure('present') }
-          it { should contain_package('shim').with_ensure('present') }
+          it { should contain_package('shim-x64').with_ensure('present') }
 
           case facts[:operatingsystem]
           when /^(RedHat|Scientific|OracleLinux)$/
@@ -49,11 +51,13 @@ describe 'foreman_proxy::tftp::netboot' do
             it { should contain_file("/tftproot/grub2/shim.efi").with_source('/boot/efi/EFI/centos/shim.efi').with_owner('root').with_mode('0644') }
           end
         else
+          it { is_expected.to contain_class('foreman_proxy::tftp::netboot').with_grub_installation_type('redhat_old') }
           it { should contain_package('grub').with_ensure('present') }
           it { should contain_file('/var/lib/tftpboot/grub/grubx64.efi').with_ensure('file').with_owner('root').with_mode('0644').with_source('/boot/efi/EFI/redhat/grub.efi') }
           it { should contain_file('/var/lib/tftpboot/grub/shim.efi').with_ensure('link') }
         end
       else
+        it { is_expected.to contain_class('foreman_proxy::tftp::netboot').with_grub_installation_type('none') }
         # TODO: check if a warning is emited
       end
     end
