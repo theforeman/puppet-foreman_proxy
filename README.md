@@ -46,7 +46,6 @@ To use the PowerDNS plugin, the following variables need to be set on the main
 ```puppet
 class{'::foreman_proxy':
   dns          => true,
-  dns_managed  => false,
   dns_provider => 'powerdns',
 }
 ```

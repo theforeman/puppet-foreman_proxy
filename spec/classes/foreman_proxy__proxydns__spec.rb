@@ -15,23 +15,10 @@ describe 'foreman_proxy::proxydns' do
           'include ::foreman_proxy'
         end
 
-        nsupdate_pkg = case facts[:osfamily]
-                       when 'RedHat'
-                         'bind-utils'
-                       when 'FreeBSD', 'DragonFly'
-                         'bind910'
-                       when 'Archlinux'
-                         'bind-tools'
-                       else
-                         'dnsutils'
-                       end
-
         it { should compile.with_all_deps }
 
         it 'should inherit the correct parameters' do
           should contain_class('foreman_proxy::proxydns')
-            .with_nsupdate(nsupdate_pkg)
-            .with_ensure_packages_version('present')
             .with_forwarders([])
             .with_interface('eth0')
             .with_forward_zone('example.com')
@@ -43,12 +30,10 @@ describe 'foreman_proxy::proxydns' do
       context 'with explicit parameters' do
         let :base_params do
           {
-            :nsupdate                => 'nsupdate',
-            :ensure_packages_version => 'installed',
-            :forwarders              => [],
-            :interface               => 'eth0',
-            :forward_zone            => 'example.com',
-            :reverse_zone            => false,
+            forwarders: [],
+            interface: 'eth0',
+            forward_zone: 'example.com',
+            reverse_zone: false,
           }
         end
 
@@ -68,10 +53,6 @@ describe 'foreman_proxy::proxydns' do
 
           it 'should include the dns class' do
             should contain_class('dns').with_forwarders([])
-          end
-
-          it 'should install nsupdate' do
-            should contain_package('nsupdate').with_ensure('present')
           end
 
           it 'should include the forward zone' do

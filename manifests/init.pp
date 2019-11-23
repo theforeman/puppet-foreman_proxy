@@ -200,7 +200,7 @@
 #
 # $dns_listen_on::              DNS proxy to listen on https, http, or both
 #
-# $dns_managed::                The DNS daemon is managed by this module
+# $dns_managed::                The DNS daemon is managed by this module. Only supported for the nsupdate and nsupdate_gss DNS providers.
 #
 # $dns_provider::               DNS provider
 #

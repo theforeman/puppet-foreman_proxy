@@ -656,18 +656,93 @@ describe 'foreman_proxy' do
         end
       end
 
-      context 'with dns => true and dns_managed => true' do
+      context 'with dns => true' do
+        let(:params) { super().merge(dns: true) }
         let(:facts) { super().merge(ipaddress_eth0: '192.168.0.2', netmask_eth0: '255.255.255.0') }
-        let(:params) do
-          super().merge(
-            dns: true,
-            dns_managed: false,
-          )
+
+        let(:nsupdate_pkg) do
+          case facts[:osfamily]
+          when 'RedHat'
+            'bind-utils'
+          when 'FreeBSD', 'DragonFly'
+            'bind910'
+          when 'Archlinux'
+            'bind-tools'
+          else
+            'dnsutils'
+          end
         end
 
-        it { should compile.with_all_deps }
-        it { should_not contain_class('foreman_proxy::proxydns') }
-        it { should_not contain_class('dns') }
+        it { is_expected.to contain_class('foreman_proxy').with_dns_provider('nsupdate').with_dns_managed(true) }
+
+        context 'dns_provider => nsupdate' do
+          let(:params) { super().merge(dns_provider: 'nsupdate') }
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_package(nsupdate_pkg).with_ensure('present') }
+          it { is_expected.to contain_class('foreman_proxy::proxydns') }
+
+          context 'dns_managed => false' do
+            let(:params) { super().merge(dns_managed: false) }
+
+            it { is_expected.to compile.with_all_deps }
+            it { is_expected.to contain_package(nsupdate_pkg).with_ensure('present') }
+            it { is_expected.not_to contain_class('foreman_proxy::proxydns') }
+          end
+        end
+
+        context 'when dns_provider => nsupdate_gss' do
+          let(:params) { super().merge(dns_provider: 'nsupdate_gss') }
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_package(nsupdate_pkg).with_ensure('present') }
+          it { is_expected.to contain_class('foreman_proxy::proxydns') }
+
+          it 'should contain dns_tsig_* settings' do
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns.yml", [
+              '---',
+              ':enabled: https',
+              ':use_provider: dns_nsupdate_gss',
+              ':dns_ttl: 86400',
+            ])
+
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate_gss.yml", [
+              '---',
+              ':dns_server: 127.0.0.1',
+              ":dns_tsig_keytab: #{etc_dir}/foreman-proxy/dns.keytab",
+              ":dns_tsig_principal: foremanproxy/#{facts[:fqdn]}@EXAMPLE.COM",
+            ])
+          end
+        end
+
+        context 'when dns_provider => libvirt' do
+          let(:params) do
+            super().merge(
+              dns_provider: 'libvirt',
+              libvirt_network: 'mynet',
+              libvirt_connection: 'http://myvirt',
+            )
+          end
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.not_to contain_package(nsupdate_pkg) }
+          it { is_expected.not_to contain_class('foreman_proxy::proxydns') }
+
+          it 'should generate the correct configs' do
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns.yml", [
+              '---',
+              ':enabled: https',
+              ':use_provider: dns_libvirt',
+              ':dns_ttl: 86400',
+            ])
+
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_libvirt.yml", [
+              '---',
+              ':network: mynet',
+              ':url: http://myvirt',
+            ])
+          end
+        end
       end
 
       context 'empty keyfile' do
@@ -677,51 +752,6 @@ describe 'foreman_proxy' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate.yml", [
             '---',
             ':dns_server: 127.0.0.1',
-          ])
-        end
-      end
-
-      context 'when dns_provider => libvirt' do
-        let(:params) do
-          super().merge(
-            dns_provider: 'libvirt',
-            libvirt_network: 'mynet',
-            libvirt_connection: 'http://myvirt',
-          )
-        end
-
-        it 'should set the provider correctly' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns.yml", [
-            '---',
-            ':enabled: false',
-            ':use_provider: dns_libvirt',
-            ':dns_ttl: 86400',
-          ])
-
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_libvirt.yml", [
-            '---',
-            ':network: mynet',
-            ':url: http://myvirt',
-          ])
-        end
-      end
-
-      context 'when dns_provider => nsupdate_gss' do
-        let(:params) { super().merge(dns_provider: 'nsupdate_gss') }
-
-        it 'should contain dns_tsig_* settings' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns.yml", [
-            '---',
-            ':enabled: false',
-            ':use_provider: dns_nsupdate_gss',
-            ':dns_ttl: 86400',
-          ])
-
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dns_nsupdate_gss.yml", [
-            '---',
-            ':dns_server: 127.0.0.1',
-            ":dns_tsig_keytab: #{etc_dir}/foreman-proxy/dns.keytab",
-            ":dns_tsig_principal: foremanproxy/#{facts[:fqdn]}@EXAMPLE.COM",
           ])
         end
       end

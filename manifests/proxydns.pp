@@ -1,9 +1,5 @@
 # Configure the DNS component
 #
-# $nsupdate:: The nsupdate package name
-#
-# $ensure_packages_version:: The ensure to use on the nsupdate package
-#
 # $forwarders:: The DNS forwarders to use
 #
 # $interface:: The interface to use for fact determination. By default the IP
@@ -18,8 +14,6 @@
 #        DNS entry.
 #
 class foreman_proxy::proxydns(
-  $nsupdate = $::foreman_proxy::nsupdate,
-  $ensure_packages_version = $::foreman_proxy::ensure_packages_version,
   $forwarders = $::foreman_proxy::dns_forwarders,
   $interface = $::foreman_proxy::dns_interface,
   $forward_zone = $::foreman_proxy::dns_zone,
@@ -31,8 +25,6 @@ class foreman_proxy::proxydns(
   }
 
   $user_group = $dns::group
-
-  ensure_packages([$nsupdate], { ensure => $ensure_packages_version, })
 
   # puppet fact names are converted from ethX.X and ethX:X to ethX_X
   # so for alias and vlan interfaces we have to modify the name accordingly
