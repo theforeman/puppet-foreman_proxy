@@ -19,7 +19,7 @@ class foreman_proxy::config {
   # Somehow, calling these DHCP and DNS seems to conflict. So, they get a prefix...
   if $foreman_proxy::dhcp and $foreman_proxy::dhcp_managed { include ::foreman_proxy::proxydhcp }
 
-  if $foreman_proxy::dns and $foreman_proxy::dns_managed {
+  if $foreman_proxy::dns and $foreman_proxy::dns_provider in ['nsupdate', 'nsupdate_gss'] and $foreman_proxy::dns_managed {
     include ::foreman_proxy::proxydns
     $dns_groups = [$foreman_proxy::proxydns::user_group]
   } else {
