@@ -6,11 +6,6 @@
   env:
     global:
       - PARALLEL_TEST_PROCESSORS=8
-Gemfile:
-  extra:
-    # 0.5.1+ has ArchLinux without the legacy facts which we rely on
-    - gem: facterdb
-      version: '0.5.0'
 Rakefile:
   param_docs_pattern:
     - manifests/init.pp

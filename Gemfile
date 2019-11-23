@@ -36,6 +36,5 @@ gem 'beaker-puppet_install_helper', {"groups"=>["system_tests"]}
 gem 'metadata-json-lint'
 gem 'kafo_module_lint'
 gem 'parallel_tests'
-gem 'facterdb', '0.5.0'
 
 # vim:ft=ruby
