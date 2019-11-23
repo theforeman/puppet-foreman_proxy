@@ -148,7 +148,7 @@ describe 'foreman_proxy' do
         end
 
         context 'without IPv6' do
-          let(:facts) { super().reject { |fact| fact == :ipaddress6 } }
+          let(:facts) { super().merge(ipaddress6: nil) }
 
           it 'should generate correct settings.yml' do
             bind_host = '*'
