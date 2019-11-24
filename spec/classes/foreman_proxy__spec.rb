@@ -932,24 +932,22 @@ describe 'foreman_proxy' do
       context 'with dhcp enabled' do
         case facts[:osfamily]
         when 'FreeBSD', 'DragonFly'
-          dhcp_interface = 'lo0'
           dhcp_leases    = '/var/db/dhcpd/dhcpd.leases'
           dhcp_config    = "#{etc_dir}/dhcpd.conf"
         when 'Debian'
-          dhcp_interface = 'lo'
           dhcp_leases    = '/var/lib/dhcp/dhcpd.leases'
           dhcp_config    = "#{etc_dir}/dhcp/dhcpd.conf"
         when 'Archlinux'
-          dhcp_interface = 'lo'
           dhcp_leases    = '/var/lib/dhcp/dhcpd.leases'
           dhcp_config    = "#{etc_dir}/dhcpd.conf"
         else
-          dhcp_interface = 'lo'
           dhcp_leases    = '/var/lib/dhcpd/dhcpd.leases'
           dhcp_config    = "#{etc_dir}/dhcp/dhcpd.conf"
         end
 
-        let(:params) { super().merge(dhcp: true, dhcp_interface: dhcp_interface) }
+        let(:facts) { super().merge(ipaddress_dhcpif: '192.0.2.1', network_dhcpif: '192.0.2.0', netmask_dhcpif: '255.255.255.0') }
+
+        let(:params) { super().merge(dhcp: true, dhcp_interface: 'dhcpif') }
 
         it 'should generate correct dhcp.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
