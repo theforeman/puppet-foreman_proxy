@@ -26,6 +26,7 @@ describe 'foreman_proxy::plugin::dns::infoblox' do
           verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns_infoblox.yml', [
             '---',
             ':dns_server: "localhost"',
+            ':dns_timeout: 60',
             ':username: "admin"',
             ':password: "infoblox"',
             ':dns_view: "default"',

@@ -1,5 +1,6 @@
 ---
 :dns_server: "<%= scope.lookupvar('::foreman_proxy::plugin::dns::infoblox::dns_server') %>"
+:dns_timeout: <%= scope.lookupvar('::foreman_proxy::plugin::dns::infoblox::timeout') %>
 :username: "<%= scope.lookupvar('::foreman_proxy::plugin::dns::infoblox::username') %>"
 :password: "<%= scope.lookupvar('::foreman_proxy::plugin::dns::infoblox::password') %>"
 :dns_view: "<%= scope.lookupvar('::foreman_proxy::plugin::dns::infoblox::dns_view') %>"
