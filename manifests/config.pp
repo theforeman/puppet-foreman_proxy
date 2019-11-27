@@ -17,7 +17,9 @@ class foreman_proxy::config {
   if $foreman_proxy::tftp and $foreman_proxy::tftp_managed { include ::foreman_proxy::tftp }
 
   # Somehow, calling these DHCP and DNS seems to conflict. So, they get a prefix...
-  if $foreman_proxy::dhcp and $foreman_proxy::dhcp_managed { include ::foreman_proxy::proxydhcp }
+  if $foreman_proxy::dhcp and $foreman_proxy::dhcp_provider in ['isc', 'remote_isc'] and $foreman_proxy::dhcp_managed {
+    include ::foreman_proxy::proxydhcp
+  }
 
   if $foreman_proxy::dns and $foreman_proxy::dns_provider in ['nsupdate', 'nsupdate_gss'] and $foreman_proxy::dns_managed {
     include ::foreman_proxy::proxydns
