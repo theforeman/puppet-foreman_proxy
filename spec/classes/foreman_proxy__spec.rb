@@ -756,31 +756,6 @@ describe 'foreman_proxy' do
         end
       end
 
-      context 'when dhcp_provider => libvirt' do
-        let(:params) do
-          super().merge(
-            dhcp_provider: 'libvirt',
-            libvirt_network: 'mynet',
-            libvirt_connection: 'http://myvirt',
-          )
-        end
-
-        it 'should set the provider correctly' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
-            '---',
-            ':enabled: false',
-            ':use_provider: dhcp_libvirt',
-            ':server: 127.0.0.1',
-          ])
-
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp_libvirt.yml", [
-            '---',
-            ':network: mynet',
-            ':url: http://myvirt',
-          ])
-        end
-      end
-
       context 'with puppetrun_provider set to mcollective and user overridden' do
         let(:params) do
           super().merge(
@@ -960,41 +935,91 @@ describe 'foreman_proxy' do
       end
 
       context 'with dhcp enabled' do
-        case facts[:osfamily]
-        when 'FreeBSD', 'DragonFly'
-          dhcp_leases    = '/var/db/dhcpd/dhcpd.leases'
-          dhcp_config    = "#{etc_dir}/dhcpd.conf"
-        when 'Debian'
-          dhcp_leases    = '/var/lib/dhcp/dhcpd.leases'
-          dhcp_config    = "#{etc_dir}/dhcp/dhcpd.conf"
-        when 'Archlinux'
-          dhcp_leases    = '/var/lib/dhcp/dhcpd.leases'
-          dhcp_config    = "#{etc_dir}/dhcpd.conf"
-        else
-          dhcp_leases    = '/var/lib/dhcpd/dhcpd.leases'
-          dhcp_config    = "#{etc_dir}/dhcp/dhcpd.conf"
+        let(:params) { super().merge(dhcp: true) }
+
+        context 'dhcp_provider => isc' do
+          let(:params) { super().merge(dhcp_interface: 'dhcpif') }
+          let(:facts) { super().merge(ipaddress_dhcpif: '192.0.2.1', network_dhcpif: '192.0.2.0', netmask_dhcpif: '255.255.255.0') }
+
+          case facts[:osfamily]
+          when 'FreeBSD', 'DragonFly'
+            dhcp_leases    = '/var/db/dhcpd/dhcpd.leases'
+            dhcp_config    = "#{etc_dir}/dhcpd.conf"
+          when 'Debian'
+            dhcp_leases    = '/var/lib/dhcp/dhcpd.leases'
+            dhcp_config    = "#{etc_dir}/dhcp/dhcpd.conf"
+          when 'Archlinux'
+            dhcp_leases    = '/var/lib/dhcp/dhcpd.leases'
+            dhcp_config    = "#{etc_dir}/dhcpd.conf"
+          else
+            dhcp_leases    = '/var/lib/dhcpd/dhcpd.leases'
+            dhcp_config    = "#{etc_dir}/dhcp/dhcpd.conf"
+          end
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_class('foreman_proxy::proxydhcp') }
+
+          it 'should generate correct dhcp.yml' do
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
+              '---',
+              ':enabled: https',
+              ':use_provider: dhcp_isc',
+              ':server: 127.0.0.1',
+            ])
+          end
+
+          it 'should generate correct dhcp_isc.yml' do
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml", [
+              '---',
+              ":config: #{dhcp_config}",
+              ":leases: #{dhcp_leases}",
+              ':omapi_port: 7911',
+            ])
+          end
+
+          context 'dhcp_managed => false' do
+            let(:params) { super().merge(dhcp_managed: false) }
+
+            it { is_expected.to compile.with_all_deps }
+            it { is_expected.not_to contain_class('foreman_proxy::proxydhcp') }
+
+            it 'should generate correct dhcp_isc.yml' do
+              verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml", [
+                '---',
+                ":config: #{dhcp_config}",
+                ":leases: #{dhcp_leases}",
+                ':omapi_port: 7911',
+              ])
+            end
+          end
         end
 
-        let(:facts) { super().merge(ipaddress_dhcpif: '192.0.2.1', network_dhcpif: '192.0.2.0', netmask_dhcpif: '255.255.255.0') }
+        context 'when dhcp_provider => libvirt' do
+          let(:params) do
+            super().merge(
+              dhcp_provider: 'libvirt',
+              libvirt_network: 'mynet',
+              libvirt_connection: 'http://myvirt',
+            )
+          end
 
-        let(:params) { super().merge(dhcp: true, dhcp_interface: 'dhcpif') }
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.not_to contain_class('foreman_proxy::proxydhcp') }
 
-        it 'should generate correct dhcp.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
-            '---',
-            ':enabled: https',
-            ':use_provider: dhcp_isc',
-            ':server: 127.0.0.1',
-          ])
-        end
+          it 'should set the provider correctly' do
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp.yml", [
+              '---',
+              ':enabled: https',
+              ':use_provider: dhcp_libvirt',
+              ':server: 127.0.0.1',
+            ])
 
-        it 'should generate correct dhcp_isc.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml", [
-            '---',
-            ":config: #{dhcp_config}",
-            ":leases: #{dhcp_leases}",
-            ':omapi_port: 7911',
-          ])
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp_libvirt.yml", [
+              '---',
+              ':network: mynet',
+              ':url: http://myvirt',
+            ])
+          end
         end
       end
 
