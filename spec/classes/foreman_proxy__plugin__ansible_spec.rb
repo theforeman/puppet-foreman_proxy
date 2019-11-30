@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'foreman_proxy::plugin::ansible' do
 
-  ['redhat-7-x86_64', 'debian-9-x86_64'].each do |os|
+  ['redhat-7-x86_64', 'debian-10-x86_64'].each do |os|
     context "on #{os}" do
       let :facts do
         on_supported_os[os]
@@ -16,7 +16,7 @@ describe 'foreman_proxy::plugin::ansible' do
         it { should contain_foreman_proxy__plugin('dynflow') }
 
         case os
-        when 'debian-9-x86_64'
+        when 'debian-10-x86_64'
           it 'should include ansible-runner upstream repo' do
             should contain_apt__source('ansible-runner')
               .with_location('https://releases.ansible.com/ansible-runner/deb')
@@ -78,7 +78,7 @@ describe 'foreman_proxy::plugin::ansible' do
         it { should contain_foreman_proxy__plugin('dynflow') }
 
         case os
-        when 'debian-9-x86_64'
+        when 'debian-10-x86_64'
           it { should_not contain_apt__source('ansible-runner') }
         when 'redhat-7-x86_64'
           it { should_not contain_yumrepo('ansible-runner') }
@@ -119,7 +119,7 @@ describe 'foreman_proxy::plugin::ansible' do
         it { should_not contain_class('foreman_proxy::plugin::ansible::runner') }
 
         case os
-        when 'debian-9-x86_64'
+        when 'debian-10-x86_64'
           it { should_not contain_apt__source('ansible-runner') }
         when 'redhat-7-x86_64'
           it { should_not contain_yumrepo('ansible-runner') }
