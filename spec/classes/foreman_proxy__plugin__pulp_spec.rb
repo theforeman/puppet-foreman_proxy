@@ -60,9 +60,8 @@ describe 'foreman_proxy::plugin::pulp' do
       verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/pulp3.yml", [
                               '---',
                               ':enabled: false',
-                              ":pulp_url: https://#{facts[:fqdn]}/pulp",
-                              ':pulp_dir: /var/lib/pulp',
-                              ':pulp_content_dir: /var/lib/pulp/content',
+                              ":pulp_url: https://#{facts[:fqdn]}/pulp/api",
+                              ":content_app_url: https://#{facts[:fqdn]}/pulp/content",
                               ':mirror: false'
                             ])
     end
@@ -75,6 +74,8 @@ describe 'foreman_proxy::plugin::pulp' do
         pulpnode_enabled: true,
         pulp3_enabled: true,
         pulp3_mirror: true,
+        pulp3_api_url: 'https://pulp3.example.com/pulp/api',
+        pulp3_content_url: 'https://pulp3.example.com/pulp/content',
         pulp_url: 'https://pulp.example.com',
         pulp_dir: '/tmp/pulp',
         pulp_content_dir: '/tmp/content',
@@ -128,9 +129,8 @@ describe 'foreman_proxy::plugin::pulp' do
       verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/pulp3.yml", [
                               '---',
                               ':enabled: https',
-                              ':pulp_url: https://pulp.example.com',
-                              ':pulp_dir: /tmp/pulp',
-                              ':pulp_content_dir: /tmp/content',
+                              ':pulp_url: https://pulp3.example.com/pulp/api',
+                              ":content_app_url: https://pulp3.example.com/pulp/content",
                               ':mirror: true'
                             ])
     end
