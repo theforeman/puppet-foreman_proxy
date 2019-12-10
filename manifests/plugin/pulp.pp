@@ -23,7 +23,7 @@
 #
 # $pulp3_enabled::      enables/disables the pulp3 plugin
 #
-# $pulp3_mirror::       Whether this pulp3 plugin acts as a mirror or another pulp node. A pulp3 mirror is the pulp3 equivalent of a pulpnode.
+# $pulp3_master::       Whether this pulp3 plugin acts as a pulp node (master) or mirror. A pulp3 mirror is the pulp3 equivalent of a pulpnode.
 #
 # $puppet_content_dir:: directory for puppet content
 #
@@ -34,7 +34,7 @@ class foreman_proxy::plugin::pulp (
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::pulp::params::listen_on,
   Boolean $pulpnode_enabled = $::foreman_proxy::plugin::pulp::params::pulpnode_enabled,
   Boolean $pulp3_enabled = $::foreman_proxy::plugin::pulp::params::pulp3_enabled,
-  Boolean $pulp3_mirror = $::foreman_proxy::plugin::pulp::params::pulp3_mirror,
+  Boolean $pulp3_master = $::foreman_proxy::plugin::pulp::params::pulp3_master,
   Optional[String] $version = $::foreman_proxy::plugin::pulp::params::version,
   Optional[String] $group = $::foreman_proxy::plugin::pulp::params::group,
   Stdlib::HTTPUrl $pulp_url = $::foreman_proxy::plugin::pulp::params::pulp_url,
