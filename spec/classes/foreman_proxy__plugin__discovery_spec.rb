@@ -10,7 +10,7 @@ describe 'foreman_proxy::plugin::discovery' do
       end
 
       case facts[:operatingsystem]
-        when 'Debian', 'Archlinux'
+        when 'Debian'
           tftproot = '/srv/tftp'
         when 'FreeBSD'
           tftproot = '/tftpboot'

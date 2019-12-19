@@ -16,16 +16,6 @@ describe 'foreman_proxy::tftp' do
       it { is_expected.to contain_class('foreman_proxy::tftp::netboot') }
 
       case facts[:osfamily]
-      when 'Archlinux'
-        tftp_root = '/srv/tftp'
-        names = {
-          '/usr/lib/syslinux/bios/pxelinux.0'  => "#{tftp_root}/pxelinux.0",
-          '/usr/lib/syslinux/bios/memdisk'     => "#{tftp_root}/memdisk",
-          '/usr/lib/syslinux/bios/chain.c32'   => "#{tftp_root}/chain.c32",
-          '/usr/lib/syslinux/bios/ldlinux.c32' => "#{tftp_root}/ldlinux.c32",
-          '/usr/lib/syslinux/bios/libutil.c32' => "#{tftp_root}/libutil.c32",
-          '/usr/lib/syslinux/bios/menu.c32'    => "#{tftp_root}/menu.c32",
-        }
       when 'Debian'
         tftp_root = facts[:operatingsystem] == 'Ubuntu' ?  '/var/lib/tftpboot' : '/srv/tftp'
         names = {

@@ -90,41 +90,12 @@ class foreman_proxy::params {
         '/usr/local/share/syslinux/bios/com32/menu/menu.c32',
       ]
     }
-    'Archlinux': {
-      $plugin_prefix = 'ruby-smart-proxy-'
-
-      $dir   = '/usr/share/foreman-proxy'
-      $etc   = '/etc'
-      $shell = '/usr/bin/false'
-      $user  = 'foreman-proxy'
-
-      $puppet_bindir = '/usr/bin'
-      $puppetdir     = '/etc/puppetlabs/puppet'
-      $ssldir        = "${puppetdir}/ssl"
-
-      $dhcp_config = '/etc/dhcpd.conf'
-      $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
-      $dhcp_manage_acls = false
-
-      $keyfile  = '/etc/rndc.key'
-      $nsupdate = 'bind-tools'
-
-      $tftp_root = '/srv/tftp'
-      $tftp_syslinux_filenames = [
-        '/usr/lib/syslinux/bios/pxelinux.0',
-        '/usr/lib/syslinux/bios/memdisk',
-        '/usr/lib/syslinux/bios/chain.c32',
-        '/usr/lib/syslinux/bios/ldlinux.c32',
-        '/usr/lib/syslinux/bios/libutil.c32',
-        '/usr/lib/syslinux/bios/menu.c32',
-      ]
-    }
     default: {
       fail("${::hostname}: This module does not support osfamily ${::osfamily}")
     }
   }
 
-  if $::osfamily !~ /^(FreeBSD|DragonFly|Archlinux)$/ {
+  if $::osfamily !~ /^(FreeBSD|DragonFly)$/ {
     if $::rubysitedir =~ /\/opt\/puppetlabs\/puppet/ {
       $puppet_bindir = '/opt/puppetlabs/bin'
       $puppetdir     = '/etc/puppetlabs/puppet'

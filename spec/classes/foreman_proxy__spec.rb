@@ -16,15 +16,6 @@ describe 'foreman_proxy' do
         shell = '/usr/bin/false'
         usr_dir = '/usr/local'
         ssl_dir = '/var/puppet/ssl'
-      when 'Archlinux'
-        dns_group = 'named'
-        etc_dir = '/etc'
-        puppet_etc_dir = "#{etc_dir}/puppetlabs/puppet"
-        home_dir = '/usr/share/foreman-proxy'
-        proxy_user_name = 'foreman-proxy'
-        shell = '/usr/bin/false'
-        usr_dir = '/usr'
-        ssl_dir = "#{puppet_etc_dir}/ssl"
       else
         dns_group = facts[:osfamily] == 'RedHat' ? 'named' : 'bind'
         etc_dir = '/etc'
@@ -337,8 +328,6 @@ describe 'foreman_proxy' do
                       end
                     when 'FreeBSD', 'DragonFly'
                       '/tftpboot'
-                    when 'Archlinux'
-                      '/srv/tftp'
                     else
                       '/var/lib/tftpboot'
                     end
@@ -666,8 +655,6 @@ describe 'foreman_proxy' do
             'bind-utils'
           when 'FreeBSD', 'DragonFly'
             'bind910'
-          when 'Archlinux'
-            'bind-tools'
           else
             'dnsutils'
           end
@@ -948,9 +935,6 @@ describe 'foreman_proxy' do
           when 'Debian'
             dhcp_leases    = '/var/lib/dhcp/dhcpd.leases'
             dhcp_config    = "#{etc_dir}/dhcp/dhcpd.conf"
-          when 'Archlinux'
-            dhcp_leases    = '/var/lib/dhcp/dhcpd.leases'
-            dhcp_config    = "#{etc_dir}/dhcpd.conf"
           else
             dhcp_leases    = '/var/lib/dhcpd/dhcpd.leases'
             dhcp_config    = "#{etc_dir}/dhcp/dhcpd.conf"
