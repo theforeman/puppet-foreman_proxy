@@ -3,22 +3,9 @@ require 'spec_helper'
 describe 'foreman_proxy::plugin::dynflow' do
   on_os_under_test.each do |os, facts|
     context "on #{os}" do
-      let :facts do
-        facts
-      end
-
-      let :pre_condition do
-        "include foreman_proxy"
-      end
-
-      let :etc_dir do
-        case facts[:osfamily]
-        when 'FreeBSD', 'DragonFly'
-          '/usr/local/etc'
-        else
-          '/etc'
-        end
-      end
+      let(:facts) { facts }
+      let(:pre_condition) { 'include foreman_proxy' }
+      let(:etc_dir) { ['FreeBSD', 'DragonFly'].include?(facts[:osfamily]) ? '/usr/local/etc' : '/etc' }
 
       has_core = facts[:osfamily] == 'RedHat' && facts[:operatingsystem] != 'Fedora'
 
