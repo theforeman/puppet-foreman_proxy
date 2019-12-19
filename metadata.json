@@ -96,9 +96,6 @@
       ]
     },
     {
-      "operatingsystem": "Archlinux"
-    },
-    {
       "operatingsystem": "DragonFly",
       "operatingsystemrelease": [
         "4"

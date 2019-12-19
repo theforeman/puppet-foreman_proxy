@@ -12,12 +12,7 @@ describe 'foreman_proxy::plugin' do
       end
 
       context 'no parameters' do
-        package = case facts[:osfamily]
-                  when 'Debian', 'Archlinux'
-                    'ruby-smart-proxy-myplugin'
-                  else
-                    'rubygem-smart_proxy_myplugin'
-                  end
+        package = facts[:osfamily] == 'Debian' ? 'ruby-smart-proxy-myplugin' : 'rubygem-smart_proxy_myplugin'
 
         it 'should install the correct package' do
           should contain_package(package).with_ensure('installed')
