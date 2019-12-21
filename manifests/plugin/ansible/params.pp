@@ -7,7 +7,7 @@ class foreman_proxy::plugin::ansible::params {
   $host_key_checking = false
   $stdout_callback = 'yaml'
   $roles_path = ['/etc/ansible/roles', '/usr/share/ansible/roles']
-  $ssh_args = '-o ProxyCommand=none'
+  $ssh_args = '-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s'
   $install_runner = true
   $manage_runner_repo = true
 }
