@@ -4,10 +4,7 @@ describe 'foreman_proxy::plugin::discovery' do
   on_os_under_test.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
-
-      let :pre_condition do
-        "include foreman_proxy"
-      end
+      let(:pre_condition) { 'include foreman_proxy' }
 
       case facts[:operatingsystem]
         when 'Debian'
