@@ -31,17 +31,17 @@
 # $manage_runner_repo:: If true, adds upstream repositories to install ansible-runner package from
 #
 class foreman_proxy::plugin::ansible (
-  Boolean $enabled = true,
-  Foreman_proxy::ListenOn $listen_on = 'https',
-  Stdlib::Absolutepath $ansible_dir = '/usr/share/foreman-proxy',
-  Stdlib::Absolutepath $working_dir = '/tmp',
-  Boolean $host_key_checking = false,
-  String $stdout_callback = 'yaml',
-  Array[Stdlib::Absolutepath] $roles_path = ['/etc/ansible/roles', '/usr/share/ansible/roles'],
-  String $ssh_args = '-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s',
-  Boolean $install_runner = true,
-  Boolean $manage_runner_repo = true,
-) {
+  Boolean $enabled = $::foreman_proxy::plugin::ansible::params::enabled,
+  Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::ansible::params::listen_on,
+  Stdlib::Absolutepath $ansible_dir = $::foreman_proxy::plugin::ansible::params::ansible_dir,
+  Optional[Stdlib::Absolutepath] $working_dir = $::foreman_proxy::plugin::ansible::params::working_dir,
+  Boolean $host_key_checking = $::foreman_proxy::plugin::ansible::params::host_key_checking,
+  String $stdout_callback = $::foreman_proxy::plugin::ansible::params::stdout_callback,
+  Array[Stdlib::Absolutepath] $roles_path = $::foreman_proxy::plugin::ansible::params::roles_path,
+  String $ssh_args = $::foreman_proxy::plugin::ansible::params::ssh_args,
+  Boolean $install_runner = $::foreman_proxy::plugin::ansible::params::install_runner,
+  Boolean $manage_runner_repo = $::foreman_proxy::plugin::ansible::params::manage_runner_repo,
+) inherits foreman_proxy::plugin::ansible::params {
   $foreman_url = $::foreman_proxy::foreman_base_url
   $foreman_ssl_cert = pick($::foreman_proxy::foreman_ssl_cert, $::foreman_proxy::ssl_cert)
   $foreman_ssl_key = pick($::foreman_proxy::foreman_ssl_key, $::foreman_proxy::ssl_key)
