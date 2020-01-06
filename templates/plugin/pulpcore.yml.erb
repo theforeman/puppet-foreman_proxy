@@ -1,0 +1,5 @@
+---
+:enabled: <%= @module_enabled %>
+:pulp_url: <%= scope.lookupvar("foreman_proxy::plugin::pulp::pulpcore_api_url") %>
+:content_app_url: <%= scope.lookupvar("foreman_proxy::plugin::pulp::pulpcore_content_url") %>
+:mirror: <%= scope.lookupvar("foreman_proxy::plugin::pulp::pulpcore_mirror") %>

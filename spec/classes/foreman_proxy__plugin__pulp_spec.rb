@@ -45,13 +45,13 @@ describe 'foreman_proxy::plugin::pulp' do
                                 ])
         end
 
-        it 'should configure pulp3.yml' do
-          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/pulp3.yml")
+        it 'should configure pulpcore.yml' do
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/pulpcore.yml")
             .with_ensure('file')
             .with_owner('root')
             .with_group('foreman-proxy')
 
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/pulp3.yml", [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/pulpcore.yml", [
                                   '---',
                                   ':enabled: false',
                                   ":pulp_url: https://#{facts[:fqdn]}",
@@ -59,6 +59,11 @@ describe 'foreman_proxy::plugin::pulp' do
                                   ':mirror: false'
                                 ])
         end
+
+        it 'should remove pulp3.yml' do
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/pulp3.yml")
+            .with_ensure('absent')
+	end
       end
 
       describe 'with overrides' do
@@ -66,10 +71,10 @@ describe 'foreman_proxy::plugin::pulp' do
           {
             group: 'example',
             pulpnode_enabled: true,
-            pulp3_enabled: true,
-            pulp3_mirror: true,
-            pulp3_api_url: 'https://pulp3.example.com',
-            pulp3_content_url: 'https://pulp3.example.com/pulp/content',
+            pulpcore_enabled: true,
+            pulpcore_mirror: true,
+            pulpcore_api_url: 'https://pulpcore.example.com',
+            pulpcore_content_url: 'https://pulpcore.example.com/pulp/content',
             pulp_url: 'https://pulp.example.com',
             pulp_dir: '/tmp/pulp',
             pulp_content_dir: '/tmp/content',
@@ -114,17 +119,17 @@ describe 'foreman_proxy::plugin::pulp' do
                                 ])
         end
 
-        it 'should configure pulp3.yml' do
-          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/pulp3.yml")
+        it 'should configure pulpcore.yml' do
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/pulpcore.yml")
             .with_ensure('file')
             .with_owner('root')
             .with_group('example')
 
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/pulp3.yml", [
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/pulpcore.yml", [
                                   '---',
                                   ':enabled: https',
-                                  ':pulp_url: https://pulp3.example.com',
-                                  ":content_app_url: https://pulp3.example.com/pulp/content",
+                                  ':pulp_url: https://pulpcore.example.com',
+                                  ":content_app_url: https://pulpcore.example.com/pulp/content",
                                   ':mirror: true'
                                 ])
         end
