@@ -21,13 +21,13 @@
 #
 # $pulpnode_enabled::   enables/disables the pulpnode plugin
 #
-# $pulp3_enabled::      enables/disables the pulp3 plugin
+# $pulpcore_enabled::      enables/disables the pulpcore plugin
 #
-# $pulp3_mirror::       Whether this pulp3 plugin acts as a mirror or another pulp node. A pulp3 mirror is the pulp3 equivalent of a pulpnode.
+# $pulpcore_mirror::       Whether this pulpcore plugin acts as a mirror or another pulp node. A pulpcore mirror is the pulpcore equivalent of a pulpnode.
 #
-# $pulp3_api_url::      The URL to the Pulp 3 API
+# $pulpcore_api_url::      The URL to the Pulp 3 API
 #
-# $pulp3_content_url::  The URL to the Pulp 3 content
+# $pulpcore_content_url::  The URL to the Pulp 3 content
 #
 # $puppet_content_dir:: directory for puppet content
 #
@@ -37,10 +37,10 @@ class foreman_proxy::plugin::pulp (
   Boolean $enabled = $::foreman_proxy::plugin::pulp::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::pulp::params::listen_on,
   Boolean $pulpnode_enabled = $::foreman_proxy::plugin::pulp::params::pulpnode_enabled,
-  Boolean $pulp3_enabled = $::foreman_proxy::plugin::pulp::params::pulp3_enabled,
-  Stdlib::HTTPUrl $pulp3_api_url = $::foreman_proxy::plugin::pulp::params::pulp3_api_url,
-  Stdlib::HTTPUrl $pulp3_content_url = $::foreman_proxy::plugin::pulp::params::pulp3_content_url,
-  Boolean $pulp3_mirror = $::foreman_proxy::plugin::pulp::params::pulp3_mirror,
+  Boolean $pulpcore_enabled = $::foreman_proxy::plugin::pulp::params::pulpcore_enabled,
+  Stdlib::HTTPUrl $pulpcore_api_url = $::foreman_proxy::plugin::pulp::params::pulpcore_api_url,
+  Stdlib::HTTPUrl $pulpcore_content_url = $::foreman_proxy::plugin::pulp::params::pulpcore_content_url,
+  Boolean $pulpcore_mirror = $::foreman_proxy::plugin::pulp::params::pulpcore_mirror,
   Optional[String] $version = $::foreman_proxy::plugin::pulp::params::version,
   Optional[String] $group = $::foreman_proxy::plugin::pulp::params::group,
   Stdlib::HTTPUrl $pulp_url = $::foreman_proxy::plugin::pulp::params::pulp_url,
@@ -52,22 +52,27 @@ class foreman_proxy::plugin::pulp (
   foreman_proxy::plugin {'pulp':
     version => $version,
   }
-  -> foreman_proxy::settings_file { 'pulp':
-    template_path => 'foreman_proxy/plugin/pulp.yml.erb',
-    group         => $group,
-    enabled       => $enabled,
-    listen_on     => $listen_on,
-  }
-  -> foreman_proxy::settings_file { 'pulpnode':
-    template_path => 'foreman_proxy/plugin/pulpnode.yml.erb',
-    group         => $group,
-    enabled       => $pulpnode_enabled,
-    listen_on     => $listen_on,
-  }
-  -> foreman_proxy::settings_file { 'pulp3':
-    template_path => 'foreman_proxy/plugin/pulp3.yml.erb',
-    group         => $group,
-    enabled       => $pulp3_enabled,
-    listen_on     => $listen_on,
-  }
+  -> [
+    foreman_proxy::settings_file { 'pulp':
+      template_path => 'foreman_proxy/plugin/pulp.yml.erb',
+      group         => $group,
+      enabled       => $enabled,
+      listen_on     => $listen_on,
+    },
+    foreman_proxy::settings_file { 'pulpnode':
+      template_path => 'foreman_proxy/plugin/pulpnode.yml.erb',
+      group         => $group,
+      enabled       => $pulpnode_enabled,
+      listen_on     => $listen_on,
+    },
+    foreman_proxy::settings_file { 'pulpcore':
+      template_path => 'foreman_proxy/plugin/pulpcore.yml.erb',
+      group         => $group,
+      enabled       => $pulpcore_enabled,
+      listen_on     => $listen_on,
+    },
+    foreman_proxy::settings_file { 'pulp3': # file removed in rubygem-smart_proxy_pulp 2.0
+      ensure        => absent,
+    },
+  ]
 }
