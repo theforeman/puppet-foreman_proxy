@@ -5,7 +5,7 @@ class foreman_proxy::plugin::dynflow::params {
   # use in-memory sqlite by default for performance reasons
   $database_path         = undef
   $console_auth          = true
-  $core_listen           = '0.0.0.0'
+  $core_listen           = '*'
   $core_port             = 8008
   $ssl_disabled_ciphers  = undef
   $tls_disabled_versions = undef

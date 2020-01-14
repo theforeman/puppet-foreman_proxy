@@ -24,7 +24,7 @@
 <% end -%>
 
 # Listen on address
-:listen: <%= scope.lookupvar("foreman_proxy::plugin::dynflow::core_listen") %>
+:listen: "<%= scope.lookupvar("foreman_proxy::plugin::dynflow::core_listen") %>"
 
 # Listen on port
 :port: <%= scope.lookupvar("foreman_proxy::plugin::dynflow::core_port") %>
