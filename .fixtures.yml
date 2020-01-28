@@ -15,6 +15,7 @@ fixtures:
     foreman:  'https://github.com/theforeman/puppet-foreman'
     mysql:    'https://github.com/puppetlabs/puppetlabs-mysql'
     puppet:   'https://github.com/theforeman/puppet-puppet'
+    redis:    'https://github.com/voxpupuli/puppet-redis'
     stdlib:   'https://github.com/puppetlabs/puppetlabs-stdlib'
     sudo:     'https://github.com/saz/puppet-sudo'
     systemd:  'https://github.com/camptocamp/puppet-systemd'
