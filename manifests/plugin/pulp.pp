@@ -29,7 +29,7 @@
 #
 # $pulpcore_content_url::  The URL to the Pulp 3 content
 #
-# $puppet_content_dir:: directory for puppet content
+# $puppet_content_dir:: Directory for puppet content. Automatically determined if empty.
 #
 # $mongodb_dir::        directory for Mongo DB
 #
@@ -46,9 +46,11 @@ class foreman_proxy::plugin::pulp (
   Stdlib::HTTPUrl $pulp_url = $::foreman_proxy::plugin::pulp::params::pulp_url,
   Stdlib::Absolutepath $pulp_dir = $::foreman_proxy::plugin::pulp::params::pulp_dir,
   Stdlib::Absolutepath $pulp_content_dir = $::foreman_proxy::plugin::pulp::params::pulp_content_dir,
-  Stdlib::Absolutepath $puppet_content_dir = $::foreman_proxy::plugin::pulp::params::puppet_content_dir,
+  Optional[Stdlib::Absolutepath] $puppet_content_dir = $::foreman_proxy::plugin::pulp::params::puppet_content_dir,
   Stdlib::Absolutepath $mongodb_dir = $::foreman_proxy::plugin::pulp::params::mongodb_dir,
 ) inherits foreman_proxy::plugin::pulp::params {
+  $real_puppet_content_dir = pick($puppet_content_dir, lookup('puppet::server_envs_dir') |$key| { undef }, $facts['puppet_environmentpath'], "${foreman_proxy::puppetdir}/environments")
+
   foreman_proxy::plugin {'pulp':
     version => $version,
   }
