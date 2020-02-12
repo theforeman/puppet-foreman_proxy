@@ -4,7 +4,7 @@
   "author": "theforeman",
   "summary": "Foreman Smart Proxy configuration",
   "license": "GPL-3.0+",
-  "source": "git://github.com/theforeman/puppet-foreman_proxy",
+  "source": "https://github.com/theforeman/puppet-foreman_proxy",
   "project_page": "https://github.com/theforeman/puppet-foreman_proxy",
   "issues_url": "https://github.com/theforeman/puppet-foreman_proxy/issues",
   "description": "Module for configuring the Foreman Smart Proxy and other services",
