@@ -20,7 +20,7 @@
   "dependencies": [
     {
       "name": "theforeman/dns",
-      "version_requirement": ">= 1.3.0 < 7.0.0"
+      "version_requirement": ">= 1.3.0 < 8.0.0"
     },
     {
       "name": "theforeman/dhcp",
@@ -28,11 +28,11 @@
     },
     {
       "name": "theforeman/foreman",
-      "version_requirement": ">= 10.0.0 < 14.0.0"
+      "version_requirement": ">= 10.0.0 < 15.0.0"
     },
     {
       "name": "theforeman/puppet",
-      "version_requirement": ">= 10.0.0 < 13.0.0"
+      "version_requirement": ">= 10.0.0 < 14.0.0"
     },
     {
       "name": "theforeman/tftp",
