@@ -4,19 +4,14 @@ describe 'foreman_proxy::settings_file' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
-
       let(:title) { 'test' }
-
       let(:config_path) do
         File.join(
           ['FreeBSD', 'DragonFly'].include?(facts[:osfamily]) ? '/usr/local/etc' : '/etc',
           'foreman-proxy', 'settings.d', "#{title}.yml"
         )
       end
-
-      let :pre_condition do
-        'include foreman_proxy'
-      end
+      let(:pre_condition) { 'include foreman_proxy' }
 
       context 'defaults, module enabled' do
         it do
