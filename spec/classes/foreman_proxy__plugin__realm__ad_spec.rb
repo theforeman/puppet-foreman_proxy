@@ -12,7 +12,7 @@ describe 'foreman_proxy::plugin::realm::ad' do
           :domain_controller => 'dc.example.com'
         } end
 
-        it { should contain_foreman_proxy__plugin('realm_ad_plugin') }
+        it { should contain_foreman_proxy__plugin__provider('realm_ad').with_package(/^(tfm-)?ruby(gem)?-smart[_-]proxy[-_]realm[_-]ad[_-]plugin$/) }
         it 'realm_ad.yml should contain the correct configuration' do
           verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/realm_ad.yml', [
             '---',
