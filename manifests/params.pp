@@ -1,6 +1,6 @@
 # @summary The default parameters for the foreman proxy
 # @api private
-class foreman_proxy::params {
+class foreman_proxy::params inherits foreman_proxy::globals {
 
   $lower_fqdn = downcase($::fqdn)
 
@@ -12,10 +12,10 @@ class foreman_proxy::params {
         $plugin_prefix = 'rubygem-smart_proxy_'
       }
 
-      $dir   = '/usr/share/foreman-proxy'
+      $dir   = pick($foreman_proxy::globals::dir, '/usr/share/foreman-proxy')
       $etc   = '/etc'
       $shell = '/bin/false'
-      $user  = 'foreman-proxy'
+      $user  = pick($foreman_proxy::globals::user, 'foreman-proxy')
 
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcpd/dhcpd.leases'
@@ -36,10 +36,10 @@ class foreman_proxy::params {
     'Debian': {
       $plugin_prefix = 'ruby-smart-proxy-'
 
-      $dir   = '/usr/share/foreman-proxy'
+      $dir   = pick($foreman_proxy::globals::dir, '/usr/share/foreman-proxy')
       $etc   = '/etc'
       $shell = '/bin/false'
-      $user  = 'foreman-proxy'
+      $user  = pick($foreman_proxy::globals::user, 'foreman-proxy')
 
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
@@ -67,10 +67,10 @@ class foreman_proxy::params {
     /^(FreeBSD|DragonFly)$/: {
       $plugin_prefix = 'rubygem-smart_proxy_'
 
-      $dir   = '/usr/local/share/foreman-proxy'
+      $dir   = pick($foreman_proxy::globals::dir, '/usr/local/share/foreman-proxy')
       $etc   = '/usr/local/etc'
       $shell = '/usr/bin/false'
-      $user  = 'foreman_proxy'
+      $user  = pick($foreman_proxy::globals::user, 'foreman_proxy')
 
       $puppet_bindir = '/usr/local/bin'
       $puppetdir     = '/usr/local/etc/puppet'
@@ -112,6 +112,8 @@ class foreman_proxy::params {
     }
   }
 
+  $config_dir = "${etc}/foreman-proxy"
+
   $puppet_cmd = "${puppet_bindir}/puppet"
 
   $groups = []
@@ -121,7 +123,6 @@ class foreman_proxy::params {
   $gpgcheck                = true
   $version                 = 'present'
   $ensure_packages_version = 'present'
-  $plugin_version          = 'installed'
 
   # Enable listening on http
   $bind_host = ['*']
@@ -197,7 +198,7 @@ class foreman_proxy::params {
   $puppetssh_command   = "${puppet_cmd} agent --onetime --no-usecacheonfailure"
   $puppetssh_sudo      = false
   $puppetssh_user      = 'root'
-  $puppetssh_keyfile   = "${etc}/foreman-proxy/id_rsa"
+  $puppetssh_keyfile   = "${config_dir}/id_rsa"
   $puppetssh_wait      = false
   $puppet_user         = 'root'
   $salt_puppetrun_cmd  = 'puppet.run'
@@ -271,7 +272,7 @@ class foreman_proxy::params {
   # localhost can resolve to ipv6 which ruby doesn't handle well
   $dns_server             = '127.0.0.1'
   $dns_ttl                = 86400
-  $dns_tsig_keytab        = "${etc}/foreman-proxy/dns.keytab"
+  $dns_tsig_keytab        = "${config_dir}/dns.keytab"
   $dns_tsig_principal     = "foremanproxy/${::fqdn}@${dns_realm}"
 
   $dns_forwarders = []
@@ -297,7 +298,7 @@ class foreman_proxy::params {
   $realm              = false
   $realm_listen_on    = 'https'
   $realm_provider     = 'freeipa'
-  $realm_keytab       = "${etc}/foreman-proxy/freeipa.keytab"
+  $realm_keytab       = "${config_dir}/freeipa.keytab"
   $realm_principal    = 'realm-proxy@EXAMPLE.COM'
   $freeipa_config     = '/etc/ipa/default.conf'
   $freeipa_remove_dns = true

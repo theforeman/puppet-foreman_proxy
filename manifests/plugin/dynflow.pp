@@ -62,7 +62,7 @@ class foreman_proxy::plugin::dynflow (
     }
     ~> file { '/etc/smart_proxy_dynflow_core/settings.d':
       ensure => link,
-      target => '/etc/foreman-proxy/settings.d',
+      target => "${foreman_proxy::config_dir}/settings.d",
     }
     ~> systemd::service_limits { 'smart_proxy_dynflow_core.service':
       limits          => {

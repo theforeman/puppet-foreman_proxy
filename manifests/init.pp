@@ -7,8 +7,6 @@
 #
 # $ensure_packages_version::    control extra packages version, it's passed to ensure parameter of package resource
 #
-# $plugin_version::             foreman plugins version, it's passed to ensure parameter of plugins package resource
-#
 # $bind_host::                  Host to bind ports to, e.g. *, localhost, 0.0.0.0
 #
 # $http::                       Enable HTTP
@@ -18,10 +16,6 @@
 # $ssl::                        Enable SSL, ensure feature is added with "https://" protocol if true
 #
 # $ssl_port::                   HTTPS port to listen on (if ssl is enabled)
-#
-# $dir::                        Foreman proxy install directory
-#
-# $user::                       User under which foreman proxy will run
 #
 # $groups::                     Array of additional groups for the foreman proxy user
 #
@@ -314,12 +308,9 @@ class foreman_proxy (
   Boolean $gpgcheck = $::foreman_proxy::params::gpgcheck,
   String $version = $::foreman_proxy::params::version,
   Enum['latest', 'present', 'installed', 'absent'] $ensure_packages_version = $::foreman_proxy::params::ensure_packages_version,
-  Enum['latest', 'present', 'installed', 'absent'] $plugin_version = $::foreman_proxy::params::plugin_version,
   Variant[Array[String], String] $bind_host = $::foreman_proxy::params::bind_host,
   Integer[0, 65535] $http_port = $::foreman_proxy::params::http_port,
   Integer[0, 65535] $ssl_port = $::foreman_proxy::params::ssl_port,
-  Stdlib::Absolutepath $dir = $::foreman_proxy::params::dir,
-  String $user = $::foreman_proxy::params::user,
   Array[String] $groups = $::foreman_proxy::params::groups,
   Variant[Enum['STDOUT', 'SYSLOG', 'JOURNAL'], Stdlib::Absolutepath] $log = $::foreman_proxy::params::log,
   Enum['WARN', 'DEBUG', 'ERROR', 'FATAL', 'INFO', 'UNKNOWN'] $log_level = $::foreman_proxy::params::log_level,
@@ -474,5 +465,7 @@ class foreman_proxy (
   ~> Foreman_proxy::Plugin <| |>
   ~> Class['foreman_proxy::service']
   ~> Class['foreman_proxy::register']
+
+  Class['foreman_proxy::install'] -> Foreman_proxy::Settings_file <| |> ~> Class['foreman_proxy::service']
   # lint:endignore
 }
