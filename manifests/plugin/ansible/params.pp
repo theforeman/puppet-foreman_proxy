@@ -1,4 +1,5 @@
-# Ansible proxy default parameters
+# @summary Ansible proxy default parameters
+# @api private
 class foreman_proxy::plugin::ansible::params {
   $enabled     = true
   $listen_on   = 'https'

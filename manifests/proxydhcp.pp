@@ -1,4 +1,5 @@
-# Configure the DHCP component
+# @summary Configure the ISC DHCP service
+# @api private
 class foreman_proxy::proxydhcp {
   # puppet fact names are converted from ethX.X and ethX:X to ethX_X
   # so for alias and vlan interfaces we have to modify the name accordingly

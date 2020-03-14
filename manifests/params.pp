@@ -1,4 +1,5 @@
-# The default parameters for the foreman proxy
+# @summary The default parameters for the foreman proxy
+# @api private
 class foreman_proxy::params {
 
   $lower_fqdn = downcase($::fqdn)

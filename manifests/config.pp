@@ -1,4 +1,5 @@
-# Configure the foreman proxy
+# @summary Configure the foreman proxy
+# @api private
 class foreman_proxy::config {
 
   # Ensure SSL certs from the puppetmaster are available

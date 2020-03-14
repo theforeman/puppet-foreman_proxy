@@ -1,8 +1,18 @@
-# Get the in-addr.arpa notation for the given IP address and a netmask
-
 require 'ipaddr'
 
+# @summary Get the domain holding the reverse DNS for a given IP address and a
+#   netmask
+# @example Get 2.0.192.in-addr-arpa
+#   foreman_proxy::get_network_in_addr('192.0.2.0', '255.255.255.0')
+# @example Get 168.192.in-addr-arpa
+#   foreman_proxy::get_network_in_addr('192.168.1.0', '255.255.254.0')
 Puppet::Functions.create_function(:'foreman_proxy::get_network_in_addr') do
+  # @param address
+  #   The network address
+  # @param netmask
+  #   The netmask
+  # @return The domain that holds the reverse DNS records for the given address
+  #   with the netmask
   dispatch :get_network_in_addr do
     required_param 'Stdlib::IP::Address::V4::Nosubnet', :address
     required_param 'Stdlib::IP::Address::V4::Nosubnet', :netmask

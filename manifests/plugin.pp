@@ -1,4 +1,11 @@
-# Installs a smart proxy plugin package
+# @summary Install a smart proxy plugin package
+#
+# @param version
+#   The package to ensure. Can be a installed, absent or a specific version
+#
+# @param package
+#   The package to install. Underscores are replaced with dashes on Debian
+#
 define foreman_proxy::plugin(
   $version = $foreman_proxy::plugin_version,
   $package = "${foreman_proxy::plugin_prefix}${title}",

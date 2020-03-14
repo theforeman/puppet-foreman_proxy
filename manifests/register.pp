@@ -1,4 +1,5 @@
-# Register the foreman proxy
+# @summary Register the foreman proxy
+# @api private
 class foreman_proxy::register {
   if $foreman_proxy::register_in_foreman {
     foreman_smartproxy { $foreman_proxy::registered_name:
