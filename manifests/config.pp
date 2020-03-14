@@ -51,48 +51,27 @@ class foreman_proxy::config {
     module => false,
   }
 
-  foreman_proxy::settings_file { 'bmc':
-    enabled   => $::foreman_proxy::bmc,
-    feature   => 'BMC',
-    listen_on => $::foreman_proxy::bmc_listen_on,
-  }
-  foreman_proxy::settings_file { 'dhcp':
-    enabled   => $::foreman_proxy::dhcp,
-    feature   => 'DHCP',
-    listen_on => $::foreman_proxy::dhcp_listen_on,
-  }
-  foreman_proxy::settings_file { 'dhcp_isc':
+  contain foreman_proxy::module::bmc
+
+  contain foreman_proxy::module::dhcp
+  foreman_proxy::settings_file { ['dhcp_isc', 'dhcp_libvirt']:
     module => false,
   }
-  foreman_proxy::settings_file { 'dns':
-    enabled   => $::foreman_proxy::dns,
-    feature   => 'DNS',
-    listen_on => $::foreman_proxy::dns_listen_on,
-  }
-  foreman_proxy::settings_file { ['dns_nsupdate', 'dns_nsupdate_gss']:
+
+  contain foreman_proxy::module::dns
+  foreman_proxy::settings_file { ['dns_nsupdate', 'dns_nsupdate_gss', 'dns_libvirt']:
     module => false,
   }
-  foreman_proxy::settings_file { ['dns_libvirt', 'dhcp_libvirt']:
-    module => false,
-  }
-  foreman_proxy::settings_file { 'httpboot':
-    enabled   => pick($::foreman_proxy::httpboot, $::foreman_proxy::tftp),
-    feature   => 'HTTPBoot',
-    listen_on => $::foreman_proxy::httpboot_listen_on,
-  }
-  foreman_proxy::settings_file { 'puppet':
-    enabled   => $::foreman_proxy::puppet,
-    feature   => 'Puppet',
-    listen_on => $::foreman_proxy::puppet_listen_on,
-  }
+
+  contain foreman_proxy::module::httpboot
+
+  contain foreman_proxy::module::puppet
   foreman_proxy::settings_file { [
       'puppet_proxy_customrun',
       'puppet_proxy_mcollective',
       'puppet_proxy_puppet_api',
       'puppet_proxy_salt',
       'puppet_proxy_ssh',
-      'puppetca_hostname_whitelisting',
-      'puppetca_token_whitelisting',
     ]:
       module => false,
   }
@@ -103,33 +82,10 @@ class foreman_proxy::config {
       ensure => 'absent',
       module => false,
   }
-  foreman_proxy::settings_file { 'puppetca':
-    enabled   => $::foreman_proxy::puppetca,
-    feature   => 'Puppet CA',
-    listen_on => $::foreman_proxy::puppetca_listen_on,
-  }
-  foreman_proxy::settings_file { 'realm':
-    enabled   => $::foreman_proxy::realm,
-    feature   => 'Realm',
-    listen_on => $::foreman_proxy::realm_listen_on,
-  }
-  foreman_proxy::settings_file { 'realm_freeipa':
+
+  contain foreman_proxy::module::puppetca
+  foreman_proxy::settings_file { ['puppetca_hostname_whitelisting', 'puppetca_token_whitelisting']:
     module => false,
-  }
-  foreman_proxy::settings_file { 'tftp':
-    enabled   => $::foreman_proxy::tftp,
-    feature   => 'TFTP',
-    listen_on => $::foreman_proxy::tftp_listen_on,
-  }
-  foreman_proxy::settings_file { 'templates':
-    enabled   => $::foreman_proxy::templates,
-    feature   => 'Templates',
-    listen_on => $::foreman_proxy::templates_listen_on,
-  }
-  foreman_proxy::settings_file { 'logs':
-    enabled   => $::foreman_proxy::logs,
-    feature   => 'Logs',
-    listen_on => $::foreman_proxy::logs_listen_on,
   }
 
   if $foreman_proxy::puppetca_split_configs {
@@ -140,6 +96,17 @@ class foreman_proxy::config {
         module => false,
     }
   }
+
+  contain foreman_proxy::module::realm
+  foreman_proxy::settings_file { 'realm_freeipa':
+    module => false,
+  }
+
+  contain foreman_proxy::module::tftp
+
+  contain foreman_proxy::module::templates
+
+  contain foreman_proxy::module::logs
 
   if $foreman_proxy::puppetca or $foreman_proxy::puppet {
     $uses_sudo = $foreman_proxy::puppetca and versioncmp($facts['puppetversion'], '6.0') < 0
