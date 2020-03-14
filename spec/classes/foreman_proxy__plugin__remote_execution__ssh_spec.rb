@@ -35,7 +35,6 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
       describe 'with override parameters' do
         let :params do {
           :enabled            => true,
-          :listen_on          => 'http',
           :local_working_dir  => '/tmp',
           :remote_working_dir => '/tmp',
           :generate_keys      => false,
@@ -72,7 +71,6 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
       describe 'with ssh key generating and installation' do
         let :params do {
           :enabled            => true,
-          :listen_on          => 'http',
           :local_working_dir  => '/tmp',
           :remote_working_dir => '/tmp',
           :generate_keys      => true,

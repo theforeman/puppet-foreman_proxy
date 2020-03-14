@@ -25,13 +25,10 @@
 #
 # $enabled::            Enables/disables the plugin
 #
-# $listen_on::          Proxy feature listens on https, http, or both
-#
 # $async_ssh::          Whether to run remote execution jobs asynchronously.
 #
 class foreman_proxy::plugin::remote_execution::ssh (
   Boolean $enabled = true,
-  Foreman_proxy::ListenOn $listen_on = 'https',
   Boolean $generate_keys = true,
   Boolean $install_key = false,
   Stdlib::Absolutepath $ssh_identity_dir = '/var/lib/foreman-proxy/ssh',
@@ -50,8 +47,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   foreman_proxy::plugin { 'remote_execution_ssh':
   }
   -> foreman_proxy::settings_file { 'remote_execution_ssh':
-    enabled       => $enabled,
-    listen_on     => $listen_on,
+    module        => false,
     template_path => 'foreman_proxy/plugin/remote_execution_ssh.yml.erb',
   }
 
