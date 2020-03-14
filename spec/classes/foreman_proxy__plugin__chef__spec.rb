@@ -13,13 +13,23 @@ describe 'foreman_proxy::plugin::chef' do
           }
         end
 
+        it { should compile.with_all_deps }
+
         it 'should call the plugin' do
           should contain_foreman_proxy__plugin('chef')
         end
 
         it 'should install configuration file' do
-          should contain_foreman_proxy__settings_file('chef')
-          should contain_file('/etc/foreman-proxy/settings.d/chef.yml').with_content(/:enabled: true/)
+          should contain_foreman_proxy__settings_file('chef').with_enabled(true).with_listen_on('https')
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/chef.yml', [
+            '---',
+            ':enabled: https',
+            ':chef_authenticate_nodes: true',
+            ':chef_server_url: https://foo.example.com',
+            ':chef_smartproxy_clientname: foo.example.com',
+            ':chef_smartproxy_privatekey: /etc/chef/client.pem',
+            ':chef_ssl_verify: true'
+          ])
         end
       end
 
@@ -30,12 +40,14 @@ describe 'foreman_proxy::plugin::chef' do
           }
         end
 
+        it { should compile.with_all_deps }
+
         it 'should call the plugin' do
           should contain_foreman_proxy__plugin('chef')
         end
 
         it 'should install configuration file' do
-          should contain_foreman_proxy__settings_file('chef')
+          should contain_foreman_proxy__settings_file('chef').with_enabled(false)
           should contain_file('/etc/foreman-proxy/settings.d/chef.yml').with_content(/:enabled: false/)
         end
       end

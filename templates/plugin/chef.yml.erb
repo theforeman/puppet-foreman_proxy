@@ -1,5 +1,5 @@
 ---
-:enabled: <%= scope.lookupvar("foreman_proxy::plugin::chef::enabled") %>
+:enabled: <%= @module_enabled %>
 :chef_authenticate_nodes: true
 :chef_server_url: <%= scope.lookupvar("foreman_proxy::plugin::chef::server_url") %>
 # smart-proxy client node needs to have some admin right on chef-server
