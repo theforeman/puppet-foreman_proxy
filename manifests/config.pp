@@ -54,52 +54,39 @@ class foreman_proxy::config {
   contain foreman_proxy::module::bmc
 
   contain foreman_proxy::module::dhcp
-  foreman_proxy::settings_file { ['dhcp_isc', 'dhcp_libvirt']:
-    module => false,
+  foreman_proxy::provider { ['dhcp_isc', 'dhcp_libvirt']:
   }
 
   contain foreman_proxy::module::dns
-  foreman_proxy::settings_file { ['dns_nsupdate', 'dns_nsupdate_gss', 'dns_libvirt']:
-    module => false,
+  foreman_proxy::provider { ['dns_nsupdate', 'dns_nsupdate_gss', 'dns_libvirt']:
   }
 
   contain foreman_proxy::module::httpboot
 
   contain foreman_proxy::module::puppet
-  foreman_proxy::settings_file { [
+  foreman_proxy::provider { [
       'puppet_proxy_customrun',
       'puppet_proxy_mcollective',
       'puppet_proxy_puppet_api',
       'puppet_proxy_salt',
       'puppet_proxy_ssh',
     ]:
-      module => false,
   }
-  foreman_proxy::settings_file { [
-      'puppet_proxy_legacy',
-      'puppet_proxy_puppetrun',
-    ]:
-      ensure => 'absent',
-      module => false,
+  foreman_proxy::provider { ['puppet_proxy_legacy', 'puppet_proxy_puppetrun']:
+    ensure => 'absent',
   }
 
   contain foreman_proxy::module::puppetca
-  foreman_proxy::settings_file { ['puppetca_hostname_whitelisting', 'puppetca_token_whitelisting']:
-    module => false,
+  foreman_proxy::provider { ['puppetca_hostname_whitelisting', 'puppetca_token_whitelisting']:
   }
 
   if $foreman_proxy::puppetca_split_configs {
-    foreman_proxy::settings_file { [
-        'puppetca_http_api',
-        'puppetca_puppet_cert',
-      ]:
-        module => false,
+    foreman_proxy::provider { ['puppetca_http_api', 'puppetca_puppet_cert']:
     }
   }
 
   contain foreman_proxy::module::realm
-  foreman_proxy::settings_file { 'realm_freeipa':
-    module => false,
+  foreman_proxy::provider { 'realm_freeipa':
   }
 
   contain foreman_proxy::module::tftp
