@@ -52,6 +52,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   }
   -> foreman_proxy::settings_file { 'remote_execution_ssh':
     enabled       => $enabled,
+    feature       => 'SSH',
     listen_on     => $listen_on,
     template_path => 'foreman_proxy/plugin/remote_execution_ssh.yml.erb',
   }

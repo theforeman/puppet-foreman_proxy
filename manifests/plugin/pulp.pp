@@ -55,16 +55,19 @@ class foreman_proxy::plugin::pulp (
     foreman_proxy::settings_file { 'pulp':
       template_path => 'foreman_proxy/plugin/pulp.yml.erb',
       enabled       => $enabled,
+      feature       => 'Pulp',
       listen_on     => $listen_on,
     },
     foreman_proxy::settings_file { 'pulpnode':
       template_path => 'foreman_proxy/plugin/pulpnode.yml.erb',
       enabled       => $pulpnode_enabled,
+      feature       => 'Pulp Node',
       listen_on     => $listen_on,
     },
     foreman_proxy::settings_file { 'pulpcore':
       template_path => 'foreman_proxy/plugin/pulpcore.yml.erb',
       enabled       => $pulpcore_enabled,
+      feature       => 'Pulpcore',
       listen_on     => $listen_on,
     },
     foreman_proxy::settings_file { 'pulp3': # file removed in rubygem-smart_proxy_pulp 2.0
