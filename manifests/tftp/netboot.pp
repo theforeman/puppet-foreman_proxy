@@ -1,4 +1,17 @@
-# Netboot support for TFTP. Installs the files so other systems can netboot.
+# @summary Netboot support for TFTP. Installs the files so other systems can netboot.
+#
+# @param packages
+#   The packages to install
+#
+# @param grub_installation_type
+#   The method to configure grub
+#
+# @param grub_modules
+#   The grub modules to enable
+#
+# @param root
+#   The root directory to use for grub
+#
 class foreman_proxy::tftp::netboot (
   Array[String] $packages = $::foreman_proxy::tftp::netboot::params::packages,
   Enum['redhat_exec', 'redhat', 'redhat_old', 'debian', 'none'] $grub_installation_type = $::foreman_proxy::tftp::netboot::params::grub_installation_type,

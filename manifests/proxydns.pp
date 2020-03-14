@@ -1,17 +1,22 @@
-# Configure the DNS component
+# @summary Configure the ISC named service
 #
-# $forwarders:: The DNS forwarders to use
+# @param forwarders
+#   The DNS forwarders to use
 #
-# $interface:: The interface to use for fact determination. By default the IP
-#              is used to create an A record in the forward zone and determine
-#              the reverse DNS zone(s).
+# @param interface
+#   The interface to use for fact determination. By default the IP is used to
+#   create an A record in the forward zone and determine the reverse DNS
+#   zone(s).
 #
-# $forward_zone:: The forward DNS zone name
+# @param forward_zone
+#   The forward DNS zone name
 #
-# $reverse_zone:: The reverse DNS zone name
+# @param reverse_zone
+#   The reverse DNS zone name
 #
-# $soa:: The hostname to use in the SOA record. Also used to create a forward
-#        DNS entry.
+# @param soa
+#   The hostname to use in the SOA record. Also used to create a forward DNS
+#   entry.
 #
 class foreman_proxy::proxydns(
   $forwarders = $::foreman_proxy::dns_forwarders,

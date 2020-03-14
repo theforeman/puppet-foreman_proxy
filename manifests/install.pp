@@ -1,4 +1,5 @@
-# Install the foreman proxy
+# @summary Install the foreman proxy
+# @api private
 class foreman_proxy::install {
   if $foreman_proxy::repo {
     foreman::repos { 'foreman_proxy':

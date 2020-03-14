@@ -1,4 +1,5 @@
-# Downloads a file from a URL to a local file given by the title
+# @summary Downloads a file from a URL to a local file given by the title
+# @api private
 define foreman_proxy::remote_file(
   $remote_location,
   $mode='0644',

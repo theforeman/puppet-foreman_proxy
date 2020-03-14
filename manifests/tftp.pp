@@ -1,4 +1,5 @@
-# Set up the tftp component
+# @summary Set up the tftp service
+# @api private
 class foreman_proxy::tftp (
   $user = $::foreman_proxy::user,
   $root = $::foreman_proxy::tftp_root,
