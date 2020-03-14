@@ -25,11 +25,21 @@ define foreman_proxy::module (
   Optional[String] $template_path = undef,
   String $feature = upcase($title),
 ) {
+  if $enabled {
+    $module_enabled = $listen_on ? {
+      'both'  => 'true',
+      'https' => 'https',
+      'http'  => 'http',
+      default => 'false',
+    }
+
+    foreman_proxy::feature { $feature: }
+  } else {
+    $module_enabled = 'false'
+  }
+
   foreman_proxy::settings_file { $name:
-    module        => true,
-    enabled       => $enabled,
-    feature       => $feature,
-    listen_on     => $listen_on,
-    template_path => $template_path,
+    module_enabled => $module_enabled,
+    template_path  => $template_path,
   }
 }

@@ -47,8 +47,7 @@ class foreman_proxy::config {
   }
 
   foreman_proxy::settings_file { 'settings':
-    path   => "${foreman_proxy::config_dir}/settings.yml",
-    module => false,
+    path => "${foreman_proxy::config_dir}/settings.yml",
   }
 
   contain foreman_proxy::module::bmc

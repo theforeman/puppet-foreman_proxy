@@ -30,7 +30,6 @@ class foreman_proxy::plugin::monitoring::icingadirector (
   include ::foreman_proxy::plugin::monitoring
 
   foreman_proxy::settings_file { 'monitoring_icingadirector':
-    module        => false,
     template_path => 'foreman_proxy/plugin/monitoring_icingadirector.yml.erb',
   }
 }
