@@ -1,9 +1,11 @@
 # @summary Ansible proxy default parameters
 # @api private
 class foreman_proxy::plugin::ansible::params {
+  include foreman_proxy::params
+
   $enabled     = true
   $listen_on   = 'https'
-  $ansible_dir = '/usr/share/foreman-proxy'
+  $ansible_dir = $foreman_proxy::params::dir
   $working_dir = '/tmp'
   $host_key_checking = false
   $stdout_callback = 'yaml'

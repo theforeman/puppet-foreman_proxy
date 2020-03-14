@@ -36,9 +36,9 @@ define foreman_proxy::settings_file (
   Boolean $module = true,
   Boolean $enabled = true,
   Foreman_proxy::ListenOn $listen_on = 'https',
-  Stdlib::Absolutepath $path = "${foreman_proxy::etc}/foreman-proxy/settings.d/${title}.yml",
+  Stdlib::Absolutepath $path = "${foreman_proxy::params::config_dir}/settings.d/${title}.yml",
   String $owner = 'root',
-  String $group = $foreman_proxy::user,
+  String $group = $foreman_proxy::params::user,
   Stdlib::Filemode $mode = '0640',
   String $template_path = "foreman_proxy/${title}.yml.erb",
   Optional[String] $feature = undef,
@@ -76,7 +76,5 @@ define foreman_proxy::settings_file (
     owner   => $owner,
     group   => $group,
     mode    => $mode,
-    require => Class['foreman_proxy::install'],
-    notify  => Class['foreman_proxy::service'],
   }
 }

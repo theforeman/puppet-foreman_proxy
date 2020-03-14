@@ -5,7 +5,7 @@ describe 'foreman_proxy::plugin' do
     context "on #{os}" do
       let(:facts) { facts }
       let(:title) { 'myplugin' }
-      let(:pre_condition) { 'include foreman_proxy' }
+      let(:pre_condition) { 'include foreman_proxy::params' }
 
       context 'no parameters' do
         package = if facts[:osfamily] == 'Debian'

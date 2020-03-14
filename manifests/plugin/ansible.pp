@@ -47,7 +47,7 @@ class foreman_proxy::plugin::ansible (
   $foreman_ssl_key = pick($::foreman_proxy::foreman_ssl_key, $::foreman_proxy::ssl_key)
   $foreman_ssl_ca = pick($::foreman_proxy::foreman_ssl_ca, $::foreman_proxy::ssl_ca)
 
-  file {"${::foreman_proxy::etc}/foreman-proxy/ansible.cfg":
+  file {"${foreman_proxy::config_dir}/ansible.cfg":
     ensure  => file,
     content => template('foreman_proxy/plugin/ansible.cfg.erb'),
     owner   => 'root',
@@ -56,7 +56,7 @@ class foreman_proxy::plugin::ansible (
   }
   ~> file { "${::foreman_proxy::dir}/.ansible.cfg":
     ensure => link,
-    target => "${::foreman_proxy::etc}/foreman-proxy/ansible.cfg",
+    target => "${foreman_proxy::config_dir}/ansible.cfg",
   }
 
   include ::foreman_proxy::plugin::dynflow
