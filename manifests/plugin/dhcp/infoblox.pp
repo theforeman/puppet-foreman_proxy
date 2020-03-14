@@ -21,10 +21,6 @@ class foreman_proxy::plugin::dhcp::infoblox (
   String $dns_view = 'default',
   String $network_view = 'default',
 ) {
-  foreman_proxy::plugin { 'dhcp_infoblox':
-  }
-  -> foreman_proxy::settings_file { 'dhcp_infoblox':
-    module        => false,
-    template_path => 'foreman_proxy/plugin/dhcp_infoblox.yml.erb',
+  foreman_proxy::plugin::provider { 'dhcp_infoblox':
   }
 }

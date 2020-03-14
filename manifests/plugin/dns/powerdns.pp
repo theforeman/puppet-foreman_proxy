@@ -10,10 +10,6 @@ class foreman_proxy::plugin::dns::powerdns (
   Stdlib::HTTPUrl $rest_url = 'http://localhost:8081/api/v1/servers/localhost',
   String $rest_api_key = '', # lint:ignore:empty_string_assignment
 ) {
-  foreman_proxy::plugin { 'dns_powerdns':
-  }
-  -> foreman_proxy::settings_file { 'dns_powerdns':
-    module        => false,
-    template_path => 'foreman_proxy/plugin/dns_powerdns.yml.erb',
+  foreman_proxy::plugin::provider { 'dns_powerdns':
   }
 }

@@ -21,10 +21,6 @@ class foreman_proxy::plugin::dhcp::remote_isc (
   Optional[String] $key_secret = undef,
   Stdlib::Port $omapi_port = 7911,
 ) {
-  foreman_proxy::plugin { 'dhcp_remote_isc':
-  }
-  -> foreman_proxy::settings_file { 'dhcp_remote_isc':
-    module        => false,
-    template_path => 'foreman_proxy/plugin/dhcp_remote_isc.yml.erb',
+  foreman_proxy::plugin::provider { 'dhcp_remote_isc':
   }
 }

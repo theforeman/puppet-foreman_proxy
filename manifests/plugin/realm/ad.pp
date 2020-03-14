@@ -30,11 +30,10 @@ class foreman_proxy::plugin::realm::ad (
   Optional[Boolean] $computername_use_fqdn = undef,
   Optional[String] $version = undef,
 ) {
-  foreman_proxy::plugin { 'realm_ad_plugin':
+  include foreman_proxy::params
+
+  foreman_proxy::plugin::provider { 'realm_ad':
+    package => "${foreman_proxy::params::plugin_prefix}realm_ad_plugin",
     version => $version,
-  }
-  -> foreman_proxy::settings_file { 'realm_ad':
-    module        => false,
-    template_path => 'foreman_proxy/plugin/realm_ad.yml.erb',
   }
 }

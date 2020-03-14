@@ -18,10 +18,6 @@ class foreman_proxy::plugin::dns::infoblox (
   String $password = undef,
   String $dns_view = 'default',
 ) {
-  foreman_proxy::plugin { 'dns_infoblox':
-  }
-  -> foreman_proxy::settings_file { 'dns_infoblox':
-    module        => false,
-    template_path => 'foreman_proxy/plugin/dns_infoblox.yml.erb',
+  foreman_proxy::plugin::provider { 'dns_infoblox':
   }
 }
