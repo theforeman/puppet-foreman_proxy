@@ -7,7 +7,7 @@ describe 'foreman_proxy::plugin::abrt' do
       let(:pre_condition) { 'include foreman_proxy' }
 
       describe 'with default settings' do
-        it { should contain_foreman_proxy__plugin('abrt') }
+        it { should contain_foreman_proxy__plugin__module('abrt') }
         it 'should configure abrt.yml' do
           should contain_file('/etc/foreman-proxy/settings.d/abrt.yml').
             with({

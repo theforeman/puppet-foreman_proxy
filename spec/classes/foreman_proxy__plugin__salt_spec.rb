@@ -7,7 +7,7 @@ describe 'foreman_proxy::plugin::salt' do
       let(:pre_condition) { 'include foreman_proxy' }
 
       describe 'with default settings' do
-        it { should contain_foreman_proxy__plugin('salt') }
+        it { should contain_foreman_proxy__plugin__module('salt') }
         it 'should configure salt.yml' do
           should contain_file('/etc/foreman-proxy/settings.d/salt.yml').
             with({

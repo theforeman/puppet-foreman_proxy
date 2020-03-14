@@ -64,13 +64,9 @@ class foreman_proxy::plugin::ansible (
     include ::foreman_proxy::plugin::ansible::runner
   }
 
-  foreman_proxy::plugin { 'ansible':
-  }
-  -> foreman_proxy::settings_file { 'ansible':
-    enabled       => $enabled,
-    feature       => 'Ansible',
-    listen_on     => $listen_on,
-    template_path => 'foreman_proxy/plugin/ansible.yml.erb',
+  foreman_proxy::plugin::module { 'ansible':
+    enabled   => $enabled,
+    listen_on => $listen_on,
   }
 
   if $foreman_proxy::plugin::dynflow::external_core {

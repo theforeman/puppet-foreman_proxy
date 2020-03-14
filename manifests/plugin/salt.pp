@@ -38,12 +38,8 @@ class foreman_proxy::plugin::salt (
   String $api_password = $::foreman_proxy::plugin::salt::params::api_password,
   Optional[Stdlib::Absolutepath] $saltfile = $::foreman_proxy::plugin::salt::params::saltfile,
 ) inherits foreman_proxy::plugin::salt::params {
-  foreman_proxy::plugin { 'salt':
-  }
-  -> foreman_proxy::settings_file { 'salt':
-    enabled       => $enabled,
-    listen_on     => $listen_on,
-    template_path => 'foreman_proxy/plugin/salt.yml.erb',
-    feature       => 'Salt',
+  foreman_proxy::plugin::module { 'salt':
+    enabled   => $enabled,
+    listen_on => $listen_on,
   }
 }

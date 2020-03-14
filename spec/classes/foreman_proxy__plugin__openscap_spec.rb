@@ -14,7 +14,7 @@ describe 'foreman_proxy::plugin::openscap' do
         end
 
         it 'should call the plugin' do
-          should contain_foreman_proxy__plugin('openscap')
+          should contain_foreman_proxy__plugin__module('openscap')
         end
 
         it 'should install configuration file' do
@@ -43,7 +43,7 @@ describe 'foreman_proxy::plugin::openscap' do
         end
 
         it 'should call the plugin' do
-          should contain_foreman_proxy__plugin('openscap')
+          should contain_foreman_proxy__plugin__module('openscap')
         end
 
         it 'should install configuration file' do

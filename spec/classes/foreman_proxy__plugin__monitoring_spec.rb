@@ -7,7 +7,7 @@ describe 'foreman_proxy::plugin::monitoring' do
       let(:pre_condition) { 'include foreman_proxy' }
 
       describe 'with default settings' do
-        it { should contain_foreman_proxy__plugin('monitoring') }
+        it { should contain_foreman_proxy__plugin__module('monitoring') }
         it 'should configure monitoring.yml' do
           should contain_file('/etc/foreman-proxy/settings.d/monitoring.yml').
             with({

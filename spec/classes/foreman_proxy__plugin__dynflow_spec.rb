@@ -11,7 +11,7 @@ describe 'foreman_proxy::plugin::dynflow' do
 
       describe 'with default settings' do
         it { should compile.with_all_deps }
-        it { should contain_foreman_proxy__plugin('dynflow') }
+        it { should contain_foreman_proxy__plugin__module('dynflow') }
 
         it 'should generate correct dynflow.yml' do
           lines = [
@@ -73,7 +73,7 @@ describe 'foreman_proxy::plugin::dynflow' do
         } end
 
         it { should compile.with_all_deps }
-        it { should contain_foreman_proxy__plugin('dynflow') }
+        it { should contain_foreman_proxy__plugin__module('dynflow') }
 
         it 'should create settings.d symlink' do
           should contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.d").
