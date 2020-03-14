@@ -52,19 +52,19 @@ class foreman_proxy::plugin::pulp (
     version => $version,
   }
   -> [
-    foreman_proxy::settings_file { 'pulp':
+    foreman_proxy::module { 'pulp':
       template_path => 'foreman_proxy/plugin/pulp.yml.erb',
       enabled       => $enabled,
       feature       => 'Pulp',
       listen_on     => $listen_on,
     },
-    foreman_proxy::settings_file { 'pulpnode':
+    foreman_proxy::module { 'pulpnode':
       template_path => 'foreman_proxy/plugin/pulpnode.yml.erb',
       enabled       => $pulpnode_enabled,
       feature       => 'Pulp Node',
       listen_on     => $listen_on,
     },
-    foreman_proxy::settings_file { 'pulpcore':
+    foreman_proxy::module { 'pulpcore':
       template_path => 'foreman_proxy/plugin/pulpcore.yml.erb',
       enabled       => $pulpcore_enabled,
       feature       => 'Pulpcore',

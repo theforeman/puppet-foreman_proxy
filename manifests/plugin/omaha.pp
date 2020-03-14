@@ -27,14 +27,10 @@ class foreman_proxy::plugin::omaha (
   Optional[Stdlib::HTTPUrl] $http_proxy = undef,
   Optional[String] $version = undef,
 ) {
-  foreman_proxy::plugin { 'omaha':
-    version => $version,
-  }
-  -> foreman_proxy::settings_file { 'omaha':
-    template_path => 'foreman_proxy/plugin/omaha.yml.erb',
-    enabled       => $enabled,
-    feature       => 'Omaha',
-    listen_on     => $listen_on,
+  foreman_proxy::plugin::module { 'omaha':
+    version   => $version,
+    listen_on => $listen_on,
+    enabled   => $enabled,
   }
 
   exec { "mkdir_p-${contentpath}":

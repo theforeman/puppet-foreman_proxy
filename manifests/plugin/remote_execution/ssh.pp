@@ -48,13 +48,10 @@ class foreman_proxy::plugin::remote_execution::ssh (
   include foreman_proxy::params
   include ::foreman_proxy::plugin::dynflow
 
-  foreman_proxy::plugin { 'remote_execution_ssh':
-  }
-  -> foreman_proxy::settings_file { 'remote_execution_ssh':
-    enabled       => $enabled,
-    feature       => 'SSH',
-    listen_on     => $listen_on,
-    template_path => 'foreman_proxy/plugin/remote_execution_ssh.yml.erb',
+  foreman_proxy::plugin::module { 'remote_execution_ssh':
+    enabled   => $enabled,
+    feature   => 'SSH',
+    listen_on => $listen_on,
   }
 
   if $ssh_kerberos_auth {

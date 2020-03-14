@@ -43,13 +43,9 @@ class foreman_proxy::plugin::dynflow (
     $core_url = "http://${::fqdn}:${core_port}"
   }
 
-  foreman_proxy::plugin { 'dynflow':
-  }
-  -> foreman_proxy::settings_file { 'dynflow':
-    enabled       => $enabled,
-    feature       => 'Dynflow',
-    listen_on     => $listen_on,
-    template_path => 'foreman_proxy/plugin/dynflow.yml.erb',
+  foreman_proxy::plugin::module { 'dynflow':
+    enabled   => $enabled,
+    listen_on => $listen_on,
   }
 
   if $external_core {

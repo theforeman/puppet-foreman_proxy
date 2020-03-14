@@ -24,13 +24,9 @@ class foreman_proxy::plugin::monitoring (
   Optional[String] $version = undef,
   Boolean $collect_status = true,
 ) {
-  foreman_proxy::plugin { 'monitoring':
-    version => $version,
-  }
-  -> foreman_proxy::settings_file { 'monitoring':
-    template_path => 'foreman_proxy/plugin/monitoring.yml.erb',
-    enabled       => $enabled,
-    feature       => 'Monitoring',
-    listen_on     => $listen_on,
+  foreman_proxy::plugin::module { 'monitoring':
+    version   => $version,
+    enabled   => $enabled,
+    listen_on => $listen_on,
   }
 }

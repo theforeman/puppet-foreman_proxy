@@ -48,13 +48,9 @@ class foreman_proxy::plugin::openscap (
   Integer[0] $timeout = 60,
 ) {
   $registered_proxy_name = pick($proxy_name, $foreman_proxy::registered_name)
-  foreman_proxy::plugin { 'openscap':
-    version => $version,
-  }
-  -> foreman_proxy::settings_file { 'openscap':
-    template_path => 'foreman_proxy/plugin/openscap.yml.erb',
-    listen_on     => $listen_on,
-    enabled       => $enabled,
-    feature       => 'Openscap',
+  foreman_proxy::plugin::module { 'openscap':
+    version   => $version,
+    listen_on => $listen_on,
+    enabled   => $enabled,
   }
 }

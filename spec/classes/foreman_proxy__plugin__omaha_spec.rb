@@ -7,7 +7,7 @@ describe 'foreman_proxy::plugin::omaha' do
       let(:pre_condition) { 'include foreman_proxy' }
 
       describe 'with default settings' do
-        it { should contain_foreman_proxy__plugin('omaha') }
+        it { should contain_foreman_proxy__plugin__module('omaha') }
         it 'omaha.yml should contain the correct configuration' do
           verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/omaha.yml', [
             '---',

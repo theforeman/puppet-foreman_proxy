@@ -8,8 +8,8 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
       let(:package_name) { os.start_with?('debian') ? 'ruby-net-ssh-krb' : 'tfm-rubygem-net-ssh-krb' }
 
       describe 'with default settings' do
-        it { should contain_foreman_proxy__plugin('dynflow') }
-        it { should contain_foreman_proxy__plugin('remote_execution_ssh') }
+        it { should contain_class('foreman_proxy::plugin::dynflow') }
+        it { should contain_foreman_proxy__plugin__module('remote_execution_ssh') }
 
         it 'should configure remote_execution_ssh.yml' do
           should contain_file('/etc/foreman-proxy/settings.d/remote_execution_ssh.yml').
@@ -46,8 +46,8 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
           :async_ssh          => true,
         } end
 
-        it { should contain_foreman_proxy__plugin('dynflow') }
-        it { should contain_foreman_proxy__plugin('remote_execution_ssh') }
+        it { should contain_class('foreman_proxy::plugin::dynflow') }
+        it { should contain_foreman_proxy__plugin__module('remote_execution_ssh') }
 
         it 'should configure remote_execution_ssh.yml' do
           should contain_file('/etc/foreman-proxy/settings.d/remote_execution_ssh.yml').

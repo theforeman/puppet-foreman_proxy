@@ -43,13 +43,9 @@ class foreman_proxy::plugin::abrt (
   Optional[Stdlib::Absolutepath] $faf_server_ssl_cert = undef,
   Optional[Stdlib::Absolutepath] $faf_server_ssl_key = undef,
 ) {
-  foreman_proxy::plugin { 'abrt':
-    version => $version,
-  }
-  -> foreman_proxy::settings_file { 'abrt':
-    template_path => 'foreman_proxy/plugin/abrt.yml.erb',
-    feature       => 'Abrt',
-    listen_on     => $listen_on,
-    enabled       => $enabled,
+  foreman_proxy::plugin::module { 'abrt':
+    version   => $version,
+    listen_on => $listen_on,
+    enabled   => $enabled,
   }
 }

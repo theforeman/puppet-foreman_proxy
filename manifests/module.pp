@@ -16,15 +16,20 @@
 #   foreman_proxy::register will validate the feature name is loaded and
 #   advertised.
 #
+# @param template_path
+#   An optional template path
+#
 define foreman_proxy::module (
   Boolean $enabled = false,
   Foreman_proxy::ListenOn $listen_on = 'https',
+  Optional[String] $template_path = undef,
   String $feature = upcase($title),
 ) {
   foreman_proxy::settings_file { $name:
-    module    => true,
-    enabled   => $enabled,
-    feature   => $feature,
-    listen_on => $listen_on,
+    module        => true,
+    enabled       => $enabled,
+    feature       => $feature,
+    listen_on     => $listen_on,
+    template_path => $template_path,
   }
 }
