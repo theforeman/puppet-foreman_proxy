@@ -1,6 +1,7 @@
 require 'spec_helper_acceptance'
 
-describe 'remote_file works' do
+# https://tickets.puppetlabs.com/browse/PUP-10365
+describe 'remote_file works', unless: ENV['BEAKER_PUPPET_COLLECTION'] == 'puppet6' do
   let(:pp) do
     <<-MANIFEST
     foreman_proxy::remote_file { '/var/tmp/test':
