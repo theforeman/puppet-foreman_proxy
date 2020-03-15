@@ -14,8 +14,6 @@
 #
 # $enabled::            enables/disables the omaha plugin
 #
-# $group::              owner of plugin configuration
-#
 # $listen_on::          proxy feature listens on http, https, or both
 #
 # $version::            plugin package version, it's passed to ensure parameter of package resource
@@ -23,7 +21,6 @@
 #
 class foreman_proxy::plugin::omaha (
   Boolean $enabled = true,
-  Optional[String] $group = undef,
   Foreman_proxy::ListenOn $listen_on = 'https',
   Stdlib::Absolutepath $contentpath = '/var/lib/foreman-proxy/omaha/content',
   Integer[0] $sync_releases = 2,
@@ -35,7 +32,6 @@ class foreman_proxy::plugin::omaha (
   }
   -> foreman_proxy::settings_file { 'omaha':
     template_path => 'foreman_proxy/plugin/omaha.yml.erb',
-    group         => $group,
     enabled       => $enabled,
     feature       => 'Omaha',
     listen_on     => $listen_on,

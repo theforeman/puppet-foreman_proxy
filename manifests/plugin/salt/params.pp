@@ -7,7 +7,6 @@ class foreman_proxy::plugin::salt::params {
   $listen_on     = 'https'
   $autosign_file = "${foreman_proxy::params::etc}/salt/autosign.conf"
   $user          = 'root'
-  $group         = undef
 
   $api           = false
   $api_url       = 'https://localhost:8080'

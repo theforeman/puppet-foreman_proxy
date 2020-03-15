@@ -18,8 +18,6 @@
 #
 # === Advanced parameters:
 #
-# $group::                  owner of plugin configuration
-#
 # $version::                 plugin package version, it's passed to ensure parameter of package resource
 #                            can be set to specific version number, 'latest', 'present' etc.
 #
@@ -30,7 +28,6 @@ class foreman_proxy::plugin::realm::ad (
   Optional[String] $computername_prefix = undef,
   Optional[Boolean] $computername_hash = undef,
   Optional[Boolean] $computername_use_fqdn = undef,
-  Optional[String] $group = undef,
   Optional[String] $version = undef,
 ) {
   foreman_proxy::plugin { 'realm_ad_plugin':
@@ -39,6 +36,5 @@ class foreman_proxy::plugin::realm::ad (
   -> foreman_proxy::settings_file { 'realm_ad':
     module        => false,
     template_path => 'foreman_proxy/plugin/realm_ad.yml.erb',
-    group         => $group,
   }
 }

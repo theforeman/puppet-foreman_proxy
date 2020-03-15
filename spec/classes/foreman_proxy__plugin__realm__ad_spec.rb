@@ -51,22 +51,6 @@ describe 'foreman_proxy::plugin::realm::ad' do
           ])
         end
       end
-
-      describe 'with group overridden' do
-        let :params do {
-          :group => 'example',
-          :realm => 'EXAMPLE.COM',
-          :domain_controller => 'dc.example.com'
-        } end
-
-        it 'should change realm_ad.yml group' do
-          should contain_file('/etc/foreman-proxy/settings.d/realm_ad.yml').
-            with({
-              :owner   => 'root',
-              :group   => 'example'
-            })
-        end
-      end
     end
   end
 end

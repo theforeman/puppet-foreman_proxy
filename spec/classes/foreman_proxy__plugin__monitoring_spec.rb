@@ -32,23 +32,6 @@ describe 'foreman_proxy::plugin::monitoring' do
             with_content(/collect_status: false/)
         end
       end
-
-      describe 'with group overridden' do
-        let :pre_condition do
-          "include foreman_proxy"
-        end
-        let :params do {
-          :group => 'example',
-        } end
-
-        it 'should change monitoring.yml group' do
-          should contain_file('/etc/foreman-proxy/settings.d/monitoring.yml').
-            with({
-              :owner   => 'root',
-              :group   => 'example'
-            })
-        end
-      end
     end
   end
 end

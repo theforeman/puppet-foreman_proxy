@@ -20,20 +20,6 @@ describe 'foreman_proxy::plugin::abrt' do
         end
       end
 
-      describe 'with group overridden' do
-        let :params do {
-          :group => 'example',
-        } end
-
-        it 'should change abrt.yml group' do
-          should contain_file('/etc/foreman-proxy/settings.d/abrt.yml').
-            with({
-              :owner   => 'root',
-              :group   => 'example'
-            })
-        end
-      end
-
       describe 'with faf_ssl_* set' do
         let :params do {
           :faf_server_ssl_cert => '/faf_cert.pem',

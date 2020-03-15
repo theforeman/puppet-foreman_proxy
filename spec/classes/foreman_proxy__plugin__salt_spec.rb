@@ -44,20 +44,6 @@ describe 'foreman_proxy::plugin::salt' do
             with_content(/:saltfile: \/etc\/salt\/Saltfile/)
         end
       end
-
-      describe 'with group overridden' do
-        let :params do {
-          :group => 'example',
-        } end
-
-        it 'should change salt.yml group' do
-          should contain_file('/etc/foreman-proxy/settings.d/salt.yml').
-            with({
-              :owner   => 'root',
-              :group   => 'example'
-            })
-        end
-      end
     end
   end
 end
