@@ -35,20 +35,6 @@ describe 'foreman_proxy::plugin::omaha' do
           ])
         end
       end
-
-      describe 'with group overridden' do
-        let :params do {
-          :group => 'example',
-        } end
-
-        it 'should change omaha.yml group' do
-          should contain_file('/etc/foreman-proxy/settings.d/omaha.yml').
-            with({
-              :owner   => 'root',
-              :group   => 'example'
-            })
-        end
-      end
     end
   end
 end

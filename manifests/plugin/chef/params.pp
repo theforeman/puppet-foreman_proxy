@@ -4,7 +4,6 @@ class foreman_proxy::plugin::chef::params {
   include ::foreman_proxy::params
 
   $enabled      = true
-  $group        = undef
   $listen_on    = 'https'
   $version      = undef
   $server_url   = "https://${::fqdn}"

@@ -25,8 +25,6 @@
 #
 # $enabled::                    Enables/disables the abrt plugin
 #
-# $group::                      group owner of the configuration file
-#
 # $listen_on::                  Proxy feature listens on http, https, or both
 #
 # $version::                    plugin package version, it's passed to ensure parameter of package resource
@@ -36,7 +34,6 @@ class foreman_proxy::plugin::abrt (
   Boolean $enabled = true,
   Foreman_proxy::ListenOn $listen_on = 'https',
   Optional[String] $version = undef,
-  Optional[String] $group = undef,
   Stdlib::Absolutepath $abrt_send_log_file = '/var/log/foreman-proxy/abrt-send.log',
   Stdlib::Absolutepath $spooldir = '/var/spool/foreman-proxy-abrt',
   Boolean $aggregate_reports = true,
@@ -52,7 +49,6 @@ class foreman_proxy::plugin::abrt (
   -> foreman_proxy::settings_file { 'abrt':
     template_path => 'foreman_proxy/plugin/abrt.yml.erb',
     feature       => 'Abrt',
-    group         => $group,
     listen_on     => $listen_on,
     enabled       => $enabled,
   }

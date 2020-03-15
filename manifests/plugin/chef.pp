@@ -21,8 +21,6 @@
 #
 # $enabled::      enables/disables the chef plugin
 #
-# $group::        group owner of the configuration file
-#
 # $listen_on::    Proxy feature listens on http, https, or both
 #
 # $version::      plugin package version, it's passed to ensure parameter of package resource
@@ -32,7 +30,6 @@ class foreman_proxy::plugin::chef (
   Boolean $enabled = $::foreman_proxy::plugin::chef::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::chef::params::listen_on,
   Optional[String] $version = $::foreman_proxy::plugin::chef::params::version,
-  Optional[String] $group = $::foreman_proxy::plugin::chef::params::group,
   Stdlib::HTTPUrl $server_url = $::foreman_proxy::plugin::chef::params::server_url,
   String $client_name = $::foreman_proxy::plugin::chef::params::client_name,
   Stdlib::Absolutepath $private_key = $::foreman_proxy::plugin::chef::params::private_key,
@@ -46,7 +43,6 @@ class foreman_proxy::plugin::chef (
     listen_on     => $listen_on,
     enabled       => $enabled,
     feature       => 'Chef',
-    group         => $group,
     template_path => 'foreman_proxy/plugin/chef.yml.erb',
   }
 }

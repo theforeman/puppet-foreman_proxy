@@ -6,8 +6,6 @@
 #
 # $enabled::            enables/disables the pulp plugin
 #
-# $group::              group owner of the configuration file
-#
 # $listen_on::          proxy feature listens on http, https, or both
 #
 # $version::            plugin package version, it's passed to ensure parameter of package resource
@@ -42,7 +40,6 @@ class foreman_proxy::plugin::pulp (
   Stdlib::HTTPUrl $pulpcore_content_url = $::foreman_proxy::plugin::pulp::params::pulpcore_content_url,
   Boolean $pulpcore_mirror = $::foreman_proxy::plugin::pulp::params::pulpcore_mirror,
   Optional[String] $version = $::foreman_proxy::plugin::pulp::params::version,
-  Optional[String] $group = $::foreman_proxy::plugin::pulp::params::group,
   Stdlib::HTTPUrl $pulp_url = $::foreman_proxy::plugin::pulp::params::pulp_url,
   Stdlib::Absolutepath $pulp_dir = $::foreman_proxy::plugin::pulp::params::pulp_dir,
   Stdlib::Absolutepath $pulp_content_dir = $::foreman_proxy::plugin::pulp::params::pulp_content_dir,
@@ -57,19 +54,16 @@ class foreman_proxy::plugin::pulp (
   -> [
     foreman_proxy::settings_file { 'pulp':
       template_path => 'foreman_proxy/plugin/pulp.yml.erb',
-      group         => $group,
       enabled       => $enabled,
       listen_on     => $listen_on,
     },
     foreman_proxy::settings_file { 'pulpnode':
       template_path => 'foreman_proxy/plugin/pulpnode.yml.erb',
-      group         => $group,
       enabled       => $pulpnode_enabled,
       listen_on     => $listen_on,
     },
     foreman_proxy::settings_file { 'pulpcore':
       template_path => 'foreman_proxy/plugin/pulpcore.yml.erb',
-      group         => $group,
       enabled       => $pulpcore_enabled,
       listen_on     => $listen_on,
     },

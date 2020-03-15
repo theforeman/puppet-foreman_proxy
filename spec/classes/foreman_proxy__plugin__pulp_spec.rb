@@ -69,7 +69,6 @@ describe 'foreman_proxy::plugin::pulp' do
       describe 'with overrides' do
         let :params do
           {
-            group: 'example',
             pulpnode_enabled: true,
             pulpcore_enabled: true,
             pulpcore_mirror: true,
@@ -87,10 +86,6 @@ describe 'foreman_proxy::plugin::pulp' do
         it { is_expected.to contain_foreman_proxy__plugin('pulp') }
 
         it 'should configure pulp.yml' do
-          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/pulp.yml")
-            .with_owner('root')
-            .with_group('example')
-
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/pulp.yml", [
                                   '---',
                                   ':enabled: https',
@@ -103,11 +98,6 @@ describe 'foreman_proxy::plugin::pulp' do
         end
 
         it 'should configure pulpnode.yml' do
-          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/pulpnode.yml")
-            .with_ensure('file')
-            .with_owner('root')
-            .with_group('example')
-
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/pulpnode.yml", [
                                   '---',
                                   ':enabled: https',
@@ -120,11 +110,6 @@ describe 'foreman_proxy::plugin::pulp' do
         end
 
         it 'should configure pulpcore.yml' do
-          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/pulpcore.yml")
-            .with_ensure('file')
-            .with_owner('root')
-            .with_group('example')
-
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/pulpcore.yml", [
                                   '---',
                                   ':enabled: https',
