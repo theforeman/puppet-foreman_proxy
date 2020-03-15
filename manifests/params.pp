@@ -7,10 +7,11 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   case $::osfamily {
     'RedHat': {
       if versioncmp($facts['os']['release']['major'], '7') <= 0 {
-        $plugin_prefix = 'tfm-rubygem-smart_proxy_'
+        $ruby_package_prefix = 'tfm-rubygem-'
       } else {
-        $plugin_prefix = 'rubygem-smart_proxy_'
+        $ruby_package_prefix = 'rubygem-'
       }
+      $plugin_prefix = "${ruby_package_prefix}smart_proxy_"
 
       $dir   = pick($foreman_proxy::globals::dir, '/usr/share/foreman-proxy')
       $etc   = '/etc'
@@ -34,7 +35,8 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       ]
     }
     'Debian': {
-      $plugin_prefix = 'ruby-smart-proxy-'
+      $ruby_package_prefix = 'ruby-'
+      $plugin_prefix = "${ruby_package_prefix}smart-proxy-"
 
       $dir   = pick($foreman_proxy::globals::dir, '/usr/share/foreman-proxy')
       $etc   = '/etc'
@@ -65,7 +67,8 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       ]
     }
     /^(FreeBSD|DragonFly)$/: {
-      $plugin_prefix = 'rubygem-smart_proxy_'
+      $ruby_package_prefix = 'rubygem-'
+      $plugin_prefix = "${ruby_package_prefix}smart_proxy_"
 
       $dir   = pick($foreman_proxy::globals::dir, '/usr/local/share/foreman-proxy')
       $etc   = '/usr/local/etc'
