@@ -52,8 +52,7 @@ class foreman_proxy::plugin::dynflow (
     template_path => 'foreman_proxy/plugin/dynflow.yml.erb',
   }
 
-  if $facts['osfamily'] == 'RedHat' {
-
+  if $external_core {
     foreman_proxy::plugin { 'dynflow_core':
     }
     ~> file { '/etc/smart_proxy_dynflow_core/settings.yml':
