@@ -45,6 +45,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
 
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 
+  include foreman_proxy::params
   include ::foreman_proxy::plugin::dynflow
 
   foreman_proxy::plugin { 'remote_execution_ssh':
@@ -56,17 +57,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   }
 
   if $ssh_kerberos_auth {
-    if $::osfamily == 'RedHat' {
-      if versioncmp($facts['operatingsystemmajrelease'], '8') >= 0 {
-        $ruby_prefix = 'rubygem'
-      } else {
-        $ruby_prefix = 'tfm-rubygem'
-      }
-    } else {
-      $ruby_prefix = 'ruby'
-    }
-
-    $kerberos_pkg = "${ruby_prefix}-net-ssh-krb"
+    $kerberos_pkg = "${foreman_proxy::params::ruby_package_prefix}net-ssh-krb"
     package { $kerberos_pkg:
       ensure => present,
     }
