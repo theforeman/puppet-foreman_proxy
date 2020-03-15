@@ -1,5 +1,7 @@
 # Configure the DHCP component
-class foreman_proxy::proxydhcp {
+class foreman_proxy::proxydhcp(
+  Hash[String, Any] $pool_options = {},
+) {
   # puppet fact names are converted from ethX.X and ethX:X to ethX_X
   # so for alias and vlan interfaces we have to modify the name accordingly
   $interface_fact_name = regsubst($foreman_proxy::dhcp_interface, '[.:]', '_')
@@ -47,6 +49,7 @@ class foreman_proxy::proxydhcp {
     gateway        => $foreman_proxy::dhcp_gateway,
     search_domains => $foreman_proxy::dhcp_search_domains,
     failover       => $failover,
+    *              => $pool_options,
   }
 
 
