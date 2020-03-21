@@ -1,8 +1,6 @@
 require 'spec_helper_acceptance'
 
-# Broken on Docker as a hypervisor (https://github.com/moby/moby/issues/38749)
-# Broken on Debian-based systems due to concurrent-ruby(-edge) packaging
-describe 'Scenario: install foreman-proxy', unless: ENV['BEAKER_HYPERVISOR'] == 'docker' || os[:family] =~ /debian|ubuntu/ do
+describe 'Scenario: install foreman-proxy', unless: ENV['BEAKER_HYPERVISOR'] == 'docker'  do
   before(:context) do
     case os[:family]
     when /redhat|fedora/
