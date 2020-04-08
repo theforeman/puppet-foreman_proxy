@@ -8,3 +8,7 @@
 <%- else -%>
 :proxy: '<%= http_proxy %>'
 <%- end -%>
+<%- distribution = scope.lookupvar('::foreman_proxy::plugin::omaha::distribution') -%>
+<%- unless [nil, :undefined, :undef].include?(distribution) || distribution.empty? -%>
+:distribution: '<%= distribution %>'
+<%- end -%>
