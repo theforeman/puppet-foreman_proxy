@@ -19,6 +19,9 @@
 # $version::            plugin package version, it's passed to ensure parameter of package resource
 #                       can be set to specific version number, 'latest', 'present' etc.
 #
+# $distribution::       distribution type, it's passed to specify the distribution type.
+#                       can be set to one of 'coreos' (default), 'flatcar'
+#
 class foreman_proxy::plugin::omaha (
   Boolean $enabled = true,
   Foreman_proxy::ListenOn $listen_on = 'https',
@@ -26,6 +29,7 @@ class foreman_proxy::plugin::omaha (
   Integer[0] $sync_releases = 2,
   Optional[Stdlib::HTTPUrl] $http_proxy = undef,
   Optional[String] $version = undef,
+  Optional[Enum['coreos','flatcar']] $distribution = undef,
 ) {
   foreman_proxy::plugin::module { 'omaha':
     version   => $version,
