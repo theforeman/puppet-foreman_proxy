@@ -28,8 +28,6 @@ RSpec.configure do |c|
         on host, 'sed -i "s/keepcache=.*/keepcache=1/" /etc/yum.conf'
         # refresh check if cache needs refresh on next yum command
         on host, 'yum clean expire-cache'
-        # We always need EPEL
-        host.install_package('epel-release')
         # We need SCL as well for dynflow
         if fact_on(host, 'operatingsystem') == 'CentOS'
           host.install_package('centos-release-scl-rh')
