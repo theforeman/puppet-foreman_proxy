@@ -7,10 +7,6 @@
   env:
     global:
       - PARALLEL_TEST_PROCESSORS=8
-Rakefile:
-  param_docs_pattern:
-    - manifests/init.pp
-    - manifests/plugin/**/*.pp
 spec/spec_helper.rb:
   custom_facts:
     - name: sudoversion
