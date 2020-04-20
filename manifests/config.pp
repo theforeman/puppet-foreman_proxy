@@ -15,15 +15,15 @@ class foreman_proxy::config {
     Class['puppet::server::install'] -> Class['foreman_proxy::config']
   }
 
-  if $foreman_proxy::tftp and $foreman_proxy::tftp_managed { include ::foreman_proxy::tftp }
+  if $foreman_proxy::tftp and $foreman_proxy::tftp_managed { include foreman_proxy::tftp }
 
   # Somehow, calling these DHCP and DNS seems to conflict. So, they get a prefix...
   if $foreman_proxy::dhcp and $foreman_proxy::dhcp_provider in ['isc', 'remote_isc'] and $foreman_proxy::dhcp_managed {
-    include ::foreman_proxy::proxydhcp
+    include foreman_proxy::proxydhcp
   }
 
   if $foreman_proxy::dns and $foreman_proxy::dns_provider in ['nsupdate', 'nsupdate_gss'] and $foreman_proxy::dns_managed {
-    include ::foreman_proxy::proxydns
+    include foreman_proxy::proxydns
     $dns_groups = [$foreman_proxy::proxydns::user_group]
   } else {
     $dns_groups = []
@@ -38,7 +38,7 @@ class foreman_proxy::config {
 
   user { $foreman_proxy::user:
     ensure  => 'present',
-    shell   => $::foreman_proxy::shell,
+    shell   => $foreman_proxy::shell,
     comment => 'Foreman Proxy daemon user',
     groups  => $foreman_proxy::groups + $dns_groups + $puppet_groups,
     home    => $foreman_proxy::dir,
@@ -99,10 +99,10 @@ class foreman_proxy::config {
 
     if $foreman_proxy::use_sudoersd {
       if $uses_sudo and $foreman_proxy::manage_sudoersd {
-        ensure_resource('file', "${::foreman_proxy::sudoers}.d", {'ensure' => 'directory'})
+        ensure_resource('file', "${foreman_proxy::sudoers}.d", {'ensure' => 'directory'})
       }
 
-      file { "${::foreman_proxy::sudoers}.d/foreman-proxy":
+      file { "${foreman_proxy::sudoers}.d/foreman-proxy":
         ensure  => bool2str($uses_sudo, 'file', 'absent'),
         owner   => 'root',
         group   => 0,
@@ -111,7 +111,7 @@ class foreman_proxy::config {
       }
     } elsif $foreman_proxy::use_sudoers {
       augeas { 'sudo-foreman-proxy':
-        context => "/files${::foreman_proxy::sudoers}",
+        context => "/files${foreman_proxy::sudoers}",
         changes => template('foreman_proxy/sudo_augeas.erb'),
       }
     }

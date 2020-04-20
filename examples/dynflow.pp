@@ -21,7 +21,7 @@ exec { 'Create certificate directory':
   creates => $directory,
 }
 -> exec { 'Generate certificate':
-  command => "openssl req -nodes -x509 -newkey rsa:2048 -subj '/CN=${facts['fqdn']}' -keyout '${key}' -out '${certificate}' -days 365",
+  command => "openssl req -nodes -x509 -newkey rsa:2048 -subj '/CN=${facts['networking']['fqdn']}' -keyout '${key}' -out '${certificate}' -days 365",
   path    => ['/bin', '/usr/bin'],
   creates => $certificate,
   umask   => '0022',

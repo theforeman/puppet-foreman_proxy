@@ -28,7 +28,7 @@
 #
 class foreman_proxy::plugin::monitoring::icinga2 (
   Boolean $enabled = true,
-  Stdlib::Host $server = $::fqdn,
+  Stdlib::Host $server = $facts['networking']['fqdn'],
   Stdlib::Port $api_port = 5665,
   Stdlib::Absolutepath $api_cacert = '/etc/foreman-proxy/monitoring/ca.crt',
   String $api_user = 'foreman',
@@ -37,7 +37,7 @@ class foreman_proxy::plugin::monitoring::icinga2 (
   Optional[String] $api_password = undef,
   Boolean $verify_ssl = true,
 ) {
-  include ::foreman_proxy::plugin::monitoring
+  include foreman_proxy::plugin::monitoring
 
   foreman_proxy::settings_file { 'monitoring_icinga2':
     template_path => 'foreman_proxy/plugin/monitoring_icinga2.yml.erb',

@@ -32,19 +32,19 @@
 # $mongodb_dir::        directory for Mongo DB
 #
 class foreman_proxy::plugin::pulp (
-  Boolean $enabled = $::foreman_proxy::plugin::pulp::params::enabled,
-  Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::pulp::params::listen_on,
-  Boolean $pulpnode_enabled = $::foreman_proxy::plugin::pulp::params::pulpnode_enabled,
-  Boolean $pulpcore_enabled = $::foreman_proxy::plugin::pulp::params::pulpcore_enabled,
-  Stdlib::HTTPUrl $pulpcore_api_url = $::foreman_proxy::plugin::pulp::params::pulpcore_api_url,
-  Stdlib::HTTPUrl $pulpcore_content_url = $::foreman_proxy::plugin::pulp::params::pulpcore_content_url,
-  Boolean $pulpcore_mirror = $::foreman_proxy::plugin::pulp::params::pulpcore_mirror,
-  Optional[String] $version = $::foreman_proxy::plugin::pulp::params::version,
-  Stdlib::HTTPUrl $pulp_url = $::foreman_proxy::plugin::pulp::params::pulp_url,
-  Stdlib::Absolutepath $pulp_dir = $::foreman_proxy::plugin::pulp::params::pulp_dir,
-  Stdlib::Absolutepath $pulp_content_dir = $::foreman_proxy::plugin::pulp::params::pulp_content_dir,
-  Optional[Stdlib::Absolutepath] $puppet_content_dir = $::foreman_proxy::plugin::pulp::params::puppet_content_dir,
-  Stdlib::Absolutepath $mongodb_dir = $::foreman_proxy::plugin::pulp::params::mongodb_dir,
+  Boolean $enabled = $foreman_proxy::plugin::pulp::params::enabled,
+  Foreman_proxy::ListenOn $listen_on = $foreman_proxy::plugin::pulp::params::listen_on,
+  Boolean $pulpnode_enabled = $foreman_proxy::plugin::pulp::params::pulpnode_enabled,
+  Boolean $pulpcore_enabled = $foreman_proxy::plugin::pulp::params::pulpcore_enabled,
+  Stdlib::HTTPUrl $pulpcore_api_url = $foreman_proxy::plugin::pulp::params::pulpcore_api_url,
+  Stdlib::HTTPUrl $pulpcore_content_url = $foreman_proxy::plugin::pulp::params::pulpcore_content_url,
+  Boolean $pulpcore_mirror = $foreman_proxy::plugin::pulp::params::pulpcore_mirror,
+  Optional[String] $version = $foreman_proxy::plugin::pulp::params::version,
+  Stdlib::HTTPUrl $pulp_url = $foreman_proxy::plugin::pulp::params::pulp_url,
+  Stdlib::Absolutepath $pulp_dir = $foreman_proxy::plugin::pulp::params::pulp_dir,
+  Stdlib::Absolutepath $pulp_content_dir = $foreman_proxy::plugin::pulp::params::pulp_content_dir,
+  Optional[Stdlib::Absolutepath] $puppet_content_dir = $foreman_proxy::plugin::pulp::params::puppet_content_dir,
+  Stdlib::Absolutepath $mongodb_dir = $foreman_proxy::plugin::pulp::params::mongodb_dir,
 ) inherits foreman_proxy::plugin::pulp::params {
   $real_puppet_content_dir = pick($puppet_content_dir, lookup('puppet::server_envs_dir') |$key| { undef }, $facts['puppet_environmentpath'], "${foreman_proxy::puppetcodedir}/environments")
 

@@ -7,8 +7,8 @@ class foreman_proxy::plugin::pulp::params {
   $pulpnode_enabled     = false
   $pulpcore_enabled     = false
   $pulpcore_mirror      = false
-  $pulp_url             = "https://${::fqdn}/pulp"
-  $pulpcore_api_url     = "https://${::fqdn}"
+  $pulp_url             = "https://${facts['networking']['fqdn']}/pulp"
+  $pulpcore_api_url     = "https://${facts['networking']['fqdn']}"
   $pulpcore_content_url = "${pulp_url}/content"
   $pulp_dir             = '/var/lib/pulp'
   $pulp_content_dir     = '/var/lib/pulp/content'

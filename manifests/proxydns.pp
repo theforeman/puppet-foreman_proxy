@@ -19,13 +19,13 @@
 #   entry.
 #
 class foreman_proxy::proxydns(
-  $forwarders = $::foreman_proxy::dns_forwarders,
-  $interface = $::foreman_proxy::dns_interface,
-  $forward_zone = $::foreman_proxy::dns_zone,
-  $reverse_zone = $::foreman_proxy::dns_reverse,
-  String $soa = $::fqdn,
+  $forwarders = $foreman_proxy::dns_forwarders,
+  $interface = $foreman_proxy::dns_interface,
+  $forward_zone = $foreman_proxy::dns_zone,
+  $reverse_zone = $foreman_proxy::dns_reverse,
+  String $soa = $facts['networking']['fqdn'],
 ) {
-  class { '::dns':
+  class { 'dns':
     forwarders => $forwarders,
   }
 
