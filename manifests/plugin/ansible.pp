@@ -31,37 +31,37 @@
 # $manage_runner_repo:: If true, adds upstream repositories to install ansible-runner package from
 #
 class foreman_proxy::plugin::ansible (
-  Boolean $enabled = $::foreman_proxy::plugin::ansible::params::enabled,
-  Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::ansible::params::listen_on,
-  Stdlib::Absolutepath $ansible_dir = $::foreman_proxy::plugin::ansible::params::ansible_dir,
-  Optional[Stdlib::Absolutepath] $working_dir = $::foreman_proxy::plugin::ansible::params::working_dir,
-  Boolean $host_key_checking = $::foreman_proxy::plugin::ansible::params::host_key_checking,
-  String $stdout_callback = $::foreman_proxy::plugin::ansible::params::stdout_callback,
-  Array[Stdlib::Absolutepath] $roles_path = $::foreman_proxy::plugin::ansible::params::roles_path,
-  String $ssh_args = $::foreman_proxy::plugin::ansible::params::ssh_args,
-  Boolean $install_runner = $::foreman_proxy::plugin::ansible::params::install_runner,
-  Boolean $manage_runner_repo = $::foreman_proxy::plugin::ansible::params::manage_runner_repo,
+  Boolean $enabled = $foreman_proxy::plugin::ansible::params::enabled,
+  Foreman_proxy::ListenOn $listen_on = $foreman_proxy::plugin::ansible::params::listen_on,
+  Stdlib::Absolutepath $ansible_dir = $foreman_proxy::plugin::ansible::params::ansible_dir,
+  Optional[Stdlib::Absolutepath] $working_dir = $foreman_proxy::plugin::ansible::params::working_dir,
+  Boolean $host_key_checking = $foreman_proxy::plugin::ansible::params::host_key_checking,
+  String $stdout_callback = $foreman_proxy::plugin::ansible::params::stdout_callback,
+  Array[Stdlib::Absolutepath] $roles_path = $foreman_proxy::plugin::ansible::params::roles_path,
+  String $ssh_args = $foreman_proxy::plugin::ansible::params::ssh_args,
+  Boolean $install_runner = $foreman_proxy::plugin::ansible::params::install_runner,
+  Boolean $manage_runner_repo = $foreman_proxy::plugin::ansible::params::manage_runner_repo,
 ) inherits foreman_proxy::plugin::ansible::params {
-  $foreman_url = $::foreman_proxy::foreman_base_url
-  $foreman_ssl_cert = pick($::foreman_proxy::foreman_ssl_cert, $::foreman_proxy::ssl_cert)
-  $foreman_ssl_key = pick($::foreman_proxy::foreman_ssl_key, $::foreman_proxy::ssl_key)
-  $foreman_ssl_ca = pick($::foreman_proxy::foreman_ssl_ca, $::foreman_proxy::ssl_ca)
+  $foreman_url = $foreman_proxy::foreman_base_url
+  $foreman_ssl_cert = pick($foreman_proxy::foreman_ssl_cert, $foreman_proxy::ssl_cert)
+  $foreman_ssl_key = pick($foreman_proxy::foreman_ssl_key, $foreman_proxy::ssl_key)
+  $foreman_ssl_ca = pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca)
 
   file {"${foreman_proxy::config_dir}/ansible.cfg":
     ensure  => file,
     content => template('foreman_proxy/plugin/ansible.cfg.erb'),
     owner   => 'root',
-    group   => $::foreman_proxy::user,
+    group   => $foreman_proxy::user,
     mode    => '0640',
   }
-  ~> file { "${::foreman_proxy::dir}/.ansible.cfg":
+  ~> file { "${foreman_proxy::dir}/.ansible.cfg":
     ensure => link,
     target => "${foreman_proxy::config_dir}/ansible.cfg",
   }
 
-  include ::foreman_proxy::plugin::dynflow
+  include foreman_proxy::plugin::dynflow
   if $install_runner {
-    include ::foreman_proxy::plugin::ansible::runner
+    include foreman_proxy::plugin::ansible::runner
   }
 
   foreman_proxy::plugin::module { 'ansible':

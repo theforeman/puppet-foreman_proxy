@@ -46,7 +46,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 
   include foreman_proxy::params
-  include ::foreman_proxy::plugin::dynflow
+  include foreman_proxy::plugin::dynflow
 
   foreman_proxy::plugin::module { 'remote_execution_ssh':
     enabled   => $enabled,
@@ -64,13 +64,13 @@ class foreman_proxy::plugin::remote_execution::ssh (
   if $generate_keys {
     file { $ssh_identity_dir:
       ensure => directory,
-      owner  => $::foreman_proxy::user,
-      group  => $::foreman_proxy::user,
+      owner  => $foreman_proxy::user,
+      group  => $foreman_proxy::user,
       mode   => '0700',
     }
     -> exec { 'generate_ssh_key':
       command => "${ssh_keygen} -f ${ssh_identity_path} -N ''",
-      user    => $::foreman_proxy::user,
+      user    => $foreman_proxy::user,
       cwd     => $ssh_identity_dir,
       creates => $ssh_identity_path,
     }

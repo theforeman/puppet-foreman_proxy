@@ -4,17 +4,17 @@ class foreman_proxy::proxydhcp {
   # puppet fact names are converted from ethX.X and ethX:X to ethX_X
   # so for alias and vlan interfaces we have to modify the name accordingly
   $interface_fact_name = regsubst($foreman_proxy::dhcp_interface, '[.:]', '_')
-  $ip = pick_default($::foreman_proxy::dhcp_pxeserver, fact("ipaddress_${interface_fact_name}"))
+  $ip = pick_default($foreman_proxy::dhcp_pxeserver, fact("ipaddress_${interface_fact_name}"))
   unless ($ip =~ Stdlib::Compat::Ipv4) {
     fail("Could not get the ip address from fact ipaddress_${interface_fact_name}")
   }
 
-  $net  = pick_default($::foreman_proxy::dhcp_network, fact("network_${interface_fact_name}"))
+  $net  = pick_default($foreman_proxy::dhcp_network, fact("network_${interface_fact_name}"))
   unless ($net =~ Stdlib::Compat::Ipv4) {
     fail("Could not get the network address from fact network_${interface_fact_name}")
   }
 
-  $mask = pick_default($::foreman_proxy::dhcp_netmask, fact("netmask_${interface_fact_name}"))
+  $mask = pick_default($foreman_proxy::dhcp_netmask, fact("netmask_${interface_fact_name}"))
   unless ($mask =~ Stdlib::Compat::Ipv4) {
     fail("Could not get the network mask from fact netmask_${interface_fact_name}")
   }
@@ -31,7 +31,7 @@ class foreman_proxy::proxydhcp {
     $failover = undef
   }
 
-  class { '::dhcp':
+  class { 'dhcp':
     dnsdomain   => $foreman_proxy::dhcp_option_domain,
     nameservers => $nameservers,
     interfaces  => [$foreman_proxy::dhcp_interface] + $foreman_proxy::dhcp_additional_interfaces,
@@ -41,7 +41,7 @@ class foreman_proxy::proxydhcp {
     omapi_key   => $foreman_proxy::dhcp_key_secret,
   }
 
-  ::dhcp::pool{ $::domain:
+  ::dhcp::pool{ $facts['networking']['domain']:
     network        => $net,
     mask           => $mask,
     range          => $foreman_proxy::dhcp_range,
@@ -58,10 +58,10 @@ class foreman_proxy::proxydhcp {
     }
 
     ['/etc/dhcp', '/var/lib/dhcpd'].each |$path| {
-      exec { "Allow ${::foreman_proxy::user} to read ${path}":
-        command => "setfacl -R -m u:${::foreman_proxy::user}:rx ${path}",
+      exec { "Allow ${foreman_proxy::user} to read ${path}":
+        command => "setfacl -R -m u:${foreman_proxy::user}:rx ${path}",
         path    => '/usr/bin',
-        unless  => "getfacl -p ${path} | grep user:${::foreman_proxy::user}:r-x",
+        unless  => "getfacl -p ${path} | grep user:${foreman_proxy::user}:r-x",
         require => Package['acl'],
       }
     }
@@ -69,7 +69,7 @@ class foreman_proxy::proxydhcp {
   }
 
   if $failover {
-    class {'::dhcp::failover':
+    class {'dhcp::failover':
       peer_address        => $foreman_proxy::dhcp_peer_address,
       role                => $foreman_proxy::dhcp_node_type,
       address             => $foreman_proxy::dhcp_failover_address,

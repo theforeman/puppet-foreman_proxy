@@ -12,7 +12,7 @@ class foreman_proxy::plugin::ansible::runner(
   if $manage_runner_repo {
     case $facts['os']['family'] {
       'Debian': {
-        include ::apt
+        include apt
         apt::source { 'ansible-runner':
           repos    => 'main',
           location => 'https://releases.ansible.com/ansible-runner/deb',

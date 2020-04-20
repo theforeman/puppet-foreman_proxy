@@ -1,15 +1,15 @@
 # @summary Set up the tftp service
 # @api private
 class foreman_proxy::tftp (
-  $user = $::foreman_proxy::user,
-  $root = $::foreman_proxy::tftp_root,
-  $directories = $::foreman_proxy::tftp_dirs,
-  $syslinux_filenames = $::foreman_proxy::tftp_syslinux_filenames,
-  $manage_wget = $::foreman_proxy::tftp_manage_wget,
-  $wget_version = $::foreman_proxy::ensure_packages_version,
-  $tftp_replace_grub2_cfg = $::foreman_proxy::tftp_replace_grub2_cfg,
+  $user = $foreman_proxy::user,
+  $root = $foreman_proxy::tftp_root,
+  $directories = $foreman_proxy::tftp_dirs,
+  $syslinux_filenames = $foreman_proxy::tftp_syslinux_filenames,
+  $manage_wget = $foreman_proxy::tftp_manage_wget,
+  $wget_version = $foreman_proxy::ensure_packages_version,
+  $tftp_replace_grub2_cfg = $foreman_proxy::tftp_replace_grub2_cfg,
 ) {
-  class { '::tftp':
+  class { 'tftp':
     root => $root,
   }
 
@@ -44,7 +44,7 @@ class foreman_proxy::tftp (
     ensure_packages(['wget'], { ensure => $wget_version, })
   }
 
-  contain ::foreman_proxy::tftp::netboot
+  contain foreman_proxy::tftp::netboot
 
   File[$directories] -> Class['foreman_proxy::tftp::netboot']
 }

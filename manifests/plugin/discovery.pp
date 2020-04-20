@@ -13,10 +13,10 @@
 #   tarball with images
 #
 class foreman_proxy::plugin::discovery (
-  Boolean $install_images = $::foreman_proxy::plugin::discovery::params::install_images,
-  Stdlib::Absolutepath $tftp_root = $::foreman_proxy::plugin::discovery::params::tftp_root,
-  Stdlib::HTTPUrl $source_url = $::foreman_proxy::plugin::discovery::params::source_url,
-  String $image_name = $::foreman_proxy::plugin::discovery::params::image_name,
+  Boolean $install_images = $foreman_proxy::plugin::discovery::params::install_images,
+  Stdlib::Absolutepath $tftp_root = $foreman_proxy::plugin::discovery::params::tftp_root,
+  Stdlib::HTTPUrl $source_url = $foreman_proxy::plugin::discovery::params::source_url,
+  String $image_name = $foreman_proxy::plugin::discovery::params::image_name,
 ) inherits foreman_proxy::plugin::discovery::params {
   foreman_proxy::plugin {'discovery':
   }

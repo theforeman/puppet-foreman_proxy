@@ -27,14 +27,14 @@
 #                 can be set to specific version number, 'latest', 'present' etc.
 #
 class foreman_proxy::plugin::chef (
-  Boolean $enabled = $::foreman_proxy::plugin::chef::params::enabled,
-  Foreman_proxy::ListenOn $listen_on = $::foreman_proxy::plugin::chef::params::listen_on,
-  Optional[String] $version = $::foreman_proxy::plugin::chef::params::version,
-  Stdlib::HTTPUrl $server_url = $::foreman_proxy::plugin::chef::params::server_url,
-  String $client_name = $::foreman_proxy::plugin::chef::params::client_name,
-  Stdlib::Absolutepath $private_key = $::foreman_proxy::plugin::chef::params::private_key,
-  Boolean $ssl_verify = $::foreman_proxy::plugin::chef::params::ssl_verify,
-  Optional[Stdlib::Absolutepath] $ssl_pem_file = $::foreman_proxy::plugin::chef::params::ssl_pem_file,
+  Boolean $enabled = $foreman_proxy::plugin::chef::params::enabled,
+  Foreman_proxy::ListenOn $listen_on = $foreman_proxy::plugin::chef::params::listen_on,
+  Optional[String] $version = $foreman_proxy::plugin::chef::params::version,
+  Stdlib::HTTPUrl $server_url = $foreman_proxy::plugin::chef::params::server_url,
+  String $client_name = $foreman_proxy::plugin::chef::params::client_name,
+  Stdlib::Absolutepath $private_key = $foreman_proxy::plugin::chef::params::private_key,
+  Boolean $ssl_verify = $foreman_proxy::plugin::chef::params::ssl_verify,
+  Optional[Stdlib::Absolutepath] $ssl_pem_file = $foreman_proxy::plugin::chef::params::ssl_pem_file,
 ) inherits foreman_proxy::plugin::chef::params {
   foreman_proxy::plugin::module { 'chef':
     enabled   => $enabled,

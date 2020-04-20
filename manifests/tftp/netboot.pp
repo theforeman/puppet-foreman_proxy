@@ -13,10 +13,10 @@
 #   The root directory to use for grub
 #
 class foreman_proxy::tftp::netboot (
-  Array[String] $packages = $::foreman_proxy::tftp::netboot::params::packages,
-  Enum['redhat_exec', 'redhat', 'redhat_old', 'debian', 'none'] $grub_installation_type = $::foreman_proxy::tftp::netboot::params::grub_installation_type,
-  String $grub_modules = $::foreman_proxy::tftp::netboot::params::grub_modules,
-  Stdlib::Absolutepath $root = $::foreman_proxy::tftp::root,
+  Array[String] $packages = $foreman_proxy::tftp::netboot::params::packages,
+  Enum['redhat_exec', 'redhat', 'redhat_old', 'debian', 'none'] $grub_installation_type = $foreman_proxy::tftp::netboot::params::grub_installation_type,
+  String $grub_modules = $foreman_proxy::tftp::netboot::params::grub_modules,
+  Stdlib::Absolutepath $root = $foreman_proxy::tftp::root,
 ) inherits foreman_proxy::tftp::netboot::params {
   ensure_packages($packages, { ensure => 'present', })
 
@@ -29,8 +29,8 @@ class foreman_proxy::tftp::netboot (
   case $grub_installation_type {
     'redhat_exec': {
       $efi_lib_dir = '/usr/lib/grub/x86_64-efi'
-      $grub_efi_path = $::operatingsystem ? {
-        /Fedora|CentOS/ => downcase($::operatingsystem),
+      $grub_efi_path = $facts['os']['name'] ? {
+        /Fedora|CentOS/ => downcase($facts['os']['name']),
         default         => 'redhat',
       }
 
@@ -57,8 +57,8 @@ class foreman_proxy::tftp::netboot (
         default => 'shimx64.efi'
       }
 
-      $grub_efi_path = $::operatingsystem ? {
-        /Fedora|CentOS/ => downcase($::operatingsystem),
+      $grub_efi_path = $facts['os']['name'] ? {
+        /Fedora|CentOS/ => downcase($facts['os']['name']),
         default         => 'redhat',
       }
 

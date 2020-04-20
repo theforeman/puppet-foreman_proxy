@@ -11,7 +11,7 @@ define foreman_proxy::plugin(
   $package = "${foreman_proxy::params::plugin_prefix}${title}",
 ) {
   # Debian gem2deb converts underscores to hyphens
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Debian': {
       $real_package = regsubst($package,'_','-','G')
     }

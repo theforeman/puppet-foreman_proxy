@@ -2,9 +2,9 @@
 # @api private
 class foreman_proxy::params inherits foreman_proxy::globals {
 
-  $lower_fqdn = downcase($::fqdn)
+  $lower_fqdn = downcase($facts['networking']['fqdn'])
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       if versioncmp($facts['os']['release']['major'], '7') <= 0 {
         $ruby_package_prefix = 'tfm-rubygem-'
@@ -50,7 +50,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $keyfile  = '/etc/bind/rndc.key'
       $nsupdate = 'dnsutils'
 
-      if $::operatingsystem == 'Ubuntu' {
+      if $facts['os']['name'] == 'Ubuntu' {
         $tftp_root = '/var/lib/tftpboot'
       } else {
         $tftp_root = '/srv/tftp'
@@ -99,11 +99,11 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       ]
     }
     default: {
-      fail("${::hostname}: This module does not support osfamily ${::osfamily}")
+      fail("${facts['networking']['hostname']}: This module does not support osfamily ${facts['os']['family']}")
     }
   }
 
-  if $::osfamily !~ /^(FreeBSD|DragonFly)$/ {
+  if $facts['os']['family'] !~ /^(FreeBSD|DragonFly)$/ {
     if fact('aio_agent_version') =~ String[1] {
       $puppet_bindir = '/opt/puppetlabs/bin'
       $puppetdir     = '/etc/puppetlabs/puppet'
@@ -177,7 +177,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $use_sudoers = true
 
   # puppet settings
-  $puppet_url                 = "https://${::fqdn}:8140"
+  $puppet_url                 = "https://${facts['networking']['fqdn']}:8140"
   $puppet_api_timeout         = 30
 
   # puppetca settings
@@ -215,7 +215,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   # Template settings
   $templates           = false
   $templates_listen_on = 'both'
-  $template_url        = "http://${::fqdn}:${http_port}"
+  $template_url        = "http://${facts['networking']['fqdn']}:${http_port}"
 
   # Logs settings
   $logs           = true
@@ -244,7 +244,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $dhcp_additional_interfaces = []
   $dhcp_gateway            = undef
   $dhcp_range              = undef
-  $dhcp_option_domain      = [$::domain]
+  $dhcp_option_domain      = [$facts['networking']['domain']]
   $dhcp_search_domains     = undef
   $dhcp_pxeserver          = undef
   $dhcp_pxefilename        = 'pxelinux.0'
@@ -275,14 +275,14 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $dns_managed            = true
   $dns_provider           = 'nsupdate'
   $dns_interface          = pick(fact('networking.primary'), 'eth0')
-  $dns_zone               = $::domain
+  $dns_zone               = $facts['networking']['domain']
   $dns_realm              = upcase($dns_zone)
   $dns_reverse            = undef
   # localhost can resolve to ipv6 which ruby doesn't handle well
   $dns_server             = '127.0.0.1'
   $dns_ttl                = 86400
   $dns_tsig_keytab        = "${config_dir}/dns.keytab"
-  $dns_tsig_principal     = "foremanproxy/${::fqdn}@${dns_realm}"
+  $dns_tsig_principal     = "foremanproxy/${facts['networking']['fqdn']}@${dns_realm}"
 
   $dns_forwarders = []
 
@@ -317,7 +317,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   # Foreman instance URL for registration
   $foreman_base_url = "https://${lower_fqdn}"
   # Name the proxy should be registered with
-  $registered_name = $::fqdn
+  $registered_name = $facts['networking']['fqdn']
   # Proxy URL to be registered
   $registered_proxy_url = undef
   # User to be used for registration

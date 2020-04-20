@@ -20,14 +20,14 @@
 # $enabled::               Enable this plugin.
 #
 class foreman_proxy::plugin::monitoring::icingadirector (
-  Boolean $enabled = $::foreman_proxy::plugin::monitoring::icingadirector::params::enabled,
-  Stdlib::HTTPUrl $director_url = $::foreman_proxy::plugin::monitoring::icingadirector::params::director_url,
-  Stdlib::Absolutepath $director_cacert = $::foreman_proxy::plugin::monitoring::icingadirector::params::director_cacert,
-  Optional[String] $director_user = $::foreman_proxy::plugin::monitoring::icingadirector::params::director_user,
-  Optional[String] $director_password = $::foreman_proxy::plugin::monitoring::icingadirector::params::director_password,
-  Boolean $verify_ssl = $::foreman_proxy::plugin::monitoring::icingadirector::params::verify_ssl,
+  Boolean $enabled = $foreman_proxy::plugin::monitoring::icingadirector::params::enabled,
+  Stdlib::HTTPUrl $director_url = $foreman_proxy::plugin::monitoring::icingadirector::params::director_url,
+  Stdlib::Absolutepath $director_cacert = $foreman_proxy::plugin::monitoring::icingadirector::params::director_cacert,
+  Optional[String] $director_user = $foreman_proxy::plugin::monitoring::icingadirector::params::director_user,
+  Optional[String] $director_password = $foreman_proxy::plugin::monitoring::icingadirector::params::director_password,
+  Boolean $verify_ssl = $foreman_proxy::plugin::monitoring::icingadirector::params::verify_ssl,
 ) inherits foreman_proxy::plugin::monitoring::icingadirector::params {
-  include ::foreman_proxy::plugin::monitoring
+  include foreman_proxy::plugin::monitoring
 
   foreman_proxy::settings_file { 'monitoring_icingadirector':
     template_path => 'foreman_proxy/plugin/monitoring_icingadirector.yml.erb',
