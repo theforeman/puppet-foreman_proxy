@@ -54,7 +54,12 @@ describe 'foreman_proxy::tftp::netboot' do
           it { is_expected.to contain_class('foreman_proxy::tftp::netboot').with_grub_installation_type('redhat_old') }
           it { should contain_package('grub').with_ensure('present') }
           it { should contain_file('/var/lib/tftpboot/grub/grubx64.efi').with_ensure('file').with_owner('root').with_mode('0644').with_source('/boot/efi/EFI/redhat/grub.efi') }
-          it { should contain_file('/var/lib/tftpboot/grub/shim.efi').with_ensure('link') }
+
+          if facts[:operatingsystemmajrelease].to_i == 8
+            it { should contain_file('/var/lib/tftpboot/grub/shimx64.efi').with_ensure('link') }
+          else
+            it { should contain_file('/var/lib/tftpboot/grub/shim.efi').with_ensure('link') }
+          end
         end
       else
         it { is_expected.to contain_class('foreman_proxy::tftp::netboot').with_grub_installation_type('none') }

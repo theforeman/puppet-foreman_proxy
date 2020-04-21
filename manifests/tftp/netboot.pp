@@ -52,6 +52,11 @@ class foreman_proxy::tftp::netboot (
       }
     }
     'redhat': {
+      $shim_file = $facts['os']['release']['major'] ? {
+        '7'     => 'shim.efi',
+        default => 'shimx64.efi'
+      }
+
       $grub_efi_path = $::operatingsystem ? {
         /Fedora|CentOS/ => downcase($::operatingsystem),
         default         => 'redhat',
@@ -62,9 +67,9 @@ class foreman_proxy::tftp::netboot (
         source => "/boot/efi/EFI/${grub_efi_path}/grubx64.efi",
       }
 
-      file { "${root}/grub2/shim.efi":
+      file { "${root}/grub2/${shim_file}":
         ensure => file,
-        source => "/boot/efi/EFI/${grub_efi_path}/shim.efi",
+        source => "/boot/efi/EFI/${grub_efi_path}/${shim_file}",
         mode   => '0644',
         owner  => 'root',
       }
