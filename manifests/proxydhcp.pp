@@ -39,6 +39,7 @@ class foreman_proxy::proxydhcp {
     pxefilename => $foreman_proxy::dhcp_pxefilename,
     omapi_name  => $foreman_proxy::dhcp_key_name,
     omapi_key   => $foreman_proxy::dhcp_key_secret,
+    includes    => $foreman_proxy::dhcp_includes,
   }
 
   ::dhcp::pool{ $::domain:

@@ -286,6 +286,8 @@
 #
 # $dhcp_load_balance::          Cutoff after which load balancing is disabled
 #
+# $dhcp_includes::              Array of additional configuration files to be included into DHCP server configuration
+#
 # $dhcp_manage_acls::           Whether to manage DHCP directory ACLs. This allows the Foreman Proxy user to access even if the directory mode is 0750.
 #
 # $httpboot::                   Enable HTTPBoot feature
@@ -409,6 +411,7 @@ class foreman_proxy (
   Optional[Integer[0]] $dhcp_mclt = $::foreman_proxy::params::dhcp_mclt,
   Optional[Integer[0, 255]] $dhcp_load_split = $::foreman_proxy::params::dhcp_load_split,
   Optional[Integer[0]] $dhcp_load_balance = $::foreman_proxy::params::dhcp_load_balance,
+  Variant[Array[String], Optional[String]] $dhcp_includes = $::foreman_proxy::params::dhcp_includes,
   Boolean $dhcp_manage_acls = $::foreman_proxy::params::dhcp_manage_acls,
   Boolean $dns = $::foreman_proxy::params::dns,
   Foreman_proxy::ListenOn $dns_listen_on = $::foreman_proxy::params::dns_listen_on,
