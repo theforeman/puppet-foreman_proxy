@@ -46,7 +46,7 @@ class foreman_proxy::plugin::pulp (
   Optional[Stdlib::Absolutepath] $puppet_content_dir = $::foreman_proxy::plugin::pulp::params::puppet_content_dir,
   Stdlib::Absolutepath $mongodb_dir = $::foreman_proxy::plugin::pulp::params::mongodb_dir,
 ) inherits foreman_proxy::plugin::pulp::params {
-  $real_puppet_content_dir = pick($puppet_content_dir, lookup('puppet::server_envs_dir') |$key| { undef }, $facts['puppet_environmentpath'], "${foreman_proxy::puppetdir}/environments")
+  $real_puppet_content_dir = pick($puppet_content_dir, lookup('puppet::server_envs_dir') |$key| { undef }, $facts['puppet_environmentpath'], "${foreman_proxy::puppetcodedir}/environments")
 
   foreman_proxy::plugin {'pulp':
     version => $version,

@@ -104,7 +104,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   }
 
   if $::osfamily !~ /^(FreeBSD|DragonFly)$/ {
-    if $::rubysitedir =~ /\/opt\/puppetlabs\/puppet/ {
+    if fact('aio_agent_version') =~ String[1] {
       $puppet_bindir = '/opt/puppetlabs/bin'
       $puppetdir     = '/etc/puppetlabs/puppet'
       $ssldir        = "${puppetdir}/ssl"
@@ -113,6 +113,12 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $puppetdir     = '/etc/puppet'
       $ssldir        = '/var/lib/puppet/ssl'
     }
+  }
+
+  if fact('aio_agent_version') =~ String[1] {
+    $puppetcodedir = '/etc/puppetlabs/code'
+  } else {
+    $puppetcodedir = "${puppetdir}/code"
   }
 
   $config_dir = "${etc}/foreman-proxy"
