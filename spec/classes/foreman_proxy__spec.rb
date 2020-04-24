@@ -14,20 +14,20 @@ describe 'foreman_proxy' do
         home_dir = '/usr/local/share/foreman-proxy'
         proxy_user_name = 'foreman_proxy'
         shell = '/usr/bin/false'
-        usr_dir = '/usr/local'
+        puppet_path = '/usr/local/bin/puppet'
         ssl_dir = '/var/puppet/ssl'
       else
         dns_group = facts[:osfamily] == 'RedHat' ? 'named' : 'bind'
         etc_dir = '/etc'
-        puppet_etc_dir = "#{etc_dir}/puppet"
+        puppet_etc_dir = "#{etc_dir}/puppetlabs/puppet"
         home_dir = '/usr/share/foreman-proxy'
         proxy_user_name = 'foreman-proxy'
         shell = '/bin/false'
-        usr_dir = '/usr'
-        ssl_dir = '/var/lib/puppet/ssl'
+        puppet_path = '/opt/puppetlabs/bin/puppet'
+        ssl_dir = '/etc/puppetlabs/puppet/ssl'
       end
 
-      puppetca_command = "#{usr_dir}/bin/puppet cert *"
+      puppetca_command = "#{puppet_path} cert *"
 
       context 'without parameters' do
         it { should compile.with_all_deps }
@@ -238,7 +238,7 @@ describe 'foreman_proxy' do
         it 'should generate correct puppet_proxy_ssh.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_ssh.yml", [
             '---',
-            ":command: #{usr_dir}/bin/puppet agent --onetime --no-usecacheonfailure",
+            ":command: #{puppet_path} agent --onetime --no-usecacheonfailure",
             ':use_sudo: false',
             ':wait: false',
             ':user: root',

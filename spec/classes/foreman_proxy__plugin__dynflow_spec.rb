@@ -49,9 +49,9 @@ describe 'foreman_proxy::plugin::dynflow' do
               ':listen: "*"',
               ":port: 8008",
               ":use_https: true",
-              ":ssl_ca_file: /var/lib/puppet/ssl/certs/ca.pem",
-              ":ssl_certificate: /var/lib/puppet/ssl/certs/foo.example.com.pem",
-              ":ssl_private_key: /var/lib/puppet/ssl/private_keys/foo.example.com.pem",
+              ":ssl_ca_file: /etc/puppetlabs/puppet/ssl/certs/ca.pem",
+              ":ssl_certificate: /etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem",
+              ":ssl_private_key: /etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem",
             ])
           end
         else
@@ -94,9 +94,9 @@ describe 'foreman_proxy::plugin::dynflow' do
             ':listen: "*"',
             ':port: 8008',
             ':use_https: true',
-            ':ssl_ca_file: /var/lib/puppet/ssl/certs/ca.pem',
-            ':ssl_certificate: /var/lib/puppet/ssl/certs/foo.example.com.pem',
-            ':ssl_private_key: /var/lib/puppet/ssl/private_keys/foo.example.com.pem',
+            ':ssl_ca_file: /etc/puppetlabs/puppet/ssl/certs/ca.pem',
+            ':ssl_certificate: /etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem',
+            ':ssl_private_key: /etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem',
             ':ssl_disabled_ciphers: ["NULL-MD5", "NULL-SHA"]',
             ':tls_disabled_versions: ["1.1"]',
           ])
