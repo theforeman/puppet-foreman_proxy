@@ -13,7 +13,6 @@ describe 'Scenario: install foreman-proxy with http enabled' do
   let(:pp) do
     <<-EOS
     class { 'foreman_proxy':
-      repo                => 'nightly',
       puppet_group        => 'root',
       register_in_foreman => false,
       http                => true,
