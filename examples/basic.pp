@@ -4,7 +4,6 @@ $key = "${directory}/key.pem"
 
 # Install a proxy
 class { 'foreman_proxy':
-  repo                => 'nightly',
   puppet_group        => 'root',
   register_in_foreman => false,
   ssl_ca              => $certificate,
