@@ -1,14 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'Scenario: install foreman-proxy with http and https enabled' do
-  before(:context) do
-    case os[:family]
-    when /redhat|fedora/
-      on default, 'yum -y remove foreman* tfm-*'
-    when /debian|ubuntu/
-      on default, 'apt-get purge -y foreman*', { :acceptable_exit_codes => [0, 100] }
-    end
-  end
+  before(:context) { purge_installed_packages }
 
   include_examples 'the example', 'dual.pp'
 
