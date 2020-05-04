@@ -44,7 +44,9 @@ class foreman_proxy::tftp (
     ensure_packages(['wget'], { ensure => $wget_version, })
   }
 
+  class { 'foreman_proxy::tftp::netboot':
+    root    => $root,
+    require => File[$directories],
+  }
   contain foreman_proxy::tftp::netboot
-
-  File[$directories] -> Class['foreman_proxy::tftp::netboot']
 }
