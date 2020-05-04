@@ -13,10 +13,10 @@
 #   The root directory to use for grub
 #
 class foreman_proxy::tftp::netboot (
+  Stdlib::Absolutepath $root,
   Array[String] $packages = $foreman_proxy::tftp::netboot::params::packages,
   Enum['redhat', 'debian', 'none'] $grub_installation_type = $foreman_proxy::tftp::netboot::params::grub_installation_type,
   String $grub_modules = $foreman_proxy::tftp::netboot::params::grub_modules,
-  Stdlib::Absolutepath $root = $foreman_proxy::tftp::root,
 ) inherits foreman_proxy::tftp::netboot::params {
   ensure_packages($packages, { ensure => 'present', })
 
