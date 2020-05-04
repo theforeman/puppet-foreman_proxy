@@ -14,7 +14,7 @@
 #
 class foreman_proxy::tftp::netboot (
   Array[String] $packages = $foreman_proxy::tftp::netboot::params::packages,
-  Enum['redhat_exec', 'redhat', 'redhat_old', 'debian', 'none'] $grub_installation_type = $foreman_proxy::tftp::netboot::params::grub_installation_type,
+  Enum['redhat', 'debian', 'none'] $grub_installation_type = $foreman_proxy::tftp::netboot::params::grub_installation_type,
   String $grub_modules = $foreman_proxy::tftp::netboot::params::grub_modules,
   Stdlib::Absolutepath $root = $foreman_proxy::tftp::root,
 ) inherits foreman_proxy::tftp::netboot::params {
@@ -27,30 +27,6 @@ class foreman_proxy::tftp::netboot (
   }
 
   case $grub_installation_type {
-    'redhat_exec': {
-      $efi_lib_dir = '/usr/lib/grub/x86_64-efi'
-      $grub_efi_path = $facts['os']['name'] ? {
-        /Fedora|CentOS/ => downcase($facts['os']['name']),
-        default         => 'redhat',
-      }
-
-      exec { 'build-grub2-efi-image':
-        command => "/usr/bin/grub2-mkimage -O x86_64-efi -d ${efi_lib_dir} -o ${root}/grub2/grubx64.efi -p '' ${grub_modules}",
-        unless  => "/bin/grep -q regexp '${root}/grub2/grubx64.efi'",
-        require => Package[$packages],
-      }
-      -> file { "${root}/grub2/grubx64.efi":
-        mode  => '0644',
-        owner => 'root',
-      }
-
-      file { "${root}/grub2/shim.efi":
-        ensure => file,
-        source => "/boot/efi/EFI/${grub_efi_path}/shim.efi",
-        mode   => '0644',
-        owner  => 'root',
-      }
-    }
     'redhat': {
       $shim_file = $facts['os']['release']['major'] ? {
         '7'     => 'shim.efi',
@@ -72,19 +48,6 @@ class foreman_proxy::tftp::netboot (
         source => "/boot/efi/EFI/${grub_efi_path}/${shim_file}",
         mode   => '0644',
         owner  => 'root',
-      }
-    }
-    'redhat_old': {
-      file {"${root}/grub/grubx64.efi":
-        ensure => file,
-        owner  => 'root',
-        mode   => '0644',
-        source => '/boot/efi/EFI/redhat/grub.efi',
-      }
-
-      file {"${root}/grub/shim.efi":
-        ensure => 'link',
-        target => 'grubx64.efi',
       }
     }
     'debian': {

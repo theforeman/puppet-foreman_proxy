@@ -6,26 +6,8 @@ class foreman_proxy::tftp::netboot::params {
 
   case $facts['os']['family'] {
     'RedHat': {
-      if versioncmp($facts['os']['release']['major'], '6') <= 0 {
-        $grub_installation_type = 'redhat_old'
-        $packages = ['grub']
-      } elsif versioncmp($facts['os']['release']['full'], '7.4') == 0 and $facts['os']['name'] != 'Fedora' {
-        # RHEL 7.4 renamed packages and introduced a regression in the MAC
-        # loading of configs, it was fixed in 7.5
-        # https://bugzilla.redhat.com/show_bug.cgi?id=1483740
-        $grub_installation_type = 'redhat_exec'
-        $packages = ['grub2-efi-x64','grub2-efi-x64-modules','grub2-tools','shim-x64']
-      } elsif versioncmp($facts['os']['release']['full'], '7.4') > 0 and $facts['os']['name'] != 'Fedora' {
-        $grub_installation_type = 'redhat'
-        $packages = ['grub2-efi-x64','grub2-efi-x64-modules','grub2-tools','shim-x64']
-      } elsif versioncmp($facts['os']['release']['full'], '27') >= 0 and $facts['os']['name'] == 'Fedora' {
-        # Fedora 27 started using RHEL7.4 naming scheme for grub2* packages 
-        $grub_installation_type = 'redhat'
-        $packages = ['grub2-efi-x64','grub2-efi-x64-modules','grub2-tools','shim-x64']
-      } else {
-        $grub_installation_type = 'redhat'
-        $packages = ['grub2-efi','grub2-efi-modules','grub2-tools','shim']
-      }
+      $grub_installation_type = 'redhat'
+      $packages = ['grub2-efi-x64','grub2-efi-x64-modules','grub2-tools','shim-x64']
     }
     'Debian': {
       $grub_installation_type = 'debian'
