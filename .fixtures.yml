@@ -13,7 +13,6 @@ fixtures:
     dns:      'https://github.com/theforeman/puppet-dns'
     extlib:   'https://github.com/voxpupuli/puppet-extlib'
     foreman:  'https://github.com/theforeman/puppet-foreman'
-    mysql:    'https://github.com/puppetlabs/puppetlabs-mysql'
     puppet:   'https://github.com/theforeman/puppet-puppet'
     redis:    'https://github.com/voxpupuli/puppet-redis'
     stdlib:   'https://github.com/puppetlabs/puppetlabs-stdlib'
