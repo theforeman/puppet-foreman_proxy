@@ -1,6 +1,6 @@
 # Changelog
 
-## [14.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/14.0.0) (2020-05-15)
+## [14.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/14.0.0) (2020-05-16)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/13.0.0...14.0.0)
 
