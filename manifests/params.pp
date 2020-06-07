@@ -84,7 +84,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $dhcp_manage_acls = false
 
       $keyfile  = '/usr/local/etc/namedb/rndc.key'
-      $nsupdate = 'bind910'
+      $nsupdate = 'bind-tools'
 
       $tftp_root = '/tftpboot'
       $tftp_syslinux_filenames = [
