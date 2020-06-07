@@ -624,7 +624,7 @@ describe 'foreman_proxy' do
           when 'RedHat'
             'bind-utils'
           when 'FreeBSD', 'DragonFly'
-            'bind910'
+            'bind-tools'
           else
             'dnsutils'
           end
