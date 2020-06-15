@@ -69,7 +69,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
       mode   => '0700',
     }
     -> exec { 'generate_ssh_key':
-      command => "${ssh_keygen} -f ${ssh_identity_path} -N ''",
+      command => "${ssh_keygen} -f ${ssh_identity_path} -N '' -m pem",
       user    => $foreman_proxy::user,
       cwd     => $ssh_identity_dir,
       creates => $ssh_identity_path,

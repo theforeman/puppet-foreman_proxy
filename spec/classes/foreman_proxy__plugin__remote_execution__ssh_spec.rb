@@ -25,7 +25,7 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
 
         it 'should configure ssh key' do
           should contain_exec('generate_ssh_key').
-            with_command("/usr/bin/ssh-keygen -f /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy -N ''")
+            with_command("/usr/bin/ssh-keygen -f /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy -N '' -m pem")
         end
 
         it { should_not contain_file('/root/.ssh') }
