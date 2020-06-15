@@ -1,5 +1,14 @@
 # Changelog
 
+## [14.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/14.0.1) (2020-06-15)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.0.0...14.0.1)
+
+**Fixed bugs:**
+
+- Fixes [\#30121](https://projects.theforeman.org/issues/30121) - Generate SSH keys in PEM format [\#600](https://github.com/theforeman/puppet-foreman_proxy/pull/600) ([adamruzicka](https://github.com/adamruzicka))
+- replace nsupdate dependency on FreeBSD [\#597](https://github.com/theforeman/puppet-foreman_proxy/pull/597) ([fraenki](https://github.com/fraenki))
+
 ## [14.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/14.0.0) (2020-05-16)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/13.0.0...14.0.0)
