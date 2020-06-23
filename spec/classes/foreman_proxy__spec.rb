@@ -27,6 +27,22 @@ describe 'foreman_proxy' do
         ssl_dir = '/etc/puppetlabs/puppet/ssl'
       end
 
+      let(:tftp_root) do
+        case facts[:osfamily]
+        when 'Debian'
+          case facts[:operatingsystem]
+          when 'Ubuntu'
+            '/var/lib/tftpboot'
+          else
+            '/srv/tftp'
+          end
+        when 'FreeBSD', 'DragonFly'
+          '/tftpboot'
+        else
+          '/var/lib/tftpboot'
+        end
+      end
+
       puppetca_command = "#{puppet_path} cert *"
 
       context 'without parameters' do
@@ -41,9 +57,9 @@ describe 'foreman_proxy' do
 
         it { should_not contain_class('foreman::repo') }
 
-        it 'should include managed tftp' do
-          should contain_class('foreman_proxy::tftp')
-          should contain_class('tftp')
+        it 'should not include managed tftp' do
+          should_not contain_class('foreman_proxy::tftp')
+          should_not contain_class('tftp')
         end
 
         it 'should not include dns' do
@@ -54,8 +70,8 @@ describe 'foreman_proxy' do
           should_not contain_class('foreman_proxy::proxydhcp')
         end
 
-        it 'should install wget' do
-          should contain_package('wget').with_ensure('present')
+        it 'should not install wget' do
+          should_not contain_package('wget').with_ensure('present')
         end
 
         it "should create the #{proxy_user_name} user" do
@@ -288,24 +304,10 @@ describe 'foreman_proxy' do
           ])
         end
 
-        tftp_root = case facts[:osfamily]
-                    when 'Debian'
-                      case facts[:operatingsystem]
-                      when 'Ubuntu'
-                        '/var/lib/tftpboot'
-                      else
-                        '/srv/tftp'
-                      end
-                    when 'FreeBSD', 'DragonFly'
-                      '/tftpboot'
-                    else
-                      '/var/lib/tftpboot'
-                    end
-
         it 'should generate correct httpboot.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/httpboot.yml", [
             '---',
-            ':enabled: true',
+            ':enabled: false',
             ":root_dir: #{tftp_root}",
           ])
         end
@@ -313,17 +315,9 @@ describe 'foreman_proxy' do
         it 'should generate correct tftp.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/tftp.yml", [
             '---',
-            ':enabled: https',
+            ':enabled: false',
             ":tftproot: #{tftp_root}",
           ])
-        end
-
-        it do
-          should contain_class('foreman_proxy::tftp')
-            .with_user(proxy_user_name)
-            .with_root(tftp_root)
-            .with_manage_wget(true)
-            .with_wget_version('present')
         end
 
         it 'should generate correct realm.yml' do
@@ -474,33 +468,88 @@ describe 'foreman_proxy' do
         end
       end
 
-      context 'with custom tftp parameters' do
-        let :params do
-          super().merge(
-            tftp_root: '/tftproot',
-            tftp_servername: '127.0.1.1',
-          )
+      context 'with tftp' do
+        let(:params) { super().merge(tftp: true) }
+
+        it 'should generate correct httpboot.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/httpboot.yml", [
+            '---',
+            ':enabled: true',
+            ":root_dir: #{tftp_root}",
+          ])
         end
 
         it 'should generate correct tftp.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/tftp.yml", [
             '---',
             ':enabled: https',
-            ':tftproot: /tftproot',
-            ':tftp_servername: 127.0.1.1'
+            ":tftproot: #{tftp_root}",
           ])
         end
-      end
 
-      context 'with tftp_managed => false' do
-        let(:params) { super().merge(tftp_managed: false) }
-
-        it 'should not include the foreman-proxy tftp class' do
-          should_not contain_class('foreman_proxy::tftp')
+        it do
+          should contain_class('foreman_proxy::tftp')
+            .with_user(proxy_user_name)
+            .with_root(tftp_root)
+            .with_manage_wget(true)
+            .with_wget_version('present')
         end
 
-        it 'should not include the ::tftp class' do
-          should_not contain_class('tftp')
+        it 'should install wget' do
+          should contain_package('wget').with_ensure('present')
+        end
+
+        context 'with custom tftp parameters' do
+          let :params do
+            super().merge(
+              tftp_root: '/tftproot',
+              tftp_servername: '127.0.1.1',
+            )
+          end
+
+          it 'should generate correct tftp.yml' do
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/tftp.yml", [
+              '---',
+              ':enabled: https',
+              ':tftproot: /tftproot',
+              ':tftp_servername: 127.0.1.1'
+            ])
+          end
+        end
+
+        context 'with tftp_managed => false' do
+          let(:params) { super().merge(tftp_managed: false) }
+
+          it 'should not include the foreman-proxy tftp class' do
+            should_not contain_class('foreman_proxy::tftp')
+          end
+
+          it 'should not include the ::tftp class' do
+            should_not contain_class('tftp')
+          end
+        end
+
+        context 'with tftp_managed => true' do
+          let(:params) { super().merge(tftp_managed: true) }
+
+          context 'tftp_syslinux_filenames set' do
+            let(:params) do
+              super().merge(
+                tftp_root: '/tftpboot',
+                tftp_syslinux_filenames: ['/my/file', '/my/anotherfile'],
+              )
+            end
+
+            it 'should copy the given files' do
+              should contain_file('/tftpboot/file').with_source('/my/file')
+              should contain_file('/tftpboot/anotherfile').with_source('/my/anotherfile')
+            end
+          end
+
+          context 'with tftp_manage_wget disabled' do
+            let(:params) { super().merge(tftp_manage_wget: false) }
+            it { should_not contain_package('wget') }
+          end
         end
       end
 
@@ -535,29 +584,6 @@ describe 'foreman_proxy' do
               ':bmc_ssh_poweron: "false"',
             ])
           end
-        end
-      end
-
-      context 'with tftp_managed enabled' do
-        let(:params) { super().merge(tftp_managed: true) }
-
-        context 'tftp_syslinux_filenames set' do
-          let(:params) do
-            super().merge(
-              tftp_root: '/tftpboot',
-              tftp_syslinux_filenames: ['/my/file', '/my/anotherfile'],
-            )
-          end
-
-          it 'should copy the given files' do
-            should contain_file('/tftpboot/file').with_source('/my/file')
-            should contain_file('/tftpboot/anotherfile').with_source('/my/anotherfile')
-          end
-        end
-
-        context 'with tftp_manage_wget disabled' do
-          let(:params) { super().merge(tftp_manage_wget: false) }
-          it { should_not contain_package('wget') }
         end
       end
 
