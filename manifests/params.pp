@@ -226,7 +226,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $httpboot_listen_on = 'both'
 
   # TFTP settings - requires optional TFTP puppet module
-  $tftp                   = true
+  $tftp                   = false
   $tftp_listen_on         = 'https'
   $tftp_managed           = true
   $tftp_manage_wget       = true
