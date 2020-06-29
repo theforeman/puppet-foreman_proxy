@@ -58,17 +58,27 @@ class foreman_proxy::proxydns(
     }
   }
 
+  $update_policy = {
+    'rndc-key' => {
+      'action'    => 'grant',
+      'matchtype' => 'zonesub',
+      'rr'        => 'ANY',
+    },
+  }
+
   dns::zone { $forward_zone:
-    soa     => $soa,
-    reverse => false,
-    soaip   => $ip,
-    soaipv6 => $ip6,
+    soa           => $soa,
+    reverse       => false,
+    soaip         => $ip,
+    soaipv6       => $ip6,
+    update_policy => $update_policy,
   }
 
   if $reverse {
     dns::zone { $reverse:
-      soa     => $soa,
-      reverse => true,
+      soa           => $soa,
+      reverse       => true,
+      update_policy => $update_policy,
     }
   }
 }
