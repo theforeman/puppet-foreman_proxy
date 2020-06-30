@@ -1,5 +1,13 @@
 # Changelog
 
+## [14.0.2](https://github.com/theforeman/puppet-foreman_proxy/tree/14.0.2) (2020-06-30)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.0.1...14.0.2)
+
+**Fixed bugs:**
+
+- Fixes [\#30240](https://projects.theforeman.org/issues/30240) - compat with theforeman/dns 8.x [\#603](https://github.com/theforeman/puppet-foreman_proxy/pull/603) ([ekohl](https://github.com/ekohl))
+
 ## [14.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/14.0.1) (2020-06-15)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.0.0...14.0.1)
