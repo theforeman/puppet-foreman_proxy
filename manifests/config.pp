@@ -78,10 +78,7 @@ class foreman_proxy::config {
   contain foreman_proxy::module::puppetca
   foreman_proxy::provider { ['puppetca_hostname_whitelisting', 'puppetca_token_whitelisting']:
   }
-
-  if $foreman_proxy::puppetca_split_configs {
-    foreman_proxy::provider { ['puppetca_http_api', 'puppetca_puppet_cert']:
-    }
+  foreman_proxy::provider { ['puppetca_http_api', 'puppetca_puppet_cert']:
   }
 
   contain foreman_proxy::module::realm
