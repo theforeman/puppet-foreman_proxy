@@ -379,6 +379,15 @@ describe 'foreman_proxy' do
         end
       end
 
+      context 'when not managing puppet group' do
+        it "should manage ssl_key" do
+          should contain_file("/etc/puppetlabs/puppet/ssl/private_keys/#{facts['networking']['fqdn']}")
+            .with_mode('0640')
+            .with_group('foreman-proxy')
+            .with_before('Service["foreman-proxy"]')
+        end
+      end
+
       context 'with custom foreman_ssl params' do
         let :params do
           super().merge(
