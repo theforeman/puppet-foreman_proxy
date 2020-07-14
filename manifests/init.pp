@@ -411,7 +411,7 @@ class foreman_proxy (
   Boolean $dns_managed = $foreman_proxy::params::dns_managed,
   String $dns_provider = $foreman_proxy::params::dns_provider,
   String $dns_interface = $foreman_proxy::params::dns_interface,
-  String $dns_zone = $foreman_proxy::params::dns_zone,
+  Optional[Stdlib::Fqdn] $dns_zone = $foreman_proxy::params::dns_zone,
   Optional[Variant[String, Array[String]]] $dns_reverse = $foreman_proxy::params::dns_reverse,
   String $dns_server = $foreman_proxy::params::dns_server,
   Integer[0] $dns_ttl = $foreman_proxy::params::dns_ttl,

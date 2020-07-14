@@ -288,7 +288,11 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $dns_provider           = 'nsupdate'
   $dns_interface          = pick(fact('networking.primary'), 'eth0')
   $dns_zone               = $facts['networking']['domain']
-  $dns_realm              = upcase($dns_zone)
+  if $dns_zone {
+    $dns_realm            = upcase($dns_zone)
+  } else {
+    $dns_realm            = undef
+  }
   $dns_reverse            = undef
   # localhost can resolve to ipv6 which ruby doesn't handle well
   $dns_server             = '127.0.0.1'
