@@ -225,8 +225,8 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $logs           = true
   $logs_listen_on = 'https'
 
-  # HTTPBoot settings - requires optional httpboot puppet module
-  $httpboot           = undef
+  # HTTPBoot settings
+  $httpboot           = false
   $httpboot_listen_on = 'both'
 
   # TFTP settings - requires optional TFTP puppet module
