@@ -61,6 +61,8 @@
 #
 # $ssldir::                     Puppet CA SSL directory
 #
+# $httpboot::                   Enable HTTPBoot feature. In most deployments this requires HTTP to be enabled as well.
+#
 # $puppetdir::                  Puppet var directory
 #
 # $puppetca_cmd::               Puppet CA command to be allowed in sudoers
@@ -272,8 +274,6 @@
 # $dhcp_load_balance::          Cutoff after which load balancing is disabled
 #
 # $dhcp_manage_acls::           Whether to manage DHCP directory ACLs. This allows the Foreman Proxy user to access even if the directory mode is 0750.
-#
-# $httpboot::                   Enable HTTPBoot feature
 #
 # $httpboot_listen_on::         HTTPBoot proxy to listen on https, http, or both
 #
