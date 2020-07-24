@@ -53,6 +53,8 @@ class foreman_proxy::proxydhcp {
 
   if $foreman_proxy::dhcp_manage_acls {
 
+    Concat<| title == "${dhcp::dhcp_dir}/dhcpd.conf" |> { mode => '0640' }
+
     package {'acl':
       ensure => 'installed',
     }
@@ -65,6 +67,10 @@ class foreman_proxy::proxydhcp {
         require => Package['acl'],
       }
     }
+
+  } else {
+
+    Concat<| title == "${dhcp::dhcp_dir}/dhcpd.conf" |> { mode => '0640', group => $foreman_proxy::user }
 
   }
 
