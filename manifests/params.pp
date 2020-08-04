@@ -26,13 +26,26 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $nsupdate = 'bind-utils'
 
       $tftp_root  = '/var/lib/tftpboot'
-      $tftp_syslinux_filenames = [
-        '/usr/share/syslinux/chain.c32',
-        '/usr/share/syslinux/mboot.c32',
-        '/usr/share/syslinux/menu.c32',
-        '/usr/share/syslinux/memdisk',
-        '/usr/share/syslinux/pxelinux.0',
-      ]
+      if versioncmp($facts['os']['release']['major'], '7') <= 0 {
+        $tftp_syslinux_filenames = [
+          '/usr/share/syslinux/chain.c32',
+          '/usr/share/syslinux/mboot.c32',
+          '/usr/share/syslinux/menu.c32',
+          '/usr/share/syslinux/memdisk',
+          '/usr/share/syslinux/pxelinux.0',
+        ]
+      } else {
+        $tftp_syslinux_filenames = [
+          '/usr/share/syslinux/chain.c32',
+          '/usr/share/syslinux/ldlinux.c32',
+          '/usr/share/syslinux/libcom32.c32',
+          '/usr/share/syslinux/libutil.c32',
+          '/usr/share/syslinux/mboot.c32',
+          '/usr/share/syslinux/menu.c32',
+          '/usr/share/syslinux/memdisk',
+          '/usr/share/syslinux/pxelinux.0',
+        ]
+      }
     }
     'Debian': {
       $ruby_package_prefix = 'ruby-'
