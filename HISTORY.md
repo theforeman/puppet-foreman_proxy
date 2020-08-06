@@ -1,3 +1,92 @@
+## [14.0.2](https://github.com/theforeman/puppet-foreman_proxy/tree/14.0.2) (2020-06-30)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.0.1...14.0.2)
+
+**Fixed bugs:**
+
+- Fixes [\#30240](https://projects.theforeman.org/issues/30240) - compat with theforeman/dns 8.x [\#603](https://github.com/theforeman/puppet-foreman_proxy/pull/603) ([ekohl](https://github.com/ekohl))
+
+## [14.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/14.0.1) (2020-06-15)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.0.0...14.0.1)
+
+**Fixed bugs:**
+
+- Fixes [\#30121](https://projects.theforeman.org/issues/30121) - Generate SSH keys in PEM format [\#600](https://github.com/theforeman/puppet-foreman_proxy/pull/600) ([adamruzicka](https://github.com/adamruzicka))
+- replace nsupdate dependency on FreeBSD [\#597](https://github.com/theforeman/puppet-foreman_proxy/pull/597) ([fraenki](https://github.com/fraenki))
+
+## [14.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/14.0.0) (2020-05-16)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/13.0.0...14.0.0)
+
+**Breaking changes:**
+
+- Use modern facts [\#586](https://github.com/theforeman/puppet-foreman_proxy/issues/586)
+- Remove old Red Hat TFTP install methods [\#590](https://github.com/theforeman/puppet-foreman_proxy/pull/590) ([ekohl](https://github.com/ekohl))
+- Move Ruby package prefix to params [\#575](https://github.com/theforeman/puppet-foreman_proxy/pull/575) ([ekohl](https://github.com/ekohl))
+- Drop group parameter on plugins [\#573](https://github.com/theforeman/puppet-foreman_proxy/pull/573) ([ekohl](https://github.com/ekohl))
+- Introduce foreman\_proxy::globals [\#572](https://github.com/theforeman/puppet-foreman_proxy/pull/572) ([ekohl](https://github.com/ekohl))
+- Remove redundant parameters [\#571](https://github.com/theforeman/puppet-foreman_proxy/pull/571) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Switch AIO detection to use aio\_agent\_version fact [\#585](https://github.com/theforeman/puppet-foreman_proxy/issues/585)
+- Update module dependencies to allow EL8 supported versions [\#595](https://github.com/theforeman/puppet-foreman_proxy/pull/595) ([wbclark](https://github.com/wbclark))
+- Fixes [\#29213](https://projects.theforeman.org/issues/29213) - Support el8 [\#582](https://github.com/theforeman/puppet-foreman_proxy/pull/582) ([wbclark](https://github.com/wbclark))
+- add support for flatcar [\#579](https://github.com/theforeman/puppet-foreman_proxy/pull/579) ([TheKangaroo](https://github.com/TheKangaroo))
+- Allow extlib 5.x [\#578](https://github.com/theforeman/puppet-foreman_proxy/pull/578) ([mmoll](https://github.com/mmoll))
+- Declare features on SSH and Pulp modules [\#570](https://github.com/theforeman/puppet-foreman_proxy/pull/570) ([ekohl](https://github.com/ekohl))
+- Document classes using puppet-strings [\#568](https://github.com/theforeman/puppet-foreman_proxy/pull/568) ([ekohl](https://github.com/ekohl))
+- Refactor modules, plugins and providers design [\#564](https://github.com/theforeman/puppet-foreman_proxy/pull/564) ([ekohl](https://github.com/ekohl))
+- Fixes [\#29005](https://projects.theforeman.org/issues/29005) - Make IPv4 optional in proxydns [\#521](https://github.com/theforeman/puppet-foreman_proxy/pull/521) ([ekohl](https://github.com/ekohl))
+
+**Fixed bugs:**
+
+- correct needed foreman dependency [\#596](https://github.com/theforeman/puppet-foreman_proxy/pull/596) ([mmoll](https://github.com/mmoll))
+- Fixes [\#29690](https://projects.theforeman.org/issues/29690) - install shimx64.efi and shim.efi [\#592](https://github.com/theforeman/puppet-foreman_proxy/pull/592) ([lzap](https://github.com/lzap))
+- Use $f\_p::plugin::dynflow::external\_core [\#574](https://github.com/theforeman/puppet-foreman_proxy/pull/574) ([ekohl](https://github.com/ekohl))
+- Fix chef plugin listen on [\#567](https://github.com/theforeman/puppet-foreman_proxy/pull/567) ([ekohl](https://github.com/ekohl))
+
+**Closed issues:**
+
+- Smart proxy plugin packages not lining up [\#561](https://github.com/theforeman/puppet-foreman_proxy/issues/561)
+
+**Merged pull requests:**
+
+- add Ubuntu integration tests [\#577](https://github.com/theforeman/puppet-foreman_proxy/pull/577) ([mmoll](https://github.com/mmoll))
+- Update the compatibility matrix in the README [\#563](https://github.com/theforeman/puppet-foreman_proxy/pull/563) ([ekohl](https://github.com/ekohl))
+
+## [13.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/13.0.0) (2020-02-12)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/12.1.0...13.0.0)
+
+**Breaking changes:**
+
+- Fixes [\#28877](https://projects.theforeman.org/issues/28877) - Dynamically determine Pulp Puppet dir [\#558](https://github.com/theforeman/puppet-foreman_proxy/pull/558) ([ekohl](https://github.com/ekohl))
+- use pulpcore naming convention [\#556](https://github.com/theforeman/puppet-foreman_proxy/pull/556) ([wbclark](https://github.com/wbclark))
+- Drop Archlinux support [\#553](https://github.com/theforeman/puppet-foreman_proxy/pull/553) ([ekohl](https://github.com/ekohl))
+- Drop Debian 9 and Ubuntu 16.04, add Debian 10 [\#548](https://github.com/theforeman/puppet-foreman_proxy/pull/548) ([mmoll](https://github.com/mmoll))
+- Only manage ISC DHCP when using the ISC provider [\#547](https://github.com/theforeman/puppet-foreman_proxy/pull/547) ([ekohl](https://github.com/ekohl))
+- Only manage DNS for the nsupdate provider [\#545](https://github.com/theforeman/puppet-foreman_proxy/pull/545) ([ekohl](https://github.com/ekohl))
+- Drop database backends for the PowerDNS plugin [\#542](https://github.com/theforeman/puppet-foreman_proxy/pull/542) ([ekohl](https://github.com/ekohl))
+- Handle smart proxy and plugins packaged for SCL [\#538](https://github.com/theforeman/puppet-foreman_proxy/pull/538) ([ehelms](https://github.com/ehelms))
+
+**Implemented enhancements:**
+
+- Allow new major versions of modules [\#559](https://github.com/theforeman/puppet-foreman_proxy/pull/559) ([ekohl](https://github.com/ekohl))
+- Add Pulp 3 HTTP URLs [\#549](https://github.com/theforeman/puppet-foreman_proxy/pull/549) ([ekohl](https://github.com/ekohl))
+
+**Fixed bugs:**
+
+- Fixes [\#28681](https://projects.theforeman.org/issues/28681) - Listen on all dynflow IPs [\#557](https://github.com/theforeman/puppet-foreman_proxy/pull/557) ([ekohl](https://github.com/ekohl))
+- Fixes [\#28559](https://projects.theforeman.org/issues/28559) - keep default ssh args [\#554](https://github.com/theforeman/puppet-foreman_proxy/pull/554) ([ares](https://github.com/ares))
+- Fix tests by using a better IPv6 check [\#544](https://github.com/theforeman/puppet-foreman_proxy/pull/544) ([ekohl](https://github.com/ekohl))
+
+**Merged pull requests:**
+
+- provide no path for pulp3 api url [\#552](https://github.com/theforeman/puppet-foreman_proxy/pull/552) ([jlsherrill](https://github.com/jlsherrill))
+- Refactor plugin parameter handling [\#500](https://github.com/theforeman/puppet-foreman_proxy/pull/500) ([ekohl](https://github.com/ekohl))
+
 ## [12.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/12.1.0) (2019-10-25)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/12.0.1...12.1.0)

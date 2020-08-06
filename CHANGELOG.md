@@ -1,5 +1,31 @@
 # Changelog
 
+## [15.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/15.0.0) (2020-08-07)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.0.2...15.0.0)
+
+**Breaking changes:**
+
+- Drop puppetca\_split\_configs parameter [\#605](https://github.com/theforeman/puppet-foreman_proxy/pull/605) ([ekohl](https://github.com/ekohl))
+- Fixes [\#30198](https://projects.theforeman.org/issues/30198) - Disable TFTP by default [\#602](https://github.com/theforeman/puppet-foreman_proxy/pull/602) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- don't fail on upcase\(\) when domain fact is undefined [\#607](https://github.com/theforeman/puppet-foreman_proxy/pull/607) ([wbclark](https://github.com/wbclark))
+
+**Fixed bugs:**
+
+- Fix tftp on RedHat 8 [\#609](https://github.com/theforeman/puppet-foreman_proxy/pull/609) ([dgoetz](https://github.com/dgoetz))
+- Improve the readability of the provided grub.cfg [\#606](https://github.com/theforeman/puppet-foreman_proxy/pull/606) ([illumino](https://github.com/illumino))
+
+## [14.0.2](https://github.com/theforeman/puppet-foreman_proxy/tree/14.0.2) (2020-06-30)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.0.1...14.0.2)
+
+**Fixed bugs:**
+
+- Fixes [\#30240](https://projects.theforeman.org/issues/30240) - compat with theforeman/dns 8.x [\#603](https://github.com/theforeman/puppet-foreman_proxy/pull/603) ([ekohl](https://github.com/ekohl))
+
 ## [14.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/14.0.1) (2020-06-15)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.0.0...14.0.1)
