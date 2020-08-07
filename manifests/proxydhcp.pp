@@ -82,4 +82,16 @@ class foreman_proxy::proxydhcp {
       omapi_key           => $foreman_proxy::dhcp_key_secret,
     }
   }
+
+  if $foreman_proxy::httpboot {
+    if $foreman_proxy::http {
+      $proxy_base_url = "http://${ip}:${foreman_proxy::http_port}"
+    } else {
+      $proxy_base_url = "https://${ip}:${foreman_proxy::https_port}"
+    }
+
+    dhcp::dhcp_class { 'httpclients':
+      parameters => template('foreman_proxy/httpboot_dhcp_class.erb'),
+    }
+  }
 }
