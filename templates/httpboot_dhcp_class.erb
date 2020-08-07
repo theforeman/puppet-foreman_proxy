@@ -1,0 +1,7 @@
+match if substring(option vendor-class-identifier, 0, 10) = "HTTPClient";
+  if option architecture = 00:0F {
+    filename "<%= @proxy_base_url %>/EFI/grub2/shimia32.efi";
+  } else if option architecture = 00:10 {
+    filename "<%= @proxy_base_url %>/EFI/grub2/shim.efi";
+  }
+  option vendor-class-identifier "HTTPClient"
