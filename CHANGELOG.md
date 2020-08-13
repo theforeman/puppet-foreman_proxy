@@ -1,5 +1,13 @@
 # Changelog
 
+## [15.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/15.1.0) (2020-08-20)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/15.0.0...15.1.0)
+
+**Implemented enhancements:**
+
+- Fixes [\#30632](https://projects.theforeman.org/issues/30632) - Set up HTTPClients in DHCP [\#611](https://github.com/theforeman/puppet-foreman_proxy/pull/611) ([ekohl](https://github.com/ekohl))
+
 ## [15.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/15.0.0) (2020-08-07)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.0.2...15.0.0)
