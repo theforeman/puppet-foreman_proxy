@@ -31,14 +31,31 @@ class foreman_proxy::proxydhcp {
     $failover = undef
   }
 
+  if $foreman_proxy::dhcp_manage_acls {
+    $conf_dir_mode = '0750'
+  } else {
+    # CVE-2020-14335 - if there is a DHCP omapi key set, it may end up being world readable
+    case $facts['os']['family'] {
+      'RedHat': {
+        warning('support for dhcp without acls is deprecated, dhcp config may end up unreadable to the smart-proxy')
+      }
+      'Debian': {
+        warning('support for dhcp without acls is deprecated, your dhcp OMAPI key may end up world readable')
+      }
+      default: {}
+    }
+    $conf_dir_mode = undef
+  }
+
   class { 'dhcp':
-    dnsdomain   => $foreman_proxy::dhcp_option_domain,
-    nameservers => $nameservers,
-    interfaces  => [$foreman_proxy::dhcp_interface] + $foreman_proxy::dhcp_additional_interfaces,
-    pxeserver   => $ip,
-    pxefilename => $foreman_proxy::dhcp_pxefilename,
-    omapi_name  => $foreman_proxy::dhcp_key_name,
-    omapi_key   => $foreman_proxy::dhcp_key_secret,
+    dnsdomain     => $foreman_proxy::dhcp_option_domain,
+    nameservers   => $nameservers,
+    interfaces    => [$foreman_proxy::dhcp_interface] + $foreman_proxy::dhcp_additional_interfaces,
+    pxeserver     => $ip,
+    pxefilename   => $foreman_proxy::dhcp_pxefilename,
+    omapi_name    => $foreman_proxy::dhcp_key_name,
+    omapi_key     => $foreman_proxy::dhcp_key_secret,
+    conf_dir_mode => $conf_dir_mode,
   }
 
   ::dhcp::pool{ $facts['networking']['domain']:
@@ -53,14 +70,12 @@ class foreman_proxy::proxydhcp {
 
   if $foreman_proxy::dhcp_manage_acls {
 
-    package {'acl':
-      ensure => 'installed',
-    }
+    ensure_packages(['grep', 'acl'])
 
-    ['/etc/dhcp', '/var/lib/dhcpd'].each |$path| {
+    [$dhcp::dhcp_dir, dirname($foreman_proxy::dhcp_leases)].each |$path| {
       exec { "Allow ${foreman_proxy::user} to read ${path}":
         command => "setfacl -R -m u:${foreman_proxy::user}:rx ${path}",
-        path    => '/usr/bin',
+        path    => ['/bin', '/usr/bin'],
         unless  => "getfacl -p ${path} | grep user:${foreman_proxy::user}:r-x",
         require => Package['acl'],
       }

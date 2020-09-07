@@ -18,6 +18,17 @@ describe 'foreman_proxy' do
         }
       end
 
+      let(:leases_dir) {
+        case facts[:osfamily]
+        when 'RedHat'
+          '/var/lib/dhcpd'
+        when 'Debian'
+          '/var/lib/dhcp'
+        else
+          '/var/db/dhcpd'
+        end
+      }
+
       context "on physical interface" do
         let :facts do
           facts.merge(
@@ -53,18 +64,20 @@ describe 'foreman_proxy' do
         context "as manager of ACLs for dhcp", unless: ['FreeBSD', 'DragonFly'].include?(facts[:osfamily]) do
           let(:params) { super().merge(dhcp_manage_acls: true) }
 
+          it { is_expected.to contain_class('dhcp').with_conf_dir_mode('0750') }
+
           it do should contain_exec('Allow foreman-proxy to read /etc/dhcp').
             with_command("setfacl -R -m u:foreman-proxy:rx /etc/dhcp")
           end
 
-          it do should contain_exec('Allow foreman-proxy to read /var/lib/dhcpd').
-            with_command("setfacl -R -m u:foreman-proxy:rx /var/lib/dhcpd")
+          it do should contain_exec("Allow foreman-proxy to read #{leases_dir}").
+            with_command("setfacl -R -m u:foreman-proxy:rx #{leases_dir}")
           end
         end
 
-        context "as manager of ACLs for dhcp for RedHat only by default" do
+        context "as manager of ACLs for dhcp for RedHat and Debian by default" do
           case facts[:osfamily]
-          when 'RedHat'
+          when 'RedHat', 'Debian'
             it do should contain_exec('Allow foreman-proxy to read /etc/dhcp').
               with_command('setfacl -R -m u:foreman-proxy:rx /etc/dhcp').
               with_unless('getfacl -p /etc/dhcp | grep user:foreman-proxy:r-x')
@@ -74,13 +87,13 @@ describe 'foreman_proxy' do
           end
 
           case facts[:osfamily]
-          when 'RedHat'
-            it do should contain_exec('Allow foreman-proxy to read /var/lib/dhcpd').
-              with_command("setfacl -R -m u:foreman-proxy:rx /var/lib/dhcpd").
-              with_unless('getfacl -p /var/lib/dhcpd | grep user:foreman-proxy:r-x')
+          when 'RedHat', 'Debian'
+            it do should contain_exec("Allow foreman-proxy to read #{leases_dir}").
+              with_command("setfacl -R -m u:foreman-proxy:rx #{leases_dir}").
+              with_unless("getfacl -p #{leases_dir} | grep user:foreman-proxy:r-x")
             end
           else
-            it { should_not contain_exec('Allow foreman-proxy to read /var/lib/dhcpd') }
+            it { should_not contain_exec("Allow foreman-proxy to read #{leases_dir}") }
           end
         end
 
