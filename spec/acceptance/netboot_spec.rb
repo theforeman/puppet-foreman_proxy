@@ -22,6 +22,6 @@ describe 'Scenario: tftp' do
 
   describe file('/tmp/downloaded_file') do
     it { should be_file }
-    its(:content) { should match(/This file was deployed by Puppet and is under Smart Proxy control/) }
+    its(:content) { should match(/This system was not recognized by Foreman/) }
   end
 end
