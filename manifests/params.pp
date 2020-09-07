@@ -58,7 +58,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
 
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
-      $dhcp_manage_acls = false
+      $dhcp_manage_acls = true
 
       $keyfile  = '/etc/bind/rndc.key'
       $nsupdate = 'dnsutils'
