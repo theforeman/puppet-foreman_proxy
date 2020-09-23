@@ -1,5 +1,18 @@
 # Changelog
 
+## [15.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/15.2.0) (2020-09-23)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/15.1.0...15.2.0)
+
+**Implemented enhancements:**
+
+- Fixes [\#30489](https://projects.theforeman.org/issues/30489) - CVE-2020-14335 world-readable OMAPI [\#614](https://github.com/theforeman/puppet-foreman_proxy/pull/614) ([ezr-ondrej](https://github.com/ezr-ondrej))
+- Fixes [\#30489](https://projects.theforeman.org/issues/30489) - CVE-2020-14335 dhcpd.conf permissions [\#615](https://github.com/theforeman/puppet-foreman_proxy/pull/615) ([ezr-ondrej](https://github.com/ezr-ondrej))
+
+**Fixed bugs:**
+
+- Fixes [\#30072](https://projects.theforeman.org/issues/30072) - update grub default template [\#598](https://github.com/theforeman/puppet-foreman_proxy/pull/598) ([lzap](https://github.com/lzap))
+
 ## [15.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/15.1.0) (2020-08-20)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/15.0.0...15.1.0)
