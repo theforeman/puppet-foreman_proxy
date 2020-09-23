@@ -1,5 +1,13 @@
 # Changelog
 
+## [14.1.1](https://github.com/theforeman/puppet-foreman_proxy/tree/14.1.1) (2020-09-24)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.1.0...14.1.1)
+
+**Fixed bugs::**
+
+- Fixes [\#30489](https://projects.theforeman.org/issues/30489) - CVE-2020-14335 dhcpd.conf permissions [\#615](https://github.com/theforeman/puppet-foreman_proxy/pull/615) ([ezr-ondrej](https://github.com/ezr-ondrej))
+
 ## [14.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/14.1.0) (2020-08-20)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.0.2...14.1.0)
