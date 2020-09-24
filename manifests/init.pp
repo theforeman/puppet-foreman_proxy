@@ -78,29 +78,6 @@
 #
 # $puppet_listen_on::           Protocols for the Puppet feature to listen on
 #
-# $puppetrun_provider::         Provider for running/kicking Puppet agents
-#
-# $customrun_cmd::              Puppet customrun command
-#
-# $customrun_args::             Puppet customrun command arguments
-#
-# $mcollective_user::           The user for puppetrun_provider mcollective
-#
-# $puppetssh_sudo::             Whether to use sudo before commands when using puppetrun_provider puppetssh
-#
-# $puppetssh_command::          The command used by puppetrun_provider puppetssh
-#
-# $puppetssh_user::             The user for puppetrun_provider puppetssh
-#
-# $puppetssh_keyfile::          The keyfile for puppetrun_provider puppetssh commands
-#
-# $puppetssh_wait::             Whether to wait for completion of the Puppet command over SSH and return
-#                               the exit code
-#
-# $salt_puppetrun_cmd::         Salt command to trigger Puppet run
-#
-# $puppet_user::                Which user to invoke sudo as to run puppet commands
-#
 # $puppet_url::                 URL of the Puppet master itself for API requests
 #
 # $puppet_ssl_ca::              SSL CA used to verify connections when accessing the Puppet master API
@@ -342,17 +319,6 @@ class foreman_proxy (
   Boolean $manage_puppet_group = $foreman_proxy::params::manage_puppet_group,
   Boolean $puppet = $foreman_proxy::params::puppet,
   Foreman_proxy::ListenOn $puppet_listen_on = $foreman_proxy::params::puppet_listen_on,
-  Optional[Enum['mcollective', 'ssh', 'salt', 'customrun']] $puppetrun_provider = $foreman_proxy::params::puppetrun_provider,
-  String $customrun_cmd = $foreman_proxy::params::customrun_cmd,
-  String $customrun_args = $foreman_proxy::params::customrun_args,
-  String $mcollective_user = $foreman_proxy::params::mcollective_user,
-  Boolean $puppetssh_sudo = $foreman_proxy::params::puppetssh_sudo,
-  String $puppetssh_command = $foreman_proxy::params::puppetssh_command,
-  String $puppetssh_user = $foreman_proxy::params::puppetssh_user,
-  Stdlib::Absolutepath $puppetssh_keyfile = $foreman_proxy::params::puppetssh_keyfile,
-  Boolean $puppetssh_wait = $foreman_proxy::params::puppetssh_wait,
-  String $salt_puppetrun_cmd = $foreman_proxy::params::salt_puppetrun_cmd,
-  String $puppet_user = $foreman_proxy::params::puppet_user,
   Stdlib::HTTPUrl $puppet_url = $foreman_proxy::params::puppet_url,
   Stdlib::Absolutepath $puppet_ssl_ca = $foreman_proxy::params::ssl_ca,
   Stdlib::Absolutepath $puppet_ssl_cert = $foreman_proxy::params::ssl_cert,

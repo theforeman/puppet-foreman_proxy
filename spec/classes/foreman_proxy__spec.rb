@@ -99,7 +99,6 @@ describe 'foreman_proxy' do
             'dns', 'dns_libvirt', 'dns_nsupdate', 'dns_nsupdate_gss',
             'dhcp', 'dhcp_isc', 'dhcp_libvirt',
             'logs', 'httpboot', 'puppet', 'puppet_proxy_puppet_api',
-            'puppet_proxy_customrun', 'puppet_proxy_mcollective', 'puppet_proxy_salt', 'puppet_proxy_ssh',
             'puppetca', 'puppetca_http_api', 'puppetca_puppet_cert',
             'puppetca_hostname_whitelisting', 'puppetca_token_whitelisting',
             'realm', 'templates', 'tftp'
@@ -214,22 +213,6 @@ describe 'foreman_proxy' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet.yml", [
             '---',
             ':enabled: https',
-            ":puppet_version: #{Puppet.version}",
-          ])
-        end
-
-        it 'should generate correct puppet_proxy_customrun.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_customrun.yml", [
-            '---',
-            ":command: #{shell}",
-            ':command_arguments: -ay -f -s',
-          ])
-        end
-
-        it 'should generate correct puppet_proxy_mcollective.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_mcollective.yml", [
-            '---',
-            ':user: root',
           ])
         end
 
@@ -241,24 +224,6 @@ describe 'foreman_proxy' do
             ":puppet_ssl_cert: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
             ":puppet_ssl_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
             ":api_timeout: 30",
-          ])
-        end
-
-        it 'should generate correct puppet_proxy_salt.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_salt.yml", [
-            '---',
-            ':command: puppet.run',
-          ])
-        end
-
-        it 'should generate correct puppet_proxy_ssh.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_ssh.yml", [
-            '---',
-            ":command: #{puppet_path} agent --onetime --no-usecacheonfailure",
-            ':use_sudo: false',
-            ':wait: false',
-            ':user: root',
-            ":keyfile: #{etc_dir}/foreman-proxy/id_rsa",
           ])
         end
 
@@ -736,60 +701,6 @@ describe 'foreman_proxy' do
             '---',
             ':dns_server: 127.0.0.1',
           ])
-        end
-      end
-
-      context 'with puppetrun_provider set to mcollective and user overridden' do
-        let(:params) do
-          super().merge(
-            puppet: true,
-            puppetrun_provider: 'mcollective',
-            mcollective_user: "peadmin",
-          )
-        end
-
-        it 'should contain mcollective as provider' do
-          should contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet.yml").with_content(/^:use_provider: puppet_proxy_mcollective$/)
-        end
-
-        it 'should contain user overridden' do
-          should contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_mcollective.yml").with_content(/^:user: peadmin$/)
-        end
-      end
-
-      context 'when puppetrun_provider => ssh' do
-        let(:params) { super().merge(puppetrun_provider: 'ssh') }
-
-        it 'should set provider to puppet_proxy_ssh' do
-          should contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet.yml").with_content(/^:use_provider: puppet_proxy_ssh$/)
-        end
-
-        context 'when user/key overridden' do
-          let(:params) { super().merge(puppetssh_user: 'example', puppetssh_keyfile: '/home/example/.ssh/id_rsa') }
-
-          it 'should set puppetssh_user and puppetssh_keyfile' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_ssh.yml", [
-              ':user: example',
-              ':keyfile: /home/example/.ssh/id_rsa',
-            ])
-          end
-        end
-      end
-
-      context 'when puppetrun_provider => salt and command overridden' do
-        let(:params) do
-          super().merge(
-            puppetrun_provider: 'salt',
-            salt_puppetrun_cmd: "puppet.run agent no-noop",
-          )
-        end
-
-        it 'should contain salt as provider' do
-          should contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet.yml").with_content(/^:use_provider: puppet_proxy_salt$/)
-        end
-
-        it 'should contain salt command overridden' do
-          should contain_file("#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_salt.yml").with_content(/^:command: puppet.run agent no-noop$/)
         end
       end
 

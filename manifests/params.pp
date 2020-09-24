@@ -212,18 +212,6 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $puppet = true
   $puppet_listen_on = 'https'
 
-  $puppetrun_provider  = undef
-  $customrun_cmd       = $shell
-  $customrun_args      = '-ay -f -s'
-  $mcollective_user    = 'root'
-  $puppetssh_command   = "${puppet_cmd} agent --onetime --no-usecacheonfailure"
-  $puppetssh_sudo      = false
-  $puppetssh_user      = 'root'
-  $puppetssh_keyfile   = "${config_dir}/id_rsa"
-  $puppetssh_wait      = false
-  $puppet_user         = 'root'
-  $salt_puppetrun_cmd  = 'puppet.run'
-
   # Template settings
   $templates           = false
   $templates_listen_on = 'both'
