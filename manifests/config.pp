@@ -63,16 +63,17 @@ class foreman_proxy::config {
   contain foreman_proxy::module::httpboot
 
   contain foreman_proxy::module::puppet
+  foreman_proxy::provider { 'puppet_proxy_puppet_api':
+  }
   foreman_proxy::provider { [
+      'puppet_proxy_legacy',
+      'puppet_proxy_puppetrun',
       'puppet_proxy_customrun',
       'puppet_proxy_mcollective',
-      'puppet_proxy_puppet_api',
       'puppet_proxy_salt',
       'puppet_proxy_ssh',
     ]:
-  }
-  foreman_proxy::provider { ['puppet_proxy_legacy', 'puppet_proxy_puppetrun']:
-    ensure => 'absent',
+      ensure => 'absent',
   }
 
   contain foreman_proxy::module::puppetca

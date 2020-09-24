@@ -1,15 +1,3 @@
 ---
 # Puppet management
 :enabled: <%= @module_enabled %>
-# valid providers:
-#   puppet_proxy_mcollective (uses mco puppet)
-#   puppet_proxy_ssh         (run puppet over ssh)
-#   puppet_proxy_salt        (uses salt puppet.run)
-#   puppet_proxy_customrun   (calls a custom command with args)
-<% unless [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::puppetrun_provider")) -%>
-:use_provider: puppet_proxy_<%= scope.lookupvar("foreman_proxy::puppetrun_provider") %>
-<% else -%>
-#:use_provider: puppet_proxy_customrun
-<% end -%>
-
-:puppet_version: <%= @puppetversion %>
