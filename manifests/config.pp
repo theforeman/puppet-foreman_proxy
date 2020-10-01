@@ -92,6 +92,8 @@ class foreman_proxy::config {
 
   contain foreman_proxy::module::logs
 
+  contain foreman_proxy::module::registration
+
   if $foreman_proxy::puppetca or $foreman_proxy::puppet {
     $uses_sudo = $foreman_proxy::puppetca and versioncmp($facts['puppetversion'], '6.0') < 0
 

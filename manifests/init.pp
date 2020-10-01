@@ -94,6 +94,10 @@
 #
 # $template_url::               URL a client should use for provisioning templates
 #
+# $registration::               Enable Registration feature
+#
+# $registration_listen_on::     Registration proxy to listen on https, http, or both
+#
 # $logs::                       Enable Logs (log buffer) feature
 #
 # $logs_listen_on::             Logs proxy to listen on https, http, or both
@@ -327,6 +331,8 @@ class foreman_proxy (
   Boolean $templates = $foreman_proxy::params::templates,
   Foreman_proxy::ListenOn $templates_listen_on = $foreman_proxy::params::templates_listen_on,
   Stdlib::HTTPUrl $template_url = $foreman_proxy::params::template_url,
+  Boolean $registration = $foreman_proxy::params::registration,
+  Foreman_proxy::ListenOn $registration_listen_on = $foreman_proxy::params::registration_listen_on,
   Boolean $logs = $foreman_proxy::params::logs,
   Foreman_proxy::ListenOn $logs_listen_on = $foreman_proxy::params::logs_listen_on,
   Optional[Boolean] $httpboot = $foreman_proxy::params::httpboot,

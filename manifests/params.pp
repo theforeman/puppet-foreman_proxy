@@ -217,6 +217,10 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $templates_listen_on = 'both'
   $template_url        = "http://${facts['networking']['fqdn']}:${http_port}"
 
+  # Registration settings
+  $registration           = true
+  $registration_listen_on = 'https'
+
   # Logs settings
   $logs           = true
   $logs_listen_on = 'https'
