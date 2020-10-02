@@ -76,8 +76,10 @@ class foreman_proxy::proxydhcp {
       exec { "Allow ${foreman_proxy::user} to read ${path}":
         command => "setfacl -R -m u:${foreman_proxy::user}:rx ${path}",
         path    => ['/bin', '/usr/bin'],
-        unless  => "getfacl -p ${path} | grep user:${foreman_proxy::user}:r-x",
-        require => Package['acl'],
+        require => [
+          Package['acl'],
+          Class['dhcp'],
+        ],
       }
     }
 

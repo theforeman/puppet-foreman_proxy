@@ -79,8 +79,7 @@ describe 'foreman_proxy' do
           case facts[:osfamily]
           when 'RedHat', 'Debian'
             it do should contain_exec('Allow foreman-proxy to read /etc/dhcp').
-              with_command('setfacl -R -m u:foreman-proxy:rx /etc/dhcp').
-              with_unless('getfacl -p /etc/dhcp | grep user:foreman-proxy:r-x')
+              with_command('setfacl -R -m u:foreman-proxy:rx /etc/dhcp')
             end
           else
             it { should_not contain_exec('Allow foreman-proxy to read /etc/dhcp') }
@@ -89,8 +88,7 @@ describe 'foreman_proxy' do
           case facts[:osfamily]
           when 'RedHat', 'Debian'
             it do should contain_exec("Allow foreman-proxy to read #{leases_dir}").
-              with_command("setfacl -R -m u:foreman-proxy:rx #{leases_dir}").
-              with_unless("getfacl -p #{leases_dir} | grep user:foreman-proxy:r-x")
+              with_command("setfacl -R -m u:foreman-proxy:rx #{leases_dir}")
             end
           else
             it { should_not contain_exec("Allow foreman-proxy to read #{leases_dir}") }
