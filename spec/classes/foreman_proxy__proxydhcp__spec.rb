@@ -18,17 +18,6 @@ describe 'foreman_proxy' do
         }
       end
 
-      let(:leases_dir) {
-        case facts[:osfamily]
-        when 'RedHat'
-          '/var/lib/dhcpd'
-        when 'Debian'
-          '/var/lib/dhcp'
-        else
-          '/var/db/dhcpd'
-        end
-      }
-
       context "on physical interface" do
         let :facts do
           facts.merge(
@@ -69,10 +58,6 @@ describe 'foreman_proxy' do
           it do should contain_exec('Allow foreman-proxy to read /etc/dhcp').
             with_command("setfacl -m u:foreman-proxy:rx /etc/dhcp")
           end
-
-          it do should contain_exec("Allow foreman-proxy to read #{leases_dir}").
-            with_command("setfacl -m u:foreman-proxy:rx #{leases_dir}")
-          end
         end
 
         context "as manager of ACLs for dhcp for RedHat and Debian by default" do
@@ -84,16 +69,6 @@ describe 'foreman_proxy' do
             end
           else
             it { should_not contain_exec('Allow foreman-proxy to read /etc/dhcp') }
-          end
-
-          case facts[:osfamily]
-          when 'RedHat', 'Debian'
-            it do should contain_exec("Allow foreman-proxy to read #{leases_dir}").
-              with_command("setfacl -m u:foreman-proxy:rx #{leases_dir}").
-              with_unless("getfacl -p #{leases_dir} | grep user:foreman-proxy:r-x")
-            end
-          else
-            it { should_not contain_exec("Allow foreman-proxy to read #{leases_dir}") }
           end
         end
 
