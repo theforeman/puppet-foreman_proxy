@@ -72,15 +72,12 @@ class foreman_proxy::proxydhcp {
 
     ensure_packages(['grep', 'acl'])
 
-    [$dhcp::dhcp_dir, dirname($foreman_proxy::dhcp_leases)].each |$path| {
-      exec { "Allow ${foreman_proxy::user} to read ${path}":
-        command => "setfacl -m u:${foreman_proxy::user}:rx ${path}",
-        path    => ['/bin', '/usr/bin'],
-        unless  => "getfacl -p ${path} | grep user:${foreman_proxy::user}:r-x",
-        require => [Class['dhcp'], Package['acl']],
-      }
+    exec { "Allow ${foreman_proxy::user} to read ${dhcp::dhcp_dir}":
+      command => "setfacl -m u:${foreman_proxy::user}:rx ${dhcp::dhcp_dir}",
+      path    => ['/bin', '/usr/bin'],
+      unless  => "getfacl -p ${dhcp::dhcp_dir} | grep user:${foreman_proxy::user}:r-x",
+      require => [Class['dhcp'], Package['acl']],
     }
-
   }
 
   if $failover {
