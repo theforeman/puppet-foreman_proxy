@@ -54,11 +54,11 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(dhcp_manage_acls: true) }
 
           it do should contain_exec('Allow foreman-proxy to read /etc/dhcp').
-            with_command("setfacl -R -m u:foreman-proxy:rx /etc/dhcp")
+            with_command("setfacl -m u:foreman-proxy:rx /etc/dhcp")
           end
 
           it do should contain_exec('Allow foreman-proxy to read /var/lib/dhcpd').
-            with_command("setfacl -R -m u:foreman-proxy:rx /var/lib/dhcpd")
+            with_command("setfacl -m u:foreman-proxy:rx /var/lib/dhcpd")
           end
         end
 
@@ -66,7 +66,7 @@ describe 'foreman_proxy' do
           case facts[:osfamily]
           when 'RedHat'
             it do should contain_exec('Allow foreman-proxy to read /etc/dhcp').
-              with_command('setfacl -R -m u:foreman-proxy:rx /etc/dhcp').
+              with_command('setfacl -m u:foreman-proxy:rx /etc/dhcp').
               with_unless('getfacl -p /etc/dhcp | grep user:foreman-proxy:r-x')
             end
           else
@@ -76,7 +76,7 @@ describe 'foreman_proxy' do
           case facts[:osfamily]
           when 'RedHat'
             it do should contain_exec('Allow foreman-proxy to read /var/lib/dhcpd').
-              with_command("setfacl -R -m u:foreman-proxy:rx /var/lib/dhcpd").
+              with_command("setfacl -m u:foreman-proxy:rx /var/lib/dhcpd").
               with_unless('getfacl -p /var/lib/dhcpd | grep user:foreman-proxy:r-x')
             end
           else
