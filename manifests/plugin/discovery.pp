@@ -1,16 +1,18 @@
-# @summary Install the discovery plugin and images on smart proxies
+# = Foreman Proxy Discovery plugin
 #
-# @param install_images
-#   should the discovery image be downloaded and extracted
+# Install the discovery plugin and images on smart proxies
 #
-# @param tftp_root
-#   tftp root to install image into
+# === Parameters:
 #
-# @param source_url
-#   source URL to download from
+# $install_images::   Download and extract the discovery image
 #
-# @param image_name
-#   tarball with images
+# === Advanced parameters:
+#
+# $tftp_root::    TFTP root directory where extracted discovery image will be installed
+#
+# $source_url::   source URL to download from
+#
+# $image_name::   tarball with images
 #
 class foreman_proxy::plugin::discovery (
   Boolean $install_images = $foreman_proxy::plugin::discovery::params::install_images,
