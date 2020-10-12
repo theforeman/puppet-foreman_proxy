@@ -1,3 +1,11 @@
+## [14.1.2](https://github.com/theforeman/puppet-foreman_proxy/tree/14.1.2) (2020-10-12)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.1.1...14.1.2)
+
+**Fixed bugs::**
+
+- Fixes [\#30962](https://projects.theforeman.org/issues/30962) - Correct DHCP file permissions [\#622](https://github.com/theforeman/puppet-foreman_proxy/pull/622) ([ekohl](https://github.com/ekohl))
+
 ## [14.1.1](https://github.com/theforeman/puppet-foreman_proxy/tree/14.1.1) (2020-09-24)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/14.1.0...14.1.1)
