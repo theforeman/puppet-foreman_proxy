@@ -1,5 +1,14 @@
 # Changelog
 
+## [15.3.0](https://github.com/theforeman/puppet-foreman_proxy/tree/15.3.0) (2020-10-19)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/15.2.0...15.3.0)
+
+**Fixed bugs:**
+
+- Do not set ACLs on DHCP leases directory [\#627](https://github.com/theforeman/puppet-foreman_proxy/pull/627) ([ekohl](https://github.com/ekohl))
+- Do not set recursive ACLs on dhcp [\#627](https://github.com/theforeman/puppet-foreman_proxy/pull/627) ([ekohl](https://github.com/ekohl))
+
 ## [15.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/15.2.0) (2020-09-23)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/15.1.0...15.2.0)
