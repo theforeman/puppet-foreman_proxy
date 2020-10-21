@@ -133,7 +133,6 @@ describe 'foreman_proxy' do
               ':trusted_hosts:',
               "  - #{facts[:fqdn]}",
               ":foreman_url: https://#{facts[:fqdn]}",
-              ':daemon: true',
               ":bind_host: '#{bind_host}'",
               ':https_port: 8443',
               ':log_file: /var/log/foreman-proxy/proxy.log',
