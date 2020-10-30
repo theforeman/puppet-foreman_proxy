@@ -1,5 +1,23 @@
 # Changelog
 
+## [16.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/16.0.0) (2020-10-30)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/15.3.0...16.0.0)
+
+**Breaking changes:**
+
+- Fixes [\#30950](https://projects.theforeman.org/issues/30950) - Enable SmartProxy Registration module [\#619](https://github.com/theforeman/puppet-foreman_proxy/pull/619) ([stejskalleos](https://github.com/stejskalleos))
+- Fixes [\#30669](https://projects.theforeman.org/issues/30669) - Removing puppetrun options [\#618](https://github.com/theforeman/puppet-foreman_proxy/pull/618) ([domitea](https://github.com/domitea))
+
+**Implemented enhancements:**
+
+- Refs [\#29830](https://projects.theforeman.org/issues/29830) - Move discovery plugin docs to RDOC and split out advanced parameters [\#626](https://github.com/theforeman/puppet-foreman_proxy/pull/626) ([ehelms](https://github.com/ehelms))
+- Do not set ACLs on DHCP leases directory [\#623](https://github.com/theforeman/puppet-foreman_proxy/pull/623) ([ekohl](https://github.com/ekohl))
+
+**Fixed bugs:**
+
+- Do not set recursive ACLs on dhcp [\#621](https://github.com/theforeman/puppet-foreman_proxy/pull/621) ([ekohl](https://github.com/ekohl))
+
 ## [15.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/15.2.0) (2020-09-23)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/15.1.0...15.2.0)
