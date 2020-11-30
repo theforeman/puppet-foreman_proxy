@@ -163,6 +163,7 @@ describe 'foreman_proxy' do
             ':enabled: false',
             ':use_provider: dhcp_isc',
             ':server: 127.0.0.1',
+            ':ping_free_ip: true',
           ])
         end
 
@@ -856,6 +857,7 @@ describe 'foreman_proxy' do
               ':enabled: https',
               ':use_provider: dhcp_isc',
               ':server: 127.0.0.1',
+              ':ping_free_ip: true',
             ])
           end
 
@@ -903,6 +905,7 @@ describe 'foreman_proxy' do
               ':enabled: https',
               ':use_provider: dhcp_libvirt',
               ':server: 127.0.0.1',
+              ':ping_free_ip: true',
             ])
 
             verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/dhcp_libvirt.yml", [

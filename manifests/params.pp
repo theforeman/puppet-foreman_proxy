@@ -244,6 +244,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $dhcp_managed            = true
   $dhcp_provider           = 'isc'
   $dhcp_subnets            = []
+  $dhcp_ping_free_ip       = true
   $dhcp_interface          = pick(fact('networking.primary'), 'eth0')
   $dhcp_additional_interfaces = []
   $dhcp_gateway            = undef

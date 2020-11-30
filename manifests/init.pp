@@ -130,6 +130,10 @@
 #
 # $dhcp_subnets::               Subnets list to restrict DHCP management to
 #
+# $dhcp_ping_free_ip::          Perform ICMP and TCP ping when searching free IPs from the pool. This makes
+#                               sure that active IP address is not suggested as free, however in locked down
+#                               network environments this can cause no free IPs.
+#
 # $dhcp_option_domain::         DHCP use the dhcpd config option domain-name
 #
 # $dhcp_search_domains::        DHCP search domains option
@@ -351,6 +355,7 @@ class foreman_proxy (
   Boolean $dhcp_managed = $foreman_proxy::params::dhcp_managed,
   String $dhcp_provider = $foreman_proxy::params::dhcp_provider,
   Array[String] $dhcp_subnets = $foreman_proxy::params::dhcp_subnets,
+  Boolean $dhcp_ping_free_ip = $foreman_proxy::params::dhcp_ping_free_ip,
   Array[String] $dhcp_option_domain = $foreman_proxy::params::dhcp_option_domain,
   Optional[Array[String]] $dhcp_search_domains = $foreman_proxy::params::dhcp_search_domains,
   String $dhcp_interface = $foreman_proxy::params::dhcp_interface,
