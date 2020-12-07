@@ -17,12 +17,13 @@ class foreman_proxy::plugin::ansible::runner(
           repos    => 'main',
           location => 'https://releases.ansible.com/ansible-runner/deb',
           key      => {
-            id     => 'AC48AC71DA695CA15F2D39C4B84E339C442667A9',
-            source => 'https://releases.ansible.com/keys/RPM-GPG-KEY-ansible-release.pub',
+            id     => 'B7196EFF934FBC94FBCDF40DD430849D3DD29021',
+            server => 'keyserver.ubuntu.com',
           },
           include  => {
             src => false,
           },
+          before   => Package[$package_name],
         }
       }
       'RedHat': {
@@ -32,6 +33,7 @@ class foreman_proxy::plugin::ansible::runner(
           gpgcheck => true,
           gpgkey   => 'https://releases.ansible.com/keys/RPM-GPG-KEY-ansible-release.pub',
           enabled  => '1',
+          before   => Package[$package_name],
         }
       }
       default: {
