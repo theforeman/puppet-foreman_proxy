@@ -11,3 +11,9 @@ $dig_package = $facts['os']['family'] ? {
 package { $dig_package:
   ensure => installed,
 }
+
+if $facts['os']['name'] == 'CentOS' {
+  package { 'centos-release-ansible-29':
+    ensure => present,
+  }
+}
