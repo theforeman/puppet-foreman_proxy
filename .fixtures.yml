@@ -19,6 +19,7 @@ fixtures:
     sudo:     'https://github.com/saz/puppet-sudo'
     systemd:  'https://github.com/camptocamp/puppet-systemd'
     tftp:     'https://github.com/theforeman/puppet-tftp'
+    translate: 'https://github.com/puppetlabs/puppetlabs-translate'
     xinetd:   'https://github.com/puppetlabs/puppetlabs-xinetd'
     yumrepo_core:
       repo: "https://github.com/puppetlabs/puppetlabs-yumrepo_core"

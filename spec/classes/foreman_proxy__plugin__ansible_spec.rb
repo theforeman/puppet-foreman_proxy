@@ -17,9 +17,10 @@ describe 'foreman_proxy::plugin::ansible' do
               .with_location('https://releases.ansible.com/ansible-runner/deb')
               .with_repos('main')
               .with_key(
-                'id' => 'AC48AC71DA695CA15F2D39C4B84E339C442667A9',
-                'source' => 'https://releases.ansible.com/keys/RPM-GPG-KEY-ansible-release.pub'
+                'id' => 'B7196EFF934FBC94FBCDF40DD430849D3DD29021',
+                'server' => 'keyserver.ubuntu.com'
               )
+              .that_comes_before('Package[ansible-runner]')
           end
         when 'redhat-7-x86_64'
           it 'should include ansible-runner upstream repo' do
@@ -28,6 +29,7 @@ describe 'foreman_proxy::plugin::ansible' do
                    .with_gpgcheck(true)
                    .with_gpgkey('https://releases.ansible.com/keys/RPM-GPG-KEY-ansible-release.pub')
                    .with_enabled('1')
+                   .that_comes_before('Package[ansible-runner]')
           end
         end
 
