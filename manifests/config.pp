@@ -50,6 +50,13 @@ class foreman_proxy::config {
     path => "${foreman_proxy::config_dir}/settings.yml",
   }
 
+  file { 'smart_proxy_uuid.json':
+    path => '/opt/puppetlabs/facter/facts.d/smart_proxy_uuid.json',
+    owner => $foreman_proxy::user,
+    mode => '644',
+    content => template("foreman_proxy/uuid_fact.json.erb"),
+  }
+
   contain foreman_proxy::module::bmc
 
   contain foreman_proxy::module::dhcp
