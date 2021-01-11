@@ -10,6 +10,7 @@ class foreman_proxy::register {
       effective_user  => $foreman_proxy::oauth_effective_user,
       ssl_ca          => pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca),
       url             => $foreman_proxy::real_registered_proxy_url,
+      instance_id     => $foreman_proxy::instance_id,
     }
 
     # Ensure puppet agent is started after registering the Foreman proxy

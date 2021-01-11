@@ -4,6 +4,8 @@
 
 :settings_directory: <%= scope.lookupvar("foreman_proxy::etc") -%>/foreman-proxy/settings.d
 
+:instance_uuid: <%= scope.lookupvar("foreman_proxy::instance_id") %>
+
 # SSL Setup
 <% ssl  = scope.lookupvar("foreman_proxy::ssl") -%>
 <% http = scope.lookupvar("foreman_proxy::http") -%>

@@ -285,6 +285,8 @@
 #
 # $puppetca_certificate::       Token-whitelisting only: Certificate to use when encrypting tokens (undef to use SSL certificate)
 #
+# $instance_id::                Smart proxy instance id
+#
 class foreman_proxy (
   Optional[String] $repo = $foreman_proxy::params::repo,
   Boolean $gpgcheck = $foreman_proxy::params::gpgcheck,
@@ -421,6 +423,7 @@ class foreman_proxy (
   String $oauth_effective_user = $foreman_proxy::params::oauth_effective_user,
   String $oauth_consumer_key = $foreman_proxy::params::oauth_consumer_key,
   String $oauth_consumer_secret = $foreman_proxy::params::oauth_consumer_secret,
+  String $instance_id = $foreman_proxy::params::instance_id,
 ) inherits foreman_proxy::params {
   if $bind_host =~ String {
     warning('foreman_proxy::bind_host should be changed to an array, support for string only is deprecated')

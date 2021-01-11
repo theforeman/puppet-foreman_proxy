@@ -345,6 +345,16 @@ describe 'foreman_proxy' do
         end
       end
 
+      context 'with custom instance_id param' do
+        let(:params) { super().merge(instance_id: 'f9357f86-20d1-4180-ae4a-7eae753d7b24') }
+
+        it 'renders the instance id into config file' do
+          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
+            'instance_uuid: f9357f86-20d1-4180-ae4a-7eae753d7b24'
+          ])
+        end
+      end
+
       context 'with custom foreman_ssl params' do
         let :params do
           super().merge(
