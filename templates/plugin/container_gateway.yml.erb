@@ -1,0 +1,5 @@
+---
+# Container Gateway for Katello
+:enabled: <%= @module_enabled %>
+:pulp_endpoint: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::pulp_endpoint") %>
+:sqlite_db_path: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::sqlite_db_path") %>
