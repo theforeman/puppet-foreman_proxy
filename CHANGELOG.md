@@ -1,5 +1,21 @@
 # Changelog
 
+## [17.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/17.0.0) (2021-01-28)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/16.0.0...17.0.0)
+
+**Breaking changes:**
+
+- Fixes [\#30449](https://projects.theforeman.org/issues/30449) - Do not require TFTP for HTTPBoot [\#608](https://github.com/theforeman/puppet-foreman_proxy/pull/608) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Fixes [\#31415](https://projects.theforeman.org/issues/31415) - Expose DHCP's ping\_free\_ip option [\#635](https://github.com/theforeman/puppet-foreman_proxy/pull/635) ([ekohl](https://github.com/ekohl))
+
+**Fixed bugs:**
+
+- Fixes [\#31430](https://projects.theforeman.org/issues/31430) - use correct key and server for ansible-runner deb  [\#637](https://github.com/theforeman/puppet-foreman_proxy/pull/637) ([evgeni](https://github.com/evgeni))
+
 ## [16.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/16.0.0) (2020-10-30)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/15.3.0...16.0.0)
