@@ -1,6 +1,14 @@
 # Changelog
 
-## [17.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/17.0.0) (2021-01-28)
+## [17.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/17.1.0) (2021-02-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/17.0.0...17.1.0)
+
+**Implemented enhancements:**
+
+- Fixes [\#31642](https://projects.theforeman.org/issues/31642) - Add container gateway support [\#643](https://github.com/theforeman/puppet-foreman_proxy/pull/643) ([ianballou](https://github.com/ianballou))
+
+## [17.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/17.0.0) (2021-01-29)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/16.0.0...17.0.0)
 
