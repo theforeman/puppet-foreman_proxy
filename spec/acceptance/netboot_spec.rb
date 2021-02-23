@@ -12,11 +12,16 @@ describe 'Scenario: tftp' do
     it { should be_linked_to '../boot' }
   end
 
+  describe file("#{root}/grub2/grub.cfg") do
+    it { should be_file }
+    its(:content) { should match(/This system was not recognized by Foreman/) }
+  end
+
   describe 'ensure tftp client is installed' do
     on hosts, puppet('resource', 'package', 'tftp', 'ensure=installed')
   end
 
-  describe command("echo get /grub2/grub.cfg /tmp/downloaded_file | tftp #{fact('fqdn')}") do
+  describe command('echo get /grub2/grub.cfg /tmp/downloaded_file | tftp localhost') do
     its(:exit_status) { should eq 0 }
   end
 
