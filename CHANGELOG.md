@@ -1,5 +1,13 @@
 # Changelog
 
+## [16.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/16.0.1) (2021-02-24)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/16.0.0...16.0.1)
+
+**Fixed bugs:**
+
+- Fixes [\#31430](https://projects.theforeman.org/issues/31430) - use correct key and server for ansible-runner deb  [\#637](https://github.com/theforeman/puppet-foreman_proxy/pull/637) ([evgeni](https://github.com/evgeni))
+
 ## [16.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/16.0.0) (2020-10-30)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/15.3.0...16.0.0)
