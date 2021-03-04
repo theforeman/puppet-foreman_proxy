@@ -1,4 +1,4 @@
-# = Foreman Proxy Shelhooks plugin
+# = Foreman Proxy Shellhooks plugin
 #
 # This class installs the Shellhooks plugin
 #
