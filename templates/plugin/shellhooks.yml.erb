@@ -1,0 +1,5 @@
+---
+# always enable HTTPS only
+:enabled: <%= @module_enabled %>
+# directory with executables
+:directory: <%= scope.lookupvar("foreman_proxy::plugin::shellhooks::directory") %>
