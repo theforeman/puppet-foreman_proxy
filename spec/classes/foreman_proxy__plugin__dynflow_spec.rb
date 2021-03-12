@@ -54,6 +54,13 @@ describe 'foreman_proxy::plugin::dynflow' do
               ":ssl_private_key: /etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem",
             ])
           end
+
+          it 'should restart external core' do
+            should contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.yml").
+              that_notifies('Service[smart_proxy_dynflow_core]')
+            should contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.d").
+              that_notifies('Service[smart_proxy_dynflow_core]')
+          end
         else
           it { should_not contain_foreman_proxy__plugin('dynflow_core') }
           it { should_not contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.d") }
