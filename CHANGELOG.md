@@ -1,5 +1,13 @@
 # Changelog
 
+## [17.1.1](https://github.com/theforeman/puppet-foreman_proxy/tree/17.1.1) (2021-03-18)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/17.1.0...17.1.1)
+
+**Fixed bugs:**
+
+- Fixes [\#32078](https://projects.theforeman.org/issues/32078) - explicitly notify dynflow core service on changes [\#653](https://github.com/theforeman/puppet-foreman_proxy/pull/653) ([evgeni](https://github.com/evgeni))
+
 ## [17.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/17.1.0) (2021-02-04)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/17.0.0...17.1.0)
