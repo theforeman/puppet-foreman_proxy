@@ -1,5 +1,5 @@
 [![Puppet Forge](https://img.shields.io/puppetforge/v/theforeman/foreman_proxy.svg)](https://forge.puppetlabs.com/theforeman/foreman_proxy)
-[![Build Status](https://travis-ci.org/theforeman/puppet-foreman_proxy.svg?branch=master)](https://travis-ci.org/theforeman/puppet-foreman_proxy)
+[![CI](https://github.com/theforeman/puppet-foreman_proxy/actions/workflows/ci.yml/badge.svg)](https://github.com/theforeman/puppet-foreman_proxy/actions/workflows/ci.yml)
 
 # Puppet module for managing the Foreman Smart Proxy
 
@@ -12,8 +12,8 @@ Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 
 | Module version | Proxy versions | Notes                                               |
 |----------------|----------------|-----------------------------------------------------|
-| 16.x           | 2.3 and newer  | See compatibility notes in its README for 2.0-2.2   |
-| 13.x           | 2.0 - 2.2      |                                                     |
+| 16.x - 17.x    | 2.3 and newer  | See compatibility notes in its README for 2.0-2.2   |
+| 13.x - 15.x    | 2.0 - 2.2      |                                                     |
 | 12.x           | 1.19 - 1.24    | See compatibility notes in its README for 1.19-1.22 |
 | 11.x           | 1.19 - 1.23    | See compatibility notes in its README for 1.19-1.21 |
 | 10.x           | 1.19 - 1.21    |                                                     |
