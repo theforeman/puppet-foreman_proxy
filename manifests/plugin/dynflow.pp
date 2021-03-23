@@ -35,7 +35,7 @@ class foreman_proxy::plugin::dynflow (
   Optional[Array[String]] $ssl_disabled_ciphers = $foreman_proxy::plugin::dynflow::params::ssl_disabled_ciphers,
   Optional[Array[String]] $tls_disabled_versions = $foreman_proxy::plugin::dynflow::params::tls_disabled_versions,
   Integer[1] $open_file_limit = $foreman_proxy::plugin::dynflow::params::open_file_limit,
-  Optional[Boolean] $external_core = $foreman_proxy::plugin::dynflow::params::external_core,
+  Boolean $external_core = $foreman_proxy::plugin::dynflow::params::external_core,
 ) inherits foreman_proxy::plugin::dynflow::params {
   if $foreman_proxy::ssl {
     $core_url = "https://${facts['networking']['fqdn']}:${core_port}"
@@ -49,36 +49,31 @@ class foreman_proxy::plugin::dynflow (
   }
 
   if $external_core {
-    foreman_proxy::plugin { 'dynflow_core':
-      notify  => Service['smart_proxy_dynflow_core'],
-    }
+    $service = 'smart_proxy_dynflow_core'
 
     file { '/etc/smart_proxy_dynflow_core/settings.yml':
       ensure  => file,
       content => template('foreman_proxy/plugin/dynflow_core.yml.erb'),
       require => Foreman_proxy::Plugin['dynflow_core'],
-      notify  => Service['smart_proxy_dynflow_core'],
+      notify  => Service[$service],
     }
 
     file { '/etc/smart_proxy_dynflow_core/settings.d':
       ensure  => link,
       target  => "${foreman_proxy::config_dir}/settings.d",
       require => Foreman_proxy::Plugin['dynflow_core'],
-      notify  => Service['smart_proxy_dynflow_core'],
+      notify  => Service[$service],
     }
+  } else {
+    $service = 'foreman-proxy'
+  }
 
-    systemd::service_limits { 'smart_proxy_dynflow_core.service':
-      limits          => {
-        'LimitNOFILE' => $open_file_limit,
-      },
-      restart_service => false,
-      require         => Foreman_proxy::Plugin['dynflow_core'],
-      notify          => Service['smart_proxy_dynflow_core'],
-    }
+  foreman_proxy::plugin { 'dynflow_core':
+    notify  => Service[$service],
+  }
 
-    service { 'smart_proxy_dynflow_core':
-      ensure => running,
-      enable => true,
-    }
+  service { 'smart_proxy_dynflow_core':
+    ensure => $external_core,
+    enable => $external_core,
   }
 }
