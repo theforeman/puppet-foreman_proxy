@@ -1,0 +1,5 @@
+---
+# Use https for production deployments. http and true only make sense in development
+:enabled: <%= @module_enabled %>
+# Directory with executables.
+:directory: <%= scope.lookupvar("foreman_proxy::plugin::shellhooks::directory") %>
