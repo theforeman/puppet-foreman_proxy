@@ -7,23 +7,12 @@ describe 'Scenario: install foreman-proxy', unless: ENV['BEAKER_HYPERVISOR'] == 
 
   it_behaves_like 'the default foreman proxy application'
 
-  if os[:family] =~ /redhat|fedora/
-    describe service('smart_proxy_dynflow_core') do
-      it { is_expected.to be_enabled }
-      it { is_expected.to be_running }
-    end
+  describe service('smart_proxy_dynflow_core') do
+    it { is_expected.not_to be_enabled }
+    it { is_expected.not_to be_running }
+  end
 
-    describe port(8008) do
-      it { is_expected.to be_listening }
-    end
-  else
-    describe service('smart_proxy_dynflow_core') do
-      it { is_expected.not_to be_enabled }
-      it { is_expected.not_to be_running }
-    end
-
-    describe port(8008) do
-      it { is_expected.not_to be_listening }
-    end
+  describe port(8008) do
+    it { is_expected.not_to be_listening }
   end
 end
