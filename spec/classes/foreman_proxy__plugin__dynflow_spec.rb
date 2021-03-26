@@ -27,6 +27,7 @@ describe 'foreman_proxy::plugin::dynflow' do
         it { should contain_foreman_proxy__plugin('dynflow_core') }
         it { should contain_service('smart_proxy_dynflow_core').
                with(ensure: false, enable: false) }
+        it { should contain_systemd__service_limits('foreman-proxy.service') }
 
         it { should_not contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.d") }
         it { should_not contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.yml") }
@@ -89,6 +90,7 @@ describe 'foreman_proxy::plugin::dynflow' do
         it { should contain_foreman_proxy__plugin('dynflow_core') }
         it { should contain_service('smart_proxy_dynflow_core').
             with(ensure: false, enable: false) }
+        it { should contain_systemd__service_limits('foreman-proxy.service') }
 
         it { should_not contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.d") }
         it { should_not contain_file("#{etc_dir}/smart_proxy_dynflow_core/settings.yml") }

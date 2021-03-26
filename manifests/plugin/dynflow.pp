@@ -72,6 +72,15 @@ class foreman_proxy::plugin::dynflow (
     notify  => Service[$service],
   }
 
+  systemd::service_limits { "${service}.service":
+    limits          => {
+      'LimitNOFILE' => $open_file_limit,
+    },
+    restart_service => false,
+    require         => Foreman_proxy::Plugin['dynflow_core'],
+    notify          => Service[$service],
+  }
+
   service { 'smart_proxy_dynflow_core':
     ensure => $external_core,
     enable => $external_core,
