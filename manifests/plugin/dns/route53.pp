@@ -7,8 +7,8 @@
 #   The Secret Access Key of the IAM account
 #
 class foreman_proxy::plugin::dns::route53 (
-  String $aws_access_key = '', # lint:ignore:empty_string_assignment,
-  String $aws_secret_key = '', # lint:ignore:empty_string_assignment,
+  String $aws_access_key,
+  String $aws_secret_key,
 ) {
   foreman_proxy::plugin::provider { 'dns_route53':
   }
