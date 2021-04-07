@@ -206,7 +206,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $puppetca_certificate  = undef
 
   # The puppet-agent package, (puppet 4 AIO) doesn't create a puppet group
-  $manage_puppet_group = versioncmp($::puppetversion, '4.0') > 0
+  $manage_puppet_group = true
 
   # puppetrun settings
   $puppet = true
