@@ -1,5 +1,24 @@
 # Changelog
 
+## [18.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/18.0.0) (2021-04-27)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/17.1.1...18.0.0)
+
+**Breaking changes:**
+
+-  Fixes [\#31893](https://projects.theforeman.org/issues/31893) - make theforeman.foreman.foreman default callback on RH [\#661](https://github.com/theforeman/puppet-foreman_proxy/pull/661) ([evgeni](https://github.com/evgeni))
+- Fixes [\#32235](https://projects.theforeman.org/issues/32235),\#19494 - Run Dynflow within smart-proxy on EL\* [\#655](https://github.com/theforeman/puppet-foreman_proxy/pull/655) ([adamruzicka](https://github.com/adamruzicka))
+- Update Pulp plugin to drop Pulp 2 [\#638](https://github.com/theforeman/puppet-foreman_proxy/pull/638) ([ehelms](https://github.com/ehelms))
+
+**Implemented enhancements:**
+
+- Refs [\#31893](https://projects.theforeman.org/issues/31893) - make ansible callback configurable [\#662](https://github.com/theforeman/puppet-foreman_proxy/pull/662) ([evgeni](https://github.com/evgeni))
+- Mark compatible with Foreman 17.x [\#658](https://github.com/theforeman/puppet-foreman_proxy/pull/658) ([ekohl](https://github.com/ekohl))
+- Remove Puppet version check [\#657](https://github.com/theforeman/puppet-foreman_proxy/pull/657) ([ekohl](https://github.com/ekohl))
+- Add smart\_proxy\_dns\_route53 plugin support [\#656](https://github.com/theforeman/puppet-foreman_proxy/pull/656) ([Nevermore24](https://github.com/Nevermore24))
+- Support Puppet 7 [\#652](https://github.com/theforeman/puppet-foreman_proxy/pull/652) ([ekohl](https://github.com/ekohl))
+- Add shellhooks plugin [\#651](https://github.com/theforeman/puppet-foreman_proxy/pull/651) ([adamruzicka](https://github.com/adamruzicka))
+
 ## [17.1.1](https://github.com/theforeman/puppet-foreman_proxy/tree/17.1.1) (2021-03-18)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/17.1.0...17.1.1)
