@@ -55,7 +55,7 @@ class foreman_proxy::config {
     path    => '/opt/puppetlabs/facter/facts.d/smart_proxy_uuid.json',
     owner   => $foreman_proxy::user,
     mode    => '0644',
-    content => template('foreman_proxy/uuid_fact.json.erb'),
+    content => to_json({'smart_proxy_uuid' => $foreman_proxy::instance_id, 'smart_proxy_uuid_signature' => $uuid_fact_signature}),
   }
 
   contain foreman_proxy::module::bmc
