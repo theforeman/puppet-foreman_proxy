@@ -13,5 +13,15 @@ class foreman_proxy::plugin::ansible::params {
   $ssh_args = '-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s'
   $install_runner = true
   $manage_runner_repo = true
-  $callback = 'foreman'
+  case $facts['os']['family'] {
+    'RedHat': {
+      $callback = 'theforeman.foreman.foreman'
+    }
+    'Debian': {
+      $callback = 'foreman'
+    }
+    default: {
+      $callback = 'forman'
+    }
+  }
 }
