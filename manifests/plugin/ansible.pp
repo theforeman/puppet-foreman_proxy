@@ -30,6 +30,8 @@
 #
 # $manage_runner_repo:: If true, adds upstream repositories to install ansible-runner package from
 #
+# $callback:: The callback plugin to configure in ansible.cfg
+#
 class foreman_proxy::plugin::ansible (
   Boolean $enabled = $foreman_proxy::plugin::ansible::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $foreman_proxy::plugin::ansible::params::listen_on,
@@ -41,6 +43,7 @@ class foreman_proxy::plugin::ansible (
   String $ssh_args = $foreman_proxy::plugin::ansible::params::ssh_args,
   Boolean $install_runner = $foreman_proxy::plugin::ansible::params::install_runner,
   Boolean $manage_runner_repo = $foreman_proxy::plugin::ansible::params::manage_runner_repo,
+  String $callback = $foreman_proxy::plugin::ansible::params::callback,
 ) inherits foreman_proxy::plugin::ansible::params {
   $foreman_url = $foreman_proxy::foreman_base_url
   $foreman_ssl_cert = pick($foreman_proxy::foreman_ssl_cert, $foreman_proxy::ssl_cert)
