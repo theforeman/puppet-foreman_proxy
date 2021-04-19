@@ -135,7 +135,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   }
 
   $config_dir = "${etc}/foreman-proxy"
-  $instance_id = extlib::cache_data('foreman_proxy_data', 'instance_id', foreman_proxy::generate_uuid())
+  $instance_id = extlib::cache_data('foreman_proxy_data', 'instance_id', foreman::generate_uuid())
 
   $puppet_cmd = "${puppet_bindir}/puppet"
 
