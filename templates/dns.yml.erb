@@ -3,9 +3,12 @@
 :enabled: <%= @module_enabled %>
 # valid providers:
 #   dns_dnscmd (Microsoft Windows native implementation)
+#   dns_infoblox (separate plugin)
+#   dns_libvirt (dnsmasq via libvirt)
 #   dns_nsupdate
 #   dns_nsupdate_gss (for GSS-TSIG support)
-#   dns_libvirt (dnsmasq via libvirt)
+#   dns_powerdns (separate plugin)
+#   dns_route53 (separate plugin)
 :use_provider: dns_<%= scope.lookupvar("foreman_proxy::dns_provider") %>
 # use this setting if you want to override default TTL setting (86400)
 :dns_ttl: <%= scope.lookupvar("foreman_proxy::dns_ttl") %>
