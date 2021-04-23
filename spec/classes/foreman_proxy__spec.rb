@@ -4,7 +4,7 @@ describe 'foreman_proxy' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
-      let(:params) { {} }
+      let(:params) { { expose_instance_id: false } }
 
       case facts[:osfamily]
       when 'FreeBSD', 'DragonFly'
@@ -346,13 +346,26 @@ describe 'foreman_proxy' do
       end
 
       context 'with custom instance_id param' do
-        let(:params) { super().merge(instance_id: 'f9357f86-20d1-4180-ae4a-7eae753d7b24') }
+        let(:params) { super().merge(oauth_consumer_secret: 'random', instance_id: '12345', expose_instance_id: true) }
+        let(:signature) { "c309290f876203f69a64a84e85a58b1c8ee495a0837fe169e23fb458232ee06ceffda9b3494436fe1f045e09c063c1195113c58b8c953346882488459eebd8ac" }
 
         it 'renders the instance id into config file' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            'instance_uuid: f9357f86-20d1-4180-ae4a-7eae753d7b24'
-          ])
+          should contain_file("#{etc_dir}/foreman-proxy/settings.yml")
+            .with_content(/:instance_uuid: 12345/)
         end
+
+        it 'should generate uuid fact file' do
+          should contain_file('smart_proxy_uuid.json').with_ensure('file')
+            .with_content(/"smart_proxy_uuid":"12345"/)
+            .with_content(/"smart_proxy_uuid_signature":"#{signature}"/)
+            .with_ensure('file')
+        end
+      end
+
+      context 'without exposed instance id' do
+        let(:params) { super().merge(expose_instance_id: false) }
+
+        it { should contain_file('smart_proxy_uuid.json').with_ensure('absent') }
       end
 
       context 'with custom foreman_ssl params' do

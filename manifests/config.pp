@@ -52,6 +52,7 @@ class foreman_proxy::config {
 
   $uuid_fact_signature = foreman::hmac_signature($foreman_proxy::oauth_consumer_secret, $foreman_proxy::instance_id)
   file { 'smart_proxy_uuid.json':
+    ensure  => bool2str($foreman_proxy::expose_instance_id, 'file', 'absent'),
     path    => '/opt/puppetlabs/facter/facts.d/smart_proxy_uuid.json',
     owner   => 'root',
     group   => 'root',

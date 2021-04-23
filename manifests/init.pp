@@ -287,6 +287,8 @@
 #
 # $instance_id::                Smart proxy instance id
 #
+# $expose_instance_id::         Expose the smart proxy instance id
+#
 class foreman_proxy (
   Optional[String] $repo = $foreman_proxy::params::repo,
   Boolean $gpgcheck = $foreman_proxy::params::gpgcheck,
@@ -424,6 +426,7 @@ class foreman_proxy (
   String $oauth_consumer_key = $foreman_proxy::params::oauth_consumer_key,
   String $oauth_consumer_secret = $foreman_proxy::params::oauth_consumer_secret,
   String $instance_id = $foreman_proxy::params::instance_id,
+  Boolean $expose_instance_id = $foreman_proxy::params::expose_instance_id,
 ) inherits foreman_proxy::params {
   if $bind_host =~ String {
     warning('foreman_proxy::bind_host should be changed to an array, support for string only is deprecated')
