@@ -21,7 +21,7 @@ class foreman_proxy::plugin::ansible::params {
       $callback = 'foreman'
     }
     default: {
-      $callback = 'forman'
+      $callback = 'foreman'
     }
   }
 }
