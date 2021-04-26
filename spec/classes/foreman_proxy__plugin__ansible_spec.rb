@@ -42,9 +42,10 @@ describe 'foreman_proxy::plugin::ansible' do
         end
 
         it 'should configure ansible.cfg' do
+          callback = facts[:os]['family'] == 'RedHat' ? 'theforeman.foreman.foreman' : 'foreman'
           verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.cfg', [
             '[defaults]',
-            'callback_whitelist = foreman',
+            "callback_whitelist = #{callback}",
             'local_tmp = /tmp',
             'host_key_checking = False',
             'stdout_callback = yaml',
@@ -90,9 +91,10 @@ describe 'foreman_proxy::plugin::ansible' do
         end
 
         it 'should configure ansible.cfg' do
+          callback = facts[:os]['family'] == 'RedHat' ? 'theforeman.foreman.foreman' : 'foreman'
           verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.cfg', [
             '[defaults]',
-            'callback_whitelist = foreman',
+            "callback_whitelist = #{callback}",
             'local_tmp = /tmp/ansible',
             'host_key_checking = True',
             'stdout_callback = debug',
