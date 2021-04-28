@@ -1,5 +1,15 @@
 # Changelog
 
+## [18.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/18.1.0) (2021-04-30)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.0.0...18.1.0)
+
+**Implemented enhancements:**
+
+- Support Ubuntu 20.04 [\#669](https://github.com/theforeman/puppet-foreman_proxy/pull/669) ([ekohl](https://github.com/ekohl))
+- Allow puppet-puppet \< 16.0.0 [\#665](https://github.com/theforeman/puppet-foreman_proxy/pull/665) ([wbclark](https://github.com/wbclark))
+- don't manage runner repo on Debian [\#664](https://github.com/theforeman/puppet-foreman_proxy/pull/664) ([evgeni](https://github.com/evgeni))
+
 ## [18.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/18.0.0) (2021-04-27)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/17.1.1...18.0.0)
