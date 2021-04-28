@@ -12,16 +12,10 @@ describe 'foreman_proxy::plugin::ansible' do
 
         case os
         when 'debian-10-x86_64'
-          it 'should include ansible-runner upstream repo' do
-            should contain_apt__source('ansible-runner')
-              .with_location('https://releases.ansible.com/ansible-runner/deb')
-              .with_repos('main')
-              .with_key(
-                'id' => 'B7196EFF934FBC94FBCDF40DD430849D3DD29021',
-                'server' => 'keyserver.ubuntu.com'
-              )
-              .that_comes_before('Package[ansible-runner]')
+          it 'should cleanup old ansible-runner upstream repo' do
+            should contain_apt__source('ansible-runner').with_ensure('absent')
           end
+          it { should contain_package('python3-ansible-runner').with_ensure('installed') }
         when 'redhat-7-x86_64'
           it 'should include ansible-runner upstream repo' do
             should contain_yumrepo('ansible-runner')
@@ -31,9 +25,9 @@ describe 'foreman_proxy::plugin::ansible' do
                    .with_enabled('1')
                    .that_comes_before('Package[ansible-runner]')
           end
+          it { should contain_package('ansible-runner').with_ensure('installed') }
         end
 
-        it { should contain_package('ansible-runner').with_ensure('installed') }
 
         it 'should configure ansible.yml' do
           should contain_file('/etc/foreman-proxy/settings.d/ansible.yml').
@@ -78,10 +72,11 @@ describe 'foreman_proxy::plugin::ansible' do
         case os
         when 'debian-10-x86_64'
           it { should_not contain_apt__source('ansible-runner') }
+          it { should contain_package('python3-ansible-runner').with_ensure('installed') }
         when 'redhat-7-x86_64'
           it { should_not contain_yumrepo('ansible-runner') }
+          it { should contain_package('ansible-runner').with_ensure('installed') }
         end
-        it { should contain_package('ansible-runner').with_ensure('installed') }
 
         it 'should configure ansible.yml' do
           should contain_file('/etc/foreman-proxy/settings.d/ansible.yml').
@@ -120,6 +115,7 @@ describe 'foreman_proxy::plugin::ansible' do
           should_not contain_apt__source('ansible-runner')
           should_not contain_yumrepo('ansible-runner')
           should_not contain_package('ansible-runner')
+          should_not contain_package('python3-ansible-runner')
         end
       end
     end

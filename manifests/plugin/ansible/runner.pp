@@ -6,7 +6,7 @@
 #
 class foreman_proxy::plugin::ansible::runner(
   Boolean $manage_runner_repo = $foreman_proxy::plugin::ansible::manage_runner_repo,
-  String  $package_name = 'ansible-runner',
+  String  $package_name = $foreman_proxy::plugin::ansible::runner_package_name,
 ) {
 
   if $manage_runner_repo {
@@ -14,16 +14,7 @@ class foreman_proxy::plugin::ansible::runner(
       'Debian': {
         include apt
         apt::source { 'ansible-runner':
-          repos    => 'main',
-          location => 'https://releases.ansible.com/ansible-runner/deb',
-          key      => {
-            id     => 'B7196EFF934FBC94FBCDF40DD430849D3DD29021',
-            server => 'keyserver.ubuntu.com',
-          },
-          include  => {
-            src => false,
-          },
-          before   => Package[$package_name],
+          ensure  => absent,
         }
       }
       'RedHat': {
