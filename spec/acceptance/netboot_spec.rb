@@ -5,7 +5,18 @@ describe 'Scenario: tftp' do
 
   include_examples 'the example', 'tftp.pp'
 
-  root = fact('os.name') == 'Debian' ? '/srv/tftp' : '/var/lib/tftpboot'
+  root = case host_inventory['facter']['os']['name']
+         when 'Debian'
+           '/srv/tftp'
+         when 'Ubuntu'
+           if host_inventory['facter']['os']['release']['major'].to_f >= 20.04
+             '/srv/tftp'
+           else
+             '/var/lib/tftpboot'
+           end
+         else
+           '/var/lib/tftpboot'
+         end
 
   describe file("#{root}/grub2/boot") do
     it { should be_symlink }
@@ -18,6 +29,7 @@ describe 'Scenario: tftp' do
 
   describe command("echo get /grub2/grub.cfg /tmp/downloaded_file | tftp #{fact('fqdn')}") do
     its(:exit_status) { should eq 0 }
+    its(:stdout) { should_not contain('Error code') }
   end
 
   describe file('/tmp/downloaded_file') do

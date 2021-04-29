@@ -28,16 +28,13 @@ describe 'foreman_proxy' do
       end
 
       let(:tftp_root) do
-        case facts[:osfamily]
+        case facts[:operatingsystem]
         when 'Debian'
-          case facts[:operatingsystem]
-          when 'Ubuntu'
-            '/var/lib/tftpboot'
-          else
-            '/srv/tftp'
-          end
+          '/srv/tftp'
         when 'FreeBSD', 'DragonFly'
           '/tftpboot'
+        when 'Ubuntu'
+          facts[:operatingsystemmajrelease] == '18.04' ? '/var/lib/tftpboot' : '/srv/tftp'
         else
           '/var/lib/tftpboot'
         end
