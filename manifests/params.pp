@@ -1,7 +1,7 @@
 # @summary The default parameters for the foreman proxy
 # @api private
 class foreman_proxy::params inherits foreman_proxy::globals {
-
+  $tftp_root = lookup('tftp::root')
   $lower_fqdn = downcase($facts['networking']['fqdn'])
 
   case $facts['os']['family'] {
@@ -25,7 +25,6 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $keyfile  = '/etc/rndc.key'
       $nsupdate = 'bind-utils'
 
-      $tftp_root  = '/var/lib/tftpboot'
       if versioncmp($facts['os']['release']['major'], '7') <= 0 {
         $tftp_syslinux_filenames = [
           '/usr/share/syslinux/chain.c32',
@@ -63,11 +62,6 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $keyfile  = '/etc/bind/rndc.key'
       $nsupdate = 'dnsutils'
 
-      if $facts['os']['name'] == 'Ubuntu' {
-        $tftp_root = '/var/lib/tftpboot'
-      } else {
-        $tftp_root = '/srv/tftp'
-      }
       $tftp_syslinux_filenames = [
         '/usr/lib/PXELINUX/pxelinux.0',
         '/usr/lib/syslinux/memdisk',
@@ -99,7 +93,6 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $keyfile  = '/usr/local/etc/namedb/rndc.key'
       $nsupdate = 'bind-tools'
 
-      $tftp_root = '/tftpboot'
       $tftp_syslinux_filenames = [
         '/usr/local/share/syslinux/bios/core/pxelinux.0',
         '/usr/local/share/syslinux/bios/memdisk/memdisk',
