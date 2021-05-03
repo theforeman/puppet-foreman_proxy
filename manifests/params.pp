@@ -1,7 +1,6 @@
 # @summary The default parameters for the foreman proxy
 # @api private
 class foreman_proxy::params inherits foreman_proxy::globals {
-  $tftp_root = lookup('tftp::root')
   $lower_fqdn = downcase($facts['networking']['fqdn'])
 
   case $facts['os']['family'] {
@@ -227,6 +226,11 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $tftp_listen_on         = 'https'
   $tftp_managed           = true
   $tftp_manage_wget       = true
+  if $tftp {
+    $tftp_root = lookup('tftp::root')
+  } else {
+    $tftp_root = '/not/used'
+  }
   $tftp_dirs              = ["${tftp_root}/pxelinux.cfg","${tftp_root}/grub","${tftp_root}/grub2","${tftp_root}/boot","${tftp_root}/ztp.cfg","${tftp_root}/poap.cfg"]
   $tftp_servername        = undef
   $tftp_replace_grub2_cfg = false
