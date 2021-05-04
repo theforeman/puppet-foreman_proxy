@@ -1,6 +1,6 @@
 ---
 # TFTP management
 :enabled: <%= @module_enabled %>
-:tftproot: <%= scope.lookupvar("foreman_proxy::tftp_root") %>
+:tftproot: <%= scope.lookupvar("foreman_proxy::module::tftp::tftproot") %>
 # Defines the TFTP Servername to use, overrides the name in the subnet declaration
 <%= '#'  if [nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::tftp_servername")) %>:tftp_servername: <%= scope.lookupvar("foreman_proxy::tftp_servername") %>

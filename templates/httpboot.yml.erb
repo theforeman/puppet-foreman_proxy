@@ -7,4 +7,4 @@
 # configuration files deployment.
 :enabled: <%= @module_enabled %>
 
-:root_dir: <%= scope.lookupvar('foreman_proxy::tftp_root') %>
+:root_dir: <%= scope.lookupvar('foreman_proxy::module::httpboot::root_dir') %>

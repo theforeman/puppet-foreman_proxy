@@ -1,19 +1,21 @@
 # @summary Set up the tftp service
 # @api private
 class foreman_proxy::tftp (
-  $user = $foreman_proxy::user,
-  $root = $foreman_proxy::tftp_root,
-  $directories = $foreman_proxy::tftp_dirs,
-  $syslinux_filenames = $foreman_proxy::tftp_syslinux_filenames,
-  $manage_wget = $foreman_proxy::tftp_manage_wget,
-  $wget_version = $foreman_proxy::ensure_packages_version,
-  $tftp_replace_grub2_cfg = $foreman_proxy::tftp_replace_grub2_cfg,
+  String[1] $user = $foreman_proxy::user,
+  Optional[Stdlib::Absolutepath] $root = $foreman_proxy::tftp_root,
+  Optional[Array[Stdlib::Absolutepath]] $directories = $foreman_proxy::tftp_dirs,
+  Array[Stdlib::Absolutepath] $syslinux_filenames = $foreman_proxy::tftp_syslinux_filenames,
+  Boolean $manage_wget = $foreman_proxy::tftp_manage_wget,
+  String[1] $wget_version = $foreman_proxy::ensure_packages_version,
+  Boolean $tftp_replace_grub2_cfg = $foreman_proxy::tftp_replace_grub2_cfg,
 ) {
   class { 'tftp':
     root => $root,
   }
 
-  file { $directories:
+  $dirs = pick($directories, prefix(['pxelinux.cfg','grub','grub2','boot','ztp.cfg','poap.cfg'], "${tftp::root}/"))
+
+  file { $dirs:
     ensure  => directory,
     owner   => $user,
     mode    => '0644',
@@ -21,7 +23,7 @@ class foreman_proxy::tftp (
     recurse => true,
   }
 
-  file { "${root}/grub2/grub.cfg":
+  file { "${tftp::root}/grub2/grub.cfg":
     ensure  => file,
     owner   => $user,
     mode    => '0644',
@@ -31,7 +33,7 @@ class foreman_proxy::tftp (
 
   $syslinux_filenames.each |$source_file| {
     $filename = basename($source_file)
-    file {"${root}/${filename}":
+    file {"${tftp::root}/${filename}":
       ensure  => file,
       owner   => $user,
       mode    => '0644',
@@ -45,7 +47,7 @@ class foreman_proxy::tftp (
   }
 
   class { 'foreman_proxy::tftp::netboot':
-    root    => $root,
+    root    => $tftp::root,
     require => File[$directories],
   }
   contain foreman_proxy::tftp::netboot
