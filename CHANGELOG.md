@@ -1,5 +1,13 @@
 # Changelog
 
+## [18.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/18.2.0) (2021-05-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.1.0...18.2.0)
+
+**Implemented enhancements:**
+
+- Allow Puppet 7 compatible versions of mods [\#672](https://github.com/theforeman/puppet-foreman_proxy/pull/672) ([ekohl](https://github.com/ekohl))
+
 ## [18.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/18.1.0) (2021-04-30)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.0.0...18.1.0)
