@@ -137,6 +137,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   $repo                    = undef
   $gpgcheck                = true
   $version                 = 'present'
+  $yum_repo_baseurl        = 'https://yum.theforeman.org'
   $ensure_packages_version = 'present'
 
   # Enable listening on http

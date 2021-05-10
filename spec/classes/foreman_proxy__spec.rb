@@ -937,6 +937,24 @@ describe 'foreman_proxy' do
         end
       end
 
+      context 'with nightly repo' do
+        let(:params) { super().merge(repo: 'nightly') }
+
+        it 'should include repos via foreman::repos with default base URL' do
+          should contain_foreman__repos('foreman_proxy')
+            .with_yum_repo_baseurl('https://yum.theforeman.org')
+        end
+      end
+
+      context 'with yum_repo_baseurl and nightly repo' do
+        let(:params) { super().merge(yum_repo_baseurl: 'http://example.org', repo: 'nightly') }
+
+        it 'should include repos via foreman::repos with custom base URL' do
+          should contain_foreman__repos('foreman_proxy')
+            .with_yum_repo_baseurl('http://example.org')
+        end
+      end
+
       describe 'manage_puppet_group' do
         context 'when puppet and puppetca are false and manage_puppet_group = true' do
           let(:params) do

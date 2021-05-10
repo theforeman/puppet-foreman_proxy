@@ -259,6 +259,8 @@
 #
 # $gpgcheck::                   Turn on/off gpg check in repo files (effective only on RedHat family systems)
 #
+# $yum_repo_baseurl::           Base URL for the Yum repositories
+#
 # $dhcp_failover_address::      Address for DHCP to listen for connections from its peer
 #
 # $dhcp_failover_port::         Port for DHCP to listen & communicate with it DHCP peer
@@ -289,6 +291,7 @@ class foreman_proxy (
   Optional[String] $repo = $foreman_proxy::params::repo,
   Boolean $gpgcheck = $foreman_proxy::params::gpgcheck,
   String $version = $foreman_proxy::params::version,
+  Stdlib::HTTPUrl $yum_repo_baseurl = $foreman_proxy::params::yum_repo_baseurl,
   Enum['latest', 'present', 'installed', 'absent'] $ensure_packages_version = $foreman_proxy::params::ensure_packages_version,
   Variant[Array[String], String] $bind_host = $foreman_proxy::params::bind_host,
   Integer[0, 65535] $http_port = $foreman_proxy::params::http_port,

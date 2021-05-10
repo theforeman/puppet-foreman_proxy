@@ -3,9 +3,10 @@
 class foreman_proxy::install {
   if $foreman_proxy::repo {
     foreman::repos { 'foreman_proxy':
-      repo     => $foreman_proxy::repo,
-      gpgcheck => $foreman_proxy::gpgcheck,
-      before   => Package['foreman-proxy'],
+      repo             => $foreman_proxy::repo,
+      gpgcheck         => $foreman_proxy::gpgcheck,
+      yum_repo_baseurl => $foreman_proxy::yum_repo_baseurl,
+      before           => Package['foreman-proxy'],
     }
   }
 
