@@ -985,6 +985,19 @@ describe 'foreman_proxy' do
           end
         end
       end
+
+      context 'with foreman::repo included', unless: ['FreeBSD', 'DragonFly'].include?(facts[:operatingsystem]) do
+        let(:pre_condition) do
+          <<-PUPPET
+          class { 'foreman::repo':
+            repo => 'nightly',
+          }
+          PUPPET
+        end
+
+        it { should compile.with_all_deps }
+        it { should contain_package('foreman-proxy').that_requires('Anchor[foreman::repo]') }
+      end
     end
   end
 end
