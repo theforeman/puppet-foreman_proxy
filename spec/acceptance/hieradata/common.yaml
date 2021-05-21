@@ -1,0 +1,6 @@
+---
+foreman_proxy::puppet_group: 'root'
+foreman_proxy::register_in_foreman: false
+foreman_proxy::ssl_ca: '/etc/foreman-proxy/certificate.pem'
+foreman_proxy::ssl_cert: '/etc/foreman-proxy/certificate.pem'
+foreman_proxy::ssl_key: '/etc/foreman-proxy/key.pem'
