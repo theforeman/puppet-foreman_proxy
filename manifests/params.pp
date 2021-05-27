@@ -1,7 +1,7 @@
 # @summary The default parameters for the foreman proxy
 # @api private
 class foreman_proxy::params inherits foreman_proxy::globals {
-  $tftp_root = lookup('tftp::root', undef, undef, '/not/used')
+  $tftp_root = lookup('tftp::root', Stdlib::Unixpath, undef, '/not/used')
   $lower_fqdn = downcase($facts['networking']['fqdn'])
 
   case $facts['os']['family'] {
