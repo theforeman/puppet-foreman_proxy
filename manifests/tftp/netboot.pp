@@ -52,7 +52,8 @@ class foreman_proxy::tftp::netboot (
     }
     'debian': {
       $efi_lib_dir = '/usr/lib/grub/x86_64-efi'
-      exec { 'build-grub2-efi-image':
+      File <| title == "${root}/grub2" |>
+      -> exec { 'build-grub2-efi-image':
         command => "/usr/bin/grub-mkimage -O x86_64-efi -d ${efi_lib_dir} -o ${root}/grub2/grubx64.efi -p '' ${grub_modules}",
         unless  => "/bin/grep -q regexp '${root}/grub2/grubx64.efi'",
         require => Package[$packages],
