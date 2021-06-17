@@ -49,6 +49,7 @@ describe 'foreman_proxy::plugin::ansible' do
             'ssl_cert = /etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem',
             'verify_certs = /etc/puppetlabs/puppet/ssl/certs/ca.pem',
             'roles_path = /etc/ansible/roles:/usr/share/ansible/roles',
+            'collections_paths = /etc/ansible/collections:/usr/share/ansible/collections',
             '[ssh_connection]',
             'ssh_args = -o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s',
           ])
@@ -99,6 +100,7 @@ describe 'foreman_proxy::plugin::ansible' do
             'ssl_cert = /etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem',
             'verify_certs = /etc/puppetlabs/puppet/ssl/certs/ca.pem',
             'roles_path = /etc/ansible/roles:/usr/share/ansible/roles',
+            'collections_paths = /etc/ansible/collections:/usr/share/ansible/collections',
             '[ssh_connection]',
             'ssh_args = -o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s',
           ])
