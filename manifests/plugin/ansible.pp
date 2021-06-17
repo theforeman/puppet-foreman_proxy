@@ -34,6 +34,8 @@
 #
 # $runner_package_name:: The name of the ansible-runner package to install
 #
+# $collections_paths:: Paths where to look for ansible collections
+#
 class foreman_proxy::plugin::ansible (
   Boolean $enabled = $foreman_proxy::plugin::ansible::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $foreman_proxy::plugin::ansible::params::listen_on,
@@ -47,6 +49,7 @@ class foreman_proxy::plugin::ansible (
   Boolean $manage_runner_repo = $foreman_proxy::plugin::ansible::params::manage_runner_repo,
   String $callback = $foreman_proxy::plugin::ansible::params::callback,
   String $runner_package_name = $foreman_proxy::plugin::ansible::params::runner_package_name,
+  Array[Stdlib::Absolutepath] $collections_paths = $foreman_proxy::plugin::ansible::params::collections_paths,
 ) inherits foreman_proxy::plugin::ansible::params {
   $foreman_url = $foreman_proxy::foreman_base_url
   $foreman_ssl_cert = pick($foreman_proxy::foreman_ssl_cert, $foreman_proxy::ssl_cert)
