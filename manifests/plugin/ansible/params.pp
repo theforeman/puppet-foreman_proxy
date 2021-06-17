@@ -12,6 +12,7 @@ class foreman_proxy::plugin::ansible::params {
   $roles_path = ['/etc/ansible/roles', '/usr/share/ansible/roles']
   $ssh_args = '-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s'
   $install_runner = true
+  $collections_paths = ['/etc/ansible/collections', '/usr/share/ansible/collections']
   case $facts['os']['family'] {
     'RedHat': {
       $callback = 'theforeman.foreman.foreman'
