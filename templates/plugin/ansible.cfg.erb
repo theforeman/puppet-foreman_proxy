@@ -4,6 +4,7 @@ local_tmp = <%= @working_dir %>
 host_key_checking = <%= @host_key_checking ? 'True' : 'False' %>
 stdout_callback = <%= @stdout_callback %>
 roles_path = <%= @roles_path.join(':') %>
+collections_paths = <%= @collections_paths.join(':') %>
 
 [callback_foreman]
 url = <%= @foreman_url %>
