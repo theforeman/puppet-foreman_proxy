@@ -17,6 +17,8 @@
 #
 # $pulpcore_content_url::  The URL to the Pulp 3 content
 #
+# $client_authentication:: An array of client authentication types supported by the Pulp installation.
+#
 class foreman_proxy::plugin::pulp (
   Foreman_proxy::ListenOn $listen_on = 'https',
   Boolean $pulpcore_enabled = true,
@@ -24,6 +26,7 @@ class foreman_proxy::plugin::pulp (
   Stdlib::HTTPUrl $pulpcore_api_url = $foreman_proxy::plugin::pulp::params::pulpcore_api_url,
   Stdlib::HTTPUrl $pulpcore_content_url = $foreman_proxy::plugin::pulp::params::pulpcore_content_url,
   Optional[String] $version = undef,
+  Array[String[1], 1] $client_authentication = ['client_certificate'],
 ) inherits foreman_proxy::plugin::pulp::params {
 
   foreman_proxy::plugin {'pulp':

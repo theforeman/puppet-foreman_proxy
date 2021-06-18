@@ -22,7 +22,8 @@ describe 'foreman_proxy::plugin::pulp' do
                                   ':enabled: https',
                                   ":pulp_url: https://#{facts[:fqdn]}",
                                   ":content_app_url: https://#{facts[:fqdn]}/pulp/content",
-                                  ':mirror: false'
+                                  ':mirror: false',
+                                  ':client_authentication: ["client_certificate"]',
                                 ])
         end
 
@@ -49,6 +50,7 @@ describe 'foreman_proxy::plugin::pulp' do
             pulpcore_mirror: true,
             pulpcore_api_url: 'https://pulpcore.example.com',
             pulpcore_content_url: 'https://pulpcore.example.com/pulp/content',
+            client_authentication: ['password'],
           }
         end
 
@@ -61,7 +63,8 @@ describe 'foreman_proxy::plugin::pulp' do
                                   ':enabled: https',
                                   ':pulp_url: https://pulpcore.example.com',
                                   ":content_app_url: https://pulpcore.example.com/pulp/content",
-                                  ':mirror: true'
+                                  ':mirror: true',
+                                  ':client_authentication: ["password"]',
                                 ])
         end
       end
