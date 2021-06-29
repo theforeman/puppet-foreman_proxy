@@ -12,6 +12,28 @@ class foreman_proxy::register {
       url             => $foreman_proxy::real_registered_proxy_url,
     }
 
+    foreman_host { $foreman_proxy::registered_name:
+      ensure          => present,
+      base_url        => $foreman_proxy::foreman_base_url,
+      consumer_key    => $foreman_proxy::oauth_consumer_key,
+      consumer_secret => $foreman_proxy::oauth_consumer_secret,
+      effective_user  => $foreman_proxy::oauth_effective_user,
+      ssl_ca          => pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca),
+    }
+
+    foreman_smartproxy_host { $foreman_proxy::registered_name:
+      ensure          => present,
+      base_url        => $foreman_proxy::foreman_base_url,
+      consumer_key    => $foreman_proxy::oauth_consumer_key,
+      consumer_secret => $foreman_proxy::oauth_consumer_secret,
+      effective_user  => $foreman_proxy::oauth_effective_user,
+      ssl_ca          => pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca),
+      require         => [
+        foreman_smartproxy[$foreman_proxy::registered_name],
+        foreman_host[$foreman_proxy::registered_name],
+      ]
+    }
+
     # Ensure puppet agent is started after registering the Foreman proxy
     # By using collectors, we don't have to test if the collected resource actually exists
     Foreman_smartproxy[$foreman_proxy::registered_name] -> Cron <| title == 'puppet' |>
