@@ -29,8 +29,8 @@ class foreman_proxy::register {
       effective_user  => $foreman_proxy::oauth_effective_user,
       ssl_ca          => pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca),
       require         => [
-        foreman_smartproxy[$foreman_proxy::registered_name],
-        foreman_host[$foreman_proxy::registered_name],
+        Foreman_smartproxy[$foreman_proxy::registered_name],
+        Foreman_host[$foreman_proxy::registered_name],
       ]
     }
 
