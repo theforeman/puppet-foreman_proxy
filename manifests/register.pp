@@ -19,6 +19,7 @@ class foreman_proxy::register {
       consumer_secret => $foreman_proxy::oauth_consumer_secret,
       effective_user  => $foreman_proxy::oauth_effective_user,
       ssl_ca          => pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca),
+      facts           => $facts,
     }
 
     foreman_smartproxy_host { $foreman_proxy::registered_name:
