@@ -28,6 +28,8 @@ describe 'foreman_proxy::plugin::dhcp::infoblox' do
             ':record_type: "fixedaddress"',
             ':dns_view: "default"',
             ':network_view: "default"',
+            ':wait_after_restart: 10',
+            ":options: '[]'",
           ])
         end
       end
@@ -35,11 +37,13 @@ describe 'foreman_proxy::plugin::dhcp::infoblox' do
       context 'all parameters' do
         let :params do
           {
-            :username     => 'admin',
-            :password     => 'infoblox',
-            :record_type  => 'host',
-            :dns_view     => 'non-default',
-            :network_view => 'another-non-default',
+            :username           => 'admin',
+            :password           => 'infoblox',
+            :record_type        => 'host',
+            :dns_view           => 'non-default',
+            :network_view       => 'another-non-default',
+            :wait_after_restart => 10,
+            :options            => '[]',
           }
         end
 
@@ -51,6 +55,8 @@ describe 'foreman_proxy::plugin::dhcp::infoblox' do
             ':record_type: "host"',
             ':dns_view: "non-default"',
             ':network_view: "another-non-default"',
+            ':wait_after_restart: 10',
+            ":options: '[]'",
           ])
         end
       end

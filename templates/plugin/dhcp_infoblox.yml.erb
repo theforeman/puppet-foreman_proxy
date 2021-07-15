@@ -6,10 +6,21 @@
 #
 :username: "<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::username') %>"
 :password: "<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::password') %>"
-#
-#
-# Record type to manage: can be "host" or "fixedaddress"
-#
+
+# Record type to manage: can be "host" or "fixedaddress". The latter is recommended as
+# "host" setting will cause conflicts when using Infoblox DNS smart proxy plugin. When
+# using "host" setting make sure domain exists in Infoblox.
 :record_type: "<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::record_type') %>"
-:dns_view: "<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::dns_view') %>"
+
+# View used for fixedaddress record type.
 :network_view: "<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::network_view') %>"
+
+# View used for host record type, usually 'default.myview' for custom names.
+:dns_view: "<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::dns_view') %>"
+
+# Number of seconds to wait after successful Grid restart (make sure to increase Foreman and CLI timeouts).
+:wait_after_restart: <%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::wait_after_restart') %>
+
+# JSON-encoded array of dicts with name, num, value and vendor_class keys for DHCP option(s).
+# Set to blank for no options, this is only used for 'fixedaddress' record types.
+:options: '<%= scope.lookupvar('::foreman_proxy::plugin::dhcp::infoblox::options') %>'
