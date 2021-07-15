@@ -255,10 +255,6 @@
 #
 # === Advanced parameters:
 #
-# $repo::                       Which repository to use. Can be a specific version or nightly. Will not configure anything when undefined.
-#
-# $gpgcheck::                   Turn on/off gpg check in repo files (effective only on RedHat family systems)
-#
 # $dhcp_failover_address::      Address for DHCP to listen for connections from its peer
 #
 # $dhcp_failover_port::         Port for DHCP to listen & communicate with it DHCP peer
@@ -286,8 +282,6 @@
 # $puppetca_certificate::       Token-whitelisting only: Certificate to use when encrypting tokens (undef to use SSL certificate)
 #
 class foreman_proxy (
-  Optional[String] $repo = $foreman_proxy::params::repo,
-  Boolean $gpgcheck = $foreman_proxy::params::gpgcheck,
   String $version = $foreman_proxy::params::version,
   Enum['latest', 'present', 'installed', 'absent'] $ensure_packages_version = $foreman_proxy::params::ensure_packages_version,
   Variant[Array[String], String] $bind_host = $foreman_proxy::params::bind_host,
@@ -431,6 +425,8 @@ class foreman_proxy (
   contain foreman_proxy::config
   contain foreman_proxy::service
   contain foreman_proxy::register
+
+  Anchor <| title == 'foreman::repo' |> ~> Class['foreman_proxy::install']
 
   # lint:ignore:spaceship_operator_without_tag
   Class['foreman_proxy::install']
