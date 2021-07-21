@@ -49,6 +49,9 @@ describe 'foreman_proxy::tftp::netboot' do
         when 'CentOS'
           it { should contain_file("/tftproot/grub2/grubx64.efi").with_source('/boot/efi/EFI/centos/grubx64.efi') }
           it { should contain_file("/tftproot/grub2/shimx64.efi").with_source('/boot/efi/EFI/centos/shimx64.efi').with_owner('root').with_mode('0644') }
+        when 'AlmaLinux'
+          it { should contain_file("/tftproot/grub2/grubx64.efi").with_source('/boot/efi/EFI/almalinux/grubx64.efi') }
+          it { should contain_file("/tftproot/grub2/shimx64.efi").with_source('/boot/efi/EFI/almalinux/shimx64.efi').with_owner('root').with_mode('0644') }
         end
         it { should contain_file("/tftproot/grub2/shim.efi").with_ensure('link') }
       else
