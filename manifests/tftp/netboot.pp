@@ -29,7 +29,7 @@ class foreman_proxy::tftp::netboot (
   case $grub_installation_type {
     'redhat': {
       $grub_efi_path = $facts['os']['name'] ? {
-        /Fedora|CentOS/ => downcase($facts['os']['name']),
+        /Fedora|CentOS|AlmaLinux|Rocky/ => downcase($facts['os']['name']),
         default         => 'redhat',
       }
 
