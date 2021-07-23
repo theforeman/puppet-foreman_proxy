@@ -1,5 +1,25 @@
 # Changelog
 
+## [19.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/19.0.0) (2021-07-23)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.1.0...19.0.0)
+
+**Breaking changes:**
+
+- Drop Puppet 5 support [\#680](https://github.com/theforeman/puppet-foreman_proxy/pull/680) ([ehelms](https://github.com/ehelms))
+- Remove Foreman repository parameters [\#677](https://github.com/theforeman/puppet-foreman_proxy/pull/677) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Fixes [\#32710](https://projects.theforeman.org/issues/32710) - tftp support for Rocky Linux and AlmaLinux [\#690](https://github.com/theforeman/puppet-foreman_proxy/pull/690) ([maccelf](https://github.com/maccelf))
+- Allow puppet-dhcp 7.0.0 [\#689](https://github.com/theforeman/puppet-foreman_proxy/pull/689) ([ehelms](https://github.com/ehelms))
+- Allow puppet-foreman 18.0.0 [\#684](https://github.com/theforeman/puppet-foreman_proxy/pull/684) ([ehelms](https://github.com/ehelms))
+- Add client\_authentication parameter to plugin::pulp  [\#682](https://github.com/theforeman/puppet-foreman_proxy/pull/682) ([ehelms](https://github.com/ehelms))
+- Add ACD plugin support [\#679](https://github.com/theforeman/puppet-foreman_proxy/pull/679) ([sbernhard](https://github.com/sbernhard))
+- Lazily load tftp directories [\#674](https://github.com/theforeman/puppet-foreman_proxy/pull/674) ([ekohl](https://github.com/ekohl))
+- Allow Puppet 7 compatible versions of mods [\#672](https://github.com/theforeman/puppet-foreman_proxy/pull/672) ([ekohl](https://github.com/ekohl))
+- Move all static vars from params to init [\#634](https://github.com/theforeman/puppet-foreman_proxy/pull/634) ([ekohl](https://github.com/ekohl))
+
 ## [18.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/18.1.0) (2021-04-30)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.0.0...18.1.0)
