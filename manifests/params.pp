@@ -3,6 +3,10 @@
 class foreman_proxy::params inherits foreman_proxy::globals {
   $lower_fqdn = downcase($facts['networking']['fqdn'])
 
+  # https://projects.theforeman.org/issues/31565
+  $bind_host = ['*']
+  $empty_array = []
+
   case $facts['os']['family'] {
     'RedHat': {
       if versioncmp($facts['os']['release']['major'], '7') <= 0 {
