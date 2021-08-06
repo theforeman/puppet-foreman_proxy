@@ -1,0 +1,56 @@
+# /etc/salt/master.d/foreman.config Master configuration
+#
+# This file summarizes configurations for the salt-master.
+# Have a look at the [Foreman Salt Plugin Documentation](https://theforeman.org/plugins/foreman_salt/) for detailed explanations.
+#
+# After editing this file, run the following command to active the changes:
+# systemctl restart salt-master
+
+
+##
+# Autosign
+autosign_grains_dir: <%= scope.lookupvar('foreman_proxy::plugin::salt::autosign_grains_dir') %>
+autosign_file: <%= scope.lookupvar('foreman_proxy::plugin::salt::autosign_file') %>
+# Uncomment the next line to make use of the autosign host name file (not recommended)
+# permissive_pki_access: True
+
+
+##
+# Node classifier
+master_tops:
+  ext_nodes: /usr/bin/foreman-node
+
+
+##
+# Pillar data access
+ext_pillar:
+  - puppet: /usr/bin/foreman-node
+
+
+##
+# Salt API access
+external_auth:
+  <%= scope.lookupvar('foreman_proxy::plugin::salt::api_auth') %>:
+    <%= scope.lookupvar('foreman_proxy::plugin::salt::api_username') %>:
+      - '@runner'
+
+rest_cherrypy:
+  port: 9191
+  ssl_key: <%= @foreman_ssl_key %>
+  ssl_crt: <%= @foreman_ssl_cert %>
+
+
+##
+# Remote execution provider
+publisher_acl:
+  foreman-proxy:
+    - state.template_str
+
+
+##
+# Reactors
+reactor:
+  - 'salt/auth': # Autosign reactor
+    - <%= @reactor_path %>/foreman_minion_auth.sls
+  - 'salt/job/*/ret/*': # Report reactor
+    - <%= @reactor_path %>/foreman_report_upload.sls

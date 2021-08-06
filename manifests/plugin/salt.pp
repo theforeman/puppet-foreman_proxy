@@ -6,6 +6,8 @@
 #
 # $autosign_file::   File to use for salt autosign
 #
+# $autosign_key_file:: File to use for salt autosign via grains
+#
 # $user::            User to run salt commands under
 #
 # $api::             Use Salt API
@@ -28,6 +30,7 @@
 #
 class foreman_proxy::plugin::salt (
   Stdlib::Absolutepath $autosign_file = $foreman_proxy::plugin::salt::params::autosign_file,
+  Stdlib::Absolutepath $autosign_key_file = $foreman_proxy::plugin::salt::params::autosign_key_file,
   Boolean $enabled = $foreman_proxy::plugin::salt::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $foreman_proxy::plugin::salt::params::listen_on,
   String $user = $foreman_proxy::plugin::salt::params::user,
@@ -38,8 +41,23 @@ class foreman_proxy::plugin::salt (
   String $api_password = $foreman_proxy::plugin::salt::params::api_password,
   Optional[Stdlib::Absolutepath] $saltfile = $foreman_proxy::plugin::salt::params::saltfile,
 ) inherits foreman_proxy::plugin::salt::params {
+  $foreman_ssl_cert = pick($foreman_proxy::foreman_ssl_cert, $foreman_proxy::ssl_cert)
+  $foreman_ssl_key = pick($foreman_proxy::foreman_ssl_key, $foreman_proxy::ssl_key)
+  $reactor_path = '/usr/share/foreman-proxy/salt/reactors'
+
   foreman_proxy::plugin::module { 'salt':
     enabled   => $enabled,
     listen_on => $listen_on,
+  }
+
+  file {"${foreman_proxy::etc}/salt/master.d":
+    ensure => directory,
+    mode   => '0755',
+  }
+  file {"${foreman_proxy::etc}/salt/master.d/foreman.conf":
+    ensure  => file,
+    content => template('foreman_proxy/plugin/salt_master.conf.erb'),
+    owner   => 'root',
+    mode    => '0640',
   }
 }
