@@ -24,6 +24,7 @@ describe 'foreman_proxy::plugin::salt' do
         let :params do {
           :user          => 'example',
           :autosign_file => '/etc/salt/example.conf',
+          :autosign_key_file => '/var/lib/foreman-proxy/salt/grains/autosign_key',
           :api           => true,
           :api_url       => 'http://foreman.example.com',
           :api_auth      => 'ldap',
@@ -36,6 +37,7 @@ describe 'foreman_proxy::plugin::salt' do
           should contain_file('/etc/foreman-proxy/settings.d/salt.yml').
             with_content(%r{:salt_command_user: example}).
             with_content(%r{:autosign_file: /etc/salt/example.conf}).
+            with_content(%r{:autosign_key_file: /var/lib/foreman-proxy/salt/grains/autosign_key}).
             with_content(%r{:use_api: true}).
             with_content(%r{:api_url: http://foreman.example.com}).
             with_content(%r{:api_auth: ldap}).

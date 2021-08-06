@@ -6,6 +6,8 @@ class foreman_proxy::plugin::salt::params {
   $enabled       = true
   $listen_on     = 'https'
   $autosign_file = "${foreman_proxy::params::etc}/salt/autosign.conf"
+  $autosign_grains_dir = '/var/lib/foreman-proxy/salt/grains'
+  $autosign_key_file = "${autosign_grains_dir}/autosign_key"
   $user          = 'root'
 
   $api           = false
