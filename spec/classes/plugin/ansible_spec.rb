@@ -8,7 +8,17 @@ describe 'foreman_proxy::plugin::ansible' do
 
       describe 'with default settings' do
         it { should contain_class('foreman_proxy::plugin::dynflow') }
-        it { should contain_foreman_proxy__plugin__module('ansible') }
+
+        include_examples 'a plugin with a settings file', 'ansible' do
+          let(:expected_config) do
+            <<~CONFIG
+            ---
+            :enabled: https
+            :ansible_dir: /usr/share/foreman-proxy
+            :working_dir: /tmp
+            CONFIG
+          end
+        end
 
         case os
         when 'debian-10-x86_64'
@@ -26,13 +36,6 @@ describe 'foreman_proxy::plugin::ansible' do
                    .that_comes_before('Package[ansible-runner]')
           end
           it { should contain_package('ansible-runner').with_ensure('installed') }
-        end
-
-
-        it 'should configure ansible.yml' do
-          should contain_file('/etc/foreman-proxy/settings.d/ansible.yml').
-            with_content(/:enabled: https/).
-            with_content(%r{:ansible_dir: /usr/share/foreman-proxy})
         end
 
         it 'should configure ansible.cfg' do
@@ -70,6 +73,17 @@ describe 'foreman_proxy::plugin::ansible' do
 
         it { should contain_class('foreman_proxy::plugin::dynflow') }
 
+        include_examples 'a plugin with a settings file', 'ansible' do
+          let(:expected_config) do
+            <<~CONFIG
+            ---
+            :enabled: https
+            :ansible_dir: /etc/ansible-test
+            :working_dir: /tmp/ansible
+            CONFIG
+          end
+        end
+
         case os
         when 'debian-10-x86_64'
           it { should_not contain_apt__source('ansible-runner') }
@@ -77,13 +91,6 @@ describe 'foreman_proxy::plugin::ansible' do
         when 'redhat-7-x86_64'
           it { should_not contain_yumrepo('ansible-runner') }
           it { should contain_package('ansible-runner').with_ensure('installed') }
-        end
-
-        it 'should configure ansible.yml' do
-          should contain_file('/etc/foreman-proxy/settings.d/ansible.yml').
-            with_content(/:enabled: https/).
-            with_content(%r{:ansible_dir: /etc/ansible-test}).
-            with_content(%r{:working_dir: /tmp/ansible})
         end
 
         it 'should configure ansible.cfg' do

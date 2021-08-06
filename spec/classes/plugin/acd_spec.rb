@@ -7,12 +7,8 @@ describe 'foreman_proxy::plugin::acd' do
       let(:pre_condition) { 'include foreman_proxy' }
 
       describe 'with default settings' do
-        it { should contain_foreman_proxy__plugin__module('acd') }
-        it 'acd.yml should contain the correct configuration' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/acd.yml', [
-            '---',
-            ':enabled: https',
-          ])
+        include_examples 'a plugin with a settings file', 'acd' do
+          let(:expected_config) { "---\n:enabled: https\n" }
         end
       end
     end

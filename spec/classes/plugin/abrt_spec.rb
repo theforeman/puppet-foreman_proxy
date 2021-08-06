@@ -7,16 +7,8 @@ describe 'foreman_proxy::plugin::abrt' do
       let(:pre_condition) { 'include foreman_proxy' }
 
       describe 'with default settings' do
-        it { should contain_foreman_proxy__plugin__module('abrt') }
-        it 'should configure abrt.yml' do
-          should contain_file('/etc/foreman-proxy/settings.d/abrt.yml').
-            with({
-              :ensure  => 'file',
-              :owner   => 'root',
-              :group   => 'foreman-proxy',
-              :mode    => '0640',
-              :content => /:enabled: https/
-            })
+        include_examples 'a plugin with a settings file', 'abrt' do
+          let(:expected_config) { /:enabled: https/ }
         end
       end
 
@@ -26,10 +18,9 @@ describe 'foreman_proxy::plugin::abrt' do
           :faf_server_ssl_key => '/faf_key.pem',
         } end
 
-        it 'should set server_ssl_cert and _key' do
-          should contain_file('/etc/foreman-proxy/settings.d/abrt.yml').
-            with_content(%r{^:server_ssl_cert:\s+/faf_cert.pem$}).
-            with_content(%r{^:server_ssl_key:\s+/faf_key.pem$})
+        include_examples 'a plugin with a settings file', 'abrt' do
+          # TODO: this is weaker than it was
+          let(:expected_config) { %r{:server_ssl_(cert|key): /faf_\1\.pem} }
         end
       end
     end
