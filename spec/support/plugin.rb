@@ -13,19 +13,8 @@ def on_plugin_os
 end
 
 def describe_plugin(name, &block)
-  supported_os = [
-    {
-      'operatingsystem' => 'RedHat',
-      'operatingsystemrelease' => ['7'],
-    },
-    {
-      'operatingsystem' => 'Debian',
-      'operatingsystemrelease' => ['10'],
-    },
-  ]
-
   describe name do
-    on_supported_os(supported_os: supported_os).each do |os, os_facts|
+    on_plugin_os.each do |os, os_facts|
       context("on #{os}") do
         let(:facts) { os_facts }
         let(:pre_condition) { 'include foreman_proxy' }
