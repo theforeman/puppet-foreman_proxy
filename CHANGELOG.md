@@ -1,5 +1,13 @@
 # Changelog
 
+## [18.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/18.2.0) (2021-08-26)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/19.0.0...18.2.0)
+
+**Implemented enhancements:**
+
+- Fixes [\#33162](https://projects.theforeman.org/issues/33162) - Set value for Ansible collections\_paths [\#693](https://github.com/theforeman/puppet-foreman_proxy/pull/693) ([xprazak2](https://github.com/xprazak2))
+
 ## [18.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/18.1.0) (2021-04-30)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.0.0...18.1.0)
