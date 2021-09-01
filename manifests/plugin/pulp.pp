@@ -19,6 +19,9 @@
 #
 # $client_authentication:: An array of client authentication types supported by the Pulp installation.
 #
+# $rhsm_url::              The RHSM base URL represents the URL to the Katello API for RHSM traffic, or a reverse proxy to it. Katello will direct hosts
+#                          registering through this Smart Proxy server to send subscription-manager and other RHSM client traffic to this URL.
+#
 class foreman_proxy::plugin::pulp (
   Foreman_proxy::ListenOn $listen_on = 'https',
   Boolean $pulpcore_enabled = true,
@@ -27,6 +30,7 @@ class foreman_proxy::plugin::pulp (
   Stdlib::HTTPUrl $pulpcore_content_url = $foreman_proxy::plugin::pulp::params::pulpcore_content_url,
   Optional[String] $version = undef,
   Array[String[1], 1] $client_authentication = ['client_certificate'],
+  Stdlib::HTTPUrl $rhsm_url = $foreman_proxy::plugin::pulp::params::rhsm_url,
 ) inherits foreman_proxy::plugin::pulp::params {
 
   foreman_proxy::plugin {'pulp':
