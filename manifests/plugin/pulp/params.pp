@@ -3,4 +3,5 @@
 class foreman_proxy::plugin::pulp::params {
   $pulpcore_api_url     = "https://${facts['networking']['fqdn']}"
   $pulpcore_content_url = "${pulpcore_api_url}/pulp/content"
+  $rhsm_url             = "https://${facts['networking']['fqdn']}/rhsm"
 }

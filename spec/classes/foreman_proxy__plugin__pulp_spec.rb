@@ -24,6 +24,7 @@ describe 'foreman_proxy::plugin::pulp' do
                                   ":content_app_url: https://#{facts[:fqdn]}/pulp/content",
                                   ':mirror: false',
                                   ':client_authentication: ["client_certificate"]',
+                                  ":rhsm_url: https://#{facts[:fqdn]}/rhsm",
                                 ])
         end
 
@@ -51,6 +52,7 @@ describe 'foreman_proxy::plugin::pulp' do
             pulpcore_api_url: 'https://pulpcore.example.com',
             pulpcore_content_url: 'https://pulpcore.example.com/pulp/content',
             client_authentication: ['password'],
+            rhsm_url: 'https://smartproxy.example.com/rhsm',
           }
         end
 
@@ -65,6 +67,7 @@ describe 'foreman_proxy::plugin::pulp' do
                                   ":content_app_url: https://pulpcore.example.com/pulp/content",
                                   ':mirror: true',
                                   ':client_authentication: ["password"]',
+                                  ':rhsm_url: https://smartproxy.example.com/rhsm',
                                 ])
         end
       end
