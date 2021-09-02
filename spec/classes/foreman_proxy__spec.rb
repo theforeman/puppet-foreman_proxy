@@ -68,7 +68,7 @@ describe 'foreman_proxy' do
         end
 
         it 'should not install wget' do
-          should_not contain_package('wget').with_ensure('present')
+          should_not contain_package('wget').with_ensure('installed')
         end
 
         it "should create the #{proxy_user_name} user" do
@@ -455,11 +455,11 @@ describe 'foreman_proxy' do
             .with_user(proxy_user_name)
             .with_root(tftp_root)
             .with_manage_wget(true)
-            .with_wget_version('present')
+            .with_wget_version('installed')
         end
 
         it 'should install wget' do
-          should contain_package('wget').with_ensure('present')
+          should contain_package('wget').with_ensure('installed')
         end
 
         context 'with custom tftp parameters' do
@@ -625,14 +625,14 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(dns_provider: 'nsupdate') }
 
           it { is_expected.to compile.with_all_deps }
-          it { is_expected.to contain_package(nsupdate_pkg).with_ensure('present') }
+          it { is_expected.to contain_package(nsupdate_pkg).with_ensure('installed') }
           it { is_expected.to contain_class('foreman_proxy::proxydns') }
 
           context 'dns_managed => false' do
             let(:params) { super().merge(dns_managed: false) }
 
             it { is_expected.to compile.with_all_deps }
-            it { is_expected.to contain_package(nsupdate_pkg).with_ensure('present') }
+            it { is_expected.to contain_package(nsupdate_pkg).with_ensure('installed') }
             it { is_expected.not_to contain_class('foreman_proxy::proxydns') }
           end
         end
@@ -641,7 +641,7 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(dns_provider: 'nsupdate_gss') }
 
           it { is_expected.to compile.with_all_deps }
-          it { is_expected.to contain_package(nsupdate_pkg).with_ensure('present') }
+          it { is_expected.to contain_package(nsupdate_pkg).with_ensure('installed') }
           it { is_expected.to contain_class('foreman_proxy::proxydns') }
 
           it 'should contain dns_tsig_* settings' do

@@ -20,8 +20,8 @@ describe 'foreman_proxy::tftp::netboot' do
 
       if facts[:osfamily] == 'Debian'
         it { is_expected.to contain_class('foreman_proxy::tftp::netboot').with_grub_installation_type('debian') }
-        it { should contain_package('grub-common').with_ensure('present') }
-        it { should contain_package('grub-efi-amd64-bin').with_ensure('present') }
+        it { should contain_package('grub-common').with_ensure('installed') }
+        it { should contain_package('grub-efi-amd64-bin').with_ensure('installed') }
 
         it 'should generate efi image from grub2 modules for Debian' do
           should contain_exec('build-grub2-efi-image').with_unless("/bin/grep -q regexp '/tftproot/grub2/grubx64.efi'")
@@ -34,10 +34,10 @@ describe 'foreman_proxy::tftp::netboot' do
         it { should contain_file("/tftproot/grub2/shim.efi").with_ensure('link') }
       elsif facts[:osfamily] == 'RedHat'
         it { is_expected.to contain_class('foreman_proxy::tftp::netboot').with_grub_installation_type('redhat') }
-        it { should contain_package('grub2-efi-x64').with_ensure('present') }
-        it { should contain_package('grub2-efi-x64-modules').with_ensure('present') }
-        it { should contain_package('grub2-tools').with_ensure('present') }
-        it { should contain_package('shim-x64').with_ensure('present') }
+        it { should contain_package('grub2-efi-x64').with_ensure('installed') }
+        it { should contain_package('grub2-efi-x64-modules').with_ensure('installed') }
+        it { should contain_package('grub2-tools').with_ensure('installed') }
+        it { should contain_package('shim-x64').with_ensure('installed') }
 
         case facts[:operatingsystem]
         when /^(RedHat|Scientific|OracleLinux)$/
