@@ -18,7 +18,7 @@ class foreman_proxy::tftp::netboot (
   Enum['redhat', 'debian', 'none'] $grub_installation_type = $foreman_proxy::tftp::netboot::params::grub_installation_type,
   String $grub_modules = $foreman_proxy::tftp::netboot::params::grub_modules,
 ) inherits foreman_proxy::tftp::netboot::params {
-  ensure_packages($packages, { ensure => 'present', })
+  ensure_packages($packages, { ensure => 'installed', })
 
   # The symlink from grub2/boot to boot is needed for UEFI HTTP boot
   file {"${root}/grub2/boot":

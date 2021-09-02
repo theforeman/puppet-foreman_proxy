@@ -283,7 +283,7 @@
 #
 class foreman_proxy (
   String $version = 'present',
-  Enum['latest', 'present', 'installed', 'absent'] $ensure_packages_version = 'present',
+  Enum['latest', 'present', 'installed', 'absent'] $ensure_packages_version = 'installed',
   Variant[Array[String], String] $bind_host = ['*'],
   Stdlib::Port $http_port = 8000,
   Stdlib::Port $ssl_port = 8443,
