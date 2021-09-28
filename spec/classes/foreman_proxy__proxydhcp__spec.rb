@@ -37,6 +37,7 @@ describe 'foreman_proxy' do
             .with_interfaces(['eth0'])
             .with_pxeserver('192.0.2.10')
             .with_pxefilename('pxelinux.0')
+            .with_ipxe_filename(nil)
         end
 
         it do
@@ -210,6 +211,29 @@ describe 'foreman_proxy' do
 
         it { should compile.and_raise_error(/Could not get the ip address from fact ipaddress_doesnotexist/) }
       end
+
+      context 'with templates' do
+        let(:facts) { facts }
+        let(:params) { super().merge(templates: true) }
+
+        it { should compile.with_all_deps }
+        it { should contain_class('dhcp').with_ipxe_filename('http://foo.example.com:8000/unattended/iPXE') }
+
+        context 'with bootstrap' do
+          let(:params) { super().merge(dhcp_ipxe_bootstrap: true) }
+
+          it { should compile.with_all_deps }
+          it { should contain_class('dhcp').with_ipxe_filename('http://foo.example.com:8000/unattended/iPXE?bootstrap=1') }
+        end
+
+        context 'with explicit parameter' do
+          let(:params) { super().merge(dhcp_ipxefilename: 'http://customapi.example.com/boot') }
+
+          it { should compile.with_all_deps }
+          it { should contain_class('dhcp').with_ipxe_filename('http://customapi.example.com/boot') }
+        end
+      end
+
     end
   end
 end

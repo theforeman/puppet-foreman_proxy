@@ -157,6 +157,11 @@
 #
 # $dhcp_pxefilename::           DHCP "filename" value, defaults otherwise to pxelinux.0
 #
+# $dhcp_ipxefilename::          iPXE DHCP "filename" value, If not specified, it's determined dynamically.
+#                               When the templates feature is enabled, the template_url is used.
+#
+# $dhcp_ipxe_bootstrap::        Enable or disable iPXE bootstrap(discovery) feature
+#
 # $dhcp_network::               DHCP server network value, defaults otherwise to value based on IP of dhcp_interface
 #
 # $dhcp_netmask::               DHCP server netmask value, defaults otherwise to value based on IP of dhcp_interface
@@ -358,6 +363,8 @@ class foreman_proxy (
   Variant[Undef, Boolean, String] $dhcp_range = undef,
   Optional[String] $dhcp_pxeserver = undef,
   String $dhcp_pxefilename = 'pxelinux.0',
+  Optional[String[1]] $dhcp_ipxefilename = undef,
+  Boolean $dhcp_ipxe_bootstrap = false,
   Optional[String] $dhcp_network = undef,
   Optional[String] $dhcp_netmask = undef,
   String $dhcp_nameservers = 'default',
