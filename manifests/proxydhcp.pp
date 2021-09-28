@@ -47,12 +47,24 @@ class foreman_proxy::proxydhcp {
     $conf_dir_mode = undef
   }
 
+  if $foreman_proxy::dhcp_ipxefilename {
+    $_dhcp_ipxefilename = $foreman_proxy::dhcp_ipxefilename
+  } elsif $foreman_proxy::templates and $foreman_proxy::dhcp_ipxe_bootstrap {
+    $_dhcp_ipxefilename = "${foreman_proxy::template_url}/unattended/iPXE?bootstrap=1"
+  } elsif $foreman_proxy::templates {
+    $_dhcp_ipxefilename = "${foreman_proxy::template_url}/unattended/iPXE"
+  } else {
+    $_dhcp_ipxefilename = undef
+  }
+
+
   class { 'dhcp':
     dnsdomain     => $foreman_proxy::dhcp_option_domain,
     nameservers   => $nameservers,
     interfaces    => [$foreman_proxy::dhcp_interface] + $foreman_proxy::dhcp_additional_interfaces,
     pxeserver     => $ip,
     pxefilename   => $foreman_proxy::dhcp_pxefilename,
+    ipxe_filename => $_dhcp_ipxefilename,
     omapi_name    => $foreman_proxy::dhcp_key_name,
     omapi_key     => $foreman_proxy::dhcp_key_secret,
     conf_dir_mode => $conf_dir_mode,
