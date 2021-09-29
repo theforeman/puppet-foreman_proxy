@@ -156,16 +156,20 @@ class foreman_proxy::params inherits foreman_proxy::globals {
 
   # DHCP settings - requires optional DHCP puppet module
   $dhcp_interface        = pick(fact('networking.primary'), 'eth0')
-  $dhcp_option_domain    = [$facts['networking']['domain']]
+  if fact('networking.domain') {
+    $dhcp_option_domain = [$facts['networking']['domain']]
+  } else {
+    $dhcp_option_domain = []
+  }
   $dhcp_failover_address = fact('ipaddress')
 
   # DNS settings - requires optional DNS puppet module
   $dns_interface      = pick(fact('networking.primary'), 'eth0')
-  $dns_zone           = $facts['networking']['domain']
-  if $dns_zone {
-    $dns_realm        = upcase($dns_zone)
+  $dns_zone           = $dhcp_option_domain
+  if fact('networking.domain') {
+    $dns_realm = upcase($facts['networking']['domain'])
   } else {
-    $dns_realm        = undef
+    $dns_realm = undef
   }
   $dns_tsig_keytab    = "${config_dir}/dns.keytab"
   $dns_tsig_principal = "foremanproxy/${facts['networking']['fqdn']}@${dns_realm}"

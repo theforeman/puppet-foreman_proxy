@@ -9,7 +9,7 @@
 #   zone(s).
 #
 # @param forward_zone
-#   The forward DNS zone name
+#   The forward DNS zone name or names
 #
 # @param reverse_zone
 #   The reverse DNS zone name
@@ -21,7 +21,7 @@
 class foreman_proxy::proxydns(
   $forwarders = $foreman_proxy::dns_forwarders,
   $interface = $foreman_proxy::dns_interface,
-  Stdlib::Fqdn $forward_zone = $foreman_proxy::dns_zone,
+  Variant[Array[Stdlib::Fqdn], Stdlib::Fqdn] $forward_zone = $foreman_proxy::dns_zone,
   $reverse_zone = $foreman_proxy::dns_reverse,
   String $soa = $facts['networking']['fqdn'],
 ) {

@@ -626,7 +626,7 @@ describe 'foreman_proxy' do
 
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_package(nsupdate_pkg).with_ensure('installed') }
-          it { is_expected.to contain_class('foreman_proxy::proxydns') }
+          it { is_expected.to contain_class('foreman_proxy::proxydns').with_forward_zone(['example.com']) }
 
           context 'dns_managed => false' do
             let(:params) { super().merge(dns_managed: false) }
@@ -634,6 +634,18 @@ describe 'foreman_proxy' do
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to contain_package(nsupdate_pkg).with_ensure('installed') }
             it { is_expected.not_to contain_class('foreman_proxy::proxydns') }
+          end
+
+          context 'single domain as string' do
+            let(:params) { super().merge(dns_zone: 'example.com') }
+
+            it { is_expected.to contain_class('foreman_proxy::proxydns').with_forward_zone('example.com') }
+          end
+
+          context 'multiple domains' do
+            let(:params) { super().merge(dns_zone: ['first.example.com', 'second.example.com']) }
+
+            it { is_expected.to contain_class('foreman_proxy::proxydns').with_forward_zone(['first.example.com', 'second.example.com']) }
           end
         end
 
