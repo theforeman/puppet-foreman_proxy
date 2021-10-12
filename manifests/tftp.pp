@@ -16,11 +16,12 @@ class foreman_proxy::tftp (
   $dirs = pick($directories, prefix(['pxelinux.cfg','grub','grub2','boot','ztp.cfg','poap.cfg'], "${tftp::root}/"))
 
   file { $dirs:
-    ensure  => directory,
-    owner   => $user,
-    mode    => '0644',
-    require => Class['foreman_proxy::install', 'tftp::install'],
-    recurse => true,
+    ensure    => directory,
+    owner     => $user,
+    max_files => -1,
+    mode      => '0644',
+    require   => Class['foreman_proxy::install', 'tftp::install'],
+    recurse   => true,
   }
 
   file { "${tftp::root}/grub2/grub.cfg":
