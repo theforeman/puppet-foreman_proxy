@@ -1,0 +1,17 @@
+---
+# Use https for production deployments. http and true only make sense in development
+:enabled: <%= @module_enabled %>
+
+# Proxy hostname to appear in reports JSON
+:reported_proxy_hostname: <%= scope.lookupvar('foreman_proxy::plugin::reports::reported_proxy_hostname') %>
+
+# Print input and output to the debug level
+:debug_payload: false
+
+# Spool directory with processed reports
+:spool_dir: <%= scope.lookupvar('foreman_proxy::plugin::reports::spool_dir') %>
+
+# Keep sent reports in spool_dir/done directory
+# - when enabled, move files from the place on
+# a regular basis (e.g. via cronjob).
+:keep_reports: <%= scope.lookupvar('foreman_proxy::plugin::reports::keep_reports') %>

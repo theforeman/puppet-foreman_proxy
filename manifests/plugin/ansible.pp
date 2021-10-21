@@ -36,6 +36,10 @@
 #
 # $collections_paths:: Paths where to look for ansible collections
 #
+# $report_type:: Set to "foreman" for no changes. If set to "proxy",
+#                the Reports plugin for proxy must be enabled in order
+#                to actually make use of the new format of reports
+#
 class foreman_proxy::plugin::ansible (
   Boolean $enabled = $foreman_proxy::plugin::ansible::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $foreman_proxy::plugin::ansible::params::listen_on,
@@ -50,11 +54,13 @@ class foreman_proxy::plugin::ansible (
   String $callback = $foreman_proxy::plugin::ansible::params::callback,
   String $runner_package_name = $foreman_proxy::plugin::ansible::params::runner_package_name,
   Array[Stdlib::Absolutepath] $collections_paths = $foreman_proxy::plugin::ansible::params::collections_paths,
+  Enum['foreman', 'proxy'] $report_type = $foreman_proxy::plugin::ansible::params::report_type,
 ) inherits foreman_proxy::plugin::ansible::params {
   $foreman_url = $foreman_proxy::foreman_base_url
   $foreman_ssl_cert = pick($foreman_proxy::foreman_ssl_cert, $foreman_proxy::ssl_cert)
   $foreman_ssl_key = pick($foreman_proxy::foreman_ssl_key, $foreman_proxy::ssl_key)
   $foreman_ssl_ca = pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca)
+  $proxy_url = $foreman_proxy::real_registered_proxy_url
 
   file {"${foreman_proxy::config_dir}/ansible.cfg":
     ensure  => file,
