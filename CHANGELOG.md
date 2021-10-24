@@ -1,4 +1,29 @@
-# Changelog
+# Changlog
+
+## [20.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/20.0.0) (2021-11-05)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.2.0...20.0.0)
+
+**Breaking changes:**
+
+- Drop Ubuntu 18.04 support [\#713](https://github.com/theforeman/puppet-foreman_proxy/pull/713) ([ekohl](https://github.com/ekohl))
+- Fixes [\#33790](https://projects.theforeman.org/issues/33790) - Mark host where the installer is running as smart-proxy [\#687](https://github.com/theforeman/puppet-foreman_proxy/pull/687) ([adamruzicka](https://github.com/adamruzicka))
+
+**Implemented enhancements:**
+
+- Bump to 20.0.0 and update compatibility table [\#712](https://github.com/theforeman/puppet-foreman_proxy/pull/712) ([ekohl](https://github.com/ekohl))
+- Shift theforeman/puppet to a soft dependency and drop from metadata.json [\#710](https://github.com/theforeman/puppet-foreman_proxy/pull/710) ([ehelms](https://github.com/ehelms))
+- Support theforeman/dhcp 8+ [\#708](https://github.com/theforeman/puppet-foreman_proxy/pull/708) ([ehelms](https://github.com/ehelms))
+- Refs [\#33760](https://projects.theforeman.org/issues/33760) - Add reports proxy plugin [\#707](https://github.com/theforeman/puppet-foreman_proxy/pull/707) ([ofedoren](https://github.com/ofedoren))
+- Fixes [\#33688](https://projects.theforeman.org/issues/33688) - Set max\_files to unlimited for TFTP directories [\#706](https://github.com/theforeman/puppet-foreman_proxy/pull/706) ([thomas-merz](https://github.com/thomas-merz))
+- Allow stdlib 8.x dependency [\#702](https://github.com/theforeman/puppet-foreman_proxy/pull/702) ([jfroche](https://github.com/jfroche))
+- Default package versions to installed instead of present [\#701](https://github.com/theforeman/puppet-foreman_proxy/pull/701) ([ehelms](https://github.com/ehelms))
+- Expose rhsm\_url setting in foreman\_proxy::plugin::pulp [\#700](https://github.com/theforeman/puppet-foreman_proxy/pull/700) ([wbclark](https://github.com/wbclark))
+- Fixes [\#33162](https://projects.theforeman.org/issues/33162) - Set value for Ansible collections\_paths [\#693](https://github.com/theforeman/puppet-foreman_proxy/pull/693) ([xprazak2](https://github.com/xprazak2))
+
+**Fixed bugs:**
+
+- Fixes [\#33808](https://projects.theforeman.org/issues/33808): Make templates listen on both again [\#711](https://github.com/theforeman/puppet-foreman_proxy/pull/711) ([ekohl](https://github.com/ekohl))
 
 ## [19.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/19.0.0) (2021-07-23)
 
