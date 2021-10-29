@@ -327,7 +327,7 @@ class foreman_proxy (
   Stdlib::Absolutepath $puppet_ssl_key = $foreman_proxy::params::ssl_key,
   Integer[0] $puppet_api_timeout = 30,
   Boolean $templates = false,
-  Foreman_proxy::ListenOn $templates_listen_on = 'https',
+  Foreman_proxy::ListenOn $templates_listen_on = 'both',
   Stdlib::HTTPUrl $template_url = $foreman_proxy::params::template_url,
   Boolean $registration = true,
   Foreman_proxy::ListenOn $registration_listen_on = 'https',
