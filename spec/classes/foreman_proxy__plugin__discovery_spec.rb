@@ -6,13 +6,11 @@ describe 'foreman_proxy::plugin::discovery' do
       let(:facts) { facts }
       let(:pre_condition) { 'include foreman_proxy' }
       let(:tftproot) do
-        case facts[:operatingsystem]
+        case facts[:osfamily]
         when 'Debian'
           '/srv/tftp'
         when 'FreeBSD', 'DragonFly'
           '/tftpboot'
-        when 'Ubuntu'
-          facts[:operatingsystemmajrelease] == '18.04' ? '/var/lib/tftpboot' : '/srv/tftp'
         else
           '/var/lib/tftpboot'
         end
