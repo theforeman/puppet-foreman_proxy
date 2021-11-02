@@ -17,11 +17,7 @@ describe 'foreman_proxy::tftp' do
 
       case facts[:osfamily]
       when 'Debian'
-        tftp_root = if facts[:operatingsystem] == 'Ubuntu'
-                      facts[:operatingsystemmajrelease] == '18.04' ? '/var/lib/tftpboot' : '/srv/tftp'
-                    else
-                      '/srv/tftp'
-                    end
+        tftp_root = '/srv/tftp'
         names = {
           '/usr/lib/PXELINUX/pxelinux.0'                => "#{tftp_root}/pxelinux.0",
           '/usr/lib/syslinux/memdisk'                   => "#{tftp_root}/memdisk",
