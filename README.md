@@ -12,7 +12,8 @@ Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 
 | Module version | Proxy versions | Notes                                               |
 |----------------|----------------|-----------------------------------------------------|
-| 16.x - 18.x    | 2.3 and newer  | See compatibility notes in its README for 2.0-2.2   |
+| 20.x           | 3.1 and newer  | See compatibility notes in its README for 2.3-3.0   |
+| 16.x - 19.x    | 2.3 - 3.0      | See compatibility notes in its README for 2.0-2.2   |
 | 13.x - 15.x    | 2.0 - 2.2      |                                                     |
 | 12.x           | 1.19 - 1.24    | See compatibility notes in its README for 1.19-1.22 |
 | 11.x           | 1.19 - 1.23    | See compatibility notes in its README for 1.19-1.21 |
@@ -23,6 +24,7 @@ Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 | 2.x            | 1.5 - 1.10     |                                                     |
 | 1.x            | 1.4 and older  |                                                     |
 
+20.x started to register as a Smart Proxy host. This requires Foreman 3.1. When using an older Foreman, set `$register_in_foreman` to false. This does require manual registration then.
 18.x switched to running `smart_proxy_dynflow` as part of `foreman-proxy` service by default. On EL* distributions and Foreman < 2.5, `foreman_proxy::plugin::dynflow::external_core` needs to be explicitly set to `true`.
 16.x added support for Smart Proxy Registration feature, available in Smart Proxy 2.3 and newer.
 12.x has dropped support for Puppet 3 which was officially unsupported for a while and Foreman Proxy 1.23 dropped altogether.
