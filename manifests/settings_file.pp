@@ -33,7 +33,13 @@ define foreman_proxy::settings_file (
   if $ensure == 'absent' {
     $content = undef
   } else {
-    $content = template($template_path)
+    $content = if $template_path.match(/\.epp$/) {
+      epp($template_path)
+    } elsif $template_path.match(/\.erb$/) {
+      template($template_path)
+    } else {
+      fail("${template_path}: Template not supported by Module ${module_name}")
+    }
   }
 
   file {$path:
