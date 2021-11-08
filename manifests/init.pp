@@ -329,7 +329,7 @@ class foreman_proxy (
   Boolean $templates = false,
   Foreman_proxy::ListenOn $templates_listen_on = 'both',
   Stdlib::HTTPUrl $template_url = $foreman_proxy::params::template_url,
-  Boolean $registration = true,
+  Boolean $registration = false,
   Foreman_proxy::ListenOn $registration_listen_on = 'https',
   Boolean $logs = true,
   Foreman_proxy::ListenOn $logs_listen_on = 'https',
