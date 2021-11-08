@@ -307,6 +307,13 @@ describe 'foreman_proxy' do
           ])
         end
 
+        it 'should generate correct registration.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/registration.yml", [
+            '---',
+            ':enabled: false',
+          ])
+        end
+
         it 'should generate correct logs.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/logs.yml", [
             '---',
@@ -802,6 +809,40 @@ describe 'foreman_proxy' do
 
           it 'should set enabled to true' do
             verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/templates.yml", [
+              ':enabled: true',
+            ])
+          end
+        end
+      end
+
+      context 'with registration => true' do
+        let(:params) { super().merge(registration: true) }
+
+        context 'with feature on http' do
+          let(:params) { super().merge(registration_listen_on: 'http') }
+
+          it 'should set enabled to http' do
+            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/registration.yml", [
+              ':enabled: http',
+            ])
+          end
+        end
+
+        context 'with feature on https' do
+          let(:params) { super().merge(registration_listen_on: 'https') }
+
+          it 'should set enabled to https' do
+            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/registration.yml", [
+              ':enabled: https',
+            ])
+          end
+        end
+
+        context 'with feature on both' do
+          let(:params) { super().merge(registration_listen_on: 'both') }
+
+          it 'should set enabled to true' do
+            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/registration.yml", [
               ':enabled: true',
             ])
           end
