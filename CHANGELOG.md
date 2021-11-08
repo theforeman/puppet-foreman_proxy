@@ -1,5 +1,17 @@
 # Changlog
 
+## [20.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/20.1.0) (2021-11-08)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/20.0.0...20.1.0)
+
+**Implemented enhancements:**
+
+- Allow theforeman/foreman 19.0.0 [\#716](https://github.com/theforeman/puppet-foreman_proxy/pull/716) ([ehelms](https://github.com/ehelms))
+
+**Fixed bugs:**
+
+- Fixes [\#33864](https://projects.theforeman.org/issues/33864) - disable registration by default [\#714](https://github.com/theforeman/puppet-foreman_proxy/pull/714) ([evgeni](https://github.com/evgeni))
+
 ## [20.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/20.0.0) (2021-11-05)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.2.0...20.0.0)
