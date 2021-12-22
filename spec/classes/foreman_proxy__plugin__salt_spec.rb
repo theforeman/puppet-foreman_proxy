@@ -34,14 +34,14 @@ describe 'foreman_proxy::plugin::salt' do
 
         it 'should change salt.yml parameters' do
           should contain_file('/etc/foreman-proxy/settings.d/salt.yml').
-            with_content(/:salt_command_user: example/).
-            with_content(/:autosign_file: \/etc\/salt\/example.conf/).
-            with_content(/:use_api: true/).
-            with_content(/:api_url: http:\/\/foreman.example.com/).
-            with_content(/:api_auth: ldap/).
-            with_content(/:api_username: saltapi/).
-            with_content(/:api_password: letmein/).
-            with_content(/:saltfile: \/etc\/salt\/Saltfile/)
+            with_content(%r{:salt_command_user: example}).
+            with_content(%r{:autosign_file: /etc/salt/example.conf}).
+            with_content(%r{:use_api: true}).
+            with_content(%r{:api_url: http://foreman.example.com}).
+            with_content(%r{:api_auth: ldap}).
+            with_content(%r{:api_username: saltapi}).
+            with_content(%r{:api_password: letmein}).
+            with_content(%r{:saltfile: /etc/salt/Saltfile})
         end
       end
     end
