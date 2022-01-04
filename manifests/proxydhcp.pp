@@ -76,7 +76,7 @@ class foreman_proxy::proxydhcp {
       command => "setfacl -m u:${foreman_proxy::user}:rx ${dhcp::dhcp_dir}",
       path    => ['/bin', '/usr/bin'],
       unless  => "getfacl -p ${dhcp::dhcp_dir} | grep user:${foreman_proxy::user}:r-x",
-      require => [Class['dhcp'], Package['acl']],
+      require => [Class['dhcp'], Package['acl'], User[$foreman_proxy::user]],
     }
   }
 
