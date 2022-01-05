@@ -90,11 +90,4 @@ class foreman_proxy::plugin::remote_execution::ssh (
       }
     }
   }
-
-  if $foreman_proxy::plugin::dynflow::external_core {
-    if $ssh_kerberos_auth {
-      Package[$kerberos_pkg] ~> Service['smart_proxy_dynflow_core']
-    }
-    Foreman_proxy::Settings_file['remote_execution_ssh'] ~> Service['smart_proxy_dynflow_core']
-  }
 }

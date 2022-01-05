@@ -83,8 +83,4 @@ class foreman_proxy::plugin::ansible (
     enabled   => $enabled,
     listen_on => $listen_on,
   }
-
-  if $foreman_proxy::plugin::dynflow::external_core {
-    Foreman_proxy::Settings_file['ansible'] ~> Service['smart_proxy_dynflow_core']
-  }
 }

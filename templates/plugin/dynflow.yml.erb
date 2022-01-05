@@ -1,14 +1,6 @@
 ---
 :enabled: <%= @module_enabled %>
 :database: <%= scope.lookupvar('::foreman_proxy::plugin::dynflow::database_path') %>
-:core_url: <%= scope.lookupvar('::foreman_proxy::plugin::dynflow::core_url') %>
 
-# If true, external core will be used even if the core gem is available
-# If false, the feature will be disabled if the core gem is unavailable
-# If unset, the process will fallback to autodetection, using external core if the core gem is unavailable
-<% external_core = scope.lookupvar('::foreman_proxy::plugin::dynflow::external_core') -%>
-<% if [nil, :undefined, :undef].include?(external_core) -%>
-# :external_core: true
-<% else -%>
-:external_core: <%= external_core %>
-<% end -%>
+# Require a valid cert to access Dynflow console
+:console_auth: <%= scope.lookupvar('::foreman_proxy::plugin::dynflow::console_auth') %>
