@@ -1,3 +1,110 @@
+## [21.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/21.0.0) (2022-02-08)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/20.1.0...21.0.0)
+
+**Breaking changes:**
+
+- Refs [\#34239](https://projects.theforeman.org/issues/34239) - Use mode parameter for remote\_execution\_ssh plugin [\#725](https://github.com/theforeman/puppet-foreman_proxy/pull/725) ([wbclark](https://github.com/wbclark))
+- Drop dynflow\_core support [\#720](https://github.com/theforeman/puppet-foreman_proxy/pull/720) ([evgeni](https://github.com/evgeni))
+
+**Implemented enhancements:**
+
+- puppet/extlib: Allow 6.x [\#723](https://github.com/theforeman/puppet-foreman_proxy/pull/723) ([bastelfreak](https://github.com/bastelfreak))
+- Reflect Foreman 3.2+ support for Debian 11 [\#722](https://github.com/theforeman/puppet-foreman_proxy/pull/722) ([ekohl](https://github.com/ekohl))
+- Accept EPP-Template for Settings-File [\#715](https://github.com/theforeman/puppet-foreman_proxy/pull/715) ([cocker-cc](https://github.com/cocker-cc))
+- Fixes [\#33549](https://projects.theforeman.org/issues/33549) - Add parameter dhcp\_ipxefilename to set a value for DHCP's iPXE filename [\#704](https://github.com/theforeman/puppet-foreman_proxy/pull/704) ([hugendudel](https://github.com/hugendudel))
+- Add autosign\_key\_file parameter and Salt Master configuration [\#696](https://github.com/theforeman/puppet-foreman_proxy/pull/696) ([bastian-src](https://github.com/bastian-src))
+
+**Fixed bugs:**
+
+- setfacl needs foreman\_proxy::user to exist [\#719](https://github.com/theforeman/puppet-foreman_proxy/pull/719) ([eb4x](https://github.com/eb4x))
+
+## [20.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/20.1.0) (2021-11-09)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/20.0.0...20.1.0)
+
+**Implemented enhancements:**
+
+- Allow theforeman/foreman 19.0.0 [\#716](https://github.com/theforeman/puppet-foreman_proxy/pull/716) ([ehelms](https://github.com/ehelms))
+
+**Fixed bugs:**
+
+- Fixes [\#33864](https://projects.theforeman.org/issues/33864) - disable registration by default [\#714](https://github.com/theforeman/puppet-foreman_proxy/pull/714) ([evgeni](https://github.com/evgeni))
+
+## [20.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/20.0.0) (2021-11-05)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/19.0.0...20.0.0)
+
+**Breaking changes:**
+
+- Drop Ubuntu 18.04 support [\#713](https://github.com/theforeman/puppet-foreman_proxy/pull/713) ([ekohl](https://github.com/ekohl))
+- Fixes [\#33790](https://projects.theforeman.org/issues/33790) - Mark host where the installer is running as smart-proxy [\#687](https://github.com/theforeman/puppet-foreman_proxy/pull/687) ([adamruzicka](https://github.com/adamruzicka))
+
+**Implemented enhancements:**
+
+- Bump to 20.0.0 and update compatibility table [\#712](https://github.com/theforeman/puppet-foreman_proxy/pull/712) ([ekohl](https://github.com/ekohl))
+- Shift theforeman/puppet to a soft dependency and drop from metadata.json [\#710](https://github.com/theforeman/puppet-foreman_proxy/pull/710) ([ehelms](https://github.com/ehelms))
+- Support theforeman/dhcp 8+ [\#708](https://github.com/theforeman/puppet-foreman_proxy/pull/708) ([ehelms](https://github.com/ehelms))
+- Refs [\#33760](https://projects.theforeman.org/issues/33760) - Add reports proxy plugin [\#707](https://github.com/theforeman/puppet-foreman_proxy/pull/707) ([ofedoren](https://github.com/ofedoren))
+- Fixes [\#33688](https://projects.theforeman.org/issues/33688) - Set max\_files to unlimited for TFTP directories [\#706](https://github.com/theforeman/puppet-foreman_proxy/pull/706) ([thomas-merz](https://github.com/thomas-merz))
+- Allow stdlib 8.x dependency [\#702](https://github.com/theforeman/puppet-foreman_proxy/pull/702) ([jfroche](https://github.com/jfroche))
+- Default package versions to installed instead of present [\#701](https://github.com/theforeman/puppet-foreman_proxy/pull/701) ([ehelms](https://github.com/ehelms))
+- Expose rhsm\_url setting in foreman\_proxy::plugin::pulp [\#700](https://github.com/theforeman/puppet-foreman_proxy/pull/700) ([wbclark](https://github.com/wbclark))
+- Fixes [\#33162](https://projects.theforeman.org/issues/33162) - Set value for Ansible collections\_paths [\#693](https://github.com/theforeman/puppet-foreman_proxy/pull/693) ([xprazak2](https://github.com/xprazak2))
+
+**Fixed bugs:**
+
+- Fixes [\#33808](https://projects.theforeman.org/issues/33808): Make templates listen on both again [\#711](https://github.com/theforeman/puppet-foreman_proxy/pull/711) ([ekohl](https://github.com/ekohl))
+
+## [19.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/19.0.0) (2021-07-23)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.1.0...19.0.0)
+
+**Breaking changes:**
+
+- Drop Puppet 5 support [\#680](https://github.com/theforeman/puppet-foreman_proxy/pull/680) ([ehelms](https://github.com/ehelms))
+- Remove Foreman repository parameters [\#677](https://github.com/theforeman/puppet-foreman_proxy/pull/677) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Fixes [\#32710](https://projects.theforeman.org/issues/32710) - tftp support for Rocky Linux and AlmaLinux [\#690](https://github.com/theforeman/puppet-foreman_proxy/pull/690) ([maccelf](https://github.com/maccelf))
+- Allow puppet-dhcp 7.0.0 [\#689](https://github.com/theforeman/puppet-foreman_proxy/pull/689) ([ehelms](https://github.com/ehelms))
+- Allow puppet-foreman 18.0.0 [\#684](https://github.com/theforeman/puppet-foreman_proxy/pull/684) ([ehelms](https://github.com/ehelms))
+- Add client\_authentication parameter to plugin::pulp  [\#682](https://github.com/theforeman/puppet-foreman_proxy/pull/682) ([ehelms](https://github.com/ehelms))
+- Add ACD plugin support [\#679](https://github.com/theforeman/puppet-foreman_proxy/pull/679) ([sbernhard](https://github.com/sbernhard))
+- Lazily load tftp directories [\#674](https://github.com/theforeman/puppet-foreman_proxy/pull/674) ([ekohl](https://github.com/ekohl))
+- Allow Puppet 7 compatible versions of mods [\#672](https://github.com/theforeman/puppet-foreman_proxy/pull/672) ([ekohl](https://github.com/ekohl))
+- Move all static vars from params to init [\#634](https://github.com/theforeman/puppet-foreman_proxy/pull/634) ([ekohl](https://github.com/ekohl))
+
+## [18.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/18.1.0) (2021-04-30)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.0.0...18.1.0)
+
+**Implemented enhancements:**
+
+- Support Ubuntu 20.04 [\#669](https://github.com/theforeman/puppet-foreman_proxy/pull/669) ([ekohl](https://github.com/ekohl))
+- Allow puppet-puppet \< 16.0.0 [\#665](https://github.com/theforeman/puppet-foreman_proxy/pull/665) ([wbclark](https://github.com/wbclark))
+- don't manage runner repo on Debian [\#664](https://github.com/theforeman/puppet-foreman_proxy/pull/664) ([evgeni](https://github.com/evgeni))
+
+## [18.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/18.0.0) (2021-04-27)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/17.1.1...18.0.0)
+
+**Breaking changes:**
+
+-  Fixes [\#31893](https://projects.theforeman.org/issues/31893) - make theforeman.foreman.foreman default callback on RH [\#661](https://github.com/theforeman/puppet-foreman_proxy/pull/661) ([evgeni](https://github.com/evgeni))
+- Fixes [\#32235](https://projects.theforeman.org/issues/32235),\#19494 - Run Dynflow within smart-proxy on EL\* [\#655](https://github.com/theforeman/puppet-foreman_proxy/pull/655) ([adamruzicka](https://github.com/adamruzicka))
+- Update Pulp plugin to drop Pulp 2 [\#638](https://github.com/theforeman/puppet-foreman_proxy/pull/638) ([ehelms](https://github.com/ehelms))
+
+**Implemented enhancements:**
+
+- Refs [\#31893](https://projects.theforeman.org/issues/31893) - make ansible callback configurable [\#662](https://github.com/theforeman/puppet-foreman_proxy/pull/662) ([evgeni](https://github.com/evgeni))
+- Mark compatible with Foreman 17.x [\#658](https://github.com/theforeman/puppet-foreman_proxy/pull/658) ([ekohl](https://github.com/ekohl))
+- Remove Puppet version check [\#657](https://github.com/theforeman/puppet-foreman_proxy/pull/657) ([ekohl](https://github.com/ekohl))
+- Add smart\_proxy\_dns\_route53 plugin support [\#656](https://github.com/theforeman/puppet-foreman_proxy/pull/656) ([Nevermore24](https://github.com/Nevermore24))
+- Support Puppet 7 [\#652](https://github.com/theforeman/puppet-foreman_proxy/pull/652) ([ekohl](https://github.com/ekohl))
+- Add shellhooks plugin [\#651](https://github.com/theforeman/puppet-foreman_proxy/pull/651) ([adamruzicka](https://github.com/adamruzicka))
+
 ## [17.1.1](https://github.com/theforeman/puppet-foreman_proxy/tree/17.1.1) (2021-03-18)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/17.1.0...17.1.1)

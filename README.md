@@ -12,6 +12,7 @@ Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 
 | Module version | Proxy versions | Notes                                               |
 |----------------|----------------|-----------------------------------------------------|
+| 21.x           | 3.1 and newer  |                                                     |
 | 20.x           | 3.1 and newer  | See compatibility notes in its README for 2.3-3.0   |
 | 16.x - 19.x    | 2.3 - 3.0      | See compatibility notes in its README for 2.0-2.2   |
 | 13.x - 15.x    | 2.0 - 2.2      |                                                     |

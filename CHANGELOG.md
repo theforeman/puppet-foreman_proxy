@@ -1,6 +1,27 @@
-# Changlog
+# Changelog
 
-## [20.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/20.1.0) (2021-11-08)
+## [21.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/21.0.0) (2022-02-08)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/20.1.0...21.0.0)
+
+**Breaking changes:**
+
+- Refs [\#34239](https://projects.theforeman.org/issues/34239) - Use mode parameter for remote\_execution\_ssh plugin [\#725](https://github.com/theforeman/puppet-foreman_proxy/pull/725) ([wbclark](https://github.com/wbclark))
+- Drop dynflow\_core support [\#720](https://github.com/theforeman/puppet-foreman_proxy/pull/720) ([evgeni](https://github.com/evgeni))
+
+**Implemented enhancements:**
+
+- puppet/extlib: Allow 6.x [\#723](https://github.com/theforeman/puppet-foreman_proxy/pull/723) ([bastelfreak](https://github.com/bastelfreak))
+- Reflect Foreman 3.2+ support for Debian 11 [\#722](https://github.com/theforeman/puppet-foreman_proxy/pull/722) ([ekohl](https://github.com/ekohl))
+- Accept EPP-Template for Settings-File [\#715](https://github.com/theforeman/puppet-foreman_proxy/pull/715) ([cocker-cc](https://github.com/cocker-cc))
+- Fixes [\#33549](https://projects.theforeman.org/issues/33549) - Add parameter dhcp\_ipxefilename to set a value for DHCP's iPXE filename [\#704](https://github.com/theforeman/puppet-foreman_proxy/pull/704) ([hugendudel](https://github.com/hugendudel))
+- Add autosign\_key\_file parameter and Salt Master configuration [\#696](https://github.com/theforeman/puppet-foreman_proxy/pull/696) ([bastian-src](https://github.com/bastian-src))
+
+**Fixed bugs:**
+
+- setfacl needs foreman\_proxy::user to exist [\#719](https://github.com/theforeman/puppet-foreman_proxy/pull/719) ([eb4x](https://github.com/eb4x))
+
+## [20.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/20.1.0) (2021-11-09)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/20.0.0...20.1.0)
 
@@ -14,7 +35,7 @@
 
 ## [20.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/20.0.0) (2021-11-05)
 
-[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.2.0...20.0.0)
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/19.0.0...20.0.0)
 
 **Breaking changes:**
 
