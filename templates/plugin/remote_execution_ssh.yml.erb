@@ -6,4 +6,4 @@
 :kerberos_auth: <%= scope.lookupvar('::foreman_proxy::plugin::remote_execution::ssh::ssh_kerberos_auth') %>
 
 # Whether to run remote execution jobs asynchronously
-:async_ssh: <%= scope.lookupvar("::foreman_proxy::plugin::remote_execution::ssh::async_ssh") %>
+:mode: <%= scope.lookupvar("::foreman_proxy::plugin::remote_execution::ssh::mode") %>

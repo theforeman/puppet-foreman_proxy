@@ -24,6 +24,7 @@ Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 | 2.x            | 1.5 - 1.10     |                                                     |
 | 1.x            | 1.4 and older  |                                                     |
 
+21.x `foreman_proxy::remote_execution::ssh` now requires [smart_proxy_remote_execution_ssh](https://github.com/theforeman/smart_proxy_remote_execution_ssh) >= 0.5.0, which replaced the old `async_ssh` option with a more general configuration of the operation `mode`
 20.x started to register as a Smart Proxy host. This requires Foreman 3.1. When using an older Foreman, set `$register_in_foreman` to false. This does require manual registration then.
 18.x switched to running `smart_proxy_dynflow` as part of `foreman-proxy` service by default. On EL* distributions and Foreman < 2.5, `foreman_proxy::plugin::dynflow::external_core` needs to be explicitly set to `true`.
 16.x added support for Smart Proxy Registration feature, available in Smart Proxy 2.3 and newer.

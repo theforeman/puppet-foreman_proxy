@@ -4,6 +4,8 @@
 #
 # === Parameters:
 #
+# $mode::               Operation Mode of the plugin.
+#
 # $generate_keys::      Automatically generate SSH keys
 #
 # $install_key::        Automatically install generated SSH key to root authorized keys
@@ -27,8 +29,6 @@
 #
 # $listen_on::          Proxy feature listens on https, http, or both
 #
-# $async_ssh::          Whether to run remote execution jobs asynchronously.
-#
 class foreman_proxy::plugin::remote_execution::ssh (
   Boolean $enabled = true,
   Foreman_proxy::ListenOn $listen_on = 'https',
@@ -40,7 +40,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   Stdlib::Absolutepath $local_working_dir = '/var/tmp',
   Stdlib::Absolutepath $remote_working_dir = '/var/tmp',
   Boolean $ssh_kerberos_auth = false,
-  Boolean $async_ssh = false,
+  Enum['ssh', 'ssh-async'] $mode = 'ssh'
 ) {
 
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
