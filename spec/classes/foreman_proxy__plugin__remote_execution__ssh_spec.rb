@@ -43,7 +43,7 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
           :ssh_identity_file  => 'id_rsa',
           :install_key        => true,
           :ssh_kerberos_auth  => true,
-          :async_ssh          => true,
+          :mode               => 'ssh-async',
         } end
 
         it { should contain_class('foreman_proxy::plugin::dynflow') }
@@ -56,7 +56,7 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
             with_content(%r{:local_working_dir: /tmp}).
             with_content(%r{:remote_working_dir: /tmp}).
             with_content(%r{:kerberos_auth: true}).
-            with_content(%r{:async_ssh: true}).
+            with_content(%r{:mode: ssh-async}).
             with({
               :ensure  => 'file',
               :owner   => 'root',
