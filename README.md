@@ -25,6 +25,7 @@ Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 | 2.x            | 1.5 - 1.10     |                                                     |
 | 1.x            | 1.4 and older  |                                                     |
 
+21.x replaced the older `async_ssh` parameter of `foreman_proxy::remote_execution::ssh` with a more generic `mode` parameter, following the change in [smart_proxy_remote_execution_ssh](https://github.com/theforeman/smart_proxy_remote_execution_ssh) itself. This added support for the new `pull-mqtt` mode and - for that specific configuration only - there is a soft dependency on `puppetlabs-mosquitto >= 1.0.1 < 2.0.0` to install Eclipse Mosquitto as the MQTT broker.
 20.x started to register as a Smart Proxy host. This requires Foreman 3.1. When using an older Foreman, set `$register_in_foreman` to false. This does require manual registration then.
 18.x switched to running `smart_proxy_dynflow` as part of `foreman-proxy` service by default. On EL* distributions and Foreman < 2.5, `foreman_proxy::plugin::dynflow::external_core` needs to be explicitly set to `true`.
 16.x added support for Smart Proxy Registration feature, available in Smart Proxy 2.3 and newer.

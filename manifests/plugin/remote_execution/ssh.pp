@@ -62,4 +62,10 @@ class foreman_proxy::plugin::remote_execution::ssh (
       group             => $foreman_proxy::user,
     }
   }
+
+  if $mode == 'pull-mqtt' {
+    class { 'mosquitto':
+      package_name => 'mosquitto',
+    }
+  }
 }
