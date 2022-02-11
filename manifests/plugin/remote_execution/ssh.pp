@@ -42,7 +42,6 @@ class foreman_proxy::plugin::remote_execution::ssh (
   Boolean $ssh_kerberos_auth = false,
   Enum['ssh', 'ssh-async'] $mode = 'ssh'
 ) {
-
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 
   include foreman_proxy::params
@@ -62,32 +61,12 @@ class foreman_proxy::plugin::remote_execution::ssh (
   }
 
   if $generate_keys {
-    file { $ssh_identity_dir:
-      ensure => directory,
-      owner  => $foreman_proxy::user,
-      group  => $foreman_proxy::user,
-      mode   => '0700',
-    }
-    -> exec { 'generate_ssh_key':
-      command => "${ssh_keygen} -f ${ssh_identity_path} -N '' -m pem",
-      user    => $foreman_proxy::user,
-      cwd     => $ssh_identity_dir,
-      creates => $ssh_identity_path,
-    }
-    if $install_key {
-      # Ensure the .ssh directory exists with the right permissions
-      file { '/root/.ssh':
-        ensure => directory,
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0700',
-      }
-      -> exec { 'install_ssh_key':
-        path    => '/usr/bin:/usr/sbin:/bin',
-        command => "cat ${ssh_identity_path}.pub >> /root/.ssh/authorized_keys",
-        unless  => "grep -f ${ssh_identity_path}.pub /root/.ssh/authorized_keys",
-        require => Exec['generate_ssh_key'],
-      }
+    class { 'foreman_proxy::plugin::remote_execution::ssh::keys':
+      install_key       => $install_key,
+      ssh_identity_path => $ssh_identity_path,
+      ssh_keygen        => $ssh_keygen,
+      user              => $foreman_proxy::user,
+      group             => $foreman_proxy::user,
     }
   }
 }
