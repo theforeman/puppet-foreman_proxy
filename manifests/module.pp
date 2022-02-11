@@ -19,10 +19,14 @@
 # @param template_path
 #   An optional template path
 #
+# @param config_context
+#   Context to pass to the template
+#
 define foreman_proxy::module (
   Boolean $enabled = false,
   Foreman_proxy::ListenOn $listen_on = 'https',
   Optional[String] $template_path = undef,
+  Hash[String, Any] $config_context = {},
   String $feature = upcase($title),
 ) {
   if $enabled {
@@ -39,7 +43,7 @@ define foreman_proxy::module (
   }
 
   foreman_proxy::settings_file { $name:
-    module_enabled => $module_enabled,
     template_path  => $template_path,
+    config_context => $config_context + {'module_enabled' => $module_enabled},
   }
 }

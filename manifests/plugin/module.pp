@@ -22,22 +22,27 @@
 # @param template_path
 #   An optional template path
 #
+# @param config_context
+#   Context to pass to the template
+#
 define foreman_proxy::plugin::module (
   Optional[String] $version = undef,
   Optional[String] $package = undef,
   Boolean $enabled = false,
   Optional[Foreman_proxy::ListenOn] $listen_on = undef,
-  String $template_path = "foreman_proxy/plugin/${title}.yml.erb",
+  String $template_path = "foreman_proxy/plugin/${title}.yml.epp",
   String $feature = $title.capitalize(),
+  Hash[String, Any] $config_context = {},
 ) {
   foreman_proxy::plugin { $title:
     version => $version,
     package => $package,
   }
   -> foreman_proxy::module { $name:
-    enabled       => $enabled,
-    feature       => $feature,
-    listen_on     => $listen_on,
-    template_path => $template_path,
+    enabled        => $enabled,
+    feature        => $feature,
+    listen_on      => $listen_on,
+    template_path  => $template_path,
+    config_context => $config_context,
   }
 }
