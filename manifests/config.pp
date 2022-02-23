@@ -137,4 +137,12 @@ class foreman_proxy::config {
       }
     }
   }
+
+  if !$foreman_proxy::manage_puppet_group and $foreman_proxy::ssl {
+    file { $foreman_proxy::ssl_key:
+      group  => $foreman_proxy::user,
+      mode   => '0640',
+      before => Service['foreman-proxy'],
+    }
+  }
 }
