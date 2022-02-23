@@ -15,7 +15,9 @@ fixtures:
     foreman:  'https://github.com/theforeman/puppet-foreman'
     puppet:   'https://github.com/theforeman/puppet-puppet'
     redis:    'https://github.com/voxpupuli/puppet-redis'
-    stdlib:   'https://github.com/puppetlabs/puppetlabs-stdlib'
+    stdlib:
+      repo: 'https://github.com/puppetlabs/puppetlabs-stdlib'
+      ref: 'v7.1.0'
     sudo:     'https://github.com/saz/puppet-sudo'
     systemd:  'https://github.com/camptocamp/puppet-systemd'
     tftp:     'https://github.com/theforeman/puppet-tftp'
