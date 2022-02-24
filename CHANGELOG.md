@@ -1,5 +1,13 @@
 # Changelog
 
+## [19.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/19.0.1) (2022-02-24)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/19.0.0...19.0.1)
+
+**Fixed bugs:**
+
+- Fixes [\#33808](https://projects.theforeman.org/issues/33808) - Make templates listen on both again [\#729](https://github.com/theforeman/puppet-foreman_proxy/pull/729)
+
 ## [19.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/19.0.0) (2021-07-23)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/18.1.0...19.0.0)
