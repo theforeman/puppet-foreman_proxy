@@ -53,13 +53,6 @@ class foreman_proxy::plugin::remote_execution::ssh (
     listen_on => $listen_on,
   }
 
-  if $ssh_kerberos_auth {
-    $kerberos_pkg = "${foreman_proxy::params::ruby_package_prefix}net-ssh-krb"
-    package { $kerberos_pkg:
-      ensure => present,
-    }
-  }
-
   if $generate_keys {
     class { 'foreman_proxy::plugin::remote_execution::ssh::keys':
       install_key       => $install_key,

@@ -5,7 +5,6 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
     context "on #{os}" do
       let(:facts) { os_facts }
       let(:pre_condition) { 'include foreman_proxy' }
-      let(:package_name) { os.start_with?('debian') ? 'ruby-net-ssh-krb' : 'tfm-rubygem-net-ssh-krb' }
 
       describe 'with default settings' do
         it { should contain_class('foreman_proxy::plugin::dynflow') }
@@ -29,7 +28,6 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
         end
 
         it { should_not contain_file('/root/.ssh') }
-        it { should_not contain_package(package_name) }
       end
 
       describe 'with override parameters' do
@@ -66,7 +64,6 @@ describe 'foreman_proxy::plugin::remote_execution::ssh' do
 
         it { should_not contain_exec('generate_ssh_key') }
         it { should_not contain_file('/root/.ssh') }
-        it { should contain_package(package_name) }
       end
 
       describe 'with ssh key generating and installation' do
