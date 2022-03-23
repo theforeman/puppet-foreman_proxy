@@ -389,7 +389,7 @@ class foreman_proxy (
   Boolean $dns_managed = true,
   String $dns_provider = 'nsupdate',
   String $dns_interface = $foreman_proxy::params::dns_interface,
-  Optional[Stdlib::Fqdn] $dns_zone = $foreman_proxy::params::dns_zone,
+  Variant[Array[Stdlib::Fqdn], Stdlib::Fqdn, Undef] $dns_zone = $foreman_proxy::params::dns_zone,
   Optional[Variant[String, Array[String]]] $dns_reverse = undef,
   String $dns_server = '127.0.0.1',
   Integer[0] $dns_ttl = 86400,

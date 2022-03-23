@@ -56,13 +56,33 @@ describe 'foreman_proxy::proxydns' do
           end
 
           context 'with dns_zone overridden' do
-            let(:params) { super().merge(forward_zone: 'something.example.com') }
+            context 'as single string' do
+              let(:params) { super().merge(forward_zone: 'something.example.com') }
 
-            it 'should include the forward zone' do
-              should contain_dns__zone('something.example.com')
-                .with_soa('foo.example.com')
-                .with_reverse(false)
-                .with_soaip('192.168.100.1')
+              it 'should include the forward zone' do
+                should contain_dns__zone('something.example.com')
+                  .with_soa('foo.example.com')
+                  .with_reverse(false)
+                  .with_soaip('192.168.100.1')
+              end
+            end
+
+            context 'as array' do
+              let(:params) { super().merge(forward_zone: ['first.example.com', 'second.example.com']) }
+
+              it 'should include the first forward zone' do
+                should contain_dns__zone('first.example.com')
+                  .with_soa('foo.example.com')
+                  .with_reverse(false)
+                  .with_soaip('192.168.100.1')
+              end
+
+              it 'should include the second forward zone' do
+                should contain_dns__zone('second.example.com')
+                  .with_soa('foo.example.com')
+                  .with_reverse(false)
+                  .with_soaip('192.168.100.1')
+              end
             end
           end
 
