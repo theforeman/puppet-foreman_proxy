@@ -70,15 +70,15 @@ describe 'foreman_proxy' do
         end
 
         it "should create the #{proxy_user_name} user" do
-          should contain_user("#{proxy_user_name}").with({
-            :ensure  => 'present',
-            :shell   => "#{shell}",
-            :comment => 'Foreman Proxy daemon user',
-            :groups  => ['puppet'],
-            :home    => "#{home_dir}",
-            :require => 'Class[Foreman_proxy::Install]',
-            :notify  => 'Class[Foreman_proxy::Service]',
-          })
+          should contain_user("#{proxy_user_name}")
+            .with_ensure('present')
+            .with_shell(shell)
+            .with_comment('Foreman Proxy daemon user')
+            .with_gid(proxy_user_name)
+            .with_groups(['puppet'])
+            .with_home(home_dir)
+            .that_requires('Class[Foreman_proxy::Install]')
+            .that_notifies('Class[Foreman_proxy::Service]')
         end
 
         it 'should create configuration files' do
