@@ -16,6 +16,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $etc   = '/etc'
       $shell = '/bin/false'
       $user  = pick($foreman_proxy::globals::user, 'foreman-proxy')
+      $group = pick($foreman_proxy::globals::group, 'foreman-proxy')
 
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcpd/dhcpd.leases'
@@ -53,6 +54,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $etc   = '/etc'
       $shell = '/bin/false'
       $user  = pick($foreman_proxy::globals::user, 'foreman-proxy')
+      $group = pick($foreman_proxy::globals::group, 'foreman-proxy')
 
       $dhcp_config = '/etc/dhcp/dhcpd.conf'
       $dhcp_leases = '/var/lib/dhcp/dhcpd.leases'
@@ -80,6 +82,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $etc   = '/usr/local/etc'
       $shell = '/usr/bin/false'
       $user  = pick($foreman_proxy::globals::user, 'foreman_proxy')
+      $group = pick($foreman_proxy::globals::group, 'foreman_proxy')
 
       $puppet_bindir = '/usr/local/bin'
       $puppetdir     = '/usr/local/etc/puppet'

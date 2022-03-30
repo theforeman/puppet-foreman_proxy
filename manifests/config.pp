@@ -40,10 +40,14 @@ class foreman_proxy::config {
     ensure  => 'present',
     shell   => $foreman_proxy::shell,
     comment => 'Foreman Proxy daemon user',
+    gid     => $foreman_proxy::group,
     groups  => $foreman_proxy::groups + $dns_groups + $puppet_groups,
     home    => $foreman_proxy::dir,
-    require => Class['foreman_proxy::install'],
-    notify  => Class['foreman_proxy::service'],
+    system  => true,
+  }
+
+  group { $foreman_proxy::group:
+    system => true,
   }
 
   # Provided by packaging, defined here to allow autorequire for files
