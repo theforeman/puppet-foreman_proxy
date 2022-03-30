@@ -46,6 +46,13 @@ class foreman_proxy::config {
     notify  => Class['foreman_proxy::service'],
   }
 
+  # Provided by packaging, defined here to allow autorequire for files
+  file { $foreman_proxy::config_dir:
+    ensure => directory,
+    owner  => 'root',
+    group  => 0,
+  }
+
   foreman_proxy::settings_file { 'settings':
     path => "${foreman_proxy::config_dir}/settings.yml",
   }
