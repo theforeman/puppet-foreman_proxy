@@ -347,6 +347,12 @@ describe 'foreman_proxy' do
         end
       end
 
+      context 'without a domain' do
+        let(:facts) { override_facts(super(), networking: {domain: nil}, domain: nil) }
+
+        it { is_expected.to compile.with_all_deps }
+      end
+
       context 'with custom foreman_ssl params' do
         let :params do
           super().merge(
