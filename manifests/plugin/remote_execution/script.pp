@@ -1,10 +1,12 @@
-# = Foreman Proxy Remote Execution SSH plugin
+# = Foreman Proxy Remote Execution Script plugin
 #
-# This class installs Remote Execution SSH support for Foreman proxy
+# This class installs Remote Execution Script support for Foreman proxy
 #
 # === Parameters:
 #
 # $mode::               Operation Mode of the plugin.
+#
+# === SSH parameters:
 #
 # $generate_keys::      Automatically generate SSH keys
 #
@@ -31,7 +33,7 @@
 #
 # $listen_on::          Proxy feature listens on https, http, or both
 #
-class foreman_proxy::plugin::remote_execution::ssh (
+class foreman_proxy::plugin::remote_execution::script (
   Boolean $enabled = true,
   Foreman_proxy::ListenOn $listen_on = 'https',
   Boolean $generate_keys = true,
@@ -52,7 +54,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
 
   foreman_proxy::plugin::module { 'remote_execution_ssh':
     enabled   => $enabled,
-    feature   => 'SSH',
+    feature   => 'Script',
     listen_on => $listen_on,
   }
 
