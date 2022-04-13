@@ -4,7 +4,9 @@
 #
 # === Parameters:
 #
-# $mode::               Operation Mode of the plugin.
+# $mode::                Operation Mode of the plugin.
+#
+# $cockpit_integration:: Enables/disables Cockpit integration
 #
 # === SSH parameters:
 #
@@ -46,6 +48,7 @@ class foreman_proxy::plugin::remote_execution::script (
   Boolean $ssh_kerberos_auth = false,
   Enum['ssh', 'ssh-async'] $mode = 'ssh',
   Optional[Foreman_proxy::Sshloglevel] $ssh_log_level = undef,
+  Boolean $cockpit_integration = true,
 ) {
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 
