@@ -46,7 +46,7 @@ class foreman_proxy::plugin::remote_execution::script (
   Stdlib::Absolutepath $local_working_dir = '/var/tmp',
   Stdlib::Absolutepath $remote_working_dir = '/var/tmp',
   Boolean $ssh_kerberos_auth = false,
-  Enum['ssh', 'ssh-async'] $mode = 'ssh',
+  Enum['ssh', 'ssh-async', 'pull-mqtt'] $mode = 'ssh',
   Optional[Foreman_proxy::Sshloglevel] $ssh_log_level = undef,
   Boolean $cockpit_integration = true,
 ) {
@@ -70,4 +70,10 @@ class foreman_proxy::plugin::remote_execution::script (
       group             => $foreman_proxy::user,
     }
   }
+
+  if $mode == 'pull-mqtt' {
+    class { 'foreman_proxy::plugin::remote_execution::mosquitto':
+    }
+  }
+
 }
