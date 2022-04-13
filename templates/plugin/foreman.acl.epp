@@ -1,0 +1,9 @@
+<%- |
+  String[1] $user,
+| -%>
+pattern read yggdrasil/%u/data/in
+pattern write yggdrasil/%u/control/out
+
+user <%= $user %>
+topic write yggdrasil/+/data/in
+topic read yggdrasil/+/control/out
