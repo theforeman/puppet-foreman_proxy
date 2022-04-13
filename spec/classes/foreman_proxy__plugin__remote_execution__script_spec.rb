@@ -16,6 +16,7 @@ describe 'foreman_proxy::plugin::remote_execution::script' do
             with_content(%r{:ssh_identity_key_file: /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy}).
             with_content(%r{:kerberos_auth: false}).
             without_content(%r{:ssh_log_level:}).
+            with_content(%r{:cockpit_integration: true}).
             with({
               :ensure  => 'file',
               :owner   => 'root',
@@ -44,6 +45,7 @@ describe 'foreman_proxy::plugin::remote_execution::script' do
           :ssh_kerberos_auth  => true,
           :mode               => 'ssh-async',
           :ssh_log_level      => 'debug',
+          :cockpit_integration => false,
         } end
 
         it { should contain_class('foreman_proxy::plugin::dynflow') }
@@ -58,6 +60,7 @@ describe 'foreman_proxy::plugin::remote_execution::script' do
             with_content(%r{:kerberos_auth: true}).
             with_content(%r{:mode: ssh-async}).
             with_content(%r{:ssh_log_level: debug}).
+            with_content(%r{:cockpit_integration: false}).
             with({
               :ensure  => 'file',
               :owner   => 'root',

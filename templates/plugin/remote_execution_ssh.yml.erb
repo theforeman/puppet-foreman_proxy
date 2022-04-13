@@ -8,5 +8,7 @@
 :ssh_log_level: <%= ssh_log_level %>
 <% end -%>
 
+:cockpit_integration: <%= scope.lookupvar('::foreman_proxy::plugin::remote_execution::script::cockpit_integration') %>
+
 # Whether to run remote execution jobs asynchronously
 :mode: <%= scope.lookupvar("::foreman_proxy::plugin::remote_execution::script::mode") %>
