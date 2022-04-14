@@ -112,8 +112,6 @@
 #
 # $tftp_manage_wget::           If enabled will install the wget package
 #
-# $tftp_syslinux_filenames::    Syslinux files to install on TFTP (full paths)
-#
 # $tftp_root::                  TFTP root directory
 #
 # $tftp_dirs::                  Directories to be create in $tftp_root
@@ -344,7 +342,6 @@ class foreman_proxy (
   Foreman_proxy::ListenOn $tftp_listen_on = 'https',
   Boolean $tftp_managed = true,
   Boolean $tftp_manage_wget = true,
-  Array[Stdlib::Absolutepath] $tftp_syslinux_filenames = $foreman_proxy::params::tftp_syslinux_filenames,
   Optional[Stdlib::Absolutepath] $tftp_root = $foreman_proxy::params::tftp_root,
   Optional[Array[Stdlib::Absolutepath]] $tftp_dirs = undef,
   Optional[String] $tftp_servername = undef,

@@ -4,7 +4,7 @@ class foreman_proxy::tftp (
   String[1] $user = $foreman_proxy::user,
   Optional[Stdlib::Absolutepath] $root = $foreman_proxy::tftp_root,
   Optional[Array[Stdlib::Absolutepath]] $directories = $foreman_proxy::tftp_dirs,
-  Array[Stdlib::Absolutepath] $syslinux_filenames = $foreman_proxy::tftp_syslinux_filenames,
+  Array[Stdlib::Absolutepath] $syslinux_filenames = $foreman_proxy::params::tftp_syslinux_filenames,
   Boolean $manage_wget = $foreman_proxy::tftp_manage_wget,
   String[1] $wget_version = $foreman_proxy::ensure_packages_version,
   Boolean $tftp_replace_grub2_cfg = $foreman_proxy::tftp_replace_grub2_cfg,
