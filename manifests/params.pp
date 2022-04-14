@@ -26,7 +26,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $nsupdate = 'bind-utils'
 
       if versioncmp($facts['os']['release']['major'], '7') <= 0 {
-        $tftp_syslinux_filenames = [
+        $_tftp_syslinux_filenames = [
           '/usr/share/syslinux/chain.c32',
           '/usr/share/syslinux/mboot.c32',
           '/usr/share/syslinux/menu.c32',
@@ -34,7 +34,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
           '/usr/share/syslinux/pxelinux.0',
         ]
       } else {
-        $tftp_syslinux_filenames = [
+        $_tftp_syslinux_filenames = [
           '/usr/share/syslinux/chain.c32',
           '/usr/share/syslinux/ldlinux.c32',
           '/usr/share/syslinux/libcom32.c32',
@@ -63,7 +63,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $keyfile  = '/etc/bind/rndc.key'
       $nsupdate = 'dnsutils'
 
-      $tftp_syslinux_filenames = [
+      $_tftp_syslinux_filenames = [
         '/usr/lib/PXELINUX/pxelinux.0',
         '/usr/lib/syslinux/memdisk',
         '/usr/lib/syslinux/modules/bios/chain.c32',
@@ -95,7 +95,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $keyfile  = '/usr/local/etc/namedb/rndc.key'
       $nsupdate = 'bind-tools'
 
-      $tftp_syslinux_filenames = [
+      $_tftp_syslinux_filenames = [
         '/usr/local/share/syslinux/bios/core/pxelinux.0',
         '/usr/local/share/syslinux/bios/memdisk/memdisk',
         '/usr/local/share/syslinux/bios/com32/chain/chain.c32',
@@ -110,6 +110,8 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       fail("${facts['networking']['hostname']}: This module does not support osfamily ${facts['os']['family']}")
     }
   }
+
+  $tftp_syslinux_filenames = pick($foreman_proxy::globals::tftp_syslinux_filenames, $_tftp_syslinux_filenames)
 
   if $facts['os']['family'] !~ /^(FreeBSD|DragonFly)$/ {
     if fact('aio_agent_version') =~ String[1] {

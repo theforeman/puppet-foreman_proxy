@@ -506,20 +506,6 @@ describe 'foreman_proxy' do
         context 'with tftp_managed => true' do
           let(:params) { super().merge(tftp_managed: true) }
 
-          context 'tftp_syslinux_filenames set' do
-            let(:params) do
-              super().merge(
-                tftp_root: '/tftpboot',
-                tftp_syslinux_filenames: ['/my/file', '/my/anotherfile'],
-              )
-            end
-
-            it 'should copy the given files' do
-              should contain_file('/tftpboot/file').with_source('/my/file')
-              should contain_file('/tftpboot/anotherfile').with_source('/my/anotherfile')
-            end
-          end
-
           context 'with tftp_manage_wget disabled' do
             let(:params) { super().merge(tftp_manage_wget: false) }
             it { should_not contain_package('wget') }

@@ -12,10 +12,14 @@
 # @param plugin_version
 #   The default plugin package state to ensure
 #
+# @param tftp_syslinux_filenames
+#   Syslinux files to install on TFTP (full paths)
+#
 class foreman_proxy::globals (
   Optional[String] $user = undef,
   Optional[String] $group = undef,
   Optional[Stdlib::Absolutepath] $dir = undef,
   Enum['latest', 'present', 'installed', 'absent'] $plugin_version = 'installed',
+  Optional[Array[Stdlib::Absolutepath]] $tftp_syslinux_filenames = undef,
 ) {
 }
