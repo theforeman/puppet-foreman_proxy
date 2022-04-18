@@ -4,6 +4,9 @@
 :local_working_dir: <%= scope.lookupvar('::foreman_proxy::plugin::remote_execution::ssh::local_working_dir') %>
 :remote_working_dir: <%= scope.lookupvar('::foreman_proxy::plugin::remote_execution::ssh::remote_working_dir') %>
 :kerberos_auth: <%= scope.lookupvar('::foreman_proxy::plugin::remote_execution::ssh::ssh_kerberos_auth') %>
+<% ssh_log_level = scope.lookupvar('::foreman_proxy::plugin::remote_execution::ssh::ssh_log_level'); if ssh_log_level -%>
+:ssh_log_level: <%= ssh_log_level %>
+<% end -%>
 
 # Whether to run remote execution jobs asynchronously
 :mode: <%= scope.lookupvar("::foreman_proxy::plugin::remote_execution::ssh::mode") %>
