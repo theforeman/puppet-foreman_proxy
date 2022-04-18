@@ -23,6 +23,8 @@
 #
 # $remote_working_dir:: Remote working directory on clients
 #
+# $ssh_log_level::      Configure ssh client LogLevel
+#
 # === Advanced parameters:
 #
 # $enabled::            Enables/disables the plugin
@@ -41,6 +43,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   Stdlib::Absolutepath $remote_working_dir = '/var/tmp',
   Boolean $ssh_kerberos_auth = false,
   Enum['ssh', 'ssh-async'] $mode = 'ssh',
+  Optional[Foreman_proxy::Sshloglevel] $ssh_log_level = undef,
 ) {
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 
