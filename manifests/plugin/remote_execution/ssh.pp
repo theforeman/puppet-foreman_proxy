@@ -40,7 +40,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   Stdlib::Absolutepath $local_working_dir = '/var/tmp',
   Stdlib::Absolutepath $remote_working_dir = '/var/tmp',
   Boolean $ssh_kerberos_auth = false,
-  Enum['ssh', 'ssh-async'] $mode = 'ssh'
+  Enum['ssh', 'ssh-async'] $mode = 'ssh',
 ) {
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 
