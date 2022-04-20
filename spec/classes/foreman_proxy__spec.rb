@@ -1042,6 +1042,18 @@ describe 'foreman_proxy' do
         it { should compile.with_all_deps }
         it { should contain_package('foreman-proxy').that_requires('Anchor[foreman::repo]') }
       end
+
+      context 'with shell' do
+        let(:pre_condition) do
+          <<~PP
+          class { 'foreman_proxy::globals':
+            shell => "/dne/foo",
+          }
+          PP
+        end
+
+        it { should contain_user("#{proxy_user_name}").with_shell('/dne/foo') }
+      end
     end
   end
 end
