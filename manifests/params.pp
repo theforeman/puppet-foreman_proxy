@@ -14,7 +14,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
 
       $dir   = pick($foreman_proxy::globals::dir, '/usr/share/foreman-proxy')
       $etc   = '/etc'
-      $shell = '/bin/false'
+      $shell = pick($foreman_proxy::globals::shell, '/bin/false')
       $user  = pick($foreman_proxy::globals::user, 'foreman-proxy')
       $group = pick($foreman_proxy::globals::group, 'foreman-proxy')
 
@@ -52,7 +52,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
 
       $dir   = pick($foreman_proxy::globals::dir, '/usr/share/foreman-proxy')
       $etc   = '/etc'
-      $shell = '/bin/false'
+      $shell = pick($foreman_proxy::globals::shell, '/bin/false')
       $user  = pick($foreman_proxy::globals::user, 'foreman-proxy')
       $group = pick($foreman_proxy::globals::group, 'foreman-proxy')
 
@@ -80,7 +80,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
 
       $dir   = pick($foreman_proxy::globals::dir, '/usr/local/share/foreman-proxy')
       $etc   = '/usr/local/etc'
-      $shell = '/usr/bin/false'
+      $shell = pick($foreman_proxy::globals::shell, '/usr/bin/false')
       $user  = pick($foreman_proxy::globals::user, 'foreman_proxy')
       $group = pick($foreman_proxy::globals::group, 'foreman_proxy')
 

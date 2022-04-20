@@ -15,11 +15,15 @@
 # @param tftp_syslinux_filenames
 #   Syslinux files to install on TFTP (full paths)
 #
+# @param shell
+#   Shell of foreman-proxy user
+#
 class foreman_proxy::globals (
   Optional[String] $user = undef,
   Optional[String] $group = undef,
   Optional[Stdlib::Absolutepath] $dir = undef,
   Enum['latest', 'present', 'installed', 'absent'] $plugin_version = 'installed',
   Optional[Array[Stdlib::Absolutepath]] $tftp_syslinux_filenames = undef,
+  Optional[Stdlib::Absolutepath] $shell = undef,
 ) {
 }
