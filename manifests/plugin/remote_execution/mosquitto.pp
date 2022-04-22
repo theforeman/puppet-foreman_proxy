@@ -12,6 +12,8 @@
 #
 # === Advanced parameters:
 #
+# $ensure::                     Enable or disable mosquitto configuration and presence
+#
 # $port::                       Port mosquitto will run on
 #
 # $require_certificate::        When true the client must provide a valid certificate in order to connect successfully
@@ -19,6 +21,7 @@
 # $use_identity_as_username::   Use the CN value from the client certificate as a username
 #
 class foreman_proxy::plugin::remote_execution::mosquitto (
+  Enum['absent', 'present'] $ensure = 'present',
   Stdlib::Port $port = 1883,
   Stdlib::Absolutepath $ssl_ca = undef,
   Stdlib::Absolutepath $ssl_cert = undef,
@@ -31,8 +34,11 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
   $broker = $facts['networking']['fqdn']
 
   class { 'mosquitto':
-    package_name => 'mosquitto',
-    config       => [
+    package_name   => 'mosquitto',
+    package_ensure => $ensure,
+    service_ensure => bool2str($ensure == 'present', 'running', 'stopped'),
+    service_enable => $ensure == 'present',
+    config         => [
       "listener ${port}",
       "acl_file ${mosquitto_config_dir}/foreman.acl",
       "cafile ${mosquitto_ssl_dir}/ssl_ca.pem",
@@ -43,16 +49,8 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
     ],
   }
 
-  file { $mosquitto_config_dir:
-    ensure  => directory,
-    owner   => 'root',
-    group   => 'mosquitto',
-    mode    => '0755',
-    require => Package['mosquitto'],
-  }
-
   file { "${mosquitto_config_dir}/foreman.acl":
-    ensure  => 'file',
+    ensure  => $ensure,
     content => epp(
       "${module_name}/plugin/foreman.acl.epp",
       { user => $facts['networking']['fqdn'] }
@@ -63,14 +61,15 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
   }
 
   file { $mosquitto_ssl_dir:
-    ensure => directory,
+    ensure => bool2str($ensure == 'present', 'directory', 'absent'),
+    force  => true,
     owner  => 'root',
     group  => 'mosquitto',
     mode   => '0755',
   }
 
   file { "${mosquitto_ssl_dir}/ssl_cert.pem":
-    ensure => 'file',
+    ensure => $ensure,
     source => $ssl_cert,
     owner  => 'root',
     group  => 'mosquitto',
@@ -78,7 +77,7 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
   }
 
   file { "${mosquitto_ssl_dir}/ssl_key.pem":
-    ensure => 'file',
+    ensure => $ensure,
     source => $ssl_key,
     owner  => 'root',
     group  => 'mosquitto',
@@ -86,7 +85,7 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
   }
 
   file { "${mosquitto_ssl_dir}/ssl_ca.pem":
-    ensure => 'file',
+    ensure => $ensure,
     source => $ssl_ca,
     owner  => 'root',
     group  => 'mosquitto',

@@ -71,12 +71,11 @@ class foreman_proxy::plugin::remote_execution::script (
     }
   }
 
-  if $mode == 'pull-mqtt' {
-    class { 'foreman_proxy::plugin::remote_execution::mosquitto':
-      ssl_ca   => $foreman_proxy::ssl_ca,
-      ssl_cert => $foreman_proxy::ssl_cert,
-      ssl_key  => $foreman_proxy::ssl_key,
-    }
+  class { 'foreman_proxy::plugin::remote_execution::mosquitto':
+    ensure   => bool2str($mode == 'pull-mqtt' and $enabled, 'present', 'absent'),
+    ssl_ca   => $foreman_proxy::ssl_ca,
+    ssl_cert => $foreman_proxy::ssl_cert,
+    ssl_key  => $foreman_proxy::ssl_key,
   }
 
 }

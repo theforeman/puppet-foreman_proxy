@@ -30,6 +30,13 @@ describe 'foreman_proxy::plugin::remote_execution::script' do
         end
 
         it { should_not contain_file('/root/.ssh') }
+
+        it 'should ensure absent mosquitto' do
+          should contain_class('foreman_proxy::plugin::remote_execution::mosquitto').
+            with({
+              :ensure => 'absent',
+            })
+        end
       end
 
       describe 'with override parameters' do
@@ -100,6 +107,13 @@ describe 'foreman_proxy::plugin::remote_execution::script' do
             with_content(%r{:mode: pull-mqtt}).
             with_content(%r{:mqtt_port: 1883}).
             with_content(%r{:mqtt_broker: #{facts['fqdn']}})
+        end
+
+        it 'should ensure present mosquitto' do
+          should contain_class('foreman_proxy::plugin::remote_execution::mosquitto').
+            with({
+              :ensure => 'present',
+            })
         end
       end
     end
