@@ -20,14 +20,15 @@
 #
 class foreman_proxy::plugin::remote_execution::mosquitto (
   Stdlib::Port $port = 1883,
-  Stdlib::Absolutepath $ssl_ca = $foreman_proxy::ssl_ca,
-  Stdlib::Absolutepath $ssl_cert = $foreman_proxy::ssl_cert,
-  Stdlib::Absolutepath $ssl_key = $foreman_proxy::ssl_key,
+  Stdlib::Absolutepath $ssl_ca = undef,
+  Stdlib::Absolutepath $ssl_cert = undef,
+  Stdlib::Absolutepath $ssl_key = undef,
   Boolean $require_certificate = true,
   Boolean $use_identity_as_username = true,
 ) {
   $mosquitto_config_dir = '/etc/mosquitto'
   $mosquitto_ssl_dir = "${mosquitto_config_dir}/ssl"
+  $broker = $facts['networking']['fqdn']
 
   class { 'mosquitto':
     package_name => 'mosquitto',
@@ -69,26 +70,26 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
   }
 
   file { "${mosquitto_ssl_dir}/ssl_cert.pem":
-    ensure  => 'file',
-    content => file($ssl_cert),
-    owner   => 'root',
-    group   => 'mosquitto',
-    mode    => '0440',
+    ensure => 'file',
+    source => $ssl_cert,
+    owner  => 'root',
+    group  => 'mosquitto',
+    mode   => '0440',
   }
 
   file { "${mosquitto_ssl_dir}/ssl_key.pem":
-    ensure  => 'file',
-    content => file($ssl_key),
-    owner   => 'root',
-    group   => 'mosquitto',
-    mode    => '0440',
+    ensure => 'file',
+    source => $ssl_key,
+    owner  => 'root',
+    group  => 'mosquitto',
+    mode   => '0440',
   }
 
   file { "${mosquitto_ssl_dir}/ssl_ca.pem":
-    ensure  => 'file',
-    content => file($ssl_ca),
-    owner   => 'root',
-    group   => 'mosquitto',
-    mode    => '0440',
+    ensure => 'file',
+    source => $ssl_ca,
+    owner  => 'root',
+    group  => 'mosquitto',
+    mode   => '0440',
   }
 }

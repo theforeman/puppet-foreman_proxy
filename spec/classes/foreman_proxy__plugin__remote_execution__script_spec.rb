@@ -87,6 +87,19 @@ describe 'foreman_proxy::plugin::remote_execution::script' do
         it { should contain_exec('generate_ssh_key') }
         it { should contain_file('/root/.ssh') }
       end
+
+      describe 'with pull-mqtt mode' do
+        let :params do {
+          :mode => 'pull-mqtt',
+        } end
+
+        it { should contain_foreman_proxy__plugin__module('remote_execution_ssh') }
+
+        it 'should configure remote_execution_ssh.yml' do
+          should contain_file('/etc/foreman-proxy/settings.d/remote_execution_ssh.yml').
+            with_content(%r{:mode: pull-mqtt})
+        end
+      end
     end
   end
 end

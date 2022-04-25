@@ -52,7 +52,7 @@ class foreman_proxy::plugin::remote_execution::script (
 ) {
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 
-  include foreman_proxy::params
+  include foreman_proxy
   include foreman_proxy::plugin::dynflow
 
   foreman_proxy::plugin::module { 'remote_execution_ssh':
@@ -73,6 +73,9 @@ class foreman_proxy::plugin::remote_execution::script (
 
   if $mode == 'pull-mqtt' {
     class { 'foreman_proxy::plugin::remote_execution::mosquitto':
+      ssl_ca   => $foreman_proxy::ssl_ca,
+      ssl_cert => $foreman_proxy::ssl_cert,
+      ssl_key  => $foreman_proxy::ssl_key,
     }
   }
 
