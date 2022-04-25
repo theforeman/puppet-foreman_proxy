@@ -12,3 +12,8 @@
 
 # Whether to run remote execution jobs asynchronously
 :mode: <%= scope.lookupvar("::foreman_proxy::plugin::remote_execution::script::mode") %>
+<% if scope.lookupvar("::foreman_proxy::plugin::remote_execution::script::mode") == 'pull-mqtt' -%>
+
+:mqtt_broker: <%= scope.lookupvar("::foreman_proxy::plugin::remote_execution::mosquitto::broker") %>
+:mqtt_port: <%= scope.lookupvar("::foreman_proxy::plugin::remote_execution::mosquitto::port") %>
+<% end -%>

@@ -11,6 +11,12 @@ describe 'Scenario: install foreman-proxy with remote_execution script plugin wi
     it { is_expected.to be_listening }
   end
 
+  describe file('/etc/foreman-proxy/settings.d/remote_execution_ssh.yml') do
+    it { should be_file }
+    its(:content) { should match(%r{:mqtt_port: 1883}) }
+    its(:content) { should match(%r{:mqtt_broker: #{host_inventory['fqdn']}}) }
+  end
+
   describe file('/etc/mosquitto/foreman.acl') do
     it { should be_file }
     its(:content) { should match(%r{pattern read yggdrasil\/%u\/data\/in}) }

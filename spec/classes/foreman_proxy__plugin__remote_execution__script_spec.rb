@@ -97,7 +97,9 @@ describe 'foreman_proxy::plugin::remote_execution::script' do
 
         it 'should configure remote_execution_ssh.yml' do
           should contain_file('/etc/foreman-proxy/settings.d/remote_execution_ssh.yml').
-            with_content(%r{:mode: pull-mqtt})
+            with_content(%r{:mode: pull-mqtt}).
+            with_content(%r{:mqtt_port: 1883}).
+            with_content(%r{:mqtt_broker: #{facts['fqdn']}})
         end
       end
     end
