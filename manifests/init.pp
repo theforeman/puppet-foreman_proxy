@@ -214,6 +214,8 @@
 #
 # $bmc_default_provider::       BMC default provider.
 #
+# $bmc_redfish_verify_ssl::     BMC Redfish verify ssl.
+#
 # $bmc_ssh_user::               BMC SSH user.
 #
 # $bmc_ssh_key::                BMC SSH key location.
@@ -397,7 +399,8 @@ class foreman_proxy (
   String $libvirt_connection = 'qemu:///system',
   Boolean $bmc = false,
   Foreman_proxy::ListenOn $bmc_listen_on = 'https',
-  Enum['ipmitool', 'freeipmi', 'shell', 'ssh'] $bmc_default_provider = 'ipmitool',
+  Enum['ipmitool', 'freeipmi', 'redfish', 'shell', 'ssh'] $bmc_default_provider = 'ipmitool',
+  Boolean $bmc_redfish_verify_ssl = true,
   String $bmc_ssh_user = 'root',
   Stdlib::Absolutepath $bmc_ssh_key = '/usr/share/foreman/.ssh/id_rsa',
   # lint:ignore:quoted_booleans
