@@ -1,5 +1,29 @@
 # Changelog
 
+## [22.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/22.0.0) (2022-04-29)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/21.0.0...22.0.0)
+
+**Breaking changes:**
+
+- Fixes [\#34774](https://projects.theforeman.org/issues/34774) - don't expose tftp syslinux files directly [\#738](https://github.com/theforeman/puppet-foreman_proxy/pull/738) ([evgeni](https://github.com/evgeni))
+- Rename remote\_execution plugin to foreman\_proxy::plugin::remote\_execution [\#734](https://github.com/theforeman/puppet-foreman_proxy/pull/734) ([ehelms](https://github.com/ehelms))
+
+**Implemented enhancements:**
+
+- Support BMC redfish integration [\#747](https://github.com/theforeman/puppet-foreman_proxy/pull/747) ([laugmanuel](https://github.com/laugmanuel))
+- Refs [\#34239](https://projects.theforeman.org/issues/34239) - Add mqtt\_broker and mqtt\_port settings to REX config [\#745](https://github.com/theforeman/puppet-foreman_proxy/pull/745) ([ehelms](https://github.com/ehelms))
+- Add support for cleaning up mosquitto when switching to SSH [\#744](https://github.com/theforeman/puppet-foreman_proxy/pull/744) ([ehelms](https://github.com/ehelms))
+- add foreman\_proxy::plugin::remote\_execution::ssh::ssh\_log\_level param  [\#739](https://github.com/theforeman/puppet-foreman_proxy/pull/739) ([jhoblitt](https://github.com/jhoblitt))
+- Fixes [\#34239](https://projects.theforeman.org/issues/34239): Add pull-mqtt support to smart\_proxy\_remote\_execution [\#737](https://github.com/theforeman/puppet-foreman_proxy/pull/737) ([ehelms](https://github.com/ehelms))
+- Add cockpit flag [\#735](https://github.com/theforeman/puppet-foreman_proxy/pull/735) ([ehelms](https://github.com/ehelms))
+- Ensure the config directory, user and deal with a missing domain [\#733](https://github.com/theforeman/puppet-foreman_proxy/pull/733) ([ekohl](https://github.com/ekohl))
+- Move REX ssh key management into separate class [\#727](https://github.com/theforeman/puppet-foreman_proxy/pull/727) ([wbclark](https://github.com/wbclark))
+
+**Fixed bugs:**
+
+- \[REX SSH Plugin\] Don't manage net-ssh-krb package [\#732](https://github.com/theforeman/puppet-foreman_proxy/pull/732) ([wbclark](https://github.com/wbclark))
+
 ## [21.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/21.0.0) (2022-02-08)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/20.1.0...21.0.0)
