@@ -15,7 +15,7 @@ class foreman_proxy::install {
     contain foreman::providers
   }
 
-  if $foreman_proxy::bmc and $foreman_proxy::bmc_default_provider != 'shell' {
+  if $foreman_proxy::bmc and !($foreman_proxy::bmc_default_provider in ['shell', 'redfish']) {
     ensure_packages([$foreman_proxy::bmc_default_provider], { ensure => $foreman_proxy::ensure_packages_version, })
   }
 

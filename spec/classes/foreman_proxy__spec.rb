@@ -545,6 +545,19 @@ describe 'foreman_proxy' do
             ])
           end
         end
+
+        context 'redfish provider' do
+          let(:params) { super().merge(bmc_default_provider: 'redfish') }
+
+          it 'should enable bmc with ssh' do
+            verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/bmc.yml", [
+              '---',
+              ':enabled: https',
+              ':bmc_default_provider: redfish',
+              ':redfish_verify_ssl: true',
+            ])
+          end
+        end
       end
 
       context 'only http enabled' do
