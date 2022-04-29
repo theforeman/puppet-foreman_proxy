@@ -1,5 +1,13 @@
 # Changelog
 
+## [22.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.0) (2022-05-03)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.0.0...22.1.0)
+
+**Implemented enhancements:**
+
+- allow theforeman/foreman 20.x [\#748](https://github.com/theforeman/puppet-foreman_proxy/pull/748) ([evgeni](https://github.com/evgeni))
+
 ## [22.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/22.0.0) (2022-04-29)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/21.0.0...22.0.0)
