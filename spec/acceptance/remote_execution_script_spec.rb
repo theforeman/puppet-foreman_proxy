@@ -1,7 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'Scenario: install foreman-proxy with remote_execution script plugin'  do
-  before(:context) { purge_installed_packages }
+  before(:context) { purge_foreman_proxy }
 
   include_examples 'the example', 'remote_execution_script.pp'
 
@@ -13,7 +13,7 @@ describe 'Scenario: install foreman-proxy with remote_execution script plugin'  
 end
 
 describe 'Scenario: install foreman-proxy with remote_execution script plugin and ssh_log_level param' do
-  before(:context) { purge_installed_packages }
+  before(:context) { purge_foreman_proxy }
 
   include_examples 'the example', 'remote_execution_script-ssh_log_level.pp'
 

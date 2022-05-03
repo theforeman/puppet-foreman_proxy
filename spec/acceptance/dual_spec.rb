@@ -1,7 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'Scenario: install foreman-proxy with http and https enabled' do
-  before(:context) { purge_installed_packages }
+  before(:context) { purge_foreman_proxy }
 
   include_examples 'the example', 'dual.pp'
 
