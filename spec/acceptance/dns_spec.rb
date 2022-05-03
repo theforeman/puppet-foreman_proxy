@@ -3,7 +3,7 @@ require 'spec_helper_acceptance'
 # On EL bind runs using PIDFile in systemd which is broken under docker
 broken_pid_file = ENV['BEAKER_HYPERVISOR'] == 'docker' && host_inventory['facter']['os']['family'] == 'RedHat'
 describe 'Scenario: install foreman-proxy', unless: broken_pid_file do
-  before(:context) { purge_installed_packages }
+  before(:context) { purge_foreman_proxy }
 
   include_examples 'the example', 'dns.pp'
 

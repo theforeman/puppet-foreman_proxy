@@ -1,7 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'Scenario: install foreman-proxy with remote_execution script plugin with pull-mqtt'  do
-  before(:context) { purge_installed_packages }
+  before(:context) { purge_foreman_proxy }
 
   context 'with default params' do
     include_examples 'the example', 'remote_execution_script_pull_mqtt.pp'

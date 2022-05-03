@@ -1,7 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'Scenario: install foreman-proxy with ansible plugin'  do
-  before(:context) { purge_installed_packages }
+  before(:context) { purge_foreman_proxy }
 
   include_examples 'the example', 'ansible.pp'
 
