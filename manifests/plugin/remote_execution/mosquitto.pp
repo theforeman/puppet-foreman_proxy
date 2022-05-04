@@ -91,4 +91,10 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
     group  => 'mosquitto',
     mode   => '0440',
   }
+
+  # Ensure certs were deployed before we try to source them
+  # This is a workaround for https://tickets.puppetlabs.com/browse/PUP-3399
+  File <| title == $ssl_cert |> ~> File["${mosquitto_ssl_dir}/ssl_cert.pem"]
+  File <| title == $ssl_key |> ~> File["${mosquitto_ssl_dir}/ssl_key.pem"]
+  File <| title == $ssl_ca |> ~> File["${mosquitto_ssl_dir}/ssl_ca.pem"]
 }
