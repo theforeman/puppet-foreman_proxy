@@ -1,5 +1,15 @@
 # Changelog
 
+## [22.1.1](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.1) (2022-05-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.0...22.1.1)
+
+**Fixed bugs:**
+
+- 22.1.0 release is missing dep on puppet/mosquitto [\#751](https://github.com/theforeman/puppet-foreman_proxy/issues/751)
+- Ensure certs were deployed before we try to source them [\#753](https://github.com/theforeman/puppet-foreman_proxy/pull/753) ([evgeni](https://github.com/evgeni))
+- add missing dep on puppet/mosquitto [\#752](https://github.com/theforeman/puppet-foreman_proxy/pull/752) ([jhoblitt](https://github.com/jhoblitt))
+
 ## [22.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.0) (2022-05-03)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.0.0...22.1.0)
