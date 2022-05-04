@@ -89,6 +89,22 @@ describe 'foreman_proxy::plugin::remote_execution::mosquitto' do
         end
       end
 
+      describe 'with certs deployed by puppet' do
+        let(:pre_condition) do
+          <<-PUPPET
+          file { '/etc/foreman-proxy/ssl_cert.pem': ensure => file }
+          file { '/etc/foreman-proxy/ssl_key.pem': ensure => file }
+          file { '/etc/foreman-proxy/ssl_ca.pem': ensure => file }
+          PUPPET
+        end
+
+        it 'should notify mosquitto certs when source changes' do
+          should contain_file('/etc/foreman-proxy/ssl_cert.pem').with_notify(['File[/etc/mosquitto/ssl/ssl_cert.pem]'])
+          should contain_file('/etc/foreman-proxy/ssl_key.pem').with_notify(['File[/etc/mosquitto/ssl/ssl_key.pem]'])
+          should contain_file('/etc/foreman-proxy/ssl_ca.pem').with_notify(['File[/etc/mosquitto/ssl/ssl_ca.pem]'])
+        end
+      end
+
       describe '' do
         let(:params) { super().merge(:ensure => 'absent') }
 
