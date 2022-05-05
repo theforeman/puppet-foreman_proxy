@@ -99,9 +99,23 @@ describe 'foreman_proxy::plugin::remote_execution::mosquitto' do
         end
 
         it 'should notify mosquitto certs when source changes' do
-          should contain_file('/etc/foreman-proxy/ssl_cert.pem').with_notify(['File[/etc/mosquitto/ssl/ssl_cert.pem]'])
-          should contain_file('/etc/foreman-proxy/ssl_key.pem').with_notify(['File[/etc/mosquitto/ssl/ssl_key.pem]'])
-          should contain_file('/etc/foreman-proxy/ssl_ca.pem').with_notify(['File[/etc/mosquitto/ssl/ssl_ca.pem]'])
+          should contain_file('/etc/foreman-proxy/ssl_cert.pem').that_notifies('File[/etc/mosquitto/ssl/ssl_cert.pem]')
+          should contain_file('/etc/foreman-proxy/ssl_key.pem').that_notifies('File[/etc/mosquitto/ssl/ssl_key.pem]')
+          should contain_file('/etc/foreman-proxy/ssl_ca.pem').that_notifies('File[/etc/mosquitto/ssl/ssl_ca.pem]')
+        end
+      end
+
+      describe 'with certs deployed by puppet as custom types' do
+        let(:pre_condition) do
+          <<-PUPPET
+          define private_key () { file { $name: ensure => file } }
+
+          private_key { '/etc/foreman-proxy/ssl_key.pem': }
+          PUPPET
+        end
+
+        it 'should notify mosquitto certs when source changes' do
+          should contain_private_key('/etc/foreman-proxy/ssl_key.pem').that_notifies('File[/etc/mosquitto/ssl/ssl_key.pem]')
         end
       end
 
