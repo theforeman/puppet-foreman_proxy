@@ -1,5 +1,14 @@
 # Changelog
 
+## [22.1.2](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.2) (2022-05-05)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.1...22.1.2)
+
+**Fixed bugs:**
+
+- notify the mosquitto service of changes to the acl and certs [\#756](https://github.com/theforeman/puppet-foreman_proxy/pull/756) ([evgeni](https://github.com/evgeni))
+- also chain private keys from puppet-certs correctly [\#755](https://github.com/theforeman/puppet-foreman_proxy/pull/755) ([evgeni](https://github.com/evgeni))
+
 ## [22.1.1](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.1) (2022-05-04)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.0...22.1.1)
