@@ -97,4 +97,8 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
   File <| title == $ssl_cert |> ~> File["${mosquitto_ssl_dir}/ssl_cert.pem"]
   File <| title == $ssl_key |> ~> File["${mosquitto_ssl_dir}/ssl_key.pem"]
   File <| title == $ssl_ca |> ~> File["${mosquitto_ssl_dir}/ssl_ca.pem"]
+
+  if defined('private_key') {
+    Private_key <| title == $ssl_key |> ~> File["${mosquitto_ssl_dir}/ssl_key.pem"]
+  }
 }
