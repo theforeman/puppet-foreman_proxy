@@ -58,6 +58,7 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
     owner   => 'root',
     group   => 'mosquitto',
     mode    => '0640',
+    notify  => Class['mosquitto::service'],
   }
 
   file { $mosquitto_ssl_dir:
@@ -74,6 +75,7 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
     owner  => 'root',
     group  => 'mosquitto',
     mode   => '0440',
+    notify => Class['mosquitto::service'],
   }
 
   file { "${mosquitto_ssl_dir}/ssl_key.pem":
@@ -82,6 +84,7 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
     owner  => 'root',
     group  => 'mosquitto',
     mode   => '0440',
+    notify => Class['mosquitto::service'],
   }
 
   file { "${mosquitto_ssl_dir}/ssl_ca.pem":
@@ -90,6 +93,7 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
     owner  => 'root',
     group  => 'mosquitto',
     mode   => '0440',
+    notify => Class['mosquitto::service'],
   }
 
   # Ensure certs were deployed before we try to source them
