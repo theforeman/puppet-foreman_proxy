@@ -41,7 +41,8 @@ describe 'foreman_proxy::plugin::remote_execution::mosquitto' do
               :ensure  => 'present',
               :owner   => 'root',
               :group   => 'mosquitto',
-              :mode    => '0640'
+              :mode    => '0640',
+              :notify  => 'Class[Mosquitto::Service]',
             })
         end
 
@@ -62,7 +63,8 @@ describe 'foreman_proxy::plugin::remote_execution::mosquitto' do
               :source => '/etc/foreman-proxy/ssl_cert.pem',
               :owner  => 'root',
               :group  => 'mosquitto',
-              :mode   => '0440'
+              :mode   => '0440',
+              :notify => 'Class[Mosquitto::Service]',
             })
         end
 
@@ -73,7 +75,8 @@ describe 'foreman_proxy::plugin::remote_execution::mosquitto' do
               :source => '/etc/foreman-proxy/ssl_key.pem',
               :owner  => 'root',
               :group  => 'mosquitto',
-              :mode   => '0440'
+              :mode   => '0440',
+              :notify => 'Class[Mosquitto::Service]',
             })
         end
 
@@ -84,7 +87,8 @@ describe 'foreman_proxy::plugin::remote_execution::mosquitto' do
               :source  => '/etc/foreman-proxy/ssl_ca.pem',
               :owner   => 'root',
               :group   => 'mosquitto',
-              :mode    => '0440'
+              :mode    => '0440',
+              :notify  => 'Class[Mosquitto::Service]',
             })
         end
       end
