@@ -78,4 +78,6 @@ class foreman_proxy::plugin::remote_execution::script (
     ssl_key  => $foreman_proxy::ssl_key,
   }
 
+  Class['foreman_proxy::config'] ~> Class['foreman_proxy::plugin::remote_execution::mosquitto']
+
 }
