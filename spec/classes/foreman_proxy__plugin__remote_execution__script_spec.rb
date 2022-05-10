@@ -37,6 +37,10 @@ describe 'foreman_proxy::plugin::remote_execution::script' do
               :ensure => 'absent',
             })
         end
+
+        it 'should configure before mosquitto' do
+          should contain_class('foreman_proxy::config').that_notifies('Class[foreman_proxy::plugin::remote_execution::mosquitto]')
+        end
       end
 
       describe 'with override parameters' do
@@ -114,6 +118,10 @@ describe 'foreman_proxy::plugin::remote_execution::script' do
             with({
               :ensure => 'present',
             })
+        end
+
+        it 'should configure before mosquitto' do
+          should contain_class('foreman_proxy::config').that_notifies('Class[foreman_proxy::plugin::remote_execution::mosquitto]')
         end
       end
     end
