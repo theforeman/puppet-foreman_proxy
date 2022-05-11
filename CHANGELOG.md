@@ -1,5 +1,13 @@
 # Changelog
 
+## [22.1.3](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.3) (2022-05-11)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.2...22.1.3)
+
+**Fixed bugs:**
+
+- ensure config notifies mosquitto [\#758](https://github.com/theforeman/puppet-foreman_proxy/pull/758) ([evgeni](https://github.com/evgeni))
+
 ## [22.1.2](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.2) (2022-05-05)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.1...22.1.2)
