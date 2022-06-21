@@ -7,8 +7,8 @@
 #   The package to install. Underscores are replaced with dashes on Debian
 #
 define foreman_proxy::plugin (
-  $version = $foreman_proxy::params::plugin_version,
-  $package = "${foreman_proxy::params::plugin_prefix}${title}",
+  String[1] $version = $foreman_proxy::params::plugin_version,
+  String[1] $package = "${foreman_proxy::params::plugin_prefix}${title}",
 ) {
   # Debian gem2deb converts underscores to hyphens
   case $facts['os']['family'] {

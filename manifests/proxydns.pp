@@ -19,10 +19,10 @@
 #   entry.
 #
 class foreman_proxy::proxydns (
-  $forwarders = $foreman_proxy::dns_forwarders,
-  $interface = $foreman_proxy::dns_interface,
+  Array[String] $forwarders = $foreman_proxy::dns_forwarders,
+  String $interface = $foreman_proxy::dns_interface,
   Stdlib::Fqdn $forward_zone = $foreman_proxy::dns_zone,
-  $reverse_zone = $foreman_proxy::dns_reverse,
+  Optional[Variant[Boolean, String, Array[String]]] $reverse_zone = $foreman_proxy::dns_reverse,
   String $soa = $facts['networking']['fqdn'],
 ) {
   class { 'dns':
