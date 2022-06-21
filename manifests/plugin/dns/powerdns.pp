@@ -7,8 +7,8 @@
 #   The REST API key
 #
 class foreman_proxy::plugin::dns::powerdns (
+  String $rest_api_key,
   Stdlib::HTTPUrl $rest_url = 'http://localhost:8081/api/v1/servers/localhost',
-  String $rest_api_key = '', # lint:ignore:empty_string_assignment
 ) {
   foreman_proxy::plugin::provider { 'dns_powerdns':
   }
