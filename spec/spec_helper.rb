@@ -3,6 +3,8 @@
 
 require 'voxpupuli/test/spec_helper'
 
+add_mocked_facts!
+
 add_custom_fact :sudoversion, "1.8.23" # saz-sudo
 
 def get_content(subject, title)
