@@ -74,7 +74,7 @@ class foreman_proxy::proxydhcp {
     conf_dir_mode => $conf_dir_mode,
   }
 
-  ::dhcp::pool { $facts['networking']['domain']:
+  dhcp::pool { $facts['networking']['domain']:
     network        => $net,
     mask           => $mask,
     range          => $foreman_proxy::dhcp_range,
