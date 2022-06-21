@@ -16,9 +16,8 @@ class foreman_proxy::plugin::remote_execution::ssh_user (
   Enum['sudo', 'su'] $effective_user_method = $foreman_proxy::plugin::remote_execution::ssh_user::params::effective_user_method,
   Array[String[1]]   $ssh_keys              = $foreman_proxy::plugin::remote_execution::ssh_user::params::ssh_keys,
 ) inherits foreman_proxy::plugin::remote_execution::ssh_user::params {
-
   # Manage the user
-  if $manage_user and $ssh_user != 'root'{
+  if $manage_user and $ssh_user != 'root' {
     user { $ssh_user:
       ensure           => present,
       home             => "/home/${ssh_user}",

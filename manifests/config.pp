@@ -1,7 +1,6 @@
 # @summary Configure the foreman proxy
 # @api private
 class foreman_proxy::config {
-
   # Ensure SSL certs from the puppetmaster are available
   # Relationship is duplicated there as defined() is parse-order dependent
   if $foreman_proxy::ssl and defined(Class['puppet::server::config']) {
@@ -110,7 +109,7 @@ class foreman_proxy::config {
 
     if $foreman_proxy::use_sudoersd {
       if $uses_sudo and $foreman_proxy::manage_sudoersd {
-        ensure_resource('file', "${foreman_proxy::sudoers}.d", {'ensure' => 'directory'})
+        ensure_resource('file', "${foreman_proxy::sudoers}.d", { 'ensure' => 'directory' })
       }
 
       file { "${foreman_proxy::sudoers}.d/foreman-proxy":

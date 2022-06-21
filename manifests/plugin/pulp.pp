@@ -32,8 +32,7 @@ class foreman_proxy::plugin::pulp (
   Array[String[1], 1] $client_authentication = ['client_certificate'],
   Stdlib::HTTPUrl $rhsm_url = $foreman_proxy::plugin::pulp::params::rhsm_url,
 ) inherits foreman_proxy::plugin::pulp::params {
-
-  foreman_proxy::plugin {'pulp':
+  foreman_proxy::plugin { 'pulp':
     version => $version,
   }
   -> [

@@ -62,7 +62,7 @@ class foreman_proxy::plugin::ansible (
   $foreman_ssl_ca = pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca)
   $proxy_url = $foreman_proxy::real_registered_proxy_url
 
-  file {"${foreman_proxy::config_dir}/ansible.cfg":
+  file { "${foreman_proxy::config_dir}/ansible.cfg":
     ensure  => file,
     content => template('foreman_proxy/plugin/ansible.cfg.erb'),
     owner   => 'root',

@@ -79,5 +79,4 @@ class foreman_proxy::plugin::remote_execution::script (
   }
 
   Class['foreman_proxy::config'] ~> Class['foreman_proxy::plugin::remote_execution::mosquitto']
-
 }

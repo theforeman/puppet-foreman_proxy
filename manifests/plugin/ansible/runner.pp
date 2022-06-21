@@ -4,11 +4,10 @@
 #
 # $package_name:: Name of the package to install to provide 'ansible-runner' command
 #
-class foreman_proxy::plugin::ansible::runner(
+class foreman_proxy::plugin::ansible::runner (
   Boolean $manage_runner_repo = $foreman_proxy::plugin::ansible::manage_runner_repo,
   String  $package_name = $foreman_proxy::plugin::ansible::runner_package_name,
 ) {
-
   if $manage_runner_repo {
     case $facts['os']['family'] {
       'Debian': {
@@ -36,5 +35,4 @@ class foreman_proxy::plugin::ansible::runner(
   package { $package_name:
     ensure => 'installed',
   }
-
 }
