@@ -6,7 +6,7 @@
 # @param package
 #   The package to install. Underscores are replaced with dashes on Debian
 #
-define foreman_proxy::plugin(
+define foreman_proxy::plugin (
   $version = $foreman_proxy::params::plugin_version,
   $package = "${foreman_proxy::params::plugin_prefix}${title}",
 ) {

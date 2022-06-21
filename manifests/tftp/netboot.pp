@@ -21,7 +21,7 @@ class foreman_proxy::tftp::netboot (
   ensure_packages($packages, { ensure => 'installed', })
 
   # The symlink from grub2/boot to boot is needed for UEFI HTTP boot
-  file {"${root}/grub2/boot":
+  file { "${root}/grub2/boot":
     ensure => 'link',
     target => '../boot',
   }

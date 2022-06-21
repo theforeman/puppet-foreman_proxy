@@ -62,7 +62,6 @@ class foreman_proxy::proxydhcp {
     $_dhcp_ipxefilename = undef
   }
 
-
   class { 'dhcp':
     dnsdomain     => $foreman_proxy::dhcp_option_domain,
     nameservers   => $nameservers,
@@ -75,7 +74,7 @@ class foreman_proxy::proxydhcp {
     conf_dir_mode => $conf_dir_mode,
   }
 
-  ::dhcp::pool{ $facts['networking']['domain']:
+  ::dhcp::pool { $facts['networking']['domain']:
     network        => $net,
     mask           => $mask,
     range          => $foreman_proxy::dhcp_range,
@@ -84,9 +83,7 @@ class foreman_proxy::proxydhcp {
     failover       => $failover,
   }
 
-
   if $foreman_proxy::dhcp_manage_acls {
-
     ensure_packages(['grep', 'acl'])
 
     exec { "Allow ${foreman_proxy::user} to read ${dhcp::dhcp_dir}":
@@ -98,7 +95,7 @@ class foreman_proxy::proxydhcp {
   }
 
   if $failover {
-    class {'dhcp::failover':
+    class { 'dhcp::failover':
       peer_address        => $foreman_proxy::dhcp_peer_address,
       role                => $foreman_proxy::dhcp_node_type,
       address             => $foreman_proxy::dhcp_failover_address,

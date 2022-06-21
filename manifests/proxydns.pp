@@ -18,7 +18,7 @@
 #   The hostname to use in the SOA record. Also used to create a forward DNS
 #   entry.
 #
-class foreman_proxy::proxydns(
+class foreman_proxy::proxydns (
   $forwarders = $foreman_proxy::dns_forwarders,
   $interface = $foreman_proxy::dns_interface,
   Stdlib::Fqdn $forward_zone = $foreman_proxy::dns_zone,

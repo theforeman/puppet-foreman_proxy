@@ -34,7 +34,7 @@ class foreman_proxy::tftp (
 
   $syslinux_filenames.each |$source_file| {
     $filename = basename($source_file)
-    file {"${tftp::root}/${filename}":
+    file { "${tftp::root}/${filename}":
       ensure  => file,
       owner   => $user,
       mode    => '0644',
