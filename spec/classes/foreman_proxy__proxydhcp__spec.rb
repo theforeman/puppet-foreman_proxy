@@ -21,12 +21,16 @@ describe 'foreman_proxy' do
 
       context "on physical interface" do
         let :facts do
-          super().merge(
-            ipaddress: '192.0.2.10',
-            ipaddress_eth0: '192.0.2.10',
-            netmask_eth0: '255.255.255.0',
-            network_eth0: '192.0.2.0',
-          )
+          override_facts(super(), networking: {
+            ip: '192.0.2.10',
+            interfaces: {
+              eth0: {
+                ip: '192.0.2.10',
+                netmask: '255.255.255.0',
+                network: '192.0.2.0',
+              },
+            },
+          })
         end
 
         let(:params) { super().merge(dhcp_interface: 'eth0') }
@@ -145,11 +149,11 @@ describe 'foreman_proxy' do
 
       context "on vlan interface" do
         let :facts do
-          super().merge(
-            ipaddress_eth0_0: '203.0.113.10',
-            netmask_eth0_0: '255.255.255.0',
-            network_eth0_0: '203.0.113.0',
-          )
+          override_facts(super(), networking: {interfaces: {:'eth0.0' => {
+            ip: '203.0.113.10',
+            netmask: '255.255.255.0',
+            network: '203.0.113.0',
+          }}})
         end
 
         let(:params) { super().merge(dhcp_interface: 'eth0.0') }
@@ -177,11 +181,11 @@ describe 'foreman_proxy' do
 
       context "on alias interface" do
         let :facts do
-          super().merge(
-            ipaddress_eth0_0: '198.51.100.10',
-            netmask_eth0_0: '255.255.255.0',
-            network_eth0_0: '198.51.100.0',
-          )
+          override_facts(super(), networking: {interfaces: {:'eth0:0' => {
+            ip: '198.51.100.10',
+            netmask: '255.255.255.0',
+            network: '198.51.100.0',
+          }}})
         end
 
         let(:params) { super().merge(dhcp_interface: 'eth0:0') }
