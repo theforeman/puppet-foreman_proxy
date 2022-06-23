@@ -4,10 +4,10 @@ describe 'foreman_proxy::proxydns' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let :facts do
-        facts.merge(
-          ipaddress_eth0: '192.168.100.1',
-          netmask_eth0: '255.255.255.0',
-        )
+        override_facts(facts, networking: {interfaces: {eth0: {
+          ip: '192.168.100.1',
+          netmask: '255.255.255.0',
+        }}})
       end
 
       context 'with inherited parameters' do
@@ -93,7 +93,7 @@ describe 'foreman_proxy::proxydns' do
           end
 
           context 'invalid netmask fact' do
-            let(:facts) { super().merge(netmask_eth0: '0.0.0.0') }
+            let(:facts) { override_facts(super(), networking: {interfaces: {eth0: {netmask: '0.0.0.0'}}}) }
 
             it { should compile.and_raise_error(%r{subnets smaller than /8 are not supported}) }
           end
@@ -101,23 +101,23 @@ describe 'foreman_proxy::proxydns' do
 
         context "with vlan interface" do
           let :facts do
-            facts.merge(
-              ipaddress_eth0_0: '192.168.100.1',
-              netmask_eth0_0: '255.255.255.0',
-            )
+            override_facts(super(), networking: {interfaces: {:'eth0.0' => {
+              ip: '192.0.2.1',
+              netmask: '255.255.255.0',
+            }}})
           end
 
-          let(:params) { super().merge(interface: 'eth0:0') }
+          let(:params) { super().merge(interface: 'eth0.0') }
 
           it 'should include the forward zone' do
             should contain_dns__zone('example.com')
               .with_soa('foo.example.com')
               .with_reverse(false)
-              .with_soaip('192.168.100.1')
+              .with_soaip('192.0.2.1')
           end
 
           it 'should include the reverse zone' do
-            should contain_dns__zone('100.168.192.in-addr.arpa')
+            should contain_dns__zone('2.0.192.in-addr.arpa')
               .with_soa('foo.example.com')
               .with_reverse(true)
           end
@@ -125,10 +125,10 @@ describe 'foreman_proxy::proxydns' do
 
         context "with alias interface" do
           let :facts do
-            facts.merge(
-              ipaddress_eth0_0: '192.168.100.1',
-              netmask_eth0_0: '255.255.255.0',
-            )
+            override_facts(super(), networking: {interfaces: {:'eth0:0' => {
+              ip: '203.0.113.1',
+              netmask: '255.255.255.0',
+            }}})
           end
 
           let(:params) { super().merge(interface: 'eth0:0') }
@@ -137,11 +137,11 @@ describe 'foreman_proxy::proxydns' do
             should contain_dns__zone('example.com')
               .with_soa('foo.example.com')
               .with_reverse(false)
-              .with_soaip('192.168.100.1')
+              .with_soaip('203.0.113.1')
           end
 
           it 'should include the reverse zone' do
-            should contain_dns__zone('100.168.192.in-addr.arpa')
+            should contain_dns__zone('113.0.203.in-addr.arpa')
               .with_soa('foo.example.com')
               .with_reverse(true)
           end
@@ -150,12 +150,12 @@ describe 'foreman_proxy::proxydns' do
         context 'with invalid interface' do
           let(:params) { super().merge(interface: 'invalid') }
 
-          it { should compile.and_raise_error(/Could not get a valid IP address from fact ipaddress_invalid/) }
+          it { should compile.and_raise_error(/Interface 'invalid' was not found in networking facts/) }
 
           context 'missing netmask fact' do
-            let(:facts) { facts.merge(ipaddress_invalid: '192.0.2.1') }
+            let(:facts) { override_facts(super(), networking: {interfaces: {invalid: {ip: '192.0.2.1'}}}) }
 
-            it { should compile.and_raise_error(/Could not get a valid netmask from fact netmask_invalid/) }
+            it { should compile.and_raise_error(/Could not get a valid netmask for 'invalid' from facts: ''/) }
           end
         end
       end

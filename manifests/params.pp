@@ -166,7 +166,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   } else {
     $dhcp_option_domain  = []
   }
-  $dhcp_failover_address = fact('ipaddress')
+  $dhcp_failover_address = fact('networking.ip')
 
   # DNS settings - requires optional DNS puppet module
   $dns_interface      = pick(fact('networking.primary'), 'eth0')

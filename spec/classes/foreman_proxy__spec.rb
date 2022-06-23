@@ -875,7 +875,7 @@ describe 'foreman_proxy' do
 
         context 'dhcp_provider => isc' do
           let(:params) { super().merge(dhcp_interface: 'dhcpif') }
-          let(:facts) { super().merge(ipaddress_dhcpif: '192.0.2.1', network_dhcpif: '192.0.2.0', netmask_dhcpif: '255.255.255.0') }
+          let(:facts) { override_facts(super(), networking: {interfaces: {dhcpif: {ip: '192.0.2.1', network: '192.0.2.0', netmask: '255.255.255.0'}}}) }
 
           case facts[:osfamily]
           when 'FreeBSD', 'DragonFly'

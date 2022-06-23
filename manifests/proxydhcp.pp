@@ -1,22 +1,27 @@
 # @summary Configure the ISC DHCP service
 # @api private
 class foreman_proxy::proxydhcp {
-  # puppet fact names are converted from ethX.X and ethX:X to ethX_X
-  # so for alias and vlan interfaces we have to modify the name accordingly
-  $interface_fact_name = regsubst($foreman_proxy::dhcp_interface, '[.:]', '_')
-  $ip = pick_default($foreman_proxy::dhcp_pxeserver, fact("ipaddress_${interface_fact_name}"))
-  unless ($ip =~ Stdlib::IP::Address::V4::Nosubnet) {
-    fail("Could not get the ip address from fact ipaddress_${interface_fact_name}")
+  unless 'networking' in $facts {
+    fail('Missing modern networking facts')
+  }
+  unless $foreman_proxy::dhcp_interface in $facts['networking']['interfaces'] {
+    fail("Interface '${foreman_proxy::dhcp_interface}' was not found in networking facts")
+  }
+  $interface_facts = $facts['networking']['interfaces'][$foreman_proxy::dhcp_interface]
+
+  $ip = pick_default($foreman_proxy::dhcp_pxeserver, $interface_facts['ip'])
+  unless $ip =~ Stdlib::IP::Address::V4::Nosubnet {
+    fail("Could not get the IP address for '${foreman_proxy::dhcp_interface}' from facts")
   }
 
-  $net  = pick_default($foreman_proxy::dhcp_network, fact("network_${interface_fact_name}"))
-  unless ($net =~ Stdlib::IP::Address::V4::Nosubnet) {
-    fail("Could not get the network address from fact network_${interface_fact_name}")
+  $net  = pick_default($foreman_proxy::dhcp_network, $interface_facts['network'])
+  unless $net =~ Stdlib::IP::Address::V4::Nosubnet {
+    fail("Could not get the network address for '${foreman_proxy::dhcp_interface}' from facts")
   }
 
-  $mask = pick_default($foreman_proxy::dhcp_netmask, fact("netmask_${interface_fact_name}"))
-  unless ($mask =~ Stdlib::IP::Address::V4::Nosubnet) {
-    fail("Could not get the network mask from fact netmask_${interface_fact_name}")
+  $mask = pick_default($foreman_proxy::dhcp_netmask, $interface_facts['netmask'])
+  unless $mask =~ Stdlib::IP::Address::V4::Nosubnet {
+    fail("Could not get the network mask for '${foreman_proxy::dhcp_interface}' from facts")
   }
 
   if $foreman_proxy::dhcp_nameservers == 'default' {
