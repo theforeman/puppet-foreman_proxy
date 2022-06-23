@@ -76,6 +76,8 @@
 # $manage_puppet_group::        Whether to ensure the $puppet_group exists.  Also ensures group owner of ssl keys and certs is $puppet_group
 #                               Not applicable when ssl is false.
 #
+# $manage_foreman_proxy_group:: Whether to manage foreman-proxy group creation.
+#
 # $puppet::                     Enable Puppet module for environment imports and Puppet runs
 #
 # $puppet_listen_on::           Protocols for the Puppet feature to listen on
@@ -324,6 +326,7 @@ class foreman_proxy (
   Integer[0] $puppetca_token_ttl = 360,
   Optional[Stdlib::Absolutepath] $puppetca_certificate = undef,
   Boolean $manage_puppet_group = true,
+  Boolean $manage_foreman_proxy_group = true,
   Boolean $puppet = true,
   Foreman_proxy::ListenOn $puppet_listen_on = 'https',
   Stdlib::HTTPUrl $puppet_url = $foreman_proxy::params::puppet_url,

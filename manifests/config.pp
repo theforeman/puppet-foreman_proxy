@@ -46,8 +46,10 @@ class foreman_proxy::config {
     system  => true,
   }
 
-  group { $foreman_proxy::group:
-    system => true,
+  if $foreman_proxy::manage_foreman_proxy_group {
+    group { $foreman_proxy::group:
+      system => true,
+    }
   }
 
   # Provided by packaging, defined here to allow autorequire for files
