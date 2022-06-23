@@ -76,7 +76,7 @@
 # $manage_puppet_group::        Whether to ensure the $puppet_group exists.  Also ensures group owner of ssl keys and certs is $puppet_group
 #                               Not applicable when ssl is false.
 #
-# $manage_foreman_proxy_group:: Whether to manage foreman-proxy group creation.
+# $manage_foreman_proxy_group:: Whether to set foreman-proxy group as a system group with lower GID.
 #
 # $puppet::                     Enable Puppet module for environment imports and Puppet runs
 #
