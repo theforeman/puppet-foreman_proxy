@@ -5,17 +5,17 @@ class foreman_proxy::proxydhcp {
   # so for alias and vlan interfaces we have to modify the name accordingly
   $interface_fact_name = regsubst($foreman_proxy::dhcp_interface, '[.:]', '_')
   $ip = pick_default($foreman_proxy::dhcp_pxeserver, fact("ipaddress_${interface_fact_name}"))
-  unless ($ip =~ Stdlib::Compat::Ipv4) {
+  unless ($ip =~ Stdlib::IP::Address::V4::Nosubnet) {
     fail("Could not get the ip address from fact ipaddress_${interface_fact_name}")
   }
 
   $net  = pick_default($foreman_proxy::dhcp_network, fact("network_${interface_fact_name}"))
-  unless ($net =~ Stdlib::Compat::Ipv4) {
+  unless ($net =~ Stdlib::IP::Address::V4::Nosubnet) {
     fail("Could not get the network address from fact network_${interface_fact_name}")
   }
 
   $mask = pick_default($foreman_proxy::dhcp_netmask, fact("netmask_${interface_fact_name}"))
-  unless ($mask =~ Stdlib::Compat::Ipv4) {
+  unless ($mask =~ Stdlib::IP::Address::V4::Nosubnet) {
     fail("Could not get the network mask from fact netmask_${interface_fact_name}")
   }
 
