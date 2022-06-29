@@ -27,7 +27,7 @@ class foreman_proxy::plugin::ansible::params {
       } else {
         $callback = 'foreman'
       }
-      $manage_runner_repo = true
+      $manage_runner_repo = false
       $runner_package_name = 'python3-ansible-runner'
     }
     default: {

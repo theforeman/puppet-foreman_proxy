@@ -10,12 +10,6 @@ class foreman_proxy::plugin::ansible::runner (
 ) {
   if $manage_runner_repo {
     case $facts['os']['family'] {
-      'Debian': {
-        include apt
-        apt::source { 'ansible-runner':
-          ensure  => absent,
-        }
-      }
       'RedHat': {
         yumrepo { 'ansible-runner':
           descr    => 'Ansible runner',
