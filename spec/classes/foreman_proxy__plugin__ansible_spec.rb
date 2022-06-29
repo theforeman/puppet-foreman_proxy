@@ -11,10 +11,7 @@ describe 'foreman_proxy::plugin::ansible' do
         it { should contain_foreman_proxy__plugin__module('ansible') }
 
         case os
-        when 'debian-10-x86_64'
-          it 'should cleanup old ansible-runner upstream repo' do
-            should contain_apt__source('ansible-runner').with_ensure('absent')
-          end
+        when 'debian-11-x86_64'
           it { should contain_package('python3-ansible-runner').with_ensure('installed') }
         when 'redhat-7-x86_64'
           it 'should include ansible-runner upstream repo' do
