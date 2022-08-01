@@ -1,20 +1,22 @@
 require 'spec_helper'
 
 describe 'foreman_proxy::plugin' do
-  on_supported_os.each do |os, facts|
+  on_supported_os.each do |os, os_facts|
     context "on #{os}" do
-      let(:facts) { facts }
+      let(:facts) { os_facts }
       let(:title) { 'myplugin' }
       let(:pre_condition) { 'include foreman_proxy::params' }
 
       context 'no parameters' do
-        package = if facts[:osfamily] == 'Debian'
-                    'ruby-smart-proxy-myplugin'
-                  elsif facts[:osfamily] == 'RedHat' && facts[:operatingsystemmajrelease] == '7'
-                    'tfm-rubygem-smart_proxy_myplugin'
-                  else
-                    'rubygem-smart_proxy_myplugin'
-                  end
+        let(:package) do
+          if facts[:osfamily] == 'Debian'
+            'ruby-smart-proxy-myplugin'
+          elsif facts[:osfamily] == 'RedHat' && facts[:operatingsystemmajrelease] == '7'
+            'tfm-rubygem-smart_proxy_myplugin'
+          else
+            'rubygem-smart_proxy_myplugin'
+          end
+        end
 
         it 'should install the correct package' do
           should contain_package(package).with_ensure('installed')
@@ -47,7 +49,7 @@ describe 'foreman_proxy::plugin' do
           :package => 'my_fun_plugin',
         } end
 
-        case facts[:osfamily]
+        case os_facts[:osfamily]
         when 'Debian'
           it 'should use hyphens' do
             should contain_package('my-fun-plugin').with_ensure('installed')
