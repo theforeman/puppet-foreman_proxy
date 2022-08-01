@@ -5,11 +5,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
 
   case $facts['os']['family'] {
     'RedHat': {
-      if versioncmp($facts['os']['release']['major'], '7') <= 0 {
-        $ruby_package_prefix = 'tfm-rubygem-'
-      } else {
-        $ruby_package_prefix = 'rubygem-'
-      }
+      $ruby_package_prefix = 'rubygem-'
       $plugin_prefix = "${ruby_package_prefix}smart_proxy_"
 
       $dir   = pick($foreman_proxy::globals::dir, '/usr/share/foreman-proxy')
@@ -25,26 +21,16 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $keyfile  = '/etc/rndc.key'
       $nsupdate = 'bind-utils'
 
-      if versioncmp($facts['os']['release']['major'], '7') <= 0 {
-        $_tftp_syslinux_filenames = [
-          '/usr/share/syslinux/chain.c32',
-          '/usr/share/syslinux/mboot.c32',
-          '/usr/share/syslinux/menu.c32',
-          '/usr/share/syslinux/memdisk',
-          '/usr/share/syslinux/pxelinux.0',
-        ]
-      } else {
-        $_tftp_syslinux_filenames = [
-          '/usr/share/syslinux/chain.c32',
-          '/usr/share/syslinux/ldlinux.c32',
-          '/usr/share/syslinux/libcom32.c32',
-          '/usr/share/syslinux/libutil.c32',
-          '/usr/share/syslinux/mboot.c32',
-          '/usr/share/syslinux/menu.c32',
-          '/usr/share/syslinux/memdisk',
-          '/usr/share/syslinux/pxelinux.0',
-        ]
-      }
+      $_tftp_syslinux_filenames = [
+        '/usr/share/syslinux/chain.c32',
+        '/usr/share/syslinux/ldlinux.c32',
+        '/usr/share/syslinux/libcom32.c32',
+        '/usr/share/syslinux/libutil.c32',
+        '/usr/share/syslinux/mboot.c32',
+        '/usr/share/syslinux/menu.c32',
+        '/usr/share/syslinux/memdisk',
+        '/usr/share/syslinux/pxelinux.0',
+      ]
     }
     'Debian': {
       $ruby_package_prefix = 'ruby-'

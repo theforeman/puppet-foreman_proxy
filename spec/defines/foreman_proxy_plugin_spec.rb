@@ -11,8 +11,6 @@ describe 'foreman_proxy::plugin' do
         let(:package) do
           if facts[:osfamily] == 'Debian'
             'ruby-smart-proxy-myplugin'
-          elsif facts[:osfamily] == 'RedHat' && facts[:operatingsystemmajrelease] == '7'
-            'tfm-rubygem-smart_proxy_myplugin'
           else
             'rubygem-smart_proxy_myplugin'
           end
