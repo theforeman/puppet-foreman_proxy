@@ -6,7 +6,7 @@ def on_plugin_os
     },
     {
       'operatingsystem' => 'Debian',
-      'operatingsystemrelease' => ['10'],
+      'operatingsystemrelease' => ['11'],
     },
   ]
   on_supported_os(supported_os: supported_os)
