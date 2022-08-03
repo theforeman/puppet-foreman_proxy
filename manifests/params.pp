@@ -130,13 +130,10 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   # Only hosts listed will be permitted, empty array to disable authorization
   $trusted_hosts = [$lower_fqdn]
 
-  $sudoers = "${etc}/sudoers"
-
   # puppet settings
   $puppet_url = "https://${facts['networking']['fqdn']}:8140"
 
   # puppetca settings
-  $puppetca_cmd = "${puppet_cmd} cert"
   $autosignfile = "${puppetdir}/autosign.conf"
 
   # Template settings

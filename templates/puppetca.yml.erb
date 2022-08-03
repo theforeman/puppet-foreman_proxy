@@ -8,5 +8,5 @@
 #   - puppetca_token_whitelisting (verify CSRs based on a token whitelist)
 :use_provider: <%= scope.lookupvar("foreman_proxy::puppetca_provider") %>
 
-# Puppet version used
-:puppet_version: <%= @puppetversion %>
+# Using 6.0 forces use of puppetca_http_api
+:puppet_version: '6.0'

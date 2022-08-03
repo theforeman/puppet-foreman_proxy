@@ -228,7 +228,7 @@ describe 'foreman_proxy' do
             '---',
             ':enabled: https',
             ':use_provider: puppetca_hostname_whitelisting',
-            ":puppet_version: #{Puppet.version}",
+            ":puppet_version: '6.0'",
           ])
         end
 
@@ -242,11 +242,8 @@ describe 'foreman_proxy' do
           ])
         end
 
-        it 'should generate correct puppetca_puppet_cert.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppetca_puppet_cert.yml", [
-            '---',
-            ":ssldir: #{ssl_dir}",
-          ])
+        it 'should remove puppetca_puppet_cert.yml' do
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/puppetca_puppet_cert.yml").with_ensure('absent')
         end
 
         it 'should generate correct puppetca_hostname_whitelisting.yml' do
@@ -319,27 +316,6 @@ describe 'foreman_proxy' do
             '---',
             ':enabled: https'
           ])
-        end
-
-        it 'should set up sudo rules', if: Puppet.version < '6.0' do
-          should contain_file("#{etc_dir}/sudoers.d").with_ensure('directory')
-
-          should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with({
-            :ensure  => 'file',
-            :owner   => 'root',
-            :group   => 0,
-            :mode    => '0440',
-          })
-
-          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
-            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
-            "Defaults:#{proxy_user_name} !requiretty",
-          ])
-        end
-
-        it 'should not set up sudo rules', if: Puppet.version >= '6.0' do
-          should_not contain_file("#{etc_dir}/sudoers.d")
-          should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('absent')
         end
 
         it "should not manage puppet group" do
@@ -736,17 +712,6 @@ describe 'foreman_proxy' do
         end
       end
 
-      context 'when puppetca_cmd set', if: Puppet.version < '6.0' do
-        let(:params) { super().merge(puppetca_cmd: 'pup cert') }
-
-        it "should set puppetca_cmd" do
-          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
-            "#{proxy_user_name} ALL = (root) NOPASSWD : pup cert *",
-            "Defaults:#{proxy_user_name} !requiretty",
-          ])
-        end
-      end
-
       context 'with custom puppetca params' do
         let(:params) do
           super().merge(
@@ -764,7 +729,7 @@ describe 'foreman_proxy' do
             '---',
             ':enabled: https',
             ':use_provider: puppetca_token_whitelisting',
-            ":puppet_version: #{Puppet.version}",
+            ":puppet_version: '6.0'",
           ])
         end
 

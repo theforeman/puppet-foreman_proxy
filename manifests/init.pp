@@ -48,13 +48,6 @@
 #
 # $trusted_hosts::              Only hosts listed will be permitted, empty array to disable authorization
 #
-# $manage_sudoersd::            Whether to manage File['/etc/sudoers.d'] or not.  When reusing this module, this may be
-#                               disabled to let a dedicated sudo module manage it instead.
-#
-# $use_sudoersd::               Add a file to /etc/sudoers.d (true).
-#
-# $use_sudoers::                Add contents to /etc/sudoers (true). This is ignored if $use_sudoersd is true.
-#
 # $puppetca::                   Enable Puppet CA feature
 #
 # $puppetca_listen_on::         Protocols for the Puppet CA feature to listen on
@@ -64,8 +57,6 @@
 # $httpboot::                   Enable HTTPBoot feature. In most deployments this requires HTTP to be enabled as well.
 #
 # $puppetdir::                  Puppet var directory
-#
-# $puppetca_cmd::               Puppet CA command to be allowed in sudoers
 #
 # $puppet_group::               Groups of Foreman proxy user
 #
@@ -308,14 +299,10 @@ class foreman_proxy (
   Array[String] $trusted_hosts = $foreman_proxy::params::trusted_hosts,
   Array[String] $ssl_disabled_ciphers = [],
   Array[String] $tls_disabled_versions = [],
-  Boolean $manage_sudoersd = true,
-  Boolean $use_sudoersd = true,
-  Boolean $use_sudoers = true,
   Boolean $puppetca = true,
   Foreman_proxy::ListenOn $puppetca_listen_on = 'https',
   Stdlib::Absolutepath $ssldir = $foreman_proxy::params::ssldir,
   Stdlib::Absolutepath $puppetdir = $foreman_proxy::params::puppetdir,
-  String $puppetca_cmd = $foreman_proxy::params::puppetca_cmd,
   String $puppet_group = 'puppet',
   String $puppetca_provider = 'puppetca_hostname_whitelisting',
   Stdlib::Absolutepath $autosignfile = $foreman_proxy::params::autosignfile,

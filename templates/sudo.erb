@@ -1,2 +1,0 @@
-<%= scope.lookupvar("foreman_proxy::user") %> ALL = (root) NOPASSWD : <%= scope.lookupvar("foreman_proxy::puppetca_cmd") %> *
-Defaults:<%= scope.lookupvar("foreman_proxy::user") %> !requiretty
