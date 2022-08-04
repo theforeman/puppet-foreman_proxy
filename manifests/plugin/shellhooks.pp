@@ -23,7 +23,6 @@ class foreman_proxy::plugin::shellhooks (
 ) {
   foreman_proxy::plugin::module { 'shellhooks':
     enabled   => $enabled,
-    feature   => 'Shellhooks',
     listen_on => $listen_on,
     version   => $version,
   }

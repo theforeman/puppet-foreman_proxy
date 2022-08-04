@@ -30,7 +30,6 @@ class foreman_proxy::plugin::discovery (
 ) inherits foreman_proxy::plugin::discovery::params {
   foreman_proxy::plugin::module { 'discovery':
     enabled   => $enabled,
-    feature   => 'Discovery',
     listen_on => $listen_on,
     version   => $version,
   }

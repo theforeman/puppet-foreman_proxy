@@ -39,7 +39,6 @@ class foreman_proxy::plugin::pulp (
     foreman_proxy::module { 'pulpcore':
       template_path => 'foreman_proxy/plugin/pulpcore.yml.erb',
       enabled       => $pulpcore_enabled,
-      feature       => 'Pulpcore',
       listen_on     => $listen_on,
     },
     # pulp3: removed in rubygem-smart_proxy_pulp 2.0

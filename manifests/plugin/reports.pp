@@ -33,7 +33,6 @@ class foreman_proxy::plugin::reports (
 
   foreman_proxy::plugin::module { 'reports':
     enabled   => $enabled,
-    feature   => 'Reports',
     listen_on => $listen_on,
     version   => $version,
   }
