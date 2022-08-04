@@ -1,5 +1,21 @@
 # Changelog
 
+## [23.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/23.0.0) (2022-08-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.3...23.0.0)
+
+**Breaking changes:**
+
+- Refs [\#35184](https://projects.theforeman.org/issues/35184) - Drop puppetca\_http\_api provider [\#768](https://github.com/theforeman/puppet-foreman_proxy/pull/768) ([ekohl](https://github.com/ekohl))
+- Drop EL7 support [\#767](https://github.com/theforeman/puppet-foreman_proxy/pull/767) ([ekohl](https://github.com/ekohl))
+- drop support for Debian 10 Buster [\#766](https://github.com/theforeman/puppet-foreman_proxy/pull/766) ([evgeni](https://github.com/evgeni))
+
+**Implemented enhancements:**
+
+- Use modern networking facts & correct data types on IPs [\#764](https://github.com/theforeman/puppet-foreman_proxy/pull/764) ([ekohl](https://github.com/ekohl))
+- Update to voxpupuli-test 5 [\#763](https://github.com/theforeman/puppet-foreman_proxy/pull/763) ([ekohl](https://github.com/ekohl))
+- add foreman::shell param [\#742](https://github.com/theforeman/puppet-foreman_proxy/pull/742) ([jhoblitt](https://github.com/jhoblitt))
+
 ## [22.1.3](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.3) (2022-05-11)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.2...22.1.3)
