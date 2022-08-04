@@ -1,5 +1,13 @@
 # Changelog
 
+## [23.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/23.0.1) (2022-08-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/23.0.0...23.0.1)
+
+**Fixed bugs:**
+
+- Allow theforeman/foreman 21.x [\#770](https://github.com/theforeman/puppet-foreman_proxy/pull/770) ([ekohl](https://github.com/ekohl))
+
 ## [23.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/23.0.0) (2022-08-04)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.3...23.0.0)
