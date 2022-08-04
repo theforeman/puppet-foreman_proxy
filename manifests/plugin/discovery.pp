@@ -7,6 +7,11 @@
 # $install_images::   Download and extract the discovery image
 #
 # === Advanced parameters:
+# $enabled::      Whether the module is enabled or disabled.
+#
+# $version::      The version to ensure
+#
+# $listen_on::    When enabled, it's configured to listen on HTTPS (default), HTTP or both.
 #
 # $tftp_root::    TFTP root directory where extracted discovery image will be installed
 #
@@ -15,15 +20,20 @@
 # $image_name::   tarball with images
 #
 class foreman_proxy::plugin::discovery (
+  Boolean $enabled = true,
+  Optional[String] $version = undef,
+  Foreman_proxy::ListenOn $listen_on = 'https',
   Boolean $install_images = $foreman_proxy::plugin::discovery::params::install_images,
   Stdlib::Absolutepath $tftp_root = $foreman_proxy::plugin::discovery::params::tftp_root,
   Stdlib::HTTPUrl $source_url = $foreman_proxy::plugin::discovery::params::source_url,
   String $image_name = $foreman_proxy::plugin::discovery::params::image_name,
 ) inherits foreman_proxy::plugin::discovery::params {
-  foreman_proxy::plugin { 'discovery':
+  foreman_proxy::plugin::module { 'discovery':
+    enabled   => $enabled,
+    feature   => 'Discovery',
+    listen_on => $listen_on,
+    version   => $version,
   }
-
-  foreman_proxy::feature { 'Discovery': }
 
   if $install_images {
     $tftp_root_clean = regsubst($tftp_root, '/$', '')
