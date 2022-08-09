@@ -31,6 +31,7 @@ describe 'foreman_proxy::plugin::discovery' do
           'foreman-proxy'
         end
       end
+      let(:user) { group }
 
       describe 'without paramaters' do
         it { should compile.with_all_deps }
@@ -62,8 +63,11 @@ describe 'foreman_proxy::plugin::discovery' do
         it { should contain_foreman_proxy__feature('Discovery') }
 
         it 'should download and install tarball' do
-          should contain_foreman_proxy__remote_file("#{tftproot}/boot/fdi-image-latest.tar").
-            with_remote_location('http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar')
+          should contain_foreman_proxy__remote_file("#{tftproot}/boot/fdi-image-latest.tar").with(
+            remote_location: 'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar',
+            owner: user,
+            group: group,
+          )
         end
 
         it 'should extract the tarball' do
