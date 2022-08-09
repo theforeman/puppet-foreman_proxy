@@ -48,6 +48,8 @@ class foreman_proxy::plugin::discovery (
       path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
       cwd     => "${tftp_root_clean}/boot",
       creates => "${tftp_root_clean}/boot/fdi-image/initrd0.img",
+      user    => $foreman_proxy::user,
+      group   => $foreman_proxy::group,
     }
   }
 }
