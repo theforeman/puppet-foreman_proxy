@@ -5,20 +5,7 @@ describe 'Scenario: tftp' do
 
   include_examples 'the example', 'tftp.pp'
 
-  root = case host_inventory['facter']['os']['name']
-         when 'Debian'
-           '/srv/tftp'
-         when 'Ubuntu'
-           if host_inventory['facter']['os']['release']['major'].to_f >= 20.04
-             '/srv/tftp'
-           else
-             '/var/lib/tftpboot'
-           end
-         else
-           '/var/lib/tftpboot'
-         end
-
-  describe file("#{root}/grub2/boot") do
+  describe file("#{tftp_root}/grub2/boot") do
     it { should be_symlink }
     it { should be_linked_to '../boot' }
   end
