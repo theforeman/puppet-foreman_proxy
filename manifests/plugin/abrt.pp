@@ -43,9 +43,22 @@ class foreman_proxy::plugin::abrt (
   Optional[Stdlib::Absolutepath] $faf_server_ssl_cert = undef,
   Optional[Stdlib::Absolutepath] $faf_server_ssl_key = undef,
 ) {
+  $context = {
+    abrt_send_log_file      => $abrt_send_log_file,
+    abrt_send_log_file      => $abrt_send_log_file,
+    spooldir                => $spooldir,
+    aggregate_reports       => $aggregate_reports,
+    send_period             => $send_period,
+    faf_server_url          => $faf_server_url,
+    faf_server_ssl_noverify => $faf_server_ssl_noverify,
+    faf_server_ssl_cert     => $faf_server_ssl_cert,
+    faf_server_ssl_key      => $faf_server_ssl_key,
+  }
+
   foreman_proxy::plugin::module { 'abrt':
-    version   => $version,
-    listen_on => $listen_on,
-    enabled   => $enabled,
+    version        => $version,
+    listen_on      => $listen_on,
+    enabled        => $enabled,
+    config_context => $context,
   }
 }
