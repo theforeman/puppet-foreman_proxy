@@ -10,6 +10,8 @@
 #
 # $user::            User to run salt commands under
 #
+# $group::           Group to run salt commands and access configuration files
+#
 # $api::             Use Salt API
 #
 # $api_url::         Salt API URL
@@ -34,6 +36,7 @@ class foreman_proxy::plugin::salt (
   Boolean $enabled = $foreman_proxy::plugin::salt::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $foreman_proxy::plugin::salt::params::listen_on,
   String $user = $foreman_proxy::plugin::salt::params::user,
+  Optional[String[1]] $group = undef,
   Boolean $api = $foreman_proxy::plugin::salt::params::api,
   Stdlib::HTTPUrl $api_url = $foreman_proxy::plugin::salt::params::api_url,
   String $api_auth = $foreman_proxy::plugin::salt::params::api_auth,
@@ -58,6 +61,7 @@ class foreman_proxy::plugin::salt (
     ensure  => file,
     content => template('foreman_proxy/plugin/salt_master.conf.erb'),
     owner   => 'root',
+    group   => pick($group, $user),
     mode    => '0640',
   }
 }
