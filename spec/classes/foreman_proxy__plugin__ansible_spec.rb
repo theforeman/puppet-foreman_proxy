@@ -41,8 +41,6 @@ describe 'foreman_proxy::plugin::ansible' do
             'host_key_checking = False',
             'stdout_callback = yaml',
             '[callback_foreman]',
-            'report_type = foreman',
-            'proxy_url = https://foo.example.com:8443',
             'url = https://foo.example.com',
             'ssl_key = /etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem',
             'ssl_cert = /etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem',
@@ -64,7 +62,6 @@ describe 'foreman_proxy::plugin::ansible' do
             host_key_checking: true,
             stdout_callback: 'debug',
             manage_runner_repo: false,
-            report_type: 'proxy',
           }
         end
 
@@ -95,8 +92,6 @@ describe 'foreman_proxy::plugin::ansible' do
             'host_key_checking = True',
             'stdout_callback = debug',
             '[callback_foreman]',
-            'report_type = proxy',
-            'proxy_url = https://foo.example.com:8443',
             'url = https://foo.example.com',
             'ssl_key = /etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem',
             'ssl_cert = /etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem',
