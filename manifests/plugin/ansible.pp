@@ -65,6 +65,14 @@ class foreman_proxy::plugin::ansible (
     target => "${foreman_proxy::config_dir}/ansible.cfg",
   }
 
+  file { "${foreman_proxy::config_dir}/ansible.env":
+    ensure  => file,
+    content => template('foreman_proxy/plugin/ansible.env.erb'),
+    owner   => 'root',
+    group   => $foreman_proxy::user,
+    mode    => '0640',
+  }
+
   include foreman_proxy::plugin::dynflow
   if $install_runner {
     include foreman_proxy::plugin::ansible::runner
