@@ -4,8 +4,7 @@
 #
 
 :sign_all: <%= scope.lookupvar('foreman_proxy::puppetca_sign_all') %>
-:tokens_file: <%= scope.lookupvar('foreman_proxy::puppetca_tokens_file') %>
 :token_ttl: <%= scope.lookupvar('foreman_proxy::puppetca_token_ttl') %>
-<% unless [nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::puppetca_certificate")) -%>
-:certificate: <%= scope.lookupvar('foreman_proxy::puppetca_certificate') %>
-<% end -%>
+:tokens_file: <%= scope.lookupvar('foreman_proxy::puppetca_tokens_file') %>
+# Which certificate to use when encrypting tokens (nil to use the SSL certificate)
+<%= '#'  if [nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::puppetca_certificate")) %>:certificate: <%= scope.lookupvar('foreman_proxy::puppetca_certificate') %>

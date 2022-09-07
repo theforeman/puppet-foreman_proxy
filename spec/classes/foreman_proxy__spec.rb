@@ -293,6 +293,7 @@ describe 'foreman_proxy' do
             ':principal: realm-proxy@EXAMPLE.COM',
             ':ipa_config: /etc/ipa/default.conf',
             ':remove_dns: true',
+            ':verify_ca: true',
           ])
         end
 

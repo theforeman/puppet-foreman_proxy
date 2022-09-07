@@ -1,15 +1,15 @@
 ---
-# BMC management (Bare metal power and bios controls)
+# Can be true, false, or http/https to enable just one of the protocols
 :enabled: <%= @module_enabled %>
 
 # Available providers:
 # - freeipmi / ipmitool - requires the appropriate package installed, and the rubyipmi gem
-# - redfish - RESTful API over HTTPS
+# - redfish - requires the redfish_client gem
 # - shell - for local reboot control (requires sudo access to /sbin/shutdown for the proxy user)
 # - ssh - limited remote control (status, reboot, turn off)
 :bmc_default_provider: <%= scope.lookupvar("foreman_proxy::bmc_default_provider") %>
-<% if scope.lookupvar("foreman_proxy::bmc_default_provider") == 'ssh' -%>
 
+<% if scope.lookupvar("foreman_proxy::bmc_default_provider") == 'ssh' -%>
 # default user and ssh key for ssh provider
 :bmc_ssh_user: <%= scope.lookupvar("foreman_proxy::bmc_ssh_user") %>
 :bmc_ssh_key: <%= scope.lookupvar("foreman_proxy::bmc_ssh_key") %>
@@ -20,5 +20,8 @@
 :bmc_ssh_poweroff: "<%= scope.lookupvar("foreman_proxy::bmc_ssh_poweroff") %>"
 :bmc_ssh_poweron: "<%= scope.lookupvar("foreman_proxy::bmc_ssh_poweron") %>"
 <% elsif scope.lookupvar("foreman_proxy::bmc_default_provider") == 'redfish' -%>
+# Redfish provider HTTPS certificate verification:
+# - If your BMCs just have the vendor-supplied self-signed certificates, you can set
+#   bmc_redfish_verify_ssl to false. The default is to perform certificate verification.
 :redfish_verify_ssl: <%= scope.lookupvar("foreman_proxy::bmc_redfish_verify_ssl") %>
 <% end -%>

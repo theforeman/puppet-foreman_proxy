@@ -3,6 +3,5 @@
 :enabled: <%= @module_enabled %>
 
 # Available providers:
-#   realm_ad
 #   realm_freeipa
 :use_provider: realm_<%= scope.lookupvar("foreman_proxy::realm_provider") %>

@@ -6,3 +6,6 @@
 :ipa_config: <%= scope.lookupvar("foreman_proxy::freeipa_config") %>
 # Remove from DNS when deleting the FreeIPA entry
 :remove_dns: <%= scope.lookupvar("foreman_proxy::freeipa_remove_dns") %>
+
+# verify IPA API HTTPS server certificate
+:verify_ca: true
