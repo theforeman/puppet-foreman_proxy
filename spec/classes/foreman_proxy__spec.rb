@@ -675,6 +675,24 @@ describe 'foreman_proxy' do
             ])
           end
         end
+
+        context 'when dns_provider => infoblox' do
+          let(:params) { super().merge(dns_provider: 'infoblox') }
+
+          it { is_expected.to compile.and_raise_error(/expects a value for parameter 'dns_server'/) }
+        end
+
+        context 'when dns_provider => powerdns' do
+          let(:params) { super().merge(dns_provider: 'powerdns') }
+
+          it { is_expected.to compile.and_raise_error(/expects a value for parameter 'rest_api_key'/) }
+        end
+
+        context 'when dns_provider => route53' do
+          let(:params) { super().merge(dns_provider: 'route53') }
+
+          it { is_expected.to compile.and_raise_error(/expects a value for parameter 'aws_access_key'/) }
+        end
       end
 
       context 'empty keyfile' do
