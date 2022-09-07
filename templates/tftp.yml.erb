@@ -1,6 +1,15 @@
 ---
-# TFTP management
+# Can be true, false, or http/https to enable just one of the protocols
 :enabled: <%= @module_enabled %>
+
 :tftproot: <%= scope.lookupvar("foreman_proxy::module::tftp::tftproot") %>
 # Defines the TFTP Servername to use, overrides the name in the subnet declaration
 <%= '#'  if [nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::tftp_servername")) %>:tftp_servername: <%= scope.lookupvar("foreman_proxy::tftp_servername") %>
+
+# Defines the default connection timeout in seconds needed to download tftp artifacts
+# like initrd and vmlinuz. Default value 10 seconds
+#:tftp_connect_timeout: 10
+
+# Defines the default certificate action for certificate checking.
+# When false, the argument --no-check-certificate will be used.
+#:verify_server_cert: true

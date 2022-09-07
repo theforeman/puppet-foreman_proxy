@@ -20,10 +20,10 @@
      [nil, :undefined, :undef, ''].include?(scope.lookupvar("foreman_proxy::dhcp_key_secret")) -%>
 :key_name: <%= scope.lookupvar("foreman_proxy::dhcp_key_name") %>
 :key_secret: <%= scope.lookupvar("foreman_proxy::dhcp_key_secret") %>
-<% else %>
+<% else -%>
 #:key_name: secret_key_name
 #:key_secret: secret_key
-<% end %>
+<% end -%>
 
 :omapi_port: <%= scope.lookupvar("foreman_proxy::dhcp_omapi_port") %>
 
