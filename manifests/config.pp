@@ -24,6 +24,9 @@ class foreman_proxy::config {
   if $foreman_proxy::dns and $foreman_proxy::dns_provider in ['nsupdate', 'nsupdate_gss'] and $foreman_proxy::dns_managed {
     include foreman_proxy::proxydns
     $dns_groups = [$foreman_proxy::proxydns::user_group]
+  } elsif $foreman_proxy::dns and $foreman_proxy::dns_provider in ['infoblox', 'powerdns', 'route53'] {
+    include "foreman_proxy::plugin::dns::${foreman_proxy::dns_provider}"
+    $dns_groups = []
   } else {
     $dns_groups = []
   }
