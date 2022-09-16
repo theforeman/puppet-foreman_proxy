@@ -28,8 +28,6 @@
 #
 # $install_runner:: If true, installs ansible-runner package to support running ansible by ansible-runner
 #
-# $manage_runner_repo:: If true, adds upstream repositories to install ansible-runner package from
-#
 # $callback:: The callback plugin to configure in ansible.cfg
 #
 # $runner_package_name:: The name of the ansible-runner package to install
@@ -46,7 +44,6 @@ class foreman_proxy::plugin::ansible (
   Array[Stdlib::Absolutepath] $roles_path = $foreman_proxy::plugin::ansible::params::roles_path,
   String $ssh_args = $foreman_proxy::plugin::ansible::params::ssh_args,
   Boolean $install_runner = $foreman_proxy::plugin::ansible::params::install_runner,
-  Boolean $manage_runner_repo = $foreman_proxy::plugin::ansible::params::manage_runner_repo,
   String $callback = $foreman_proxy::plugin::ansible::params::callback,
   String $runner_package_name = $foreman_proxy::plugin::ansible::params::runner_package_name,
   Array[Stdlib::Absolutepath] $collections_paths = $foreman_proxy::plugin::ansible::params::collections_paths,
