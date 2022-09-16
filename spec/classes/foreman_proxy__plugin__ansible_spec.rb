@@ -16,10 +16,7 @@ describe 'foreman_proxy::plugin::ansible' do
         when 'redhat-7-x86_64'
           it 'should include ansible-runner upstream repo' do
             should contain_yumrepo('ansible-runner')
-                   .with_baseurl("https://releases.ansible.com/ansible-runner/rpm/epel-7-$basearch/")
-                   .with_gpgcheck(true)
-                   .with_gpgkey('https://releases.ansible.com/keys/RPM-GPG-KEY-ansible-release.pub')
-                   .with_enabled('1')
+                   .with_ensure('absent')
                    .that_comes_before('Package[ansible-runner]')
           end
           it { should contain_package('ansible-runner').with_ensure('installed') }
@@ -61,7 +58,6 @@ describe 'foreman_proxy::plugin::ansible' do
             working_dir: '/tmp/ansible',
             host_key_checking: true,
             stdout_callback: 'debug',
-            manage_runner_repo: false,
           }
         end
 
