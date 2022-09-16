@@ -35,6 +35,17 @@ describe 'foreman_proxy::plugin::openscap' do
         end
       end
 
+      context 'with puppet_module' do
+        let :params do
+          {
+            puppet_module: true,
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_package('puppet-foreman_scap_client').with_ensure('present') }
+      end
+
       context 'openscap plugin is disabled' do
         let :params do
           {
