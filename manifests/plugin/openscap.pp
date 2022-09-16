@@ -25,6 +25,8 @@
 #
 # $timeout::                    Timeout for sending ARF reports to foreman
 #
+# $puppet_module::              Ensure the Puppet module. This only makes sense if Puppetserver runs on the same machine.
+#
 # === Advanced parameters:
 #
 # $enabled::                    enables/disables the openscap plugin
@@ -33,6 +35,8 @@
 #
 # $version::                    plugin package version, it's passed to ensure parameter of package resource
 #                               can be set to specific version number, 'latest', 'present' etc.
+#
+# $puppet_module_ensure::       The state of the Puppet module to ensure
 #
 class foreman_proxy::plugin::openscap (
   Boolean $enabled = true,
@@ -46,11 +50,19 @@ class foreman_proxy::plugin::openscap (
   Stdlib::Absolutepath $corrupted_dir = '/var/lib/foreman-proxy/openscap/corrupted',
   Optional[String] $proxy_name = undef,
   Integer[0] $timeout = 60,
+  Boolean $puppet_module = false,
+  String[1] $puppet_module_ensure = 'present',
 ) {
   $registered_proxy_name = pick($proxy_name, $foreman_proxy::registered_name)
   foreman_proxy::plugin::module { 'openscap':
     version   => $version,
     listen_on => $listen_on,
     enabled   => $enabled,
+  }
+
+  if $puppet_module {
+    package { 'puppet-foreman_scap_client':
+      ensure => $puppet_module_ensure,
+    }
   }
 }
