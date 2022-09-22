@@ -11,4 +11,8 @@ describe 'Scenario: install foreman-proxy with ansible plugin'  do
   describe package(package_name) do
     it { is_expected.to be_installed }
   end
+
+  describe command('ansible-runner --help') do
+    its(:exit_status) { should eq 0 }
+  end
 end
