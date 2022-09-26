@@ -16,7 +16,6 @@ class foreman_proxy::plugin::ansible::params {
   case $facts['os']['family'] {
     'RedHat': {
       $callback = 'theforeman.foreman.foreman'
-      $manage_runner_repo = true
       $runner_package_name = 'ansible-runner'
     }
     'Debian': {
@@ -25,12 +24,10 @@ class foreman_proxy::plugin::ansible::params {
       } else {
         $callback = 'foreman'
       }
-      $manage_runner_repo = false
       $runner_package_name = 'python3-ansible-runner'
     }
     default: {
       $callback = 'foreman'
-      $manage_runner_repo = false
       $runner_package_name = 'ansible-runner'
     }
   }
