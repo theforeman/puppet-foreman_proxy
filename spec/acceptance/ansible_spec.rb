@@ -15,4 +15,8 @@ describe 'Scenario: install foreman-proxy with ansible plugin'  do
   describe command('ansible-runner --help') do
     its(:exit_status) { should eq 0 }
   end
+
+  describe command('ansible-runner run --module ping --hosts localhost /tmp/ansible-runner-test') do
+    its(:exit_status) { should eq 0 }
+  end
 end
