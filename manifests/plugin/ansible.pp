@@ -54,15 +54,10 @@ class foreman_proxy::plugin::ansible (
   $foreman_ssl_ca = pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca)
 
   file { "${foreman_proxy::config_dir}/ansible.cfg":
-    ensure  => file,
-    content => template('foreman_proxy/plugin/ansible.cfg.erb'),
-    owner   => 'root',
-    group   => $foreman_proxy::user,
-    mode    => '0640',
+    ensure  => absent,
   }
   ~> file { "${foreman_proxy::dir}/.ansible.cfg":
-    ensure => link,
-    target => "${foreman_proxy::config_dir}/ansible.cfg",
+    ensure => absent,
   }
 
   file { "${foreman_proxy::config_dir}/ansible.env":
