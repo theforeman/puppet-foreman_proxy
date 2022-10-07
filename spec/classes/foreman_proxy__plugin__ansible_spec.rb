@@ -57,7 +57,6 @@ describe 'foreman_proxy::plugin::ansible' do
             ansible_dir: '/etc/ansible-test',
             working_dir: '/tmp/ansible',
             host_key_checking: true,
-            stdout_callback: 'debug',
           }
         end
 
