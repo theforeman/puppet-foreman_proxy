@@ -29,23 +29,20 @@ describe 'foreman_proxy::plugin::ansible' do
             with_content(%r{:ansible_dir: /usr/share/foreman-proxy})
         end
 
-        it 'should configure ansible.cfg' do
+        it 'should configure ansible.env' do
           callback = facts[:os]['family'] == 'RedHat' ? 'theforeman.foreman.foreman' : 'foreman'
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.cfg', [
-            '[defaults]',
-            "callback_whitelist = #{callback}",
-            'local_tmp = /tmp',
-            'host_key_checking = False',
-            'stdout_callback = yaml',
-            '[callback_foreman]',
-            'url = https://foo.example.com',
-            'ssl_key = /etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem',
-            'ssl_cert = /etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem',
-            'verify_certs = /etc/puppetlabs/puppet/ssl/certs/ca.pem',
-            'roles_path = /etc/ansible/roles:/usr/share/ansible/roles',
-            'collections_paths = /etc/ansible/collections:/usr/share/ansible/collections',
-            '[ssh_connection]',
-            'ssh_args = -o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s',
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.env', [
+            "export ANSIBLE_CALLBACK_WHITELIST=\"#{callback}\"",
+            "export ANSIBLE_CALLBACKS_ENABLED=\"#{callback}\"",
+            'export ANSIBLE_LOCAL_TEMP="/tmp"',
+            'export ANSIBLE_HOST_KEY_CHECKING="False"',
+            'export ANSIBLE_ROLES_PATH="/etc/ansible/roles:/usr/share/ansible/roles"',
+            'export ANSIBLE_COLLECTIONS_PATHS="/etc/ansible/collections:/usr/share/ansible/collections"',
+            'export FOREMAN_URL="https://foo.example.com"',
+            'export FOREMAN_SSL_KEY="/etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem"',
+            'export FOREMAN_SSL_CERT="/etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem"',
+            'export FOREMAN_SSL_VERIFY="/etc/puppetlabs/puppet/ssl/certs/ca.pem"',
+            'export ANSIBLE_SSH_ARGS="-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s"',
           ])
         end
       end
@@ -78,23 +75,20 @@ describe 'foreman_proxy::plugin::ansible' do
             with_content(%r{:working_dir: /tmp/ansible})
         end
 
-        it 'should configure ansible.cfg' do
+        it 'should configure ansible.env' do
           callback = facts[:os]['family'] == 'RedHat' ? 'theforeman.foreman.foreman' : 'foreman'
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.cfg', [
-            '[defaults]',
-            "callback_whitelist = #{callback}",
-            'local_tmp = /tmp/ansible',
-            'host_key_checking = True',
-            'stdout_callback = debug',
-            '[callback_foreman]',
-            'url = https://foo.example.com',
-            'ssl_key = /etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem',
-            'ssl_cert = /etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem',
-            'verify_certs = /etc/puppetlabs/puppet/ssl/certs/ca.pem',
-            'roles_path = /etc/ansible/roles:/usr/share/ansible/roles',
-            'collections_paths = /etc/ansible/collections:/usr/share/ansible/collections',
-            '[ssh_connection]',
-            'ssh_args = -o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s',
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.env', [
+            "export ANSIBLE_CALLBACK_WHITELIST=\"#{callback}\"",
+            "export ANSIBLE_CALLBACKS_ENABLED=\"#{callback}\"",
+            'export ANSIBLE_LOCAL_TEMP="/tmp/ansible"',
+            'export ANSIBLE_HOST_KEY_CHECKING="True"',
+            'export ANSIBLE_ROLES_PATH="/etc/ansible/roles:/usr/share/ansible/roles"',
+            'export ANSIBLE_COLLECTIONS_PATHS="/etc/ansible/collections:/usr/share/ansible/collections"',
+            'export FOREMAN_URL="https://foo.example.com"',
+            'export FOREMAN_SSL_KEY="/etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem"',
+            'export FOREMAN_SSL_CERT="/etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem"',
+            'export FOREMAN_SSL_VERIFY="/etc/puppetlabs/puppet/ssl/certs/ca.pem"',
+            'export ANSIBLE_SSH_ARGS="-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s"',
           ])
         end
       end
