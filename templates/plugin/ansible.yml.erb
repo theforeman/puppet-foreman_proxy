@@ -6,4 +6,4 @@
 <% else -%>
 :working_dir: <%= scope.lookupvar("foreman_proxy::plugin::ansible::working_dir") %>
 <% end -%>
-:ansible_environment_file: <%= scope.lookupvar("foreman_proxy::plugin::ansible::ansible_dir") %>/ansible.env
+:ansible_environment_file: <%= scope.lookupvar("foreman_proxy::config_dir") %>/ansible.env
