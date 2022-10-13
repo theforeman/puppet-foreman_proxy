@@ -50,13 +50,6 @@ class foreman_proxy::plugin::ansible (
   $foreman_ssl_key = pick($foreman_proxy::foreman_ssl_key, $foreman_proxy::ssl_key)
   $foreman_ssl_ca = pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca)
 
-  file { "${foreman_proxy::config_dir}/ansible.cfg":
-    ensure  => absent,
-  }
-  ~> file { "${foreman_proxy::dir}/.ansible.cfg":
-    ensure => absent,
-  }
-
   file { "${foreman_proxy::config_dir}/ansible.env":
     ensure  => file,
     content => template('foreman_proxy/plugin/ansible.env.erb'),
