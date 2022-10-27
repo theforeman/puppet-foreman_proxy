@@ -1,2 +1,5 @@
 ---
 :enabled: <%= @module_enabled %>
+<%- if scope.lookupvar('foreman_proxy::module::registration::registration_url') %>
+:registration_url: <%= scope.lookupvar('foreman_proxy::module::registration::registration_url') %>
+<%- end %>
