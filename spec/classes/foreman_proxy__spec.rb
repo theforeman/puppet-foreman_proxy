@@ -834,6 +834,16 @@ describe 'foreman_proxy' do
             ])
           end
         end
+
+        context 'with registration_url' do
+          let(:params) { super().merge(registration_url: 'https://loadbalancer.example.com') }
+
+          it 'should set enabled to true' do
+            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/registration.yml", [
+              ':registration_url: https://loadbalancer.example.com',
+            ])
+          end
+        end
       end
 
       context 'when log_level => DEBUG' do
