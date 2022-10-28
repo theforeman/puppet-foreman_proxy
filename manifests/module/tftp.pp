@@ -19,6 +19,7 @@ class foreman_proxy::module::tftp (
 
   foreman_proxy::module { 'tftp':
     enabled   => $enabled,
+    feature   => 'TFTP',
     listen_on => $listen_on,
   }
 }

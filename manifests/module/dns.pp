@@ -11,6 +11,7 @@ class foreman_proxy::module::dns (
 ) {
   foreman_proxy::module { 'dns':
     enabled   => $enabled,
+    feature   => 'DNS',
     listen_on => $listen_on,
   }
 }

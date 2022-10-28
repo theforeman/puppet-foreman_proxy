@@ -11,6 +11,7 @@ class foreman_proxy::module::dhcp (
 ) {
   foreman_proxy::module { 'dhcp':
     enabled   => $enabled,
+    feature   => 'DHCP',
     listen_on => $listen_on,
   }
 }

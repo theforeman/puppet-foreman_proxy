@@ -11,6 +11,7 @@ class foreman_proxy::module::bmc (
 ) {
   foreman_proxy::module { 'bmc':
     enabled   => $enabled,
+    feature   => 'BMC',
     listen_on => $listen_on,
   }
 }

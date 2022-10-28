@@ -23,7 +23,7 @@ define foreman_proxy::module (
   Boolean $enabled = false,
   Foreman_proxy::ListenOn $listen_on = 'https',
   Optional[String] $template_path = undef,
-  String $feature = upcase($title),
+  String $feature = $title.capitalize(),
 ) {
   if $enabled {
     $module_enabled = $listen_on ? {
