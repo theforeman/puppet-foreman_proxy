@@ -1,5 +1,29 @@
 # Changelog
 
+## [24.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/24.0.0) (2022-11-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/23.0.1...24.0.0)
+
+**Breaking changes:**
+
+- drop abrt and chef plugins [\#789](https://github.com/theforeman/puppet-foreman_proxy/pull/789) ([evgeni](https://github.com/evgeni))
+- Change module feature default to capitalize [\#788](https://github.com/theforeman/puppet-foreman_proxy/pull/788) ([ekohl](https://github.com/ekohl))
+- Drop ansible-runner repository management [\#780](https://github.com/theforeman/puppet-foreman_proxy/pull/780) ([ehelms](https://github.com/ehelms))
+- Fixes [\#35455](https://projects.theforeman.org/issues/35455) - Generate an environment file for ansible [\#777](https://github.com/theforeman/puppet-foreman_proxy/pull/777) ([adamruzicka](https://github.com/adamruzicka))
+- Drop reports proxy plugin [\#776](https://github.com/theforeman/puppet-foreman_proxy/pull/776) ([evgeni](https://github.com/evgeni))
+- Refs [\#31118](https://projects.theforeman.org/issues/31118) - Remove daemon option from settings.yaml [\#630](https://github.com/theforeman/puppet-foreman_proxy/pull/630) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Allow theforeman/tftp 8.x [\#787](https://github.com/theforeman/puppet-foreman_proxy/pull/787) ([ekohl](https://github.com/ekohl))
+- Fixes [\#35680](https://projects.theforeman.org/issues/35680): Add support to configure registration\_url [\#786](https://github.com/theforeman/puppet-foreman_proxy/pull/786) ([ehelms](https://github.com/ehelms))
+- Update dhcp infoblox plugin parameters due to updates in plugin itself [\#785](https://github.com/theforeman/puppet-foreman_proxy/pull/785) ([timdeluxe](https://github.com/timdeluxe))
+- Fixes [\#35531](https://projects.theforeman.org/issues/35531) - Add Puppet module support to OpenSCAP plugin [\#781](https://github.com/theforeman/puppet-foreman_proxy/pull/781) ([ekohl](https://github.com/ekohl))
+- Automatically include plugin dns provider classes [\#779](https://github.com/theforeman/puppet-foreman_proxy/pull/779) ([ekohl](https://github.com/ekohl))
+- Bring config files closer to packaged versions [\#778](https://github.com/theforeman/puppet-foreman_proxy/pull/778) ([ekohl](https://github.com/ekohl))
+- Fixes [\#35396](https://projects.theforeman.org/issues/35396) - allow non-root user to read Salt master config file [\#775](https://github.com/theforeman/puppet-foreman_proxy/pull/775) ([bastian-src](https://github.com/bastian-src))
+- manage discovery plugin config file [\#772](https://github.com/theforeman/puppet-foreman_proxy/pull/772) ([jhoblitt](https://github.com/jhoblitt))
+
 ## [23.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/23.0.1) (2022-08-04)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/23.0.0...23.0.1)
