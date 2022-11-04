@@ -20,8 +20,6 @@
 #                      of the key, which is not possible from non-interactive
 #                      environments like Foreman Remote Execution or cron
 #
-# $stdout_callback:: Ansible's stdout_callback setting
-#
 # $roles_path:: Paths where we look for ansible roles.
 #
 # $ssh_args::          The ssh_args parameter in ansible.cfg under [ssh_connection]
@@ -40,7 +38,6 @@ class foreman_proxy::plugin::ansible (
   Stdlib::Absolutepath $ansible_dir = $foreman_proxy::plugin::ansible::params::ansible_dir,
   Optional[Stdlib::Absolutepath] $working_dir = $foreman_proxy::plugin::ansible::params::working_dir,
   Boolean $host_key_checking = $foreman_proxy::plugin::ansible::params::host_key_checking,
-  String $stdout_callback = $foreman_proxy::plugin::ansible::params::stdout_callback,
   Array[Stdlib::Absolutepath] $roles_path = $foreman_proxy::plugin::ansible::params::roles_path,
   String $ssh_args = $foreman_proxy::plugin::ansible::params::ssh_args,
   Boolean $install_runner = $foreman_proxy::plugin::ansible::params::install_runner,
@@ -53,16 +50,12 @@ class foreman_proxy::plugin::ansible (
   $foreman_ssl_key = pick($foreman_proxy::foreman_ssl_key, $foreman_proxy::ssl_key)
   $foreman_ssl_ca = pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca)
 
-  file { "${foreman_proxy::config_dir}/ansible.cfg":
+  file { "${foreman_proxy::config_dir}/ansible.env":
     ensure  => file,
-    content => template('foreman_proxy/plugin/ansible.cfg.erb'),
+    content => template('foreman_proxy/plugin/ansible.env.erb'),
     owner   => 'root',
     group   => $foreman_proxy::user,
     mode    => '0640',
-  }
-  ~> file { "${foreman_proxy::dir}/.ansible.cfg":
-    ensure => link,
-    target => "${foreman_proxy::config_dir}/ansible.cfg",
   }
 
   include foreman_proxy::plugin::dynflow
