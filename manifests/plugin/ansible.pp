@@ -59,6 +59,7 @@ class foreman_proxy::plugin::ansible (
   }
 
   include foreman_proxy::plugin::dynflow
+  include foreman_proxy::plugin::remote_execution::script
   if $install_runner {
     include foreman_proxy::plugin::ansible::runner
   }
