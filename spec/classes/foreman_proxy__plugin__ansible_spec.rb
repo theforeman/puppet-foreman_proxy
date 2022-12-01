@@ -8,6 +8,7 @@ describe 'foreman_proxy::plugin::ansible' do
 
       describe 'with default settings' do
         it { should contain_class('foreman_proxy::plugin::dynflow') }
+        it { should contain_class('foreman_proxy::plugin::remote_execution::script') }
         it { should contain_foreman_proxy__plugin__module('ansible') }
 
         case os
@@ -58,6 +59,7 @@ describe 'foreman_proxy::plugin::ansible' do
         end
 
         it { should contain_class('foreman_proxy::plugin::dynflow') }
+        it { should contain_class('foreman_proxy::plugin::remote_execution::script') }
 
         case os
         when 'debian-10-x86_64'
