@@ -1,5 +1,13 @@
 # Changelog
 
+## [24.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/24.0.1) (2022-12-14)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.0.0...24.0.1)
+
+**Fixed bugs:**
+
+- Fixes [\#35809](https://projects.theforeman.org/issues/35809) - always enable rex when enabling ansible [\#791](https://github.com/theforeman/puppet-foreman_proxy/pull/791) ([evgeni](https://github.com/evgeni))
+
 ## [24.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/24.0.0) (2022-11-04)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/23.0.1...24.0.0)
