@@ -35,6 +35,12 @@
 #
 # $listen_on::          Proxy feature listens on https, http, or both
 #
+# $mqtt_ttl::           Time interval in seconds given to the host to pick up the job before considering the job undelivered.
+#
+# $mqtt_rate_limit::    Number of jobs that are allowed to run at the same time
+#
+# $mqtt_resend_interval:: Time interval in seconds at which the notification should be re-sent to the host until the job is picked up or canceleld
+#
 class foreman_proxy::plugin::remote_execution::script (
   Boolean $enabled = true,
   Foreman_proxy::ListenOn $listen_on = 'https',
@@ -49,6 +55,9 @@ class foreman_proxy::plugin::remote_execution::script (
   Enum['ssh', 'ssh-async', 'pull-mqtt'] $mode = 'ssh',
   Optional[Foreman_proxy::Sshloglevel] $ssh_log_level = undef,
   Boolean $cockpit_integration = true,
+  Optional[Integer] $mqtt_ttl = undef,
+  Optional[Integer] $mqtt_rate_limit = undef,
+  Optional[Integer] $mqtt_resend_interval = undef,
 ) {
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 

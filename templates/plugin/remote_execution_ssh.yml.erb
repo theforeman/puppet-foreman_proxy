@@ -16,4 +16,14 @@
 
 :mqtt_broker: <%= scope.lookupvar("::foreman_proxy::plugin::remote_execution::mosquitto::broker") %>
 :mqtt_port: <%= scope.lookupvar("::foreman_proxy::plugin::remote_execution::mosquitto::port") %>
+
+<% if (mqtt_ttl = scope.lookupvar('::foreman_proxy::plugin::remote_execution::script::mqtt_ttl')) -%>
+:mqtt_ttl: <%= mqtt_ttl %>
+<% end -%>
+<% if (mqtt_rate_limit = scope.lookupvar('::foreman_proxy::plugin::remote_execution::script::mqtt_rate_limit')) -%>
+:mqtt_rate_limit: <%= mqtt_rate_limit %>
+<% end -%>
+<% if (mqtt_resend_interval = scope.lookupvar('::foreman_proxy::plugin::remote_execution::script::mqtt_resend_interval')) -%>
+:mqtt_resend_interval: <%= mqtt_resend_interval %>
+<% end -%>
 <% end -%>
