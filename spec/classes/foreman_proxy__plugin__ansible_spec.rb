@@ -43,7 +43,7 @@ describe 'foreman_proxy::plugin::ansible' do
             'export FOREMAN_SSL_KEY="/etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem"',
             'export FOREMAN_SSL_CERT="/etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem"',
             'export FOREMAN_SSL_VERIFY="/etc/puppetlabs/puppet/ssl/certs/ca.pem"',
-            'export ANSIBLE_SSH_ARGS="-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s"',
+            'export ANSIBLE_SSH_ARGS="-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s -o ServerAliveInterval=15 -o ServerAliveCountMax=3"',
           ])
         end
       end
@@ -90,7 +90,7 @@ describe 'foreman_proxy::plugin::ansible' do
             'export FOREMAN_SSL_KEY="/etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem"',
             'export FOREMAN_SSL_CERT="/etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem"',
             'export FOREMAN_SSL_VERIFY="/etc/puppetlabs/puppet/ssl/certs/ca.pem"',
-            'export ANSIBLE_SSH_ARGS="-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s"',
+            'export ANSIBLE_SSH_ARGS="-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s -o ServerAliveInterval=15 -o ServerAliveCountMax=3"',
           ])
         end
       end
