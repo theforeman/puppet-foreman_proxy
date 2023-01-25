@@ -34,15 +34,17 @@ class foreman_proxy::tftp::netboot (
       }
 
       file { "${root}/grub2/grubx64.efi":
-        ensure => file,
-        source => "/boot/efi/EFI/${grub_efi_path}/grubx64.efi",
+        ensure  => file,
+        source  => "/boot/efi/EFI/${grub_efi_path}/grubx64.efi",
+        require => Package[$packages],
       }
 
       file { "${root}/grub2/shimx64.efi":
-        ensure => file,
-        source => "/boot/efi/EFI/${grub_efi_path}/shimx64.efi",
-        mode   => '0644',
-        owner  => 'root',
+        ensure  => file,
+        source  => "/boot/efi/EFI/${grub_efi_path}/shimx64.efi",
+        mode    => '0644',
+        owner   => 'root',
+        require => Package[$packages],
       }
 
       file { "${root}/grub2/shim.efi":
