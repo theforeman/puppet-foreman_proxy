@@ -1,13 +1,10 @@
+---
 fixtures:
   repositories:
     apt:      'https://github.com/puppetlabs/puppetlabs-apt'
-    augeas_core:
-      repo: 'https://github.com/puppetlabs/puppetlabs-augeas_core'
-      puppet_version: '>= 6.0.0'
+    augeas_core: 'https://github.com/puppetlabs/puppetlabs-augeas_core'
     concat:   'https://github.com/puppetlabs/puppetlabs-concat'
-    cron_core:
-      repo: "https://github.com/puppetlabs/puppetlabs-cron_core"
-      puppet_version: ">= 6.0.0"
+    cron_core: "https://github.com/puppetlabs/puppetlabs-cron_core"
     datacat:  'https://github.com/richardc/puppet-datacat'
     dhcp:     'https://github.com/theforeman/puppet-dhcp'
     dns:      'https://github.com/theforeman/puppet-dns'
@@ -21,11 +18,6 @@ fixtures:
     tftp:     'https://github.com/theforeman/puppet-tftp'
     translate: 'https://github.com/puppetlabs/puppetlabs-translate'
     xinetd:   'https://github.com/puppetlabs/puppetlabs-xinetd'
-    yumrepo_core:
-      repo: "https://github.com/puppetlabs/puppetlabs-yumrepo_core"
-      puppet_version: ">= 6.0.0"
-    sshkeys_core:
-      repo: "https://github.com/puppetlabs/puppetlabs-sshkeys_core"
-      puppet_version: ">= 6.0.0"
-    mosquitto:
-      repo: "https://github.com/voxpupuli/puppet-mosquitto"
+    yumrepo_core: "https://github.com/puppetlabs/puppetlabs-yumrepo_core"
+    sshkeys_core: "https://github.com/puppetlabs/puppetlabs-sshkeys_core"
+    mosquitto: "https://github.com/voxpupuli/puppet-mosquitto"
