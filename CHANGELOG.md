@@ -1,5 +1,18 @@
 # Changelog
 
+## [24.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/24.1.0) (2023-02-02)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.0.1...24.1.0)
+
+**Implemented enhancements:**
+
+- Fixes [\#35925](https://projects.theforeman.org/issues/35925) - Enable ssh server keepalive for ansible [\#795](https://github.com/theforeman/puppet-foreman_proxy/pull/795) ([adamruzicka](https://github.com/adamruzicka))
+- Fixes [\#35899](https://projects.theforeman.org/issues/35899) - Expose new sp-rex-ssh tunables [\#794](https://github.com/theforeman/puppet-foreman_proxy/pull/794) ([adamruzicka](https://github.com/adamruzicka))
+
+**Fixed bugs:**
+
+- require the grub packages before copying files on RedHat too [\#796](https://github.com/theforeman/puppet-foreman_proxy/pull/796) ([evgeni](https://github.com/evgeni))
+
 ## [24.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/24.0.1) (2022-12-14)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.0.0...24.0.1)
