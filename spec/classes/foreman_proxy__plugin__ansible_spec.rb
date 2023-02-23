@@ -14,6 +14,7 @@ describe 'foreman_proxy::plugin::ansible' do
         case os
         when 'debian-11-x86_64'
           it { should contain_package('python3-ansible-runner').with_ensure('installed') }
+          it { should contain_package('ansible-collection-theforeman-foreman').with_ensure('installed') }
         when 'redhat-7-x86_64'
           it 'should include ansible-runner upstream repo' do
             should contain_yumrepo('ansible-runner')
@@ -21,6 +22,7 @@ describe 'foreman_proxy::plugin::ansible' do
                    .that_comes_before('Package[ansible-runner]')
           end
           it { should contain_package('ansible-runner').with_ensure('installed') }
+          it { should contain_package('ansible-collection-theforeman-foreman').with_ensure('installed') }
         end
 
 
