@@ -31,7 +31,7 @@ describe 'foreman_proxy::plugin::ansible' do
         end
 
         it 'should configure ansible.env' do
-          callback = facts[:os]['family'] == 'RedHat' ? 'theforeman.foreman.foreman' : 'foreman'
+          callback = 'theforeman.foreman.foreman'
           verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.env', [
             "export ANSIBLE_CALLBACK_WHITELIST=\"#{callback}\"",
             "export ANSIBLE_CALLBACKS_ENABLED=\"#{callback}\"",
@@ -78,7 +78,7 @@ describe 'foreman_proxy::plugin::ansible' do
         end
 
         it 'should configure ansible.env' do
-          callback = facts[:os]['family'] == 'RedHat' ? 'theforeman.foreman.foreman' : 'foreman'
+          callback = 'theforeman.foreman.foreman'
           verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.env', [
             "export ANSIBLE_CALLBACK_WHITELIST=\"#{callback}\"",
             "export ANSIBLE_CALLBACKS_ENABLED=\"#{callback}\"",
