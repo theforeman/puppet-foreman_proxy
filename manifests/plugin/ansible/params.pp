@@ -18,7 +18,7 @@ class foreman_proxy::plugin::ansible::params {
       $runner_package_name = 'ansible-runner'
     }
     'Debian': {
-      if ($facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'], '20.04') >= 0) {
+      if ($facts['os']['name'] == 'Ubuntu') {
         $callback = 'theforeman.foreman.foreman'
       } else {
         $callback = 'foreman'
