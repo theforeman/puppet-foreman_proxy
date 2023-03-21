@@ -1,5 +1,19 @@
 # Changelog
 
+## [24.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/24.2.0) (2023-03-21)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.1.0...24.2.0)
+
+**Implemented enhancements:**
+
+- Add parameters to ensure OpenSCAP Ansible module state [\#802](https://github.com/theforeman/puppet-foreman_proxy/pull/802) ([ekohl](https://github.com/ekohl))
+- ensure the collection pkg to be installed [\#801](https://github.com/theforeman/puppet-foreman_proxy/pull/801) ([evgeni](https://github.com/evgeni))
+- default to theforeman.foreman.foreman callback on all Debians [\#800](https://github.com/theforeman/puppet-foreman_proxy/pull/800) ([evgeni](https://github.com/evgeni))
+
+**Merged pull requests:**
+
+- Remove Puppet 6+ conditionals in fixtures [\#797](https://github.com/theforeman/puppet-foreman_proxy/pull/797) ([ekohl](https://github.com/ekohl))
+
 ## [24.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/24.1.0) (2023-02-02)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.0.1...24.1.0)
