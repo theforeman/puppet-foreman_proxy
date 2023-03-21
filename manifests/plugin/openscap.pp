@@ -25,6 +25,8 @@
 #
 # $timeout::                    Timeout for sending ARF reports to foreman
 #
+# $ansible_module::             Ensure the Ansible module
+#
 # $puppet_module::              Ensure the Puppet module. This only makes sense if Puppetserver runs on the same machine.
 #
 # === Advanced parameters:
@@ -35,6 +37,8 @@
 #
 # $version::                    plugin package version, it's passed to ensure parameter of package resource
 #                               can be set to specific version number, 'latest', 'present' etc.
+#
+# $ansible_module_ensure::      The state of the Ansible module to ensure
 #
 # $puppet_module_ensure::       The state of the Puppet module to ensure
 #
@@ -50,6 +54,8 @@ class foreman_proxy::plugin::openscap (
   Stdlib::Absolutepath $corrupted_dir = '/var/lib/foreman-proxy/openscap/corrupted',
   Optional[String] $proxy_name = undef,
   Integer[0] $timeout = 60,
+  Boolean $ansible_module = false,
+  String[1] $ansible_module_ensure = 'present',
   Boolean $puppet_module = false,
   String[1] $puppet_module_ensure = 'present',
 ) {
@@ -58,6 +64,12 @@ class foreman_proxy::plugin::openscap (
     version   => $version,
     listen_on => $listen_on,
     enabled   => $enabled,
+  }
+
+  if $ansible_module {
+    package { 'ansiblerole-foreman_scap_client':
+      ensure => $ansible_module_ensure,
+    }
   }
 
   if $puppet_module {

@@ -1,4 +1,5 @@
 include foreman_proxy
 class { 'foreman_proxy::plugin::openscap':
-  puppet_module => true,
+  ansible_module => true,
+  puppet_module  => true,
 }
