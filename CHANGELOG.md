@@ -1,5 +1,19 @@
 # Changelog
 
+## [25.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.0.0) (2023-05-16)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.2.0...25.0.0)
+
+**Breaking changes:**
+
+- Refs [\#36345](https://projects.theforeman.org/issues/36345) - Raise minimum Puppet version to 7.0.0 [\#805](https://github.com/theforeman/puppet-foreman_proxy/pull/805) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Mark compatible with theforeman/foreman 23.x [\#807](https://github.com/theforeman/puppet-foreman_proxy/pull/807) ([ekohl](https://github.com/ekohl))
+- Mark compatible with theforeman/dns 10.x & theforeman/dhcp 9.x [\#806](https://github.com/theforeman/puppet-foreman_proxy/pull/806) ([ekohl](https://github.com/ekohl))
+- Simplify grub\_efi\_path on redhat family [\#804](https://github.com/theforeman/puppet-foreman_proxy/pull/804) ([eb4x](https://github.com/eb4x))
+
 ## [24.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/24.2.0) (2023-03-21)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.1.0...24.2.0)
