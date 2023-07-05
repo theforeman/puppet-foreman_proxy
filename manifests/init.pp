@@ -7,6 +7,9 @@
 #
 # $ensure_packages_version::    control extra packages version, it's passed to ensure parameter of package resource
 #
+# $manage_service:                     control the service, wether it should be started / enabled or not. usefull, if the
+#                               service should be managed by a cluster software e.g. corosync / pacemaker
+#
 # $bind_host::                  Host to bind ports to, e.g. *, localhost, 0.0.0.0
 #
 # $http::                       Enable HTTP
@@ -282,6 +285,7 @@
 class foreman_proxy (
   String $version = 'present',
   Enum['latest', 'present', 'installed', 'absent'] $ensure_packages_version = 'installed',
+  Boolean $service = true,
   Variant[Array[String], String] $bind_host = ['*'],
   Stdlib::Port $http_port = 8000,
   Stdlib::Port $ssl_port = 8443,
