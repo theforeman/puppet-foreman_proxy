@@ -7,9 +7,6 @@
 #
 # $ensure_packages_version::    control extra packages version, it's passed to ensure parameter of package resource
 #
-# $manage_service:                     control the service, wether it should be started / enabled or not. usefull, if the
-#                               service should be managed by a cluster software e.g. corosync / pacemaker
-#
 # $bind_host::                  Host to bind ports to, e.g. *, localhost, 0.0.0.0
 #
 # $http::                       Enable HTTP
@@ -281,6 +278,9 @@
 # $puppetca_certificate::       Token-whitelisting only: Certificate to use when encrypting tokens (undef to use SSL certificate)
 #
 # $registration_url::           URL that hosts will connect to when registering
+#
+# $manage_service:              control the service, wether it should be started / enabled or not. usefull, if the
+#                               service should be managed by a cluster software e.g. corosync / pacemaker
 #
 class foreman_proxy (
   String $version = 'present',
