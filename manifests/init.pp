@@ -279,9 +279,13 @@
 #
 # $registration_url::           URL that hosts will connect to when registering
 #
+# $manage_service::             control the service, whether it should be started / enabled or not. useful, if the
+#                               service should be managed by a cluster software e.g. corosync / pacemaker
+#
 class foreman_proxy (
   String $version = 'present',
   Enum['latest', 'present', 'installed', 'absent'] $ensure_packages_version = 'installed',
+  Boolean $manage_service = true,
   Variant[Array[String], String] $bind_host = ['*'],
   Stdlib::Port $http_port = 8000,
   Stdlib::Port $ssl_port = 8443,
