@@ -1,5 +1,14 @@
 # Changelog
 
+## [25.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.1.0) (2023-08-16)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.0.0...25.1.0)
+
+**Implemented enhancements:**
+
+- puppetlabs/stdlib: Allow 9.x [\#810](https://github.com/theforeman/puppet-foreman_proxy/pull/810) ([bastelfreak](https://github.com/bastelfreak))
+- Add parameter to manage service [\#809](https://github.com/theforeman/puppet-foreman_proxy/pull/809) ([chr1s692](https://github.com/chr1s692))
+
 ## [25.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.0.0) (2023-05-16)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.2.0...25.0.0)
