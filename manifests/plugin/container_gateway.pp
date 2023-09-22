@@ -6,6 +6,8 @@
 #
 # $sqlite_db_path::           Absolute path for the SQLite DB file to exist at
 #
+# $sqlite_timeout::           Database busy timeout in milliseconds
+#
 # === Advanced parameters:
 #
 # $enabled::                  enables/disables the pulp plugin
@@ -21,6 +23,7 @@ class foreman_proxy::plugin::container_gateway (
   Foreman_proxy::ListenOn $listen_on = 'https',
   Stdlib::HTTPUrl $pulp_endpoint = "https://${facts['networking']['fqdn']}",
   Stdlib::Absolutepath $sqlite_db_path = '/var/lib/foreman-proxy/smart_proxy_container_gateway.db',
+  Optional[Integer] $sqlite_timeout = undef,
 ) {
   foreman_proxy::plugin::module { 'container_gateway':
     version   => $version,
