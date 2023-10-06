@@ -61,7 +61,7 @@ class foreman_proxy::plugin::salt (
     ensure  => file,
     content => template('foreman_proxy/plugin/salt_master.conf.erb'),
     owner   => 'root',
-    group   => pick($group, $user),
+    group   => pick($group, $foreman_proxy::user),
     mode    => '0640',
   }
 }
