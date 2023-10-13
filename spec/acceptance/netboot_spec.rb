@@ -18,7 +18,7 @@ describe 'Scenario: tftp' do
   end
 
   describe 'ensure tftp client is installed' do
-    on hosts, puppet('resource', 'package', 'tftp', 'ensure=installed')
+    on hosts, 'puppet resource package tftp ensure=installed'
   end
 
   describe command("echo get /grub2/grub.cfg /tmp/downloaded_file | tftp #{fact('fqdn')}") do
