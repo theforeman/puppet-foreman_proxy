@@ -22,6 +22,7 @@ describe 'foreman_proxy::plugin::container_gateway' do
         let :params do {
           :pulp_endpoint => 'https://test.example.com',
           :sqlite_db_path => '/dev/null.db',
+          :sqlite_timeout => 12345,
         } end
 
         it 'container_gateway.yml should contain the correct configuration' do
@@ -29,7 +30,8 @@ describe 'foreman_proxy::plugin::container_gateway' do
             '---',
             ':enabled: https',
             ':pulp_endpoint: https://test.example.com',
-            ':sqlite_db_path: /dev/null.db'
+            ':sqlite_db_path: /dev/null.db',
+            ':sqlite_timeout: 12345'
           ])
         end
       end

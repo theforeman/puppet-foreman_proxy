@@ -8,24 +8,21 @@ describe 'foreman_proxy::plugin::ansible' do
 
       describe 'with default settings' do
         it { should contain_class('foreman_proxy::plugin::dynflow') }
+        it { should contain_class('foreman_proxy::plugin::remote_execution::script') }
         it { should contain_foreman_proxy__plugin__module('ansible') }
 
         case os
-        when 'debian-10-x86_64'
-          it 'should cleanup old ansible-runner upstream repo' do
-            should contain_apt__source('ansible-runner').with_ensure('absent')
-          end
+        when 'debian-11-x86_64'
           it { should contain_package('python3-ansible-runner').with_ensure('installed') }
+          it { should contain_package('ansible-collection-theforeman-foreman').with_ensure('installed') }
         when 'redhat-7-x86_64'
           it 'should include ansible-runner upstream repo' do
             should contain_yumrepo('ansible-runner')
-                   .with_baseurl("https://releases.ansible.com/ansible-runner/rpm/epel-7-$basearch/")
-                   .with_gpgcheck(true)
-                   .with_gpgkey('https://releases.ansible.com/keys/RPM-GPG-KEY-ansible-release.pub')
-                   .with_enabled('1')
+                   .with_ensure('absent')
                    .that_comes_before('Package[ansible-runner]')
           end
           it { should contain_package('ansible-runner').with_ensure('installed') }
+          it { should contain_package('ansible-collection-theforeman-foreman').with_ensure('installed') }
         end
 
 
@@ -35,25 +32,20 @@ describe 'foreman_proxy::plugin::ansible' do
             with_content(%r{:ansible_dir: /usr/share/foreman-proxy})
         end
 
-        it 'should configure ansible.cfg' do
-          callback = facts[:os]['family'] == 'RedHat' ? 'theforeman.foreman.foreman' : 'foreman'
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.cfg', [
-            '[defaults]',
-            "callback_whitelist = #{callback}",
-            'local_tmp = /tmp',
-            'host_key_checking = False',
-            'stdout_callback = yaml',
-            '[callback_foreman]',
-            'report_type = foreman',
-            'proxy_url = https://foo.example.com:8443',
-            'url = https://foo.example.com',
-            'ssl_key = /etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem',
-            'ssl_cert = /etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem',
-            'verify_certs = /etc/puppetlabs/puppet/ssl/certs/ca.pem',
-            'roles_path = /etc/ansible/roles:/usr/share/ansible/roles',
-            'collections_paths = /etc/ansible/collections:/usr/share/ansible/collections',
-            '[ssh_connection]',
-            'ssh_args = -o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s',
+        it 'should configure ansible.env' do
+          callback = 'theforeman.foreman.foreman'
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.env', [
+            "export ANSIBLE_CALLBACK_WHITELIST=\"#{callback}\"",
+            "export ANSIBLE_CALLBACKS_ENABLED=\"#{callback}\"",
+            'export ANSIBLE_LOCAL_TEMP="/tmp"',
+            'export ANSIBLE_HOST_KEY_CHECKING="False"',
+            'export ANSIBLE_ROLES_PATH="/etc/ansible/roles:/usr/share/ansible/roles"',
+            'export ANSIBLE_COLLECTIONS_PATHS="/etc/ansible/collections:/usr/share/ansible/collections"',
+            'export FOREMAN_URL="https://foo.example.com"',
+            'export FOREMAN_SSL_KEY="/etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem"',
+            'export FOREMAN_SSL_CERT="/etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem"',
+            'export FOREMAN_SSL_VERIFY="/etc/puppetlabs/puppet/ssl/certs/ca.pem"',
+            'export ANSIBLE_SSH_ARGS="-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s -o ServerAliveInterval=15 -o ServerAliveCountMax=3"',
           ])
         end
       end
@@ -65,13 +57,11 @@ describe 'foreman_proxy::plugin::ansible' do
             ansible_dir: '/etc/ansible-test',
             working_dir: '/tmp/ansible',
             host_key_checking: true,
-            stdout_callback: 'debug',
-            manage_runner_repo: false,
-            report_type: 'proxy',
           }
         end
 
         it { should contain_class('foreman_proxy::plugin::dynflow') }
+        it { should contain_class('foreman_proxy::plugin::remote_execution::script') }
 
         case os
         when 'debian-10-x86_64'
@@ -89,25 +79,20 @@ describe 'foreman_proxy::plugin::ansible' do
             with_content(%r{:working_dir: /tmp/ansible})
         end
 
-        it 'should configure ansible.cfg' do
-          callback = facts[:os]['family'] == 'RedHat' ? 'theforeman.foreman.foreman' : 'foreman'
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.cfg', [
-            '[defaults]',
-            "callback_whitelist = #{callback}",
-            'local_tmp = /tmp/ansible',
-            'host_key_checking = True',
-            'stdout_callback = debug',
-            '[callback_foreman]',
-            'report_type = proxy',
-            'proxy_url = https://foo.example.com:8443',
-            'url = https://foo.example.com',
-            'ssl_key = /etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem',
-            'ssl_cert = /etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem',
-            'verify_certs = /etc/puppetlabs/puppet/ssl/certs/ca.pem',
-            'roles_path = /etc/ansible/roles:/usr/share/ansible/roles',
-            'collections_paths = /etc/ansible/collections:/usr/share/ansible/collections',
-            '[ssh_connection]',
-            'ssh_args = -o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s',
+        it 'should configure ansible.env' do
+          callback = 'theforeman.foreman.foreman'
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/ansible.env', [
+            "export ANSIBLE_CALLBACK_WHITELIST=\"#{callback}\"",
+            "export ANSIBLE_CALLBACKS_ENABLED=\"#{callback}\"",
+            'export ANSIBLE_LOCAL_TEMP="/tmp/ansible"',
+            'export ANSIBLE_HOST_KEY_CHECKING="True"',
+            'export ANSIBLE_ROLES_PATH="/etc/ansible/roles:/usr/share/ansible/roles"',
+            'export ANSIBLE_COLLECTIONS_PATHS="/etc/ansible/collections:/usr/share/ansible/collections"',
+            'export FOREMAN_URL="https://foo.example.com"',
+            'export FOREMAN_SSL_KEY="/etc/puppetlabs/puppet/ssl/private_keys/foo.example.com.pem"',
+            'export FOREMAN_SSL_CERT="/etc/puppetlabs/puppet/ssl/certs/foo.example.com.pem"',
+            'export FOREMAN_SSL_VERIFY="/etc/puppetlabs/puppet/ssl/certs/ca.pem"',
+            'export ANSIBLE_SSH_ARGS="-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s -o ServerAliveInterval=15 -o ServerAliveCountMax=3"',
           ])
         end
       end

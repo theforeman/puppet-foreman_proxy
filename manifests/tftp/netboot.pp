@@ -21,28 +21,27 @@ class foreman_proxy::tftp::netboot (
   ensure_packages($packages, { ensure => 'installed', })
 
   # The symlink from grub2/boot to boot is needed for UEFI HTTP boot
-  file {"${root}/grub2/boot":
+  file { "${root}/grub2/boot":
     ensure => 'link',
     target => '../boot',
   }
 
   case $grub_installation_type {
     'redhat': {
-      $grub_efi_path = $facts['os']['name'] ? {
-        /Fedora|CentOS|AlmaLinux|Rocky/ => downcase($facts['os']['name']),
-        default         => 'redhat',
-      }
+      $grub_efi_path = downcase($facts['os']['name'])
 
       file { "${root}/grub2/grubx64.efi":
-        ensure => file,
-        source => "/boot/efi/EFI/${grub_efi_path}/grubx64.efi",
+        ensure  => file,
+        source  => "/boot/efi/EFI/${grub_efi_path}/grubx64.efi",
+        require => Package[$packages],
       }
 
       file { "${root}/grub2/shimx64.efi":
-        ensure => file,
-        source => "/boot/efi/EFI/${grub_efi_path}/shimx64.efi",
-        mode   => '0644',
-        owner  => 'root',
+        ensure  => file,
+        source  => "/boot/efi/EFI/${grub_efi_path}/shimx64.efi",
+        mode    => '0644',
+        owner   => 'root',
+        require => Package[$packages],
       }
 
       file { "${root}/grub2/shim.efi":

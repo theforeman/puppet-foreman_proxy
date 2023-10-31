@@ -42,7 +42,7 @@ define foreman_proxy::settings_file (
     }
   }
 
-  file {$path:
+  file { $path:
     ensure  => $ensure,
     content => $content,
     owner   => $owner,

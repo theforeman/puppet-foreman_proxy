@@ -1,7 +1,7 @@
 # @summary Install the foreman proxy
 # @api private
 class foreman_proxy::install {
-  package {'foreman-proxy':
+  package { 'foreman-proxy':
     ensure => $foreman_proxy::version,
   }
 

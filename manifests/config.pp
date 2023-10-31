@@ -1,7 +1,6 @@
 # @summary Configure the foreman proxy
 # @api private
 class foreman_proxy::config {
-
   # Ensure SSL certs from the puppetmaster are available
   # Relationship is duplicated there as defined() is parse-order dependent
   if $foreman_proxy::ssl and defined(Class['puppet::server::config']) {
@@ -25,6 +24,9 @@ class foreman_proxy::config {
   if $foreman_proxy::dns and $foreman_proxy::dns_provider in ['nsupdate', 'nsupdate_gss'] and $foreman_proxy::dns_managed {
     include foreman_proxy::proxydns
     $dns_groups = [$foreman_proxy::proxydns::user_group]
+  } elsif $foreman_proxy::dns and $foreman_proxy::dns_provider in ['infoblox', 'powerdns', 'route53'] {
+    include "foreman_proxy::plugin::dns::${foreman_proxy::dns_provider}"
+    $dns_groups = []
   } else {
     $dns_groups = []
   }
@@ -92,7 +94,11 @@ class foreman_proxy::config {
   contain foreman_proxy::module::puppetca
   foreman_proxy::provider { ['puppetca_hostname_whitelisting', 'puppetca_token_whitelisting']:
   }
-  foreman_proxy::provider { ['puppetca_http_api', 'puppetca_puppet_cert']:
+  foreman_proxy::provider { 'puppetca_http_api':
+  }
+  # Foreman Proxy 3.4 dropped puppetca_puppet_cert
+  foreman_proxy::provider { 'puppetca_puppet_cert':
+    ensure => absent,
   }
 
   contain foreman_proxy::module::realm
@@ -107,29 +113,8 @@ class foreman_proxy::config {
 
   contain foreman_proxy::module::registration
 
-  if $foreman_proxy::puppetca or $foreman_proxy::puppet {
-    $uses_sudo = $foreman_proxy::puppetca and versioncmp($facts['puppetversion'], '6.0') < 0
-
-    if $foreman_proxy::use_sudoersd {
-      if $uses_sudo and $foreman_proxy::manage_sudoersd {
-        ensure_resource('file', "${foreman_proxy::sudoers}.d", {'ensure' => 'directory'})
-      }
-
-      file { "${foreman_proxy::sudoers}.d/foreman-proxy":
-        ensure  => bool2str($uses_sudo, 'file', 'absent'),
-        owner   => 'root',
-        group   => 0,
-        mode    => '0440',
-        content => template('foreman_proxy/sudo.erb'),
-      }
-    } elsif $foreman_proxy::use_sudoers {
-      augeas { 'sudo-foreman-proxy':
-        context => "/files${foreman_proxy::sudoers}",
-        changes => template('foreman_proxy/sudo_augeas.erb'),
-      }
-    }
-  } else {
-    # The puppet-agent (puppet 4 AIO package) doesn't create a puppet user and group
+  unless $foreman_proxy::puppetca or $foreman_proxy::puppet {
+    # The puppet-agent doesn't create a puppet user and group
     # but the foreman proxy still needs to be able to read the agent's private key
     if $foreman_proxy::manage_puppet_group and $foreman_proxy::ssl {
       if !defined(Group[$foreman_proxy::puppet_group]) {

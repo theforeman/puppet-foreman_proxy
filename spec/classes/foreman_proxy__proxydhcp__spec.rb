@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe 'foreman_proxy' do
-  on_supported_os.each do |os, facts|
+  on_supported_os.each do |os, os_facts|
     context "on #{os}" do
+      let(:facts) { os_facts }
 
       let(:params) do
         {
@@ -20,12 +21,16 @@ describe 'foreman_proxy' do
 
       context "on physical interface" do
         let :facts do
-          facts.merge(
-            ipaddress: '192.0.2.10',
-            ipaddress_eth0: '192.0.2.10',
-            netmask_eth0: '255.255.255.0',
-            network_eth0: '192.0.2.0',
-          )
+          override_facts(super(), networking: {
+            ip: '192.0.2.10',
+            interfaces: {
+              eth0: {
+                ip: '192.0.2.10',
+                netmask: '255.255.255.0',
+                network: '192.0.2.0',
+              },
+            },
+          })
         end
 
         let(:params) { super().merge(dhcp_interface: 'eth0') }
@@ -51,7 +56,7 @@ describe 'foreman_proxy' do
 
         it { should_not contain_class('dhcp::failover') }
 
-        context "as manager of ACLs for dhcp", unless: ['FreeBSD', 'DragonFly'].include?(facts[:osfamily]) do
+        context "as manager of ACLs for dhcp", unless: ['FreeBSD', 'DragonFly'].include?(os_facts[:osfamily]) do
           let(:params) { super().merge(dhcp_manage_acls: true) }
 
           it { is_expected.to contain_class('dhcp').with_conf_dir_mode('0750') }
@@ -62,7 +67,7 @@ describe 'foreman_proxy' do
         end
 
         context "as manager of ACLs for dhcp for RedHat and Debian by default" do
-          case facts[:osfamily]
+          case os_facts[:osfamily]
           when 'RedHat', 'Debian'
             it do should contain_exec('Allow foreman-proxy to read /etc/dhcp').
               with_command('setfacl -m u:foreman-proxy:rx /etc/dhcp').
@@ -144,11 +149,11 @@ describe 'foreman_proxy' do
 
       context "on vlan interface" do
         let :facts do
-          facts.merge(
-            ipaddress_eth0_0: '203.0.113.10',
-            netmask_eth0_0: '255.255.255.0',
-            network_eth0_0: '203.0.113.0',
-          )
+          override_facts(super(), networking: {interfaces: {:'eth0.0' => {
+            ip: '203.0.113.10',
+            netmask: '255.255.255.0',
+            network: '203.0.113.0',
+          }}})
         end
 
         let(:params) { super().merge(dhcp_interface: 'eth0.0') }
@@ -176,11 +181,11 @@ describe 'foreman_proxy' do
 
       context "on alias interface" do
         let :facts do
-          facts.merge(
-            ipaddress_eth0_0: '198.51.100.10',
-            netmask_eth0_0: '255.255.255.0',
-            network_eth0_0: '198.51.100.0',
-          )
+          override_facts(super(), networking: {interfaces: {:'eth0:0' => {
+            ip: '198.51.100.10',
+            netmask: '255.255.255.0',
+            network: '198.51.100.0',
+          }}})
         end
 
         let(:params) { super().merge(dhcp_interface: 'eth0:0') }
@@ -206,14 +211,12 @@ describe 'foreman_proxy' do
       end
 
       context "on a non-existing interface" do
-        let(:facts) { facts }
         let(:params) { super().merge(dhcp_interface: 'doesnotexist') }
 
-        it { should compile.and_raise_error(/Could not get the ip address from fact ipaddress_doesnotexist/) }
+        it { should compile.and_raise_error(/Interface 'doesnotexist' was not found in networking facts/) }
       end
 
       context 'with templates' do
-        let(:facts) { facts }
         let(:params) { super().merge(templates: true) }
 
         it { should compile.with_all_deps }

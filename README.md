@@ -12,6 +12,8 @@ Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 
 | Module version | Proxy versions | Notes                                               |
 |----------------|----------------|-----------------------------------------------------|
+| 24.x           | 3.5 and newer  | See compatibility notes in its README for 3.1-3.4   |
+| 23.x           | 3.4 and newer  | See compatibility notes in its README for 3.1-3.3   |
 | 22.x           | 3.3 and newer  | See compatibility notes in its README for 3.1-3.3   |
 | 21.x           | 3.1 and 3.2    |                                                     |
 | 20.x           | 3.1 and 3.2    | See compatibility notes in its README for 2.3-3.0   |
@@ -26,6 +28,8 @@ Part of the Foreman installer: <https://github.com/theforeman/foreman-installer>
 | 2.x            | 1.5 - 1.10     |                                                     |
 | 1.x            | 1.4 and older  |                                                     |
 
+ * 24.x dropped management of ansible-runner repository, ansible-runner is now in the Foreman plugin repository. This requires Foreman 3.5. Ansible configuration is now done by deploying a file with environment variables that is sourced by smart_proxy_ansible and therefore is incompatible with versions older than 3.5.0.
+ * 23.x dropped EL7 support. 3.1 and newer work on EL8.
  * 22.x renamed foreman_proxy::plugin::remote_execution::ssh to foreman_proxy::plugin::remote_execution::script as the feature within the plugin has changed from SSH to Script.
  * 20.x started to register as a Smart Proxy host. This requires Foreman 3.1. When using an older Foreman, set `$register_in_foreman` to false. This does require manual registration then.
  * 18.x switched to running `smart_proxy_dynflow` as part of `foreman-proxy` service by default. On EL* distributions and Foreman < 2.5, `foreman_proxy::plugin::dynflow::external_core` needs to be explicitly set to `true`.

@@ -2,13 +2,14 @@
 ### File managed with puppet ###
 ## Module:           '<%= scope.to_hash['module_name'] %>'
 
+#replace default location of "settings.d"
 :settings_directory: <%= scope.lookupvar("foreman_proxy::etc") -%>/foreman-proxy/settings.d
 
 # SSL Setup
 <% ssl  = scope.lookupvar("foreman_proxy::ssl") -%>
 <% http = scope.lookupvar("foreman_proxy::http") -%>
 
-# if enabled, all communication would be verified via SSL
+# If enabled, all communication would be verified via SSL
 # NOTE that both certificates need to be signed by the same CA in order for this to work
 # see http://theforeman.org/projects/smart-proxy/wiki/SSL for more information
 <% if ssl && scope.lookupvar("foreman_proxy::ssl_ca") -%>
@@ -28,8 +29,8 @@
 <% end -%>
 
 # Use this option only if you need to disable certain cipher suites.
-# Note: we use the OpenSSL suite name, such as "RC4-MD5". 
-# The complete list of cipher suite names can be found at: 
+# Note: we use the OpenSSL suite name, such as "RC4-MD5".
+# The complete list of cipher suite names can be found at:
 # https://www.openssl.org/docs/manmaster/man1/ciphers.html#CIPHER-SUITE-NAMES
 <% if ciphers = scope.lookupvar("foreman_proxy::ssl_disabled_ciphers") and ciphers.any? -%>
 :ssl_disabled_ciphers:
@@ -52,8 +53,10 @@
 #:tls_disabled_versions: []
 <% end -%>
 
-# the hosts which the proxy accepts connections from
+# Hosts which the proxy accepts connections from
 # commenting the following lines would mean every verified SSL connection allowed
+# HTTPS: test the certificate CN
+# HTTP: test the reverse DNS entry of the remote IP
 <% if thosts = scope.lookupvar("foreman_proxy::trusted_hosts") and thosts.any? -%>
 :trusted_hosts:
 <% thosts.each do |h| -%>
@@ -64,6 +67,11 @@
 #- foreman.prod.domain
 #- foreman.dev.domain
 <% end -%>
+
+# verify a DNS reverse lookup against it's forward lookup
+# 1.1.1.1 -> foreman.mycompany.com -> 1.1.1.1
+# (default: true)
+#:forward_verify: true
 
 # Endpoint for reverse communication
 :foreman_url: <%= scope.lookupvar("foreman_proxy::foreman_base_url") %>
@@ -87,12 +95,6 @@
 #:foreman_ssl_key: ssl/private_keys/fqdn.pem
 <% end -%>
 
-# by default smart_proxy runs in the foreground. To enable running as a daemon, uncomment 'daemon' setting
-:daemon: true
-# Only used when 'daemon' is set to true.
-# Uncomment and modify if you want to change the default pid file '/var/run/foreman-proxy/foreman-proxy.pid'
-#:daemon_pid: /var/run/foreman-proxy/foreman-proxy.pid
-
 # host and ports configuration
 <%# Write bind_host as a string if given a single-element array for 1.14 compatibility -%>
 <% if scope.lookupvar("foreman_proxy::bind_host").is_a?(String) -%>
@@ -109,18 +111,18 @@
 <% end -%>
 <% end -%>
 # http is disabled by default. To enable, uncomment 'http_port' setting
+<%= '#' unless http -%>:http_port: <%= scope.lookupvar("foreman_proxy::http_port") %>
 # https is enabled if certificate, CA certificate, and private key are present in locations specifed by
 # ssl_certificate, ssl_ca_file, and ssl_private_key correspondingly
 # default values for https_port is 8443
 <%= '#' unless ssl -%>:https_port: <%= scope.lookupvar("foreman_proxy::ssl_port") %>
-<%= '#' unless http -%>:http_port: <%= scope.lookupvar("foreman_proxy::http_port") %>
 # Log configuration
 # Uncomment and modify if you want to change the location of the log file or use STDOUT or SYSLOG values
 :log_file: <%= scope.lookupvar("foreman_proxy::log") %>
 # Uncomment and modify if you want to change the log level
 # WARN, DEBUG, ERROR, FATAL, INFO, UNKNOWN
 :log_level: <%= scope.lookupvar("foreman_proxy::log_level") %>
-# The maximum size of a log file before it's rolled (in MiB)
+# The maximum size of a log file before it's rolled (in MiB) or zero to use external log rotation (default)
 #:file_rolling_size: 100
 # The maximum age of a log file before it's rolled (in seconds). Also accepts 'daily', 'weekly', or 'monthly'.
 #:file_rolling_age: weekly

@@ -11,8 +11,7 @@ describe 'Scenario: install foreman-proxy with journald' do
     it { is_expected.to be_installed }
   end
 
-  # Logging to the journal is broken on Docker with EL7
-  describe command('journalctl -u foreman-proxy'), unless: default[:hypervisor] == 'docker' && os[:family] == 'redhat' && os[:release] =~ /^7\./ do
+  describe command('journalctl -u foreman-proxy') do
     its(:stdout) { is_expected.to match(%r{WEBrick::HTTPServer#start}) }
   end
 end

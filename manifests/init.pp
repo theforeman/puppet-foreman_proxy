@@ -48,13 +48,6 @@
 #
 # $trusted_hosts::              Only hosts listed will be permitted, empty array to disable authorization
 #
-# $manage_sudoersd::            Whether to manage File['/etc/sudoers.d'] or not.  When reusing this module, this may be
-#                               disabled to let a dedicated sudo module manage it instead.
-#
-# $use_sudoersd::               Add a file to /etc/sudoers.d (true).
-#
-# $use_sudoers::                Add contents to /etc/sudoers (true). This is ignored if $use_sudoersd is true.
-#
 # $puppetca::                   Enable Puppet CA feature
 #
 # $puppetca_listen_on::         Protocols for the Puppet CA feature to listen on
@@ -64,8 +57,6 @@
 # $httpboot::                   Enable HTTPBoot feature. In most deployments this requires HTTP to be enabled as well.
 #
 # $puppetdir::                  Puppet var directory
-#
-# $puppetca_cmd::               Puppet CA command to be allowed in sudoers
 #
 # $puppet_group::               Groups of Foreman proxy user
 #
@@ -288,9 +279,15 @@
 #
 # $puppetca_certificate::       Token-whitelisting only: Certificate to use when encrypting tokens (undef to use SSL certificate)
 #
+# $registration_url::           URL that hosts will connect to when registering
+#
+# $manage_service::             control the service, whether it should be started / enabled or not. useful, if the
+#                               service should be managed by a cluster software e.g. corosync / pacemaker
+#
 class foreman_proxy (
   String $version = 'present',
   Enum['latest', 'present', 'installed', 'absent'] $ensure_packages_version = 'installed',
+  Boolean $manage_service = true,
   Variant[Array[String], String] $bind_host = ['*'],
   Stdlib::Port $http_port = 8000,
   Stdlib::Port $ssl_port = 8443,
@@ -310,14 +307,10 @@ class foreman_proxy (
   Array[String] $trusted_hosts = $foreman_proxy::params::trusted_hosts,
   Array[String] $ssl_disabled_ciphers = [],
   Array[String] $tls_disabled_versions = [],
-  Boolean $manage_sudoersd = true,
-  Boolean $use_sudoersd = true,
-  Boolean $use_sudoers = true,
   Boolean $puppetca = true,
   Foreman_proxy::ListenOn $puppetca_listen_on = 'https',
   Stdlib::Absolutepath $ssldir = $foreman_proxy::params::ssldir,
   Stdlib::Absolutepath $puppetdir = $foreman_proxy::params::puppetdir,
-  String $puppetca_cmd = $foreman_proxy::params::puppetca_cmd,
   String $puppet_group = 'puppet',
   String $puppetca_provider = 'puppetca_hostname_whitelisting',
   Stdlib::Absolutepath $autosignfile = $foreman_proxy::params::autosignfile,
@@ -363,12 +356,12 @@ class foreman_proxy (
   Array[String] $dhcp_additional_interfaces = [],
   Optional[String] $dhcp_gateway = undef,
   Variant[Undef, Boolean, String] $dhcp_range = undef,
-  Optional[String] $dhcp_pxeserver = undef,
+  Optional[Stdlib::IP::Address::V4::Nosubnet] $dhcp_pxeserver = undef,
   String $dhcp_pxefilename = 'pxelinux.0',
   Optional[String[1]] $dhcp_ipxefilename = undef,
   Boolean $dhcp_ipxe_bootstrap = false,
-  Optional[String] $dhcp_network = undef,
-  Optional[String] $dhcp_netmask = undef,
+  Optional[Stdlib::IP::Address::V4::Nosubnet] $dhcp_network = undef,
+  Optional[Stdlib::IP::Address::V4::Nosubnet] $dhcp_netmask = undef,
   String $dhcp_nameservers = 'default',
   String $dhcp_server = '127.0.0.1',
   Stdlib::Absolutepath $dhcp_config = $foreman_proxy::params::dhcp_config,
@@ -379,12 +372,12 @@ class foreman_proxy (
   Optional[String] $dhcp_peer_address = undef,
   Enum['standalone', 'primary', 'secondary'] $dhcp_node_type = 'standalone',
   Optional[String] $dhcp_failover_address = $foreman_proxy::params::dhcp_failover_address,
-  Optional[Stdlib::Port] $dhcp_failover_port = 519,
-  Optional[Integer[0]] $dhcp_max_response_delay = 30,
-  Optional[Integer[0]] $dhcp_max_unacked_updates = 10,
-  Optional[Integer[0]] $dhcp_mclt = 300,
-  Optional[Integer[0, 255]] $dhcp_load_split = 255,
-  Optional[Integer[0]] $dhcp_load_balance = 3,
+  Stdlib::Port $dhcp_failover_port = 519,
+  Integer[0] $dhcp_max_response_delay = 30,
+  Integer[0] $dhcp_max_unacked_updates = 10,
+  Integer[0] $dhcp_mclt = 300,
+  Integer[0, 255] $dhcp_load_split = 255,
+  Integer[0] $dhcp_load_balance = 3,
   Boolean $dhcp_manage_acls = $foreman_proxy::params::dhcp_manage_acls,
   Boolean $dns = false,
   Foreman_proxy::ListenOn $dns_listen_on = 'https',
@@ -429,6 +422,7 @@ class foreman_proxy (
   String $oauth_effective_user = 'admin',
   String $oauth_consumer_key = $foreman_proxy::params::oauth_consumer_key,
   String $oauth_consumer_secret = $foreman_proxy::params::oauth_consumer_secret,
+  Optional[Stdlib::HTTPUrl] $registration_url = undef,
 ) inherits foreman_proxy::params {
   if $bind_host =~ String {
     warning('foreman_proxy::bind_host should be changed to an array, support for string only is deprecated')

@@ -15,6 +15,22 @@ describe 'foreman_proxy::plugin::discovery' do
           '/var/lib/tftpboot'
         end
       end
+      let(:etc_dir) do
+        case facts[:osfamily]
+        when 'FreeBSD', 'DragonFly'
+          '/usr/local/etc'
+        else
+          '/etc'
+        end
+      end
+      let(:group) do
+        case facts[:osfamily]
+        when 'FreeBSD', 'DragonFly'
+          'foreman_proxy'
+        else
+          'foreman-proxy'
+        end
+      end
 
       describe 'without paramaters' do
         it { should compile.with_all_deps }
@@ -22,6 +38,16 @@ describe 'foreman_proxy::plugin::discovery' do
         it { should contain_foreman_proxy__feature('Discovery') }
         it { should_not contain_foreman_proxy__remote_file("#{tftproot}/boot/fdi-image-latest.tar") }
         it { should_not contain_exec('untar fdi-image-latest.tar') }
+
+        it do
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/discovery.yml").with(
+            ensure: 'file',
+            owner: 'root',
+            group: group,
+            mode: '0640',
+            content: %r{:enabled: https},
+          )
+        end
       end
 
       describe 'with install_images => true' do

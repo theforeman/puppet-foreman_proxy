@@ -133,7 +133,6 @@ describe 'foreman_proxy' do
               ':trusted_hosts:',
               "  - #{facts[:fqdn]}",
               ":foreman_url: https://#{facts[:fqdn]}",
-              ':daemon: true',
               ":bind_host: '#{bind_host}'",
               ':https_port: 8443',
               ':log_file: /var/log/foreman-proxy/proxy.log',
@@ -228,7 +227,7 @@ describe 'foreman_proxy' do
             '---',
             ':enabled: https',
             ':use_provider: puppetca_hostname_whitelisting',
-            ":puppet_version: #{Puppet.version}",
+            ":puppet_version: '6.0'",
           ])
         end
 
@@ -242,11 +241,8 @@ describe 'foreman_proxy' do
           ])
         end
 
-        it 'should generate correct puppetca_puppet_cert.yml' do
-          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppetca_puppet_cert.yml", [
-            '---',
-            ":ssldir: #{ssl_dir}",
-          ])
+        it 'should remove puppetca_puppet_cert.yml' do
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/puppetca_puppet_cert.yml").with_ensure('absent')
         end
 
         it 'should generate correct puppetca_hostname_whitelisting.yml' do
@@ -296,6 +292,7 @@ describe 'foreman_proxy' do
             ':principal: realm-proxy@EXAMPLE.COM',
             ':ipa_config: /etc/ipa/default.conf',
             ':remove_dns: true',
+            ':verify_ca: true',
           ])
         end
 
@@ -319,27 +316,6 @@ describe 'foreman_proxy' do
             '---',
             ':enabled: https'
           ])
-        end
-
-        it 'should set up sudo rules', if: Puppet.version < '6.0' do
-          should contain_file("#{etc_dir}/sudoers.d").with_ensure('directory')
-
-          should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with({
-            :ensure  => 'file',
-            :owner   => 'root',
-            :group   => 0,
-            :mode    => '0440',
-          })
-
-          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
-            "#{proxy_user_name} ALL = (root) NOPASSWD : #{puppetca_command}",
-            "Defaults:#{proxy_user_name} !requiretty",
-          ])
-        end
-
-        it 'should not set up sudo rules', if: Puppet.version >= '6.0' do
-          should_not contain_file("#{etc_dir}/sudoers.d")
-          should contain_file("#{etc_dir}/sudoers.d/foreman-proxy").with_ensure('absent')
         end
 
         it "should not manage puppet group" do
@@ -699,6 +675,24 @@ describe 'foreman_proxy' do
             ])
           end
         end
+
+        context 'when dns_provider => infoblox' do
+          let(:params) { super().merge(dns_provider: 'infoblox') }
+
+          it { is_expected.to compile.and_raise_error(/expects a value for parameter 'dns_server'/) }
+        end
+
+        context 'when dns_provider => powerdns' do
+          let(:params) { super().merge(dns_provider: 'powerdns') }
+
+          it { is_expected.to compile.and_raise_error(/expects a value for parameter 'rest_api_key'/) }
+        end
+
+        context 'when dns_provider => route53' do
+          let(:params) { super().merge(dns_provider: 'route53') }
+
+          it { is_expected.to compile.and_raise_error(/expects a value for parameter 'aws_access_key'/) }
+        end
       end
 
       context 'empty keyfile' do
@@ -736,17 +730,6 @@ describe 'foreman_proxy' do
         end
       end
 
-      context 'when puppetca_cmd set', if: Puppet.version < '6.0' do
-        let(:params) { super().merge(puppetca_cmd: 'pup cert') }
-
-        it "should set puppetca_cmd" do
-          verify_exact_contents(catalogue, "#{etc_dir}/sudoers.d/foreman-proxy", [
-            "#{proxy_user_name} ALL = (root) NOPASSWD : pup cert *",
-            "Defaults:#{proxy_user_name} !requiretty",
-          ])
-        end
-      end
-
       context 'with custom puppetca params' do
         let(:params) do
           super().merge(
@@ -764,7 +747,7 @@ describe 'foreman_proxy' do
             '---',
             ':enabled: https',
             ':use_provider: puppetca_token_whitelisting',
-            ":puppet_version: #{Puppet.version}",
+            ":puppet_version: '6.0'",
           ])
         end
 
@@ -852,6 +835,16 @@ describe 'foreman_proxy' do
             ])
           end
         end
+
+        context 'with registration_url' do
+          let(:params) { super().merge(registration_url: 'https://loadbalancer.example.com') }
+
+          it 'should set enabled to true' do
+            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/registration.yml", [
+              ':registration_url: https://loadbalancer.example.com',
+            ])
+          end
+        end
       end
 
       context 'when log_level => DEBUG' do
@@ -875,7 +868,7 @@ describe 'foreman_proxy' do
 
         context 'dhcp_provider => isc' do
           let(:params) { super().merge(dhcp_interface: 'dhcpif') }
-          let(:facts) { super().merge(ipaddress_dhcpif: '192.0.2.1', network_dhcpif: '192.0.2.0', netmask_dhcpif: '255.255.255.0') }
+          let(:facts) { override_facts(super(), networking: {interfaces: {dhcpif: {ip: '192.0.2.1', network: '192.0.2.0', netmask: '255.255.255.0'}}}) }
 
           case facts[:osfamily]
           when 'FreeBSD', 'DragonFly'

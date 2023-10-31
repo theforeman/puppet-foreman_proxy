@@ -6,7 +6,13 @@ describe 'foreman_proxy::plugin::dns::powerdns' do
       let(:facts) { os_facts }
       let(:pre_condition) { 'include foreman_proxy' }
 
-      context 'default parameters' do
+      context 'minimal parameters' do
+        let :params do
+          {
+            :rest_api_key => 'supersecret',
+          }
+        end
+
         it { should compile.with_all_deps }
 
         it 'should install the correct plugin' do
@@ -17,7 +23,7 @@ describe 'foreman_proxy::plugin::dns::powerdns' do
           verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/dns_powerdns.yml', [
             '---',
             ':powerdns_rest_url: "http://localhost:8081/api/v1/servers/localhost"',
-            ':powerdns_rest_api_key: ""',
+            ':powerdns_rest_api_key: "supersecret"',
           ])
         end
       end

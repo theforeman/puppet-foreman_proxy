@@ -1,3 +1,86 @@
+## [23.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/23.0.1) (2022-08-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/23.0.0...23.0.1)
+
+**Fixed bugs:**
+
+- Allow theforeman/foreman 21.x [\#770](https://github.com/theforeman/puppet-foreman_proxy/pull/770) ([ekohl](https://github.com/ekohl))
+
+## [23.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/23.0.0) (2022-08-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.3...23.0.0)
+
+**Breaking changes:**
+
+- Refs [\#35184](https://projects.theforeman.org/issues/35184) - Drop puppetca\_http\_api provider [\#768](https://github.com/theforeman/puppet-foreman_proxy/pull/768) ([ekohl](https://github.com/ekohl))
+- Drop EL7 support [\#767](https://github.com/theforeman/puppet-foreman_proxy/pull/767) ([ekohl](https://github.com/ekohl))
+- drop support for Debian 10 Buster [\#766](https://github.com/theforeman/puppet-foreman_proxy/pull/766) ([evgeni](https://github.com/evgeni))
+
+**Implemented enhancements:**
+
+- Use modern networking facts & correct data types on IPs [\#764](https://github.com/theforeman/puppet-foreman_proxy/pull/764) ([ekohl](https://github.com/ekohl))
+- Update to voxpupuli-test 5 [\#763](https://github.com/theforeman/puppet-foreman_proxy/pull/763) ([ekohl](https://github.com/ekohl))
+- add foreman::shell param [\#742](https://github.com/theforeman/puppet-foreman_proxy/pull/742) ([jhoblitt](https://github.com/jhoblitt))
+
+## [22.1.3](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.3) (2022-05-11)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.2...22.1.3)
+
+**Fixed bugs:**
+
+- ensure config notifies mosquitto [\#758](https://github.com/theforeman/puppet-foreman_proxy/pull/758) ([evgeni](https://github.com/evgeni))
+
+## [22.1.2](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.2) (2022-05-05)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.1...22.1.2)
+
+**Fixed bugs:**
+
+- notify the mosquitto service of changes to the acl and certs [\#756](https://github.com/theforeman/puppet-foreman_proxy/pull/756) ([evgeni](https://github.com/evgeni))
+- also chain private keys from puppet-certs correctly [\#755](https://github.com/theforeman/puppet-foreman_proxy/pull/755) ([evgeni](https://github.com/evgeni))
+
+## [22.1.1](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.1) (2022-05-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.1.0...22.1.1)
+
+**Fixed bugs:**
+
+- 22.1.0 release is missing dep on puppet/mosquitto [\#751](https://github.com/theforeman/puppet-foreman_proxy/issues/751)
+- Ensure certs were deployed before we try to source them [\#753](https://github.com/theforeman/puppet-foreman_proxy/pull/753) ([evgeni](https://github.com/evgeni))
+- add missing dep on puppet/mosquitto [\#752](https://github.com/theforeman/puppet-foreman_proxy/pull/752) ([jhoblitt](https://github.com/jhoblitt))
+
+## [22.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/22.1.0) (2022-05-03)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/22.0.0...22.1.0)
+
+**Implemented enhancements:**
+
+- allow theforeman/foreman 20.x [\#748](https://github.com/theforeman/puppet-foreman_proxy/pull/748) ([evgeni](https://github.com/evgeni))
+
+## [22.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/22.0.0) (2022-04-29)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/21.0.0...22.0.0)
+
+**Breaking changes:**
+
+- Fixes [\#34774](https://projects.theforeman.org/issues/34774) - don't expose tftp syslinux files directly [\#738](https://github.com/theforeman/puppet-foreman_proxy/pull/738) ([evgeni](https://github.com/evgeni))
+- Rename remote\_execution plugin to foreman\_proxy::plugin::remote\_execution [\#734](https://github.com/theforeman/puppet-foreman_proxy/pull/734) ([ehelms](https://github.com/ehelms))
+
+**Implemented enhancements:**
+
+- Support BMC redfish integration [\#747](https://github.com/theforeman/puppet-foreman_proxy/pull/747) ([laugmanuel](https://github.com/laugmanuel))
+- Refs [\#34239](https://projects.theforeman.org/issues/34239) - Add mqtt\_broker and mqtt\_port settings to REX config [\#745](https://github.com/theforeman/puppet-foreman_proxy/pull/745) ([ehelms](https://github.com/ehelms))
+- Add support for cleaning up mosquitto when switching to SSH [\#744](https://github.com/theforeman/puppet-foreman_proxy/pull/744) ([ehelms](https://github.com/ehelms))
+- add foreman\_proxy::plugin::remote\_execution::ssh::ssh\_log\_level param  [\#739](https://github.com/theforeman/puppet-foreman_proxy/pull/739) ([jhoblitt](https://github.com/jhoblitt))
+- Fixes [\#34239](https://projects.theforeman.org/issues/34239): Add pull-mqtt support to smart\_proxy\_remote\_execution [\#737](https://github.com/theforeman/puppet-foreman_proxy/pull/737) ([ehelms](https://github.com/ehelms))
+- Add cockpit flag [\#735](https://github.com/theforeman/puppet-foreman_proxy/pull/735) ([ehelms](https://github.com/ehelms))
+- Ensure the config directory, user and deal with a missing domain [\#733](https://github.com/theforeman/puppet-foreman_proxy/pull/733) ([ekohl](https://github.com/ekohl))
+- Move REX ssh key management into separate class [\#727](https://github.com/theforeman/puppet-foreman_proxy/pull/727) ([wbclark](https://github.com/wbclark))
+
+**Fixed bugs:**
+
+- \[REX SSH Plugin\] Don't manage net-ssh-krb package [\#732](https://github.com/theforeman/puppet-foreman_proxy/pull/732) ([wbclark](https://github.com/wbclark))
+
 ## [21.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/21.0.0) (2022-02-08)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/20.1.0...21.0.0)

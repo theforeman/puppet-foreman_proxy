@@ -13,9 +13,9 @@
 # $dns_view::   The Infoblox DNS View
 #
 class foreman_proxy::plugin::dns::infoblox (
-  Stdlib::Host $dns_server = undef,
-  String $username = undef,
-  String $password = undef,
+  Stdlib::Host $dns_server,
+  String $username,
+  String $password,
   String $dns_view = 'default',
 ) {
   foreman_proxy::plugin::provider { 'dns_infoblox':

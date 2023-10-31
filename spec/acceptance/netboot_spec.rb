@@ -5,15 +5,9 @@ describe 'Scenario: tftp' do
 
   include_examples 'the example', 'tftp.pp'
 
-  root = case host_inventory['facter']['os']['name']
+  root = case host_inventory['facter']['os']['family']
          when 'Debian'
            '/srv/tftp'
-         when 'Ubuntu'
-           if host_inventory['facter']['os']['release']['major'].to_f >= 20.04
-             '/srv/tftp'
-           else
-             '/var/lib/tftpboot'
-           end
          else
            '/var/lib/tftpboot'
          end
