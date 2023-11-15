@@ -1,6 +1,22 @@
 # Changelog
 
-## [25.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.1.0) (2023-08-16)
+## [25.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.2.0) (2023-11-15)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.1.0...25.2.0)
+
+**Implemented enhancements:**
+
+- Mark compatible with theforeman/foreman 24.x & theforeman/tftp 9.x [\#819](https://github.com/theforeman/puppet-foreman_proxy/pull/819) ([ekohl](https://github.com/ekohl))
+- Mark compatible with puppet-extlib 7.x [\#818](https://github.com/theforeman/puppet-foreman_proxy/pull/818) ([ekohl](https://github.com/ekohl))
+- allow puppet/mosquitto 2.x [\#816](https://github.com/theforeman/puppet-foreman_proxy/pull/816) ([jhoblitt](https://github.com/jhoblitt))
+- Fixes [\#36772](https://projects.theforeman.org/issues/36772) - Add support for container gateway sqlite timeout tuning [\#813](https://github.com/theforeman/puppet-foreman_proxy/pull/813) ([ianballou](https://github.com/ianballou))
+- Add Puppet 8 support [\#811](https://github.com/theforeman/puppet-foreman_proxy/pull/811) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Set group owner to foreman-proxy for Salt config [\#815](https://github.com/theforeman/puppet-foreman_proxy/pull/815) ([maximiliankolb](https://github.com/maximiliankolb))
+
+## [25.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.1.0) (2023-08-17)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.0.0...25.1.0)
 
