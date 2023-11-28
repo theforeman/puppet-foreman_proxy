@@ -8,12 +8,13 @@ class foreman_proxy::tftp (
   Boolean $manage_wget = $foreman_proxy::tftp_manage_wget,
   String[1] $wget_version = $foreman_proxy::ensure_packages_version,
   Boolean $tftp_replace_grub2_cfg = $foreman_proxy::tftp_replace_grub2_cfg,
+  Optional[Stdlib::Absolutepath] $tftp_bootloader_universe = $foreman_proxy::tftp_bootloader_universe,
 ) {
   class { 'tftp':
     root => $root,
   }
 
-  $dirs = pick($directories, prefix(['pxelinux.cfg','grub','grub2','boot','ztp.cfg','poap.cfg'], "${tftp::root}/"))
+  $dirs = pick($directories, prefix(['pxelinux.cfg','grub','grub2','boot','ztp.cfg','poap.cfg', 'host_config'], "${tftp::root}/"))
 
   file { $dirs:
     ensure    => directory,
