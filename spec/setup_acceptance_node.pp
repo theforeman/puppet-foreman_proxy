@@ -12,13 +12,6 @@ package { $dig_package:
   ensure => installed,
 }
 
-# Needed for the Ansible plugin
-if $facts['os']['name'] == 'CentOS' {
-  package { 'centos-release-ansible-29':
-    ensure => present,
-  }
-}
-
 # Create certificates
 $certificate_group = 'foreman-proxy'
 $directory = '/etc/foreman-proxy'
