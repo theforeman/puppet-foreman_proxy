@@ -34,7 +34,7 @@ exec { 'Create certificate directory':
   umask   => '0022',
 }
 -> file { [$key, $certificate]:
-  owner  => 'root',
-  group  => $certificate_group,
-  mode   => '0640',
+  owner => 'root',
+  group => $certificate_group,
+  mode  => '0640',
 }
