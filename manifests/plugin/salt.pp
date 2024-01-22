@@ -52,12 +52,7 @@ class foreman_proxy::plugin::salt (
     enabled   => $enabled,
     listen_on => $listen_on,
   }
-
-  file { "${foreman_proxy::etc}/salt/master.d":
-    ensure => directory,
-    mode   => '0755',
-  }
-  file { "${foreman_proxy::etc}/salt/master.d/foreman.conf":
+  ~> file { "${foreman_proxy::etc}/salt/master.d/foreman.conf":
     ensure  => file,
     content => template('foreman_proxy/plugin/salt_master.conf.erb'),
     owner   => 'root',
