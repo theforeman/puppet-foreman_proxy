@@ -62,6 +62,17 @@ class foreman_proxy::proxydhcp {
     $_dhcp_ipxefilename = undef
   }
 
+  if $foreman_proxy::dhcp_key_secret {
+    $dhcp_key_algorithm = $foreman_proxy::dhcp_key_algorithm
+    $dhcp_key_secret = $foreman_proxy::dhcp_key_secret
+  } else {
+    # TODO: ensure bind-utils is installed before dns::tsig_keygen runs
+    # TODO: if the function runs on a server, do you need it on the server? Or use Deferred?
+    $tsig_key = extlib::cache_data('theforeman', 'dhcp_omapi', dns::tsig_keygen($foreman_proxy::dhcp_key_name))
+    $dhcp_key_algorithm = $tsig_key['algorithm']
+    $dhcp_key_secret = $tsig_key['secret']
+  }
+
   class { 'dhcp':
     dnsdomain       => $foreman_proxy::dhcp_option_domain,
     nameservers     => $nameservers,
@@ -70,8 +81,8 @@ class foreman_proxy::proxydhcp {
     pxefilename     => $foreman_proxy::dhcp_pxefilename,
     ipxe_filename   => $_dhcp_ipxefilename,
     omapi_name      => $foreman_proxy::dhcp_key_name,
-    omapi_key       => $foreman_proxy::dhcp_key_secret,
-    omapi_algorithm => $foreman_proxy::dhcp_key_algorithm,
+    omapi_key       => $dhcp_key_secret,
+    omapi_algorithm => $dhcp_key_algorithm,
     conf_dir_mode   => $conf_dir_mode,
   }
 

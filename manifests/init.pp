@@ -163,7 +163,7 @@
 #
 # $dhcp_key_name::              DHCP key name
 #
-# $dhcp_key_secret::            DHCP password
+# $dhcp_key_secret::            DHCP key secret. If not provided, a secret will be generated.
 #
 # $dhcp_key_algorithm::         DHCP key algorithm
 #
@@ -365,7 +365,7 @@ class foreman_proxy (
   String $dhcp_server = '127.0.0.1',
   Stdlib::Absolutepath $dhcp_config = $foreman_proxy::params::dhcp_config,
   Stdlib::Absolutepath $dhcp_leases = $foreman_proxy::params::dhcp_leases,
-  Optional[String] $dhcp_key_name = undef,
+  String[1] $dhcp_key_name = 'omapi_key',
   Optional[String] $dhcp_key_secret = undef,
   Optional[String] $dhcp_key_algorithm = undef,
   Stdlib::Port $dhcp_omapi_port = 7911,
