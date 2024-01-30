@@ -7,7 +7,9 @@ fixtures:
     cron_core: "https://github.com/puppetlabs/puppetlabs-cron_core"
     datacat:  'https://github.com/richardc/puppet-datacat'
     dhcp:     'https://github.com/theforeman/puppet-dhcp'
-    dns:      'https://github.com/theforeman/puppet-dns'
+    dns:
+      repo: 'https://github.com/ekohl/puppet-dns'
+      branch: add-tsig-keygen
     extlib:   'https://github.com/voxpupuli/puppet-extlib'
     foreman:  'https://github.com/theforeman/puppet-foreman'
     puppet:   'https://github.com/theforeman/puppet-puppet'
