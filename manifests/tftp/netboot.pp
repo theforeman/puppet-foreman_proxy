@@ -28,7 +28,10 @@ class foreman_proxy::tftp::netboot (
 
   case $grub_installation_type {
     'redhat': {
-      $grub_efi_path = downcase($facts['os']['name'])
+      $grub_efi_path = $facts['os']['name'] ? {
+        'OracleLinux' => 'redhat',
+        default => downcase($facts['os']['name']),
+      }
 
       file { "${root}/grub2/grubx64.efi":
         ensure  => file,
