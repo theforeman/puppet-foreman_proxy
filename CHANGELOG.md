@@ -1,5 +1,20 @@
 # Changelog
 
+## [25.3.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.3.0) (2024-02-19)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.2.0...25.3.0)
+
+**Implemented enhancements:**
+
+- Add HDM smart proxy [\#829](https://github.com/theforeman/puppet-foreman_proxy/pull/829) ([tuxmea](https://github.com/tuxmea))
+- add examples and acceptance tests for container\_gateway [\#825](https://github.com/theforeman/puppet-foreman_proxy/pull/825) ([evgeni](https://github.com/evgeni))
+- Support EL9 [\#823](https://github.com/theforeman/puppet-foreman_proxy/pull/823) ([ekohl](https://github.com/ekohl))
+
+**Fixed bugs:**
+
+- Make exception to grub\_efi\_path for OracleLinux [\#828](https://github.com/theforeman/puppet-foreman_proxy/pull/828) ([eb4x](https://github.com/eb4x))
+- Fixes [\#37078](https://projects.theforeman.org/issues/37078) - ensure salt installation is done before configuration [\#826](https://github.com/theforeman/puppet-foreman_proxy/pull/826) ([knoppi](https://github.com/knoppi))
+
 ## [25.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.2.0) (2023-11-15)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.1.0...25.2.0)
