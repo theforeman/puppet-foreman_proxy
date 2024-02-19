@@ -1,6 +1,6 @@
 # HDM Smart Proxy
 ---
-:enabled: https
+:enabled: <%= @module_enabled %>
 :hdm_url: '<%= scope.lookupvar("foreman_proxy::plugin::hdm::hdm_url") %>'
 <%- if scope.lookupvar("foreman_proxy::plugin::hdm::hdm_user") and scope.lookupvar("foreman_proxy::plugin::hdm::hdm_password") -%>
 :hdm_user: '<%= scope.lookupvar("foreman_proxy::plugin::hdm::hdm_user") %>'
