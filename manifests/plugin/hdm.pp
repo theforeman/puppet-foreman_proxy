@@ -4,9 +4,13 @@
 #
 # === Parameters:
 #
-# === Advanced parameters:
-#
 # $hdm_url::                  the API endpoint of your HDM installation
+#
+# $hdm_user::                 email address of the API-role user inside of HDM - can be ommited if HDM runs unauthenticated
+#
+# $hdm_password::             password of the HDM API user - can be ommited if HDM runs unauthenticated
+#
+# === Advanced parameters:
 #
 # $enabled::                  enables/disables the HDM plugin
 #
@@ -14,10 +18,6 @@
 #
 # $version::                  plugin package version, it's passed to ensure parameter of package resource
 #                             can be set to specific version number, 'latest', 'present' etc.
-#
-# $hdm_user::                 email address of the API-role user inside of HDM - can be ommited if HDM runs unauthenticated
-#
-# $hdm_password::             password of the HDM API use - can be ommited if HDM runs unauthenticatedr
 #
 class foreman_proxy::plugin::hdm (
   String[1]               $hdm_url,
