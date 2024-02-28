@@ -62,16 +62,32 @@ class foreman_proxy::proxydhcp {
     $_dhcp_ipxefilename = undef
   }
 
+  # TODO parametrize
+  # TODO: EL8 only supports HMAC-MD5 but Fedora doesn't
+  $dhcp_key_algorithm = 'HMAC-MD5'
+  if $foreman_proxy::dhcp_key_name {
+    if $foreman_proxy::dhcp_key_secret {
+      $dhcp_key_secret = $foreman_proxy::dhcp_key_secret
+    } else {
+      # TODO: replace wtih dns::tsig_keygen
+      $dhcp_key = cache_data('theforeman' 'dhcp_omapi', dns::dnssec_keygen($foreman_proxy::dhcp_key_name, $dhcp_key_algorithm, 512, 'HOST'))
+      $dhcp_key_secret = $dhcp_key['PrivateKey']
+    }
+  } else {
+    $dhcp_key_secret = $foreman_proxy::dhcp_key_secret
+  }
+
   class { 'dhcp':
-    dnsdomain     => $foreman_proxy::dhcp_option_domain,
-    nameservers   => $nameservers,
-    interfaces    => [$foreman_proxy::dhcp_interface] + $foreman_proxy::dhcp_additional_interfaces,
-    pxeserver     => $ip,
-    pxefilename   => $foreman_proxy::dhcp_pxefilename,
-    ipxe_filename => $_dhcp_ipxefilename,
-    omapi_name    => $foreman_proxy::dhcp_key_name,
-    omapi_key     => $foreman_proxy::dhcp_key_secret,
-    conf_dir_mode => $conf_dir_mode,
+    dnsdomain       => $foreman_proxy::dhcp_option_domain,
+    nameservers     => $nameservers,
+    interfaces      => [$foreman_proxy::dhcp_interface] + $foreman_proxy::dhcp_additional_interfaces,
+    pxeserver       => $ip,
+    pxefilename     => $foreman_proxy::dhcp_pxefilename,
+    ipxe_filename   => $_dhcp_ipxefilename,
+    omapi_name      => $foreman_proxy::dhcp_key_name,
+    omapi_key       => $dhcp_key_secret,
+    omapi_algorithm => $dhcp_key_algorithm,
+    conf_dir_mode   => $conf_dir_mode,
   }
 
   dhcp::pool { $facts['networking']['domain']:
