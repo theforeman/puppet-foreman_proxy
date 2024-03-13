@@ -64,45 +64,6 @@
         "8",
         "9"
       ]
-    },
-    {
-      "operatingsystem": "CentOS",
-      "operatingsystemrelease": [
-        "8",
-        "9"
-      ]
-    },
-    {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "11"
-      ]
-    },
-    {
-      "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [
-        "20.04",
-        "22.04"
-      ]
-    },
-    {
-      "operatingsystem": "FreeBSD",
-      "operatingsystemrelease": [
-        "11",
-        "12"
-      ]
-    },
-    {
-      "operatingsystem": "DragonFly",
-      "operatingsystemrelease": [
-        "4"
-      ]
-    },
-    {
-      "operatingsystem": "AlmaLinux",
-      "operatingsystemrelease": [
-        "8"
-      ]
     }
   ]
 }
