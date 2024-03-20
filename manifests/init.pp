@@ -111,6 +111,8 @@
 #
 # $tftp_replace_grub2_cfg::     Determines if grub2.cfg will be replaced
 #
+# $tftp_bootloader_universe::   Directory for OS specific NBPs for "Grub2 UEFI" PXE loaders
+#
 # $dhcp::                       Enable DHCP feature
 #
 # $dhcp_listen_on::             DHCP proxy to listen on https, http, or both
@@ -341,6 +343,7 @@ class foreman_proxy (
   Optional[Array[Stdlib::Absolutepath]] $tftp_dirs = undef,
   Optional[String] $tftp_servername = undef,
   Boolean $tftp_replace_grub2_cfg = false,
+  Optional[Stdlib::Absolutepath] $tftp_bootloader_universe = undef,
   Boolean $dhcp = false,
   Foreman_proxy::ListenOn $dhcp_listen_on = 'https',
   Boolean $dhcp_managed = true,
