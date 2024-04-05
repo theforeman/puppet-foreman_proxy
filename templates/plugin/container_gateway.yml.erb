@@ -2,7 +2,19 @@
 # Container Gateway for Katello
 :enabled: <%= @module_enabled %>
 :pulp_endpoint: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::pulp_endpoint") %>
+:database_backend: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::database_backend") %>
 :sqlite_db_path: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::sqlite_db_path") %>
 <% if scope.lookupvar("foreman_proxy::plugin::container_gateway::sqlite_timeout") -%>
 :sqlite_timeout: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::sqlite_timeout") %>
 <% end -%>
+:postgresql_connection_string: postgres://<%=
+  "#{scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_user")}:" \
+  "#{scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_password")}@" \
+  "#{scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_host")}:" \
+  "#{scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_port")}/" \
+  "#{scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_database")}"
+  %>
+:postgresql_host: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_host") %>
+:postgresql_port: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_port") %>
+:postgresql_user: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_user") %>
+:postgresql_password: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_password") %>
