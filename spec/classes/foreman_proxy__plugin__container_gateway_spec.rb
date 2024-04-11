@@ -15,12 +15,8 @@ describe 'foreman_proxy::plugin::container_gateway' do
             ':enabled: https',
             ":pulp_endpoint: https://#{facts[:fqdn]}",
             ':database_backend: postgresql',
-            ':postgresql_host: localhost',
-            ':postgresql_port: 5432',
-            ':postgresql_database: container_gateway',
-            ':postgresql_user: foreman-proxy',
-            ':postgresql_password: changeme',
-            ':sqlite_db_path: /var/lib/foreman-proxy/smart_proxy_container_gateway.db'
+            ':sqlite_db_path: /var/lib/foreman-proxy/smart_proxy_container_gateway.db',
+            ':postgresql_connection_string: postgres://foreman-proxy:changeme@localhost:5432/container_gateway'
           ])
         end
       end
@@ -46,11 +42,7 @@ describe 'foreman_proxy::plugin::container_gateway' do
             ':database_backend: postgresql',
             ':sqlite_db_path: /dev/null.db',
             ':sqlite_timeout: 12345',
-            ':postgresql_host: test.example.com',
-            ':postgresql_port: 5432',
-            ':postgresql_database: container_gateway',
-            ':postgresql_user: foreman-proxy',
-            ':postgresql_password: changeme'
+            ':postgresql_connection_string: postgres://foreman-proxy:changeme@test.example.com:5432/container_gateway'
           ])
         end
       end

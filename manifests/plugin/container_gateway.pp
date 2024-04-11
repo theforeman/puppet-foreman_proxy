@@ -6,6 +6,8 @@
 #
 # $database_backend::         'sqlite' or 'postgres'
 #
+# $manage_postgresql::        If the PostgreSQL database should be managed
+#
 # $postgresql_host::          Host of the postgres database.
 #
 # $postgresql_port::          Port of the postgres database.
@@ -37,6 +39,7 @@ class foreman_proxy::plugin::container_gateway (
   String $database_backend = 'postgres',
   Stdlib::Absolutepath $sqlite_db_path = '/var/lib/foreman-proxy/smart_proxy_container_gateway.db',
   Optional[Integer] $sqlite_timeout = undef,
+  Boolean $manage_postgresql = true,
   Stdlib::Host $postgresql_host = 'localhost',
   Stdlib::Port $postgresql_port = 5432,
   String $postgresql_database = 'container_gateway',
@@ -49,15 +52,18 @@ class foreman_proxy::plugin::container_gateway (
     feature   => 'Container_Gateway',
     listen_on => $listen_on,
   }
-  include postgresql::server
-  postgresql::server::db { $foreman_proxy::plugin::container_gateway::postgresql_database:
-    user     => $foreman_proxy::plugin::container_gateway::postgresql_user,
-    password => postgresql::postgresql_password(
-      $foreman_proxy::plugin::container_gateway::postgresql_user,
-      $foreman_proxy::plugin::container_gateway::postgresql_password
-    ),
-    encoding => 'utf8',
-    locale   => 'en_US.utf8',
-    require  => Package['glibc-langpack-en'],
+
+  if $foreman_proxy::plugin::container_gateway::manage_postgresql {
+    include postgresql::server
+    postgresql::server::db { $foreman_proxy::plugin::container_gateway::postgresql_database:
+      user     => $foreman_proxy::plugin::container_gateway::postgresql_user,
+      password => postgresql::postgresql_password(
+        $foreman_proxy::plugin::container_gateway::postgresql_user,
+        $foreman_proxy::plugin::container_gateway::postgresql_password
+      ),
+      encoding => 'utf8',
+      locale   => 'en_US.utf8',
+      require  => Package['glibc-langpack-en'],
+    }
   }
 }
