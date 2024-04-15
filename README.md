@@ -100,11 +100,6 @@ class { 'foreman_proxy::plugin::ansible':
 }
 ```
 
-### Katello Container Gateway Support
-
-If installing a Foreman Proxy with the Container Gateway, ensure that the
-postgresql module is available for use on the system.
-
 ## Contributing
 
 * Fork the project

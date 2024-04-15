@@ -36,14 +36,14 @@ class foreman_proxy::plugin::container_gateway (
   Boolean $enabled = true,
   Foreman_proxy::ListenOn $listen_on = 'https',
   Stdlib::HTTPUrl $pulp_endpoint = "https://${facts['networking']['fqdn']}",
-  String $database_backend = 'postgres',
+  Enum['postgres', 'sqlite'] $database_backend = 'postgres',
   Stdlib::Absolutepath $sqlite_db_path = '/var/lib/foreman-proxy/smart_proxy_container_gateway.db',
   Optional[Integer] $sqlite_timeout = undef,
   Boolean $manage_postgresql = true,
-  Stdlib::Host $postgresql_host = 'localhost',
-  Stdlib::Port $postgresql_port = 5432,
+  Optional[Stdlib::Host] $postgresql_host = undef,
+  Optional[Stdlib::Port] $postgresql_port = undef,
   String $postgresql_database = 'container_gateway',
-  String $postgresql_user = 'foreman-proxy',
+  String $postgresql_user = pick($foreman_proxy::globals::user, 'foreman-proxy'),
   String $postgresql_password = extlib::cache_data('container_gateway_cache_data', 'db_password', extlib::random_password(32))
 ) {
   foreman_proxy::plugin::module { 'container_gateway':
@@ -53,7 +53,8 @@ class foreman_proxy::plugin::container_gateway (
     listen_on => $listen_on,
   }
 
-  if $foreman_proxy::plugin::container_gateway::manage_postgresql {
+  if $foreman_proxy::plugin::container_gateway::manage_postgresql and
+  $foreman_proxy::plugin::container_gateway::database_backend != 'sqlite' {
     include postgresql::server
     postgresql::server::db { $foreman_proxy::plugin::container_gateway::postgresql_database:
       user     => $foreman_proxy::plugin::container_gateway::postgresql_user,
@@ -62,8 +63,7 @@ class foreman_proxy::plugin::container_gateway (
         $foreman_proxy::plugin::container_gateway::postgresql_password
       ),
       encoding => 'utf8',
-      locale   => 'en_US.utf8',
-      require  => Package['glibc-langpack-en'],
+      locale   => 'C.utf8',
     }
   }
 }

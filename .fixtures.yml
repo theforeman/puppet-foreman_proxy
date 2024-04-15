@@ -17,6 +17,7 @@ fixtures:
     systemd:  'https://github.com/camptocamp/puppet-systemd'
     tftp:     'https://github.com/theforeman/puppet-tftp'
     translate: 'https://github.com/puppetlabs/puppetlabs-translate'
+    postgresql: 'https://github.com/puppetlabs/puppetlabs-postgresql'
     xinetd:   'https://github.com/puppetlabs/puppetlabs-xinetd'
     yumrepo_core: "https://github.com/puppetlabs/puppetlabs-yumrepo_core"
     sshkeys_core: "https://github.com/puppetlabs/puppetlabs-sshkeys_core"
