@@ -7,26 +7,23 @@ describe 'foreman_proxy::plugin::container_gateway' do
       let(:pre_condition) { 'include foreman_proxy' }
 
       describe 'with default settings' do
-        let :postgresql_password do 'changeme' end
         it { should contain_foreman_proxy__plugin__module('container_gateway') }
         it 'container_gateway.yml should contain the correct configuration' do
-          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/container_gateway.yml', [
-            '---',
-            ':enabled: https',
-            ":pulp_endpoint: https://#{facts[:fqdn]}",
-            ':database_backend: postgresql',
-            ':sqlite_db_path: /var/lib/foreman-proxy/smart_proxy_container_gateway.db',
-            ':postgresql_connection_string: postgres://foreman-proxy:changeme@localhost:5432/container_gateway'
-          ])
+          expect(get_content(catalogue, '/etc/foreman-proxy/settings.d/container_gateway.yml')).to include("---")
+          expect(get_content(catalogue, '/etc/foreman-proxy/settings.d/container_gateway.yml')).to include(":enabled: https")
+          expect(get_content(catalogue, '/etc/foreman-proxy/settings.d/container_gateway.yml')).to include(":pulp_endpoint: https://#{facts[:fqdn]}")
+          expect(get_content(catalogue, '/etc/foreman-proxy/settings.d/container_gateway.yml')).to include(":sqlite_db_path: /var/lib/foreman-proxy/smart_proxy_container_gateway.db")
+          connection_string = get_content(catalogue, '/etc/foreman-proxy/settings.d/container_gateway.yml').find { |str| str.include?("db_connection_string") }
+          expect(connection_string.split(/[:@\/]/)[6]).to be_a(String).and have_attributes(length: 32)
         end
       end
 
       describe 'with overwritten parameters' do
         let :params do {
           :pulp_endpoint => 'https://test.example.com',
-          :database_backend => 'postgresql',
           :sqlite_db_path => '/dev/null.db',
           :sqlite_timeout => 12345,
+          :database_backend => 'sqlite',
           :postgresql_host => 'test.example.com',
           :postgresql_port => 5432,
           :postgresql_database => 'container_gateway',
@@ -39,10 +36,9 @@ describe 'foreman_proxy::plugin::container_gateway' do
             '---',
             ':enabled: https',
             ':pulp_endpoint: https://test.example.com',
-            ':database_backend: postgresql',
             ':sqlite_db_path: /dev/null.db',
             ':sqlite_timeout: 12345',
-            ':postgresql_connection_string: postgres://foreman-proxy:changeme@test.example.com:5432/container_gateway'
+            ':db_connection_string: sqlite:///dev/null.db'
           ])
         end
       end
