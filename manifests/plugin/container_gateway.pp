@@ -44,7 +44,7 @@ class foreman_proxy::plugin::container_gateway (
   Optional[Stdlib::Port] $postgresql_port = undef,
   String $postgresql_database = 'container_gateway',
   String $postgresql_user = pick($foreman_proxy::globals::user, 'foreman-proxy'),
-  String $postgresql_password = extlib::cache_data('container_gateway_cache_data', 'db_password', extlib::random_password(32))
+  Optional[String] $postgresql_password = undef
 ) {
   foreman_proxy::plugin::module { 'container_gateway':
     version   => $version,
@@ -60,7 +60,9 @@ class foreman_proxy::plugin::container_gateway (
       user     => $foreman_proxy::plugin::container_gateway::postgresql_user,
       password => postgresql::postgresql_password(
         $foreman_proxy::plugin::container_gateway::postgresql_user,
-        $foreman_proxy::plugin::container_gateway::postgresql_password
+        $foreman_proxy::plugin::container_gateway::postgresql_password.lest || {
+          extlib::cache_data('container_gateway_cache_data', 'db_password', extlib::random_password(32))
+        }
       ),
       encoding => 'utf8',
       locale   => 'C.utf8',
