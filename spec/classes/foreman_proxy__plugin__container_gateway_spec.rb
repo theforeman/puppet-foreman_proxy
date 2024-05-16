@@ -14,7 +14,7 @@ describe 'foreman_proxy::plugin::container_gateway' do
             ':enabled: https',
             ":pulp_endpoint: https://#{facts[:fqdn]}",
             ':sqlite_db_path: /var/lib/foreman-proxy/smart_proxy_container_gateway.db',
-            ':db_connection_string: postgres://foreman-proxy:@:/container_gateway'
+            ':db_connection_string: postgres://:@:/container_gateway'
           ])
         end
       end
@@ -37,7 +37,6 @@ describe 'foreman_proxy::plugin::container_gateway' do
             ':enabled: https',
             ':pulp_endpoint: https://test.example.com',
             ':sqlite_db_path: /dev/null.db',
-            ':sqlite_timeout: 12345',
             ':db_connection_string: postgres://foreman-proxy:changeme@test.example.com:5432/container_gateway'
           ])
         end

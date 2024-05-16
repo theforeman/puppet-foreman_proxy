@@ -6,15 +6,20 @@
 <% if scope.lookupvar("foreman_proxy::plugin::container_gateway::sqlite_timeout") -%>
 :sqlite_timeout: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::sqlite_timeout") %>
 <% end -%>
-<% if scope.lookupvar("foreman_proxy::plugin::container_gateway::database_backend") == 'postgres' -%>
-:db_connection_string: <%=
-  "#{scope.lookupvar("foreman_proxy::plugin::container_gateway::database_backend")}://" \
-  "#{scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_user")}:" \
-  "#{scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_password")}@" \
-  "#{scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_host")}:" \
-  "#{scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_port")}/" \
-  "#{scope.lookupvar("foreman_proxy::plugin::container_gateway::postgresql_database")}"
-  %>
+<% if scope.lookupvar('foreman_proxy::plugin::container_gateway::database_backend') == 'postgres' -%>
+:db_connection_string: <%= [
+  scope.lookupvar('foreman_proxy::plugin::container_gateway::database_backend'),
+  '://',
+  scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_user'),
+  ':',
+  scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_password'),
+  '@',
+  scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_host'),
+  ':',
+  scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_port'),
+  '/',
+  scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_database')
+].join %>
 <% end -%>
 <% if scope.lookupvar("foreman_proxy::plugin::container_gateway::database_backend") == 'sqlite' -%>
 :db_connection_string: <%=
