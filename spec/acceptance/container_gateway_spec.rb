@@ -6,4 +6,9 @@ describe 'Scenario: install foreman-proxy with container_gateway plugin', if: ['
   include_examples 'the example', 'container_gateway.pp'
 
   it_behaves_like 'the default foreman proxy application'
+
+  describe service("postgresql") do
+    it { is_expected.to be_enabled }
+    it { is_expected.to be_running }
+  end
 end
