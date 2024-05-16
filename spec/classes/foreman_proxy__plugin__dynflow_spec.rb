@@ -23,7 +23,12 @@ describe 'foreman_proxy::plugin::dynflow' do
                                 lines)
         end
 
-        it { should contain_systemd__service_limits('foreman-proxy.service') }
+        it do
+          should contain_systemd__manage_dropin('foreman-proxy.service-90-limits.conf')
+            .with_unit('foreman-proxy.service')
+            .with_filename('90-limits.conf')
+            .with_service_entry({'LimitNOFILE' => 1000000})
+        end
       end
 
       describe 'with custom settings' do

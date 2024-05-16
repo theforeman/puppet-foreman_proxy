@@ -43,13 +43,14 @@ class foreman_proxy::plugin::dynflow (
     version => absent,
   }
 
-  $service = 'foreman-proxy'
+  $service = 'foreman-proxy.service'
 
-  systemd::service_limits { "${service}.service":
-    limits          => {
+  systemd::manage_dropin { "${service}-90-limits.conf":
+    unit           => $service,
+    filename       => '90-limits.conf',
+    service_entry  => {
       'LimitNOFILE' => $open_file_limit,
     },
-    restart_service => false,
-    notify          => Service[$service],
+    notify_service => true,
   }
 }
