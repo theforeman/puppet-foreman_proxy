@@ -56,16 +56,22 @@ class foreman_proxy::plugin::container_gateway (
   if $manage_postgresql and $database_backend == 'postgres' {
     include postgresql::server
     $_postgresql_user = pick($postgresql_user, $foreman_proxy::user)
-    postgresql::server::db { $postgresql_database:
-      user     => $_postgresql_user,
-      password => postgresql::postgresql_password(
-        $_postgresql_user,
-        $postgresql_password.lest || {
-          extlib::cache_data('container_gateway_cache_data', 'db_password', extlib::random_password(32))
-        }
-      ),
-      encoding => 'utf8',
-      locale   => 'C.utf8',
+    if $postgresql_password {
+      postgresql::server::db { $postgresql_database:
+        user     => $_postgresql_user,
+        password => postgresql::postgresql_password(
+          $_postgresql_user,
+          $postgresql_password
+        ),
+        encoding => 'utf8',
+        locale   => 'C.utf8',
+      }
+    } else {
+      postgresql::server::db { $postgresql_database:
+        user     => $_postgresql_user,
+        encoding => 'utf8',
+        locale   => 'C.utf8',
+      }
     }
   }
 }

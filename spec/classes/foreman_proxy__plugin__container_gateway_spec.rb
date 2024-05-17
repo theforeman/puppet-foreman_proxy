@@ -14,7 +14,7 @@ describe 'foreman_proxy::plugin::container_gateway' do
             ':enabled: https',
             ":pulp_endpoint: https://#{facts[:fqdn]}",
             ':sqlite_db_path: /var/lib/foreman-proxy/smart_proxy_container_gateway.db',
-            ':db_connection_string: postgres://:@:/container_gateway'
+            ':db_connection_string: postgres:///container_gateway'
           ])
         end
       end
