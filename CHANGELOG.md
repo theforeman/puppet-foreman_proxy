@@ -1,5 +1,23 @@
 # Changelog
 
+## [26.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/26.0.0) (2024-05-21)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.3.0...26.0.0)
+
+**Breaking changes:**
+
+- Fixes [\#37325](https://projects.theforeman.org/issues/37325) - make postgres the container gateway default DB [\#835](https://github.com/theforeman/puppet-foreman_proxy/pull/835) ([ianballou](https://github.com/ianballou))
+
+**Implemented enhancements:**
+
+- Mark compatible with theforeman/foreman 25.x [\#836](https://github.com/theforeman/puppet-foreman_proxy/pull/836) ([ekohl](https://github.com/ekohl))
+- Add support for Debian 12 [\#834](https://github.com/theforeman/puppet-foreman_proxy/pull/834) ([evgeni](https://github.com/evgeni))
+- Add support for Ubuntu 22.04 [\#832](https://github.com/theforeman/puppet-foreman_proxy/pull/832) ([evgeni](https://github.com/evgeni))
+
+**Fixed bugs:**
+
+- Move away from systemd::service\_limits [\#837](https://github.com/theforeman/puppet-foreman_proxy/pull/837) ([ekohl](https://github.com/ekohl))
+
 ## [25.3.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.3.0) (2024-02-19)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.2.0...25.3.0)
