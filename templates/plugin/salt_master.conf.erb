@@ -16,6 +16,11 @@ autosign_file: <%= scope.lookupvar('foreman_proxy::plugin::salt::autosign_file')
 
 
 ##
+# Salt Master service user
+user: <%= scope.lookupvar('::foreman_proxy::plugin::salt::user') %>
+
+
+##
 # Node classifier
 master_tops:
   ext_nodes: /usr/bin/foreman-node
@@ -38,6 +43,10 @@ rest_cherrypy:
   port: 9191
   ssl_key: <%= @foreman_ssl_key %>
   ssl_crt: <%= @foreman_ssl_cert %>
+
+netapi_enable_clients:
+  - local
+  - local_async
 
 
 ##
