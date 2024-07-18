@@ -387,7 +387,7 @@ class foreman_proxy (
   Integer[0] $dns_ttl = 86400,
   String $dns_tsig_keytab = $foreman_proxy::params::dns_tsig_keytab,
   String $dns_tsig_principal = $foreman_proxy::params::dns_tsig_principal,
-  Array[String] $dns_forwarders = [],
+  Array[Dns::Forwarder] $dns_forwarders = [],
   String $libvirt_network = 'default',
   String $libvirt_connection = 'qemu:///system',
   Boolean $bmc = false,
