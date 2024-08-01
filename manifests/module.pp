@@ -3,6 +3,9 @@
 # Foreman Proxy internally has the concept of modules. Some modules have
 # providers or even multiple ones. That's not part of this definition.
 #
+# @param ensure
+#  Whether the module is expected to be present or absent
+#
 # @param enabled
 #  Whether the module is enabled or disabled.
 #
@@ -20,12 +23,13 @@
 #   An optional template path
 #
 define foreman_proxy::module (
+  Enum['present', 'absent'] $ensure = 'present',
   Boolean $enabled = false,
   Foreman_proxy::ListenOn $listen_on = 'https',
   Optional[String] $template_path = undef,
   String $feature = $title.capitalize(),
 ) {
-  if $enabled {
+  if $ensure != 'absent' and $enabled {
     $module_enabled = $listen_on ? {
       'both'  => 'true',
       'https' => 'https',
@@ -39,6 +43,7 @@ define foreman_proxy::module (
   }
 
   foreman_proxy::settings_file { $name:
+    ensure         => bool2str($ensure == 'present', 'file', 'absent'),
     module_enabled => $module_enabled,
     template_path  => $template_path,
   }

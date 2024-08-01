@@ -9,7 +9,7 @@ describe 'foreman_proxy::module' do
 
       context 'with defaults' do
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_foreman_proxy__settings_file('test').with_module_enabled('false') }
+        it { is_expected.to contain_foreman_proxy__settings_file('test').with_ensure('file').with_module_enabled('false') }
         it { is_expected.not_to contain_foreman_proxy__feature('Test') }
       end
 
@@ -47,6 +47,24 @@ describe 'foreman_proxy::module' do
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_foreman_proxy__feature('TEST') }
         end
+      end
+
+      context 'with enabled => false' do
+        let(:params) { { enabled: false } }
+
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.not_to contain_foreman_proxy__feature('Test') }
+        it { is_expected.to contain_foreman_proxy__settings_file('test').with_ensure('file') }
+      end
+
+      context 'with ensure => absent' do
+        let(:params) { { ensure: 'absent' } }
+
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.not_to contain_foreman_proxy__feature('Test') }
+        it { is_expected.to contain_foreman_proxy__settings_file('test').with_ensure('absent') }
       end
     end
   end

@@ -25,6 +25,17 @@ describe 'foreman_proxy::settings_file' do
             .with_mode('0640')
             .with_content("---\n# Test file only\n# Can be true, false, or http/https to enable just one of the protocols\n:enabled: false\n")
         end
+
+        context 'with ensure => absent' do
+          let(:params) do
+            {
+              ensure: 'absent',
+            }
+          end
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_file(config_path).with_ensure('absent') }
+        end
       end
 
       context 'with foreman_proxy included' do
