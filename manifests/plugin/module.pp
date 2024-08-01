@@ -35,6 +35,7 @@ define foreman_proxy::plugin::module (
     package => $package,
   }
   -> foreman_proxy::module { $name:
+    ensure        => bool2str($version != 'absent', 'present', 'absent'),
     enabled       => $enabled,
     feature       => $feature,
     listen_on     => $listen_on,

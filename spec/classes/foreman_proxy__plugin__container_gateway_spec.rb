@@ -66,6 +66,30 @@ describe 'foreman_proxy::plugin::container_gateway' do
           ])
         end
       end
+
+      describe 'with enabled => false' do
+        let(:params) do
+          {
+            enabled: false,
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_foreman_proxy__plugin__module('container_gateway').with_enabled(false) }
+        it { is_expected.not_to contain_class('postgresql::server') }
+      end
+
+      describe 'with version => absent' do
+        let(:params) do
+          {
+            version: 'absent',
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_foreman_proxy__plugin__module('container_gateway').with_version('absent') }
+        it { is_expected.not_to contain_class('postgresql::server') }
+      end
     end
   end
 end

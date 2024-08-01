@@ -53,7 +53,7 @@ class foreman_proxy::plugin::container_gateway (
     listen_on => $listen_on,
   }
 
-  if $manage_postgresql and $database_backend == 'postgres' {
+  if $version != 'absent' and $enabled and $manage_postgresql and $database_backend == 'postgres' {
     include postgresql::server
     $_postgresql_user = pick($postgresql_user, $foreman_proxy::user)
     if $postgresql_password {
