@@ -13,7 +13,17 @@ class foreman_proxy::tftp (
     root => $root,
   }
 
-  $dirs = pick($directories, prefix(['pxelinux.cfg','grub','grub2','boot','ztp.cfg','poap.cfg'], "${tftp::root}/"))
+  $dirs = pick($directories, prefix([
+        'pxelinux.cfg',
+        'grub',
+        'grub2',
+        'boot',
+        'ztp.cfg',
+        'poap.cfg',
+        'host-config',
+        'bootloader-universe',
+        'bootloader-universe/pxegrub2',
+  ], "${tftp::root}/"))
 
   file { $dirs:
     ensure    => directory,
