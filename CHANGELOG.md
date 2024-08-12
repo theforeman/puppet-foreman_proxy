@@ -1,5 +1,15 @@
 # Changelog
 
+## [26.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/26.1.0) (2024-08-14)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/26.0.0...26.1.0)
+
+**Implemented enhancements:**
+
+- Refs [\#37707](https://projects.theforeman.org/issues/37707) - Support purging container\_gateway [\#843](https://github.com/theforeman/puppet-foreman_proxy/pull/843) ([ekohl](https://github.com/ekohl))
+- Refs [\#37604](https://projects.theforeman.org/issues/37604) - Validate DNS forwarders values [\#842](https://github.com/theforeman/puppet-foreman_proxy/pull/842) ([ekohl](https://github.com/ekohl))
+- Add AlmaLinux 9 support [\#840](https://github.com/theforeman/puppet-foreman_proxy/pull/840) ([archanaserver](https://github.com/archanaserver))
+
 ## [26.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/26.0.0) (2024-05-21)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.3.0...26.0.0)
