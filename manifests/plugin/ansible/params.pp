@@ -9,7 +9,7 @@ class foreman_proxy::plugin::ansible::params {
   $working_dir = '/tmp'
   $host_key_checking = false
   $roles_path = ['/etc/ansible/roles', '/usr/share/ansible/roles']
-  $ssh_args = '-o ProxyCommand=none -C -o ControlMaster=auto -o ControlPersist=60s -o ServerAliveInterval=15 -o ServerAliveCountMax=3'
+  $ssh_args = '-C -o ControlMaster=auto -o ControlPersist=60s -o ServerAliveInterval=15 -o ServerAliveCountMax=3'
   $install_runner = true
   $collections_paths = ['/etc/ansible/collections', '/usr/share/ansible/collections']
   case $facts['os']['family'] {
