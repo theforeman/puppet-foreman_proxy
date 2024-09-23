@@ -16,11 +16,6 @@ describe 'foreman_proxy::plugin::ansible' do
           it { should contain_package('python3-ansible-runner').with_ensure('installed') }
           it { should contain_package('ansible-collection-theforeman-foreman').with_ensure('installed') }
         when 'redhat-7-x86_64'
-          it 'should include ansible-runner upstream repo' do
-            should contain_yumrepo('ansible-runner')
-                   .with_ensure('absent')
-                   .that_comes_before('Package[ansible-runner]')
-          end
           it { should contain_package('ansible-runner').with_ensure('installed') }
           it { should contain_package('ansible-collection-theforeman-foreman').with_ensure('installed') }
         end
@@ -68,7 +63,6 @@ describe 'foreman_proxy::plugin::ansible' do
           it { should_not contain_apt__source('ansible-runner') }
           it { should contain_package('python3-ansible-runner').with_ensure('installed') }
         when 'redhat-7-x86_64'
-          it { should_not contain_yumrepo('ansible-runner') }
           it { should contain_package('ansible-runner').with_ensure('installed') }
         end
 
@@ -105,7 +99,6 @@ describe 'foreman_proxy::plugin::ansible' do
         it 'should not contain ansible-runner' do
           should_not contain_class('foreman_proxy::plugin::ansible::runner')
           should_not contain_apt__source('ansible-runner')
-          should_not contain_yumrepo('ansible-runner')
           should_not contain_package('ansible-runner')
           should_not contain_package('python3-ansible-runner')
         end
