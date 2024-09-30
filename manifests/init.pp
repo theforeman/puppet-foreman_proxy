@@ -111,6 +111,8 @@
 #
 # $tftp_replace_grub2_cfg::     Determines if grub2.cfg will be replaced
 #
+# $tftp_system_image_root::     TFTP system image root directory
+#
 # $dhcp::                       Enable DHCP feature
 #
 # $dhcp_listen_on::             DHCP proxy to listen on https, http, or both
@@ -338,6 +340,7 @@ class foreman_proxy (
   Boolean $tftp_managed = true,
   Boolean $tftp_manage_wget = true,
   Optional[Stdlib::Absolutepath] $tftp_root = $foreman_proxy::params::tftp_root,
+  Optional[Stdlib::Absolutepath] $tftp_system_image_root = $foreman_proxy::params::tftp_system_image_root,
   Optional[Array[Stdlib::Absolutepath]] $tftp_dirs = undef,
   Optional[String] $tftp_servername = undef,
   Boolean $tftp_replace_grub2_cfg = false,

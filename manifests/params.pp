@@ -141,6 +141,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
 
   # TFTP settings - requires optional TFTP puppet module
   $tftp_root = lookup('tftp::root', undef, undef, undef)
+  $tftp_system_image_root = '/var/lib/foreman-proxy/tftp/system_images'
 
   # DHCP settings - requires optional DHCP puppet module
   $dhcp_interface        = pick(fact('networking.primary'), 'eth0')
