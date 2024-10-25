@@ -174,4 +174,11 @@ class foreman_proxy::params inherits foreman_proxy::globals {
   # shares cached_data with the foreman module so they're the same
   $oauth_consumer_key    = extlib::cache_data('foreman_cache_data', 'oauth_consumer_key', extlib::random_password(32))
   $oauth_consumer_secret = extlib::cache_data('foreman_cache_data', 'oauth_consumer_secret', extlib::random_password(32))
+
+  # PE uses a different user/group compared to open source puppet
+  # the is_pe fact exists in PE and in stdlib. It can be true/false/undef (undef means open source)
+  $puppet_group = $facts['is_pe'] ? {
+    true => 'pe-puppet',
+    default => 'puppet'
+  }
 }
