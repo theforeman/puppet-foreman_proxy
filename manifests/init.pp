@@ -309,7 +309,7 @@ class foreman_proxy (
   Foreman_proxy::ListenOn $puppetca_listen_on = 'https',
   Stdlib::Absolutepath $ssldir = $foreman_proxy::params::ssldir,
   Stdlib::Absolutepath $puppetdir = $foreman_proxy::params::puppetdir,
-  String $puppet_group = 'puppet',
+  String $puppet_group = $facts['is_pe'] ? { true => 'pe-puppet', default => 'puppet', },
   String $puppetca_provider = 'puppetca_hostname_whitelisting',
   Stdlib::Absolutepath $autosignfile = $foreman_proxy::params::autosignfile,
   Boolean $puppetca_sign_all = false,
