@@ -84,7 +84,7 @@ class foreman_proxy::proxydhcp {
   }
 
   if $foreman_proxy::dhcp_manage_acls {
-    ensure_packages(['grep', 'acl'])
+    stdlib::ensure_packages(['grep', 'acl'])
 
     exec { "Allow ${foreman_proxy::user} to read ${dhcp::dhcp_dir}":
       command => "setfacl -m u:${foreman_proxy::user}:rx ${dhcp::dhcp_dir}",
