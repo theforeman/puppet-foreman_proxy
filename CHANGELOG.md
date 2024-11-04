@@ -1,5 +1,14 @@
 # Changelog
 
+## [27.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/27.0.0) (2024-11-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/26.1.0...27.0.0)
+
+**Breaking changes:**
+
+- stop removing ansible runner yumrepo [\#847](https://github.com/theforeman/puppet-foreman_proxy/pull/847) ([evgeni](https://github.com/evgeni))
+- Fixes [\#37803](https://projects.theforeman.org/issues/37803) - Remove hardcoded ProxyCommand [\#845](https://github.com/theforeman/puppet-foreman_proxy/pull/845) ([adamlazik1](https://github.com/adamlazik1))
+
 ## [26.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/26.1.0) (2024-08-14)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/26.0.0...26.1.0)
