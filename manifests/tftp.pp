@@ -44,7 +44,7 @@ class foreman_proxy::tftp (
   }
 
   if $manage_wget {
-    ensure_packages(['wget'], { ensure => $wget_version, })
+    stdlib::ensure_packages(['wget'], { ensure => $wget_version, })
   }
 
   class { 'foreman_proxy::tftp::netboot':

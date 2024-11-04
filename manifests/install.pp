@@ -16,10 +16,10 @@ class foreman_proxy::install {
   }
 
   if $foreman_proxy::bmc and !($foreman_proxy::bmc_default_provider in ['shell', 'redfish']) {
-    ensure_packages([$foreman_proxy::bmc_default_provider], { ensure => $foreman_proxy::ensure_packages_version, })
+    stdlib::ensure_packages([$foreman_proxy::bmc_default_provider], { ensure => $foreman_proxy::ensure_packages_version, })
   }
 
   if $foreman_proxy::dns and $foreman_proxy::dns_provider in ['nsupdate', 'nsupdate_gss'] {
-    ensure_packages([$foreman_proxy::nsupdate], { ensure => $foreman_proxy::ensure_packages_version })
+    stdlib::ensure_packages([$foreman_proxy::nsupdate], { ensure => $foreman_proxy::ensure_packages_version })
   }
 }

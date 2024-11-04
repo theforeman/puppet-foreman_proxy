@@ -59,7 +59,7 @@ class foreman_proxy::plugin::ansible (
   }
 
   if ($facts['os']['family'] in ['RedHat', 'Debian'] and $foreman_proxy::plugin::ansible::callback == 'theforeman.foreman.foreman') {
-    ensure_packages(['ansible-collection-theforeman-foreman'])
+    stdlib::ensure_packages(['ansible-collection-theforeman-foreman'])
   }
 
   include foreman_proxy::plugin::dynflow
