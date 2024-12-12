@@ -37,6 +37,8 @@ class foreman_proxy::register {
     # By using collectors, we don't have to test if the collected resource actually exists
     Foreman_smartproxy[$foreman_proxy::registered_name] -> Cron <| title == 'puppet' |>
     Foreman_smartproxy[$foreman_proxy::registered_name] -> Service <| title == 'puppet' |>
+    Foreman_smartproxy[$foreman_proxy::registered_name] -> Service <| title == 'puppetserver' |>
+    Foreman_smartproxy[$foreman_proxy::registered_name] -> Service <| title == 'pe-puppetserver' |>
     Foreman_smartproxy[$foreman_proxy::registered_name] -> Service <| title == 'puppet-run.timer' |>
 
     # Assign the 'features' array from the enabled_features datacat resources to
