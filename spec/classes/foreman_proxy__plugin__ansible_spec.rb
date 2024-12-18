@@ -12,10 +12,10 @@ describe 'foreman_proxy::plugin::ansible' do
         it { should contain_foreman_proxy__plugin__module('ansible') }
 
         case os
-        when 'debian-11-x86_64'
+        when 'debian-12-x86_64'
           it { should contain_package('python3-ansible-runner').with_ensure('installed') }
           it { should contain_package('ansible-collection-theforeman-foreman').with_ensure('installed') }
-        when 'redhat-7-x86_64'
+        when 'redhat-9-x86_64'
           it { should contain_package('ansible-runner').with_ensure('installed') }
           it { should contain_package('ansible-collection-theforeman-foreman').with_ensure('installed') }
         end
@@ -59,10 +59,10 @@ describe 'foreman_proxy::plugin::ansible' do
         it { should contain_class('foreman_proxy::plugin::remote_execution::script') }
 
         case os
-        when 'debian-10-x86_64'
+        when 'debian-12-x86_64'
           it { should_not contain_apt__source('ansible-runner') }
           it { should contain_package('python3-ansible-runner').with_ensure('installed') }
-        when 'redhat-7-x86_64'
+        when 'redhat-9-x86_64'
           it { should contain_package('ansible-runner').with_ensure('installed') }
         end
 
