@@ -15,5 +15,6 @@ class foreman_proxy::plugin::salt::params {
   $api_auth      = 'pam'
   $api_username  = 'saltuser'
   $api_password  = 'saltpassword'
+  $api_interfaces = ['runner']
   $saltfile      = undef
 }
