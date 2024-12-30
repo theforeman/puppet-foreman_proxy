@@ -30,7 +30,7 @@ class foreman_proxy::plugin::hdm (
   foreman_proxy::plugin::module { 'hdm':
     template_path => 'foreman_proxy/plugin/hdm.yml.erb',
     enabled       => $enabled,
-    feature       => 'HDM',
+    feature       => 'Hdm',
     listen_on     => $listen_on,
     version       => $version,
   }
