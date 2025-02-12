@@ -1,5 +1,25 @@
 # Changelog
 
+## [28.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/28.0.0) (2025-02-13)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/27.0.0...28.0.0)
+
+**Breaking changes:**
+
+- Drop EoL EL8 / Ubuntu 20.04 / Debian 11 support [\#853](https://github.com/theforeman/puppet-foreman_proxy/pull/853) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Allow puppet-foreman 26.0.0 [\#855](https://github.com/theforeman/puppet-foreman_proxy/pull/855) ([ehelms](https://github.com/ehelms))
+- Require stdlib 9 / use namespaced functions [\#850](https://github.com/theforeman/puppet-foreman_proxy/pull/850) ([bastelfreak](https://github.com/bastelfreak))
+- Add support for running on Puppet Enterprise Primary [\#848](https://github.com/theforeman/puppet-foreman_proxy/pull/848) ([bastelfreak](https://github.com/bastelfreak))
+- Fixes [\#36940](https://projects.theforeman.org/issues/36940) - Add SecureBoot support for arbitrary operating systems to "Grub2 UEFI" PXE loaders [\#821](https://github.com/theforeman/puppet-foreman_proxy/pull/821) ([goarsna](https://github.com/goarsna))
+
+**Fixed bugs:**
+
+- Correctly spell Hdm feature name in plugin config [\#854](https://github.com/theforeman/puppet-foreman_proxy/pull/854) ([tuxmea](https://github.com/tuxmea))
+- Ensure proxy register runs before puppetserver service [\#852](https://github.com/theforeman/puppet-foreman_proxy/pull/852) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [27.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/27.0.0) (2024-11-04)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/26.1.0...27.0.0)
