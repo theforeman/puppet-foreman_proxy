@@ -237,6 +237,23 @@ describe 'foreman_proxy' do
         end
       end
 
+      context 'with httpboot' do
+        let(:params) { super().merge(httpboot: true, dhcp_pxeserver: '192.0.2.123') }
+
+        context 'with http' do
+          let(:params) { super().merge(http: true) }
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_dhcp__dhcp_class('httpclients').with_parameters(%r{^    filename "http://192\.0\.2\.123:8000/EFI/grub2/shim\.efi";$}) }
+        end
+
+        context 'without http' do
+          let(:params) { super().merge(http: false) }
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_dhcp__dhcp_class('httpclients').with_parameters(%r{^    filename "https://192\.0\.2\.123:8443/EFI/grub2/shim\.efi";$}) }
+        end
+      end
     end
   end
 end

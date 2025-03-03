@@ -113,7 +113,7 @@ class foreman_proxy::proxydhcp {
     if $foreman_proxy::http {
       $proxy_base_url = "http://${ip}:${foreman_proxy::http_port}"
     } else {
-      $proxy_base_url = "https://${ip}:${foreman_proxy::https_port}"
+      $proxy_base_url = "https://${ip}:${foreman_proxy::ssl_port}"
     }
 
     dhcp::dhcp_class { 'httpclients':
