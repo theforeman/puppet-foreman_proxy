@@ -20,11 +20,11 @@ describe 'foreman_proxy::plugin::pulp' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/pulpcore.yml", [
                                   '---',
                                   ':enabled: https',
-                                  ":pulp_url: https://#{facts[:fqdn]}",
-                                  ":content_app_url: https://#{facts[:fqdn]}/pulp/content",
+                                  ":pulp_url: https://#{facts[:networking]['fqdn']}",
+                                  ":content_app_url: https://#{facts[:networking]['fqdn']}/pulp/content",
                                   ':mirror: false',
                                   ':client_authentication: ["client_certificate"]',
-                                  ":rhsm_url: https://#{facts[:fqdn]}/rhsm",
+                                  ":rhsm_url: https://#{facts[:networking]['fqdn']}/rhsm",
                                 ])
         end
 

@@ -6,7 +6,7 @@ describe 'foreman_proxy::plugin::discovery' do
       let(:facts) { facts }
       let(:pre_condition) { 'include foreman_proxy' }
       let(:tftproot) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           '/srv/tftp'
         when 'FreeBSD', 'DragonFly'
@@ -16,7 +16,7 @@ describe 'foreman_proxy::plugin::discovery' do
         end
       end
       let(:etc_dir) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'FreeBSD', 'DragonFly'
           '/usr/local/etc'
         else
@@ -24,7 +24,7 @@ describe 'foreman_proxy::plugin::discovery' do
         end
       end
       let(:group) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'FreeBSD', 'DragonFly'
           'foreman_proxy'
         else

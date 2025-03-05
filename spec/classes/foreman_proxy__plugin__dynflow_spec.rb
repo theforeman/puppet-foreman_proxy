@@ -5,7 +5,7 @@ describe 'foreman_proxy::plugin::dynflow' do
     context "on #{os}" do
       let(:facts) { facts }
       let(:pre_condition) { 'include foreman_proxy' }
-      let(:etc_dir) { ['FreeBSD', 'DragonFly'].include?(facts[:osfamily]) ? '/usr/local/etc' : '/etc' }
+      let(:etc_dir) { ['FreeBSD', 'DragonFly'].include?(facts[:os]['family']) ? '/usr/local/etc' : '/etc' }
 
       describe 'with default settings' do
         it { should compile.with_all_deps }

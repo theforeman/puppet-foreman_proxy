@@ -5,10 +5,10 @@ describe 'foreman_proxy::settings_file' do
     context "on #{os}" do
       let(:facts) { facts }
       let(:title) { 'test' }
-      let(:group) { ['FreeBSD', 'DragonFly'].include?(facts[:osfamily]) ? 'foreman_proxy' : 'foreman-proxy' }
+      let(:group) { ['FreeBSD', 'DragonFly'].include?(facts[:os]['family']) ? 'foreman_proxy' : 'foreman-proxy' }
       let(:config_path) do
         File.join(
-          ['FreeBSD', 'DragonFly'].include?(facts[:osfamily]) ? '/usr/local/etc' : '/etc',
+          ['FreeBSD', 'DragonFly'].include?(facts[:os]['family']) ? '/usr/local/etc' : '/etc',
           'foreman-proxy', 'settings.d', "#{title}.yml"
         )
       end

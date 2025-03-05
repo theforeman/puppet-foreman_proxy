@@ -9,7 +9,7 @@ describe 'foreman_proxy::plugin' do
 
       context 'no parameters' do
         let(:package) do
-          if facts[:osfamily] == 'Debian'
+          if facts[:os]['family'] == 'Debian'
             'ruby-smart-proxy-myplugin'
           else
             'rubygem-smart_proxy_myplugin'
@@ -47,7 +47,7 @@ describe 'foreman_proxy::plugin' do
           :package => 'my_fun_plugin',
         } end
 
-        case os_facts[:osfamily]
+        case os_facts[:os]['family']
         when 'Debian'
           it 'should use hyphens' do
             should contain_package('my-fun-plugin').with_ensure('installed')

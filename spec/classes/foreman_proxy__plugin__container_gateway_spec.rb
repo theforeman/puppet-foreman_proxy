@@ -12,7 +12,7 @@ describe 'foreman_proxy::plugin::container_gateway' do
           verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/container_gateway.yml', [
             '---',
             ':enabled: https',
-            ":pulp_endpoint: https://#{facts[:fqdn]}",
+            ":pulp_endpoint: https://#{facts[:networking]['fqdn']}",
             ':sqlite_db_path: /var/lib/foreman-proxy/smart_proxy_container_gateway.db',
             ':db_connection_string: postgres:///container_gateway'
           ])

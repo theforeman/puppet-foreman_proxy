@@ -56,7 +56,7 @@ describe 'foreman_proxy' do
 
         it { should_not contain_class('dhcp::failover') }
 
-        context "as manager of ACLs for dhcp", unless: ['FreeBSD', 'DragonFly'].include?(os_facts[:osfamily]) do
+        context "as manager of ACLs for dhcp", unless: ['FreeBSD', 'DragonFly'].include?(os_facts[:os]['family']) do
           let(:params) { super().merge(dhcp_manage_acls: true) }
 
           it { is_expected.to contain_class('dhcp').with_conf_dir_mode('0750') }
@@ -67,7 +67,7 @@ describe 'foreman_proxy' do
         end
 
         context "as manager of ACLs for dhcp for RedHat and Debian by default" do
-          case os_facts[:osfamily]
+          case os_facts[:os]['family']
           when 'RedHat', 'Debian'
             it do should contain_exec('Allow foreman-proxy to read /etc/dhcp').
               with_command('setfacl -m u:foreman-proxy:rx /etc/dhcp').
