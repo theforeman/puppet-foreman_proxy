@@ -15,7 +15,7 @@ describe 'foreman_proxy::tftp' do
 
       it { is_expected.to contain_class('foreman_proxy::tftp::netboot') }
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'Debian'
         tftp_root = '/srv/tftp'
         names = {
@@ -60,7 +60,7 @@ describe 'foreman_proxy::tftp' do
 
       it { is_expected.to contain_class('foreman_proxy::tftp::netboot').with_root(tftp_root) }
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'FreeBSD', 'DragonFly'
         it { should contain_file("#{tftp_root}/grub2/grub.cfg").with_mode('0644').with_owner('foreman_proxy') }
       else

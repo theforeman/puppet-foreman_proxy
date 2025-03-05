@@ -16,11 +16,11 @@ describe 'foreman_proxy::register' do
 
         it 'should register the proxy' do
           should contain_class('foreman_proxy::register')
-          should contain_foreman_smartproxy(facts[:fqdn]).with({
+          should contain_foreman_smartproxy(facts[:networking]['fqdn']).with({
             'ensure'          => 'present',
-            'base_url'        => "https://#{facts[:fqdn]}",
+            'base_url'        => "https://#{facts[:networking]['fqdn']}",
             'effective_user'  => 'admin',
-            'url'             => "https://#{facts[:fqdn]}:8443",
+            'url'             => "https://#{facts[:networking]['fqdn']}:8443",
             'consumer_key'    => /\w+/,
             'consumer_secret' => /\w+/,
             'ssl_ca'          => /\A\/.+\.pem\z/,
@@ -30,9 +30,9 @@ describe 'foreman_proxy::register' do
         it 'should collect features' do
           should contain_datacat_collector('foreman_proxy::enabled_features').with({
             'source_key'      => 'features',
-            'target_resource' => "Foreman_smartproxy[#{facts[:fqdn]}]",
+            'target_resource' => "Foreman_smartproxy[#{facts[:networking]['fqdn']}]",
             'target_field'    => 'features',
-          }).that_comes_before("Foreman_smartproxy[#{facts[:fqdn]}]")
+          }).that_comes_before("Foreman_smartproxy[#{facts[:networking]['fqdn']}]")
         end
 
         context 'with datacat provider' do
@@ -44,7 +44,7 @@ describe 'foreman_proxy::register' do
           before { subject.resource('Datacat_collector[foreman_proxy::enabled_features]').provider.exists? }
 
           it 'should populate features on foreman_smartproxy' do
-            expect(subject.resource("Foreman_smartproxy[#{facts[:fqdn]}]").parameters[:features].should.sort).to match_array(["Logs", "Puppet", "Puppet CA"])
+            expect(subject.resource("Foreman_smartproxy[#{facts[:networking]['fqdn']}]").parameters[:features].should.sort).to match_array(["Logs", "Puppet", "Puppet CA"])
           end
         end
       end
@@ -94,7 +94,7 @@ describe 'foreman_proxy::register' do
             'ensure'          => 'present',
             'base_url'        => 'https://foreman.example.com',
             'effective_user'  => 'smartproxy',
-            'url'             => "https://#{facts[:fqdn]}:1234",
+            'url'             => "https://#{facts[:networking]['fqdn']}:1234",
             'consumer_key'    => 'key',
             'consumer_secret' => 'secret',
           })
@@ -111,7 +111,7 @@ describe 'foreman_proxy::register' do
 
         it 'should register the proxy' do
           should contain_class('foreman_proxy::register')
-          should contain_foreman_smartproxy(facts[:fqdn]).with({
+          should contain_foreman_smartproxy(facts[:networking]['fqdn']).with({
             'ensure' => 'present',
             'ssl_ca' => '/etc/foreman/ssl/ca.pem',
           })
@@ -128,7 +128,7 @@ describe 'foreman_proxy::register' do
 
         it 'should register the proxy' do
           should contain_class('foreman_proxy::register')
-          should contain_foreman_smartproxy(facts[:fqdn]).with({
+          should contain_foreman_smartproxy(facts[:networking]['fqdn']).with({
             'ensure' => 'present',
             'ssl_ca' => '/etc/foreman/ssl/ca.pem',
           })
@@ -142,7 +142,7 @@ describe 'foreman_proxy::register' do
 
         it 'should not register the proxy' do
           should contain_class('foreman_proxy::register')
-          should_not contain_foreman_smartproxy(facts[:fqdn])
+          should_not contain_foreman_smartproxy(facts[:networking]['fqdn'])
           should_not contain_datacat_collector('foreman_proxy::enabled_features')
         end
       end

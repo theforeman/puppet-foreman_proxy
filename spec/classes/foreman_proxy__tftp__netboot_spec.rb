@@ -18,7 +18,7 @@ describe 'foreman_proxy::tftp::netboot' do
           with_ensure('link').with_target("../boot")
       end
 
-      if facts[:osfamily] == 'Debian'
+      if facts[:os]['family'] == 'Debian'
         it { is_expected.to contain_class('foreman_proxy::tftp::netboot').with_grub_installation_type('debian') }
         it { should contain_package('grub-common').with_ensure('installed') }
         it { should contain_package('grub-efi-amd64-bin').with_ensure('installed') }
@@ -32,7 +32,7 @@ describe 'foreman_proxy::tftp::netboot' do
         end
         it { should contain_file("/tftproot/grub2/shimx64.efi").with_ensure('link') }
         it { should contain_file("/tftproot/grub2/shim.efi").with_ensure('link') }
-      elsif facts[:osfamily] == 'RedHat'
+      elsif facts[:os]['family'] == 'RedHat'
         it { is_expected.to contain_class('foreman_proxy::tftp::netboot').with_grub_installation_type('redhat') }
         it { should contain_package('grub2-efi-x64').with_ensure('installed') }
         it { should contain_package('grub2-efi-x64-modules').with_ensure('installed') }

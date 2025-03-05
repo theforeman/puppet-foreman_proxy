@@ -6,7 +6,7 @@ describe 'foreman_proxy' do
       let(:facts) { facts }
       let(:params) { {} }
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'FreeBSD', 'DragonFly'
         dns_group = 'bind'
         etc_dir = '/usr/local/etc'
@@ -17,7 +17,7 @@ describe 'foreman_proxy' do
         puppet_path = '/usr/local/bin/puppet'
         ssl_dir = '/var/puppet/ssl'
       else
-        dns_group = facts[:osfamily] == 'RedHat' ? 'named' : 'bind'
+        dns_group = facts[:os]['family'] == 'RedHat' ? 'named' : 'bind'
         etc_dir = '/etc'
         puppet_etc_dir = "#{etc_dir}/puppetlabs/puppet"
         home_dir = '/usr/share/foreman-proxy'
@@ -28,7 +28,7 @@ describe 'foreman_proxy' do
       end
 
       let(:tftp_root) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           '/srv/tftp'
         when 'FreeBSD', 'DragonFly'
@@ -128,11 +128,11 @@ describe 'foreman_proxy' do
               '---',
               ":settings_directory: #{etc_dir}/foreman-proxy/settings.d",
               ":ssl_ca_file: #{ssl_dir}/certs/ca.pem",
-              ":ssl_certificate: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
-              ":ssl_private_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
+              ":ssl_certificate: #{ssl_dir}/certs/#{facts[:networking]['fqdn']}.pem",
+              ":ssl_private_key: #{ssl_dir}/private_keys/#{facts[:networking]['fqdn']}.pem",
               ':trusted_hosts:',
-              "  - #{facts[:fqdn]}",
-              ":foreman_url: https://#{facts[:fqdn]}",
+              "  - #{facts[:networking]['fqdn']}",
+              ":foreman_url: https://#{facts[:networking]['fqdn']}",
               ":bind_host: '#{bind_host}'",
               ':https_port: 8443',
               ':log_file: /var/log/foreman-proxy/proxy.log',
@@ -162,7 +162,7 @@ describe 'foreman_proxy' do
         end
 
         it 'should generate correct dns.yml' do
-          dns_key = case facts[:osfamily]
+          dns_key = case facts[:os]['family']
                     when 'Debian'
                       '/etc/bind/rndc.key'
                     when 'FreeBSD', 'DragonFly'
@@ -200,7 +200,7 @@ describe 'foreman_proxy' do
             '---',
             ':dns_server: 127.0.0.1',
             ":dns_tsig_keytab: #{etc_dir}/foreman-proxy/dns.keytab",
-            ":dns_tsig_principal: foremanproxy/#{facts[:fqdn]}@EXAMPLE.COM",
+            ":dns_tsig_principal: foremanproxy/#{facts[:networking]['fqdn']}@EXAMPLE.COM",
           ])
         end
 
@@ -214,10 +214,10 @@ describe 'foreman_proxy' do
         it 'should generate correct puppet_proxy_puppet_api.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppet_proxy_puppet_api.yml", [
             '---',
-            ":puppet_url: https://#{facts[:fqdn]}:8140",
+            ":puppet_url: https://#{facts[:networking]['fqdn']}:8140",
             ":puppet_ssl_ca: #{ssl_dir}/certs/ca.pem",
-            ":puppet_ssl_cert: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
-            ":puppet_ssl_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
+            ":puppet_ssl_cert: #{ssl_dir}/certs/#{facts[:networking]['fqdn']}.pem",
+            ":puppet_ssl_key: #{ssl_dir}/private_keys/#{facts[:networking]['fqdn']}.pem",
             ":api_timeout: 30",
           ])
         end
@@ -234,10 +234,10 @@ describe 'foreman_proxy' do
         it 'should generate correct puppetca_http_api.yml' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/puppetca_http_api.yml", [
             '---',
-            ":puppet_url: https://#{facts[:fqdn]}:8140",
+            ":puppet_url: https://#{facts[:networking]['fqdn']}:8140",
             ":puppet_ssl_ca: #{ssl_dir}/certs/ca.pem",
-            ":puppet_ssl_cert: #{ssl_dir}/certs/#{facts[:fqdn]}.pem",
-            ":puppet_ssl_key: #{ssl_dir}/private_keys/#{facts[:fqdn]}.pem",
+            ":puppet_ssl_cert: #{ssl_dir}/certs/#{facts[:networking]['fqdn']}.pem",
+            ":puppet_ssl_key: #{ssl_dir}/private_keys/#{facts[:networking]['fqdn']}.pem",
           ])
         end
 
@@ -300,7 +300,7 @@ describe 'foreman_proxy' do
           verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/templates.yml", [
             '---',
             ':enabled: false',
-            ":template_url: http://#{facts[:fqdn]}:8000",
+            ":template_url: http://#{facts[:networking]['fqdn']}:8000",
           ])
         end
 
@@ -595,7 +595,7 @@ describe 'foreman_proxy' do
         let(:facts) { super().merge(ipaddress_eth0: '192.168.0.2', netmask_eth0: '255.255.255.0') }
 
         let(:nsupdate_pkg) do
-          case facts[:osfamily]
+          case facts[:os]['family']
           when 'RedHat'
             'bind-utils'
           when 'FreeBSD', 'DragonFly'
@@ -642,7 +642,7 @@ describe 'foreman_proxy' do
               '---',
               ':dns_server: 127.0.0.1',
               ":dns_tsig_keytab: #{etc_dir}/foreman-proxy/dns.keytab",
-              ":dns_tsig_principal: foremanproxy/#{facts[:fqdn]}@EXAMPLE.COM",
+              ":dns_tsig_principal: foremanproxy/#{facts[:networking]['fqdn']}@EXAMPLE.COM",
             ])
           end
         end
@@ -870,7 +870,7 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(dhcp_interface: 'dhcpif') }
           let(:facts) { override_facts(super(), networking: {interfaces: {dhcpif: {ip: '192.0.2.1', network: '192.0.2.0', netmask: '255.255.255.0'}}}) }
 
-          case facts[:osfamily]
+          case facts[:os]['family']
           when 'FreeBSD', 'DragonFly'
             dhcp_leases    = '/var/db/dhcpd/dhcpd.leases'
             dhcp_config    = "#{etc_dir}/dhcpd.conf"
@@ -998,8 +998,8 @@ describe 'foreman_proxy' do
               should contain_file("#{ssl_dir}").with_group('puppet')
               should contain_file("#{ssl_dir}/private_keys").with_group('puppet')
               should contain_file("#{ssl_dir}/certs/ca.pem").with_group('puppet')
-              should contain_file("#{ssl_dir}/certs/#{facts[:fqdn]}.pem").with_group('puppet')
-              should contain_file("#{ssl_dir}/private_keys/#{facts[:fqdn]}.pem").with_group('puppet')
+              should contain_file("#{ssl_dir}/certs/#{facts[:networking]['fqdn']}.pem").with_group('puppet')
+              should contain_file("#{ssl_dir}/private_keys/#{facts[:networking]['fqdn']}.pem").with_group('puppet')
             end
 
             context 'when puppet group is already being managed' do
@@ -1023,7 +1023,7 @@ describe 'foreman_proxy' do
         end
       end
 
-      context 'with foreman::repo included', unless: ['FreeBSD', 'DragonFly'].include?(facts[:operatingsystem]) do
+      context 'with foreman::repo included', unless: ['FreeBSD', 'DragonFly'].include?(facts[:os]['family']) do
         let(:pre_condition) do
           <<-PUPPET
           class { 'foreman::repo':
