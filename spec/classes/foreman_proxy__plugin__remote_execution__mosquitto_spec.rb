@@ -11,6 +11,8 @@ describe 'foreman_proxy::plugin::remote_execution::mosquitto' do
       } end
 
       describe 'with default settings' do
+        let(:ciphers_option) { os_facts.dig(:os, 'family') == 'RedHat' ? ['ciphers PROFILE=SYSTEM'] : [] }
+
         it 'should configure mosquitto' do
           should contain_class('mosquitto').
             with({
@@ -26,7 +28,7 @@ describe 'foreman_proxy::plugin::remote_execution::mosquitto' do
                 'keyfile /etc/mosquitto/ssl/ssl_key.pem',
                 'require_certificate true',
                 'use_identity_as_username true'
-              ]
+              ] + ciphers_option
             })
         end
 
