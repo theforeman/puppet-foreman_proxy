@@ -45,7 +45,7 @@ class foreman_proxy::plugin::pulp (
     # pulp3: removed in rubygem-smart_proxy_pulp 2.0
     # pulp/pulpnode: removed in rubygem-smart_proxy_pulp 3.0
     foreman_proxy::settings_file { ['pulp3', 'pulp', 'pulpnode']:
-      ensure        => absent,
+      ensure => absent,
     },
   ]
 }
