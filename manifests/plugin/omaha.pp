@@ -43,6 +43,6 @@ class foreman_proxy::plugin::omaha (
     path    => '/bin:/usr/bin',
   }
   -> file { $contentpath:
-    ensure  => directory,
+    ensure => directory,
   }
 }
