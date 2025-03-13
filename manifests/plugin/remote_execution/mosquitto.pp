@@ -33,6 +33,12 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
   $mosquitto_ssl_dir = "${mosquitto_config_dir}/ssl"
   $broker = $facts['networking']['fqdn']
 
+  if $facts['os']['family'] == 'RedHat' {
+    $additional_config = ['ciphers PROFILE=SYSTEM']
+  } else {
+    $additional_config = []
+  }
+
   class { 'mosquitto':
     package_name   => 'mosquitto',
     package_ensure => $ensure,
@@ -46,7 +52,7 @@ class foreman_proxy::plugin::remote_execution::mosquitto (
       "keyfile ${mosquitto_ssl_dir}/ssl_key.pem",
       "require_certificate ${require_certificate}",
       "use_identity_as_username ${use_identity_as_username}",
-    ],
+    ] + $additional_config,
   }
 
   file { "${mosquitto_config_dir}/foreman.acl":
