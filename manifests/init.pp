@@ -282,6 +282,9 @@
 # $manage_service::             control the service, whether it should be started / enabled or not. useful, if the
 #                               service should be managed by a cluster software e.g. corosync / pacemaker
 #
+# $manage_certificates::        control the location, ownership and permissions of the certificates
+#
+#
 class foreman_proxy (
   String $version = 'present',
   Enum['latest', 'present', 'installed', 'absent'] $ensure_packages_version = 'installed',
@@ -420,6 +423,7 @@ class foreman_proxy (
   String $oauth_consumer_key = $foreman_proxy::params::oauth_consumer_key,
   String $oauth_consumer_secret = $foreman_proxy::params::oauth_consumer_secret,
   Optional[Stdlib::HTTPUrl] $registration_url = undef,
+  Boolean $manage_certificates = false,
 ) inherits foreman_proxy::params {
   if $bind_host =~ String {
     warning('foreman_proxy::bind_host should be changed to an array, support for string only is deprecated')
