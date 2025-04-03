@@ -31,6 +31,9 @@
 # $version::                  plugin package version, it's passed to ensure parameter of package resource
 #                             can be set to specific version number, 'latest', 'present' etc.
 #
+# $client_endpoint::          Endpoint for clients to receive container content when it differs from the
+#                             Pulp endpoint such as a load balancer setup.
+#
 class foreman_proxy::plugin::container_gateway (
   Optional[String] $version = undef,
   Boolean $enabled = true,
@@ -44,7 +47,8 @@ class foreman_proxy::plugin::container_gateway (
   Optional[Stdlib::Port] $postgresql_port = undef,
   String $postgresql_database = 'container_gateway',
   Optional[String[1]] $postgresql_user = undef,
-  Optional[String] $postgresql_password = undef
+  Optional[String] $postgresql_password = undef,
+  Optional[Stdlib::HTTPUrl] $client_endpoint = undef,
 ) {
   foreman_proxy::plugin::module { 'container_gateway':
     version   => $version,
