@@ -90,6 +90,23 @@ describe 'foreman_proxy::plugin::container_gateway' do
         it { is_expected.to contain_foreman_proxy__plugin__module('container_gateway').with_version('absent') }
         it { is_expected.not_to contain_class('postgresql::server') }
       end
+
+      describe 'with client_endpoint' do
+        let :params do {
+          :client_endpoint => 'https://loadbalancer.example.com',
+        } end
+
+        it 'container_gateway.yml should contain configuration with client_endpoint' do
+          verify_exact_contents(catalogue, '/etc/foreman-proxy/settings.d/container_gateway.yml', [
+            '---',
+            ':enabled: https',
+            ":pulp_endpoint: https://#{facts[:networking]['fqdn']}",
+            ':client_endpoint: https://loadbalancer.example.com',
+            ':sqlite_db_path: /var/lib/foreman-proxy/smart_proxy_container_gateway.db',
+            ':db_connection_string: postgres:///container_gateway'
+          ])
+        end
+      end
     end
   end
 end
