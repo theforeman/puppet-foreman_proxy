@@ -1,3 +1,191 @@
+## [28.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/28.1.0) (2025-05-09)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/28.0.1...28.1.0)
+
+**Implemented enhancements:**
+
+- Add client\_endpoint support to container\_gateway plugin [\#863](https://github.com/theforeman/puppet-foreman_proxy/pull/863) ([ehelms](https://github.com/ehelms))
+- Fixes [\#38279](https://projects.theforeman.org/issues/38279) - Respect crypto-policies in mosquitto on EL [\#859](https://github.com/theforeman/puppet-foreman_proxy/pull/859) ([ekohl](https://github.com/ekohl))
+
+## [28.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/28.0.1) (2025-03-19)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/28.0.0...28.0.1)
+
+**Fixed bugs:**
+
+- Fix space\_before\_arrow lint check [\#860](https://github.com/theforeman/puppet-foreman_proxy/pull/860) ([ekohl](https://github.com/ekohl))
+- Fixes [\#38259](https://projects.theforeman.org/issues/38259) - Use the correct ssl\_port variable [\#857](https://github.com/theforeman/puppet-foreman_proxy/pull/857) ([ekohl](https://github.com/ekohl))
+
+## [28.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/28.0.0) (2025-02-13)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/27.0.0...28.0.0)
+
+**Breaking changes:**
+
+- Drop EoL EL8 / Ubuntu 20.04 / Debian 11 support [\#853](https://github.com/theforeman/puppet-foreman_proxy/pull/853) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Allow puppet-foreman 26.0.0 [\#855](https://github.com/theforeman/puppet-foreman_proxy/pull/855) ([ehelms](https://github.com/ehelms))
+- Require stdlib 9 / use namespaced functions [\#850](https://github.com/theforeman/puppet-foreman_proxy/pull/850) ([bastelfreak](https://github.com/bastelfreak))
+- Add support for running on Puppet Enterprise Primary [\#848](https://github.com/theforeman/puppet-foreman_proxy/pull/848) ([bastelfreak](https://github.com/bastelfreak))
+- Fixes [\#36940](https://projects.theforeman.org/issues/36940) - Add SecureBoot support for arbitrary operating systems to "Grub2 UEFI" PXE loaders [\#821](https://github.com/theforeman/puppet-foreman_proxy/pull/821) ([goarsna](https://github.com/goarsna))
+
+**Fixed bugs:**
+
+- Correctly spell Hdm feature name in plugin config [\#854](https://github.com/theforeman/puppet-foreman_proxy/pull/854) ([tuxmea](https://github.com/tuxmea))
+- Ensure proxy register runs before puppetserver service [\#852](https://github.com/theforeman/puppet-foreman_proxy/pull/852) ([bastelfreak](https://github.com/bastelfreak))
+
+## [27.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/27.0.0) (2024-11-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/26.1.0...27.0.0)
+
+**Breaking changes:**
+
+- stop removing ansible runner yumrepo [\#847](https://github.com/theforeman/puppet-foreman_proxy/pull/847) ([evgeni](https://github.com/evgeni))
+- Fixes [\#37803](https://projects.theforeman.org/issues/37803) - Remove hardcoded ProxyCommand [\#845](https://github.com/theforeman/puppet-foreman_proxy/pull/845) ([adamlazik1](https://github.com/adamlazik1))
+
+## [26.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/26.1.0) (2024-08-14)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/26.0.0...26.1.0)
+
+**Implemented enhancements:**
+
+- Refs [\#37707](https://projects.theforeman.org/issues/37707) - Support purging container\_gateway [\#843](https://github.com/theforeman/puppet-foreman_proxy/pull/843) ([ekohl](https://github.com/ekohl))
+- Refs [\#37604](https://projects.theforeman.org/issues/37604) - Validate DNS forwarders values [\#842](https://github.com/theforeman/puppet-foreman_proxy/pull/842) ([ekohl](https://github.com/ekohl))
+- Add AlmaLinux 9 support [\#840](https://github.com/theforeman/puppet-foreman_proxy/pull/840) ([archanaserver](https://github.com/archanaserver))
+
+## [26.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/26.0.0) (2024-05-21)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.3.0...26.0.0)
+
+**Breaking changes:**
+
+- Fixes [\#37325](https://projects.theforeman.org/issues/37325) - make postgres the container gateway default DB [\#835](https://github.com/theforeman/puppet-foreman_proxy/pull/835) ([ianballou](https://github.com/ianballou))
+
+**Implemented enhancements:**
+
+- Mark compatible with theforeman/foreman 25.x [\#836](https://github.com/theforeman/puppet-foreman_proxy/pull/836) ([ekohl](https://github.com/ekohl))
+- Add support for Debian 12 [\#834](https://github.com/theforeman/puppet-foreman_proxy/pull/834) ([evgeni](https://github.com/evgeni))
+- Add support for Ubuntu 22.04 [\#832](https://github.com/theforeman/puppet-foreman_proxy/pull/832) ([evgeni](https://github.com/evgeni))
+
+**Fixed bugs:**
+
+- Move away from systemd::service\_limits [\#837](https://github.com/theforeman/puppet-foreman_proxy/pull/837) ([ekohl](https://github.com/ekohl))
+
+## [25.3.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.3.0) (2024-02-19)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.2.0...25.3.0)
+
+**Implemented enhancements:**
+
+- Add HDM smart proxy [\#829](https://github.com/theforeman/puppet-foreman_proxy/pull/829) ([tuxmea](https://github.com/tuxmea))
+- add examples and acceptance tests for container\_gateway [\#825](https://github.com/theforeman/puppet-foreman_proxy/pull/825) ([evgeni](https://github.com/evgeni))
+- Support EL9 [\#823](https://github.com/theforeman/puppet-foreman_proxy/pull/823) ([ekohl](https://github.com/ekohl))
+
+**Fixed bugs:**
+
+- Make exception to grub\_efi\_path for OracleLinux [\#828](https://github.com/theforeman/puppet-foreman_proxy/pull/828) ([eb4x](https://github.com/eb4x))
+- Fixes [\#37078](https://projects.theforeman.org/issues/37078) - ensure salt installation is done before configuration [\#826](https://github.com/theforeman/puppet-foreman_proxy/pull/826) ([knoppi](https://github.com/knoppi))
+
+## [25.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.2.0) (2023-11-15)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.1.0...25.2.0)
+
+**Implemented enhancements:**
+
+- Mark compatible with theforeman/foreman 24.x & theforeman/tftp 9.x [\#819](https://github.com/theforeman/puppet-foreman_proxy/pull/819) ([ekohl](https://github.com/ekohl))
+- Mark compatible with puppet-extlib 7.x [\#818](https://github.com/theforeman/puppet-foreman_proxy/pull/818) ([ekohl](https://github.com/ekohl))
+- allow puppet/mosquitto 2.x [\#816](https://github.com/theforeman/puppet-foreman_proxy/pull/816) ([jhoblitt](https://github.com/jhoblitt))
+- Fixes [\#36772](https://projects.theforeman.org/issues/36772) - Add support for container gateway sqlite timeout tuning [\#813](https://github.com/theforeman/puppet-foreman_proxy/pull/813) ([ianballou](https://github.com/ianballou))
+- Add Puppet 8 support [\#811](https://github.com/theforeman/puppet-foreman_proxy/pull/811) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Set group owner to foreman-proxy for Salt config [\#815](https://github.com/theforeman/puppet-foreman_proxy/pull/815) ([maximiliankolb](https://github.com/maximiliankolb))
+
+## [25.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.1.0) (2023-08-17)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/25.0.0...25.1.0)
+
+**Implemented enhancements:**
+
+- puppetlabs/stdlib: Allow 9.x [\#810](https://github.com/theforeman/puppet-foreman_proxy/pull/810) ([bastelfreak](https://github.com/bastelfreak))
+- Add parameter to manage service [\#809](https://github.com/theforeman/puppet-foreman_proxy/pull/809) ([chr1s692](https://github.com/chr1s692))
+
+## [25.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/25.0.0) (2023-05-16)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.2.0...25.0.0)
+
+**Breaking changes:**
+
+- Refs [\#36345](https://projects.theforeman.org/issues/36345) - Raise minimum Puppet version to 7.0.0 [\#805](https://github.com/theforeman/puppet-foreman_proxy/pull/805) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Mark compatible with theforeman/foreman 23.x [\#807](https://github.com/theforeman/puppet-foreman_proxy/pull/807) ([ekohl](https://github.com/ekohl))
+- Mark compatible with theforeman/dns 10.x & theforeman/dhcp 9.x [\#806](https://github.com/theforeman/puppet-foreman_proxy/pull/806) ([ekohl](https://github.com/ekohl))
+- Simplify grub\_efi\_path on redhat family [\#804](https://github.com/theforeman/puppet-foreman_proxy/pull/804) ([eb4x](https://github.com/eb4x))
+
+## [24.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/24.2.0) (2023-03-21)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.1.0...24.2.0)
+
+**Implemented enhancements:**
+
+- Add parameters to ensure OpenSCAP Ansible module state [\#802](https://github.com/theforeman/puppet-foreman_proxy/pull/802) ([ekohl](https://github.com/ekohl))
+- ensure the collection pkg to be installed [\#801](https://github.com/theforeman/puppet-foreman_proxy/pull/801) ([evgeni](https://github.com/evgeni))
+- default to theforeman.foreman.foreman callback on all Debians [\#800](https://github.com/theforeman/puppet-foreman_proxy/pull/800) ([evgeni](https://github.com/evgeni))
+
+**Merged pull requests:**
+
+- Remove Puppet 6+ conditionals in fixtures [\#797](https://github.com/theforeman/puppet-foreman_proxy/pull/797) ([ekohl](https://github.com/ekohl))
+
+## [24.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/24.1.0) (2023-02-02)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.0.1...24.1.0)
+
+**Implemented enhancements:**
+
+- Fixes [\#35925](https://projects.theforeman.org/issues/35925) - Enable ssh server keepalive for ansible [\#795](https://github.com/theforeman/puppet-foreman_proxy/pull/795) ([adamruzicka](https://github.com/adamruzicka))
+- Fixes [\#35899](https://projects.theforeman.org/issues/35899) - Expose new sp-rex-ssh tunables [\#794](https://github.com/theforeman/puppet-foreman_proxy/pull/794) ([adamruzicka](https://github.com/adamruzicka))
+
+**Fixed bugs:**
+
+- require the grub packages before copying files on RedHat too [\#796](https://github.com/theforeman/puppet-foreman_proxy/pull/796) ([evgeni](https://github.com/evgeni))
+
+## [24.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/24.0.1) (2022-12-14)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/24.0.0...24.0.1)
+
+**Fixed bugs:**
+
+- Fixes [\#35809](https://projects.theforeman.org/issues/35809) - always enable rex when enabling ansible [\#791](https://github.com/theforeman/puppet-foreman_proxy/pull/791) ([evgeni](https://github.com/evgeni))
+
+## [24.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/24.0.0) (2022-11-04)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/23.0.1...24.0.0)
+
+**Breaking changes:**
+
+- drop abrt and chef plugins [\#789](https://github.com/theforeman/puppet-foreman_proxy/pull/789) ([evgeni](https://github.com/evgeni))
+- Change module feature default to capitalize [\#788](https://github.com/theforeman/puppet-foreman_proxy/pull/788) ([ekohl](https://github.com/ekohl))
+- Drop ansible-runner repository management [\#780](https://github.com/theforeman/puppet-foreman_proxy/pull/780) ([ehelms](https://github.com/ehelms))
+- Fixes [\#35455](https://projects.theforeman.org/issues/35455) - Generate an environment file for ansible [\#777](https://github.com/theforeman/puppet-foreman_proxy/pull/777) ([adamruzicka](https://github.com/adamruzicka))
+- Drop reports proxy plugin [\#776](https://github.com/theforeman/puppet-foreman_proxy/pull/776) ([evgeni](https://github.com/evgeni))
+- Refs [\#31118](https://projects.theforeman.org/issues/31118) - Remove daemon option from settings.yaml [\#630](https://github.com/theforeman/puppet-foreman_proxy/pull/630) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Allow theforeman/tftp 8.x [\#787](https://github.com/theforeman/puppet-foreman_proxy/pull/787) ([ekohl](https://github.com/ekohl))
+- Fixes [\#35680](https://projects.theforeman.org/issues/35680): Add support to configure registration\_url [\#786](https://github.com/theforeman/puppet-foreman_proxy/pull/786) ([ehelms](https://github.com/ehelms))
+- Update dhcp infoblox plugin parameters due to updates in plugin itself [\#785](https://github.com/theforeman/puppet-foreman_proxy/pull/785) ([timdeluxe](https://github.com/timdeluxe))
+- Fixes [\#35531](https://projects.theforeman.org/issues/35531) - Add Puppet module support to OpenSCAP plugin [\#781](https://github.com/theforeman/puppet-foreman_proxy/pull/781) ([ekohl](https://github.com/ekohl))
+- Automatically include plugin dns provider classes [\#779](https://github.com/theforeman/puppet-foreman_proxy/pull/779) ([ekohl](https://github.com/ekohl))
+- Bring config files closer to packaged versions [\#778](https://github.com/theforeman/puppet-foreman_proxy/pull/778) ([ekohl](https://github.com/ekohl))
+- Fixes [\#35396](https://projects.theforeman.org/issues/35396) - allow non-root user to read Salt master config file [\#775](https://github.com/theforeman/puppet-foreman_proxy/pull/775) ([bastian-src](https://github.com/bastian-src))
+- manage discovery plugin config file [\#772](https://github.com/theforeman/puppet-foreman_proxy/pull/772) ([jhoblitt](https://github.com/jhoblitt))
+
 ## [23.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/23.0.1) (2022-08-04)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/23.0.0...23.0.1)
