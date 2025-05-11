@@ -1,5 +1,23 @@
 # Changelog
 
+## [28.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/28.1.0) (2025-05-11)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/28.0.1...28.1.0)
+
+**Implemented enhancements:**
+
+- Add client\_endpoint support to container\_gateway plugin [\#863](https://github.com/theforeman/puppet-foreman_proxy/pull/863) ([ehelms](https://github.com/ehelms))
+- Fixes [\#38279](https://projects.theforeman.org/issues/38279) - Respect crypto-policies in mosquitto on EL [\#859](https://github.com/theforeman/puppet-foreman_proxy/pull/859) ([ekohl](https://github.com/ekohl))
+
+## [28.0.1](https://github.com/theforeman/puppet-foreman_proxy/tree/28.0.1) (2025-03-19)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/28.0.0...28.0.1)
+
+**Fixed bugs:**
+
+- Fix space\_before\_arrow lint check [\#860](https://github.com/theforeman/puppet-foreman_proxy/pull/860) ([ekohl](https://github.com/ekohl))
+- Fixes [\#38259](https://projects.theforeman.org/issues/38259) - Use the correct ssl\_port variable [\#857](https://github.com/theforeman/puppet-foreman_proxy/pull/857) ([ekohl](https://github.com/ekohl))
+
 ## [28.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/28.0.0) (2025-02-13)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/27.0.0...28.0.0)
