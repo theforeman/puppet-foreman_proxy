@@ -1047,6 +1047,18 @@ describe 'foreman_proxy' do
 
         it { should contain_user("#{proxy_user_name}").with_shell('/dne/foo') }
       end
+
+      context 'with manage_user and manage_group disabled' do
+        let(:params) do
+          super().merge(
+            manage_user: false,
+            manage_group: false
+          )
+        end
+
+        it { should_not contain_user("#{proxy_user_name}") }
+        it { should_not contain_group("#{proxy_user_name}") }
+      end
     end
   end
 end
