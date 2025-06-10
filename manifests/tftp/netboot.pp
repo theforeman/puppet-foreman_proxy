@@ -47,6 +47,12 @@ class foreman_proxy::tftp::netboot (
         require => Package[$packages],
       }
 
+      file { "${root}/grub2/mmx64.efi":
+        ensure  => file,
+        source  => "/boot/efi/EFI/${grub_efi_path}/mmx64.efi",
+        require => Package[$packages],
+      }
+
       file { "${root}/grub2/shim.efi":
         ensure => 'link',
         target => 'shimx64.efi',
@@ -71,6 +77,11 @@ class foreman_proxy::tftp::netboot (
       }
 
       file { "${root}/grub2/shimx64.efi":
+        ensure => 'link',
+        target => 'grubx64.efi',
+      }
+
+      file { "${root}/grub2/mmx64.efi":
         ensure => 'link',
         target => 'grubx64.efi',
       }
