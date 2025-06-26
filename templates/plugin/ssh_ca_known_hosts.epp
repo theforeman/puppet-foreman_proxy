@@ -1,0 +1,4 @@
+<%- | Array[String] $ca_keys | -%>
+<%- $ca_keys.filter |$line| { $line =~ /\S/ }.each |$line| { -%>
+@cert-authority * <%= $line %>
+<%- } -%>
