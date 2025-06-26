@@ -4,42 +4,46 @@
 #
 # === Parameters:
 #
-# $mode::                Operation Mode of the plugin.
+# $mode::                         Operation Mode of the plugin.
 #
-# $cockpit_integration:: Enables/disables Cockpit integration
+# $cockpit_integration::          Enables/disables Cockpit integration
 #
 # === SSH parameters:
 #
-# $generate_keys::      Automatically generate SSH keys
+# $generate_keys::                Automatically generate SSH keys
 #
-# $install_key::        Automatically install generated SSH key to root authorized keys
-#                       which allows managing this host through Remote Execution
+# $install_key::                  Automatically install generated SSH key to root authorized keys
+#                                 which allows managing this host through Remote Execution
 #
-# $ssh_identity_dir::   Directory where SSH keys are stored
+# $ssh_identity_dir::             Directory where SSH keys are stored
 #
-# $ssh_identity_file::  Provide an alternative name for the SSH keys
+# $ssh_identity_file::            Provide an alternative name for the SSH keys
 #
-# $ssh_keygen::         Location of the ssh-keygen binary
+# $ssh_user_ca_public_key_file::  Public key file for the SSH CA certificate
 #
-# $ssh_kerberos_auth::  Enable kerberos authentication for SSH
+# $ssh_host_ca_public_keys_file:: File containing trusted host CA public keys
 #
-# $local_working_dir::  Local working directory on the smart proxy
+# $ssh_keygen::                   Location of the ssh-keygen binary
 #
-# $remote_working_dir:: Remote working directory on clients
+# $ssh_kerberos_auth::            Enable kerberos authentication for SSH
 #
-# $ssh_log_level::      Configure ssh client LogLevel
+# $local_working_dir::            Local working directory on the smart proxy
+#
+# $remote_working_dir::           Remote working directory on clients
+#
+# $ssh_log_level::                Configure ssh client LogLevel
 #
 # === Advanced parameters:
 #
-# $enabled::            Enables/disables the plugin
+# $enabled::                      Enables/disables the plugin
 #
-# $listen_on::          Proxy feature listens on https, http, or both
+# $listen_on::                    Proxy feature listens on https, http, or both
 #
-# $mqtt_ttl::           Time interval in seconds given to the host to pick up the job before considering the job undelivered.
+# $mqtt_ttl::                     Time interval in seconds given to the host to pick up the job before considering the job undelivered.
 #
-# $mqtt_rate_limit::    Number of jobs that are allowed to run at the same time
+# $mqtt_rate_limit::              Number of jobs that are allowed to run at the same time
 #
-# $mqtt_resend_interval:: Time interval in seconds at which the notification should be re-sent to the host until the job is picked up or canceleld
+# $mqtt_resend_interval::         Time interval in seconds at which the notification should be re-sent to the host until the job is picked up or canceleld
 #
 class foreman_proxy::plugin::remote_execution::script (
   Boolean $enabled = true,
@@ -48,6 +52,8 @@ class foreman_proxy::plugin::remote_execution::script (
   Boolean $install_key = false,
   Stdlib::Absolutepath $ssh_identity_dir = '/var/lib/foreman-proxy/ssh',
   String $ssh_identity_file = 'id_rsa_foreman_proxy',
+  Optional[Stdlib::Absolutepath] $ssh_user_ca_public_key_file = undef,
+  Optional[Stdlib::Absolutepath] $ssh_host_ca_public_keys_file = undef,
   String $ssh_keygen = '/usr/bin/ssh-keygen',
   Stdlib::Absolutepath $local_working_dir = '/var/tmp',
   Stdlib::Absolutepath $remote_working_dir = '/var/tmp',
@@ -59,6 +65,7 @@ class foreman_proxy::plugin::remote_execution::script (
   Optional[Integer] $mqtt_rate_limit = undef,
   Optional[Integer] $mqtt_resend_interval = undef,
 ) {
+  $ssh_ca_known_hosts_file = "${ssh_identity_dir}/foreman_known_hosts_ca"
   $ssh_identity_path = "${ssh_identity_dir}/${ssh_identity_file}"
 
   include foreman_proxy
@@ -85,6 +92,22 @@ class foreman_proxy::plugin::remote_execution::script (
     ssl_ca   => $foreman_proxy::ssl_ca,
     ssl_cert => $foreman_proxy::ssl_cert,
     ssl_key  => $foreman_proxy::ssl_key,
+  }
+
+  if $ssh_host_ca_public_keys_file {
+    $ca_keys = split(file($ssh_host_ca_public_keys_file), "\n")
+
+    file { $ssh_ca_known_hosts_file:
+      ensure  => file,
+      owner   => $foreman_proxy::user,
+      group   => $foreman_proxy::group,
+      mode    => '0600',
+      content => epp('foreman_proxy/plugin/ssh_ca_known_hosts.epp', { 'ca_keys' => $ca_keys }),
+    }
+  } else {
+    file { $ssh_ca_known_hosts_file:
+      ensure => absent,
+    }
   }
 
   Class['foreman_proxy::config'] ~> Class['foreman_proxy::plugin::remote_execution::mosquitto']

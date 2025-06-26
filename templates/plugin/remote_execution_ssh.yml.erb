@@ -10,6 +10,13 @@
 
 :cockpit_integration: <%= scope.lookupvar('::foreman_proxy::plugin::remote_execution::script::cockpit_integration') %>
 
+<% if ssh_user_ca_public_key_file = scope.lookupvar('::foreman_proxy::plugin::remote_execution::script::ssh_user_ca_public_key_file') -%>
+:ssh_user_ca_public_key_file: <%= ssh_user_ca_public_key_file %>
+<% end -%>
+<% if scope.lookupvar('::foreman_proxy::plugin::remote_execution::script::ssh_host_ca_public_keys_file') -%>
+:ssh_ca_known_hosts_file: <%= scope.lookupvar('::foreman_proxy::plugin::remote_execution::script::ssh_ca_known_hosts_file') %>
+<% end -%>
+
 :mode: <%= scope.lookupvar("::foreman_proxy::plugin::remote_execution::script::mode") %>
 <% if scope.lookupvar("::foreman_proxy::plugin::remote_execution::script::mode") == 'pull-mqtt' -%>
 

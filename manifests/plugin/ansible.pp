@@ -50,14 +50,6 @@ class foreman_proxy::plugin::ansible (
   $foreman_ssl_key = pick($foreman_proxy::foreman_ssl_key, $foreman_proxy::ssl_key)
   $foreman_ssl_ca = pick($foreman_proxy::foreman_ssl_ca, $foreman_proxy::ssl_ca)
 
-  file { "${foreman_proxy::config_dir}/ansible.env":
-    ensure  => file,
-    content => template('foreman_proxy/plugin/ansible.env.erb'),
-    owner   => 'root',
-    group   => $foreman_proxy::user,
-    mode    => '0640',
-  }
-
   if ($facts['os']['family'] in ['RedHat', 'Debian'] and $foreman_proxy::plugin::ansible::callback == 'theforeman.foreman.foreman') {
     stdlib::ensure_packages(['ansible-collection-theforeman-foreman'])
   }
@@ -66,6 +58,24 @@ class foreman_proxy::plugin::ansible (
   include foreman_proxy::plugin::remote_execution::script
   if $install_runner {
     include foreman_proxy::plugin::ansible::runner
+  }
+
+  $certificate_file_option = $foreman_proxy::plugin::remote_execution::script::ssh_user_ca_public_key_file ? {
+    undef   => '',
+    default => " -o CertificateFile=${foreman_proxy::plugin::remote_execution::script::ssh_identity_path}-cert.pub",
+  }
+  $host_ca_options = $foreman_proxy::plugin::remote_execution::script::ssh_host_ca_public_keys_file ? {
+    undef   => '',
+    default => " -o UserKnownHostsFile=${foreman_proxy::plugin::remote_execution::script::ssh_ca_known_hosts_file} -o StrictHostKeyChecking=yes",
+  }
+  $ansible_ssh_args = "${ssh_args}${certificate_file_option}${host_ca_options}"
+
+  file { "${foreman_proxy::config_dir}/ansible.env":
+    ensure  => file,
+    content => template('foreman_proxy/plugin/ansible.env.erb'),
+    owner   => 'root',
+    group   => $foreman_proxy::user,
+    mode    => '0640',
   }
 
   foreman_proxy::plugin::module { 'ansible':
