@@ -19,6 +19,15 @@ describe 'foreman_proxy' do
         }
       end
 
+      let(:etc_dir) do
+        case facts[:os]['family']
+        when 'FreeBSD', 'DragonFly'
+          '/usr/local/etc'
+        else
+          '/etc'
+        end
+      end
+
       context "on physical interface" do
         let :facts do
           override_facts(super(), networking: {
@@ -143,6 +152,46 @@ describe 'foreman_proxy' do
               .with_role('secondary')
               .with_peer_address('203.0.113.50')
               .with_address('192.0.2.10')
+          end
+        end
+
+        context 'with TSIG' do
+          let(:params) do
+            super().merge(
+              dhcp_key_name: 'my_key',
+              dhcp_key_secret: 'dontlook',
+            )
+          end
+
+          it { should compile.with_all_deps }
+          it do
+            is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml")
+              .with_content(/^:key_name: my_key$/)
+              .with_content(/^:key_secret: dontlook$/)
+              .without_content(/^:key_algorithm:/)
+          end
+          it do
+            is_expected.to contain_class('dhcp')
+              .with_omapi_name('my_key')
+              .with_omapi_key('dontlook')
+          end
+
+          context 'with key algorithm specified' do
+            let(:params) { super().merge(dhcp_key_algorithm: 'HMAC-SHA512') }
+
+            it { should compile.with_all_deps }
+            it do
+              is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/dhcp_isc.yml")
+                .with_content(/^:key_name: my_key$/)
+                .with_content(/^:key_secret: dontlook$/)
+                .with_content(/^:key_algorithm: HMAC-SHA512/)
+            end
+            it do
+              is_expected.to contain_class('dhcp')
+                .with_omapi_name('my_key')
+                .with_omapi_key('dontlook')
+                .with_omapi_algorithm('HMAC-SHA512')
+            end
           end
         end
       end

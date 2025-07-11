@@ -63,15 +63,16 @@ class foreman_proxy::proxydhcp {
   }
 
   class { 'dhcp':
-    dnsdomain     => $foreman_proxy::dhcp_option_domain,
-    nameservers   => $nameservers,
-    interfaces    => [$foreman_proxy::dhcp_interface] + $foreman_proxy::dhcp_additional_interfaces,
-    pxeserver     => $ip,
-    pxefilename   => $foreman_proxy::dhcp_pxefilename,
-    ipxe_filename => $_dhcp_ipxefilename,
-    omapi_name    => $foreman_proxy::dhcp_key_name,
-    omapi_key     => $foreman_proxy::dhcp_key_secret,
-    conf_dir_mode => $conf_dir_mode,
+    dnsdomain       => $foreman_proxy::dhcp_option_domain,
+    nameservers     => $nameservers,
+    interfaces      => [$foreman_proxy::dhcp_interface] + $foreman_proxy::dhcp_additional_interfaces,
+    pxeserver       => $ip,
+    pxefilename     => $foreman_proxy::dhcp_pxefilename,
+    ipxe_filename   => $_dhcp_ipxefilename,
+    omapi_name      => $foreman_proxy::dhcp_key_name,
+    omapi_key       => $foreman_proxy::dhcp_key_secret,
+    omapi_algorithm => $foreman_proxy::dhcp_key_algorithm,
+    conf_dir_mode   => $conf_dir_mode,
   }
 
   dhcp::pool { $facts['networking']['domain']:
