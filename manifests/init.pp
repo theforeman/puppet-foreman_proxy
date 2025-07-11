@@ -165,6 +165,8 @@
 #
 # $dhcp_key_secret::            DHCP password
 #
+# $dhcp_key_algorithm::         DHCP key algorithm
+#
 # $dhcp_omapi_port::            DHCP server OMAPI port
 #
 # $dhcp_node_type::             DHCP node type
@@ -365,6 +367,7 @@ class foreman_proxy (
   Stdlib::Absolutepath $dhcp_leases = $foreman_proxy::params::dhcp_leases,
   Optional[String] $dhcp_key_name = undef,
   Optional[String] $dhcp_key_secret = undef,
+  Optional[String] $dhcp_key_algorithm = undef,
   Stdlib::Port $dhcp_omapi_port = 7911,
   Optional[String] $dhcp_peer_address = undef,
   Enum['standalone', 'primary', 'secondary'] $dhcp_node_type = 'standalone',
