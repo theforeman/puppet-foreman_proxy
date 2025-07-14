@@ -221,6 +221,10 @@
 #
 # $bmc_ssh_poweron::            BMC SSH poweron command.
 #
+# $wol::                        Enable WOL feature
+#
+# $wol_listen_on::              WOL proxy to listen on https, http, or both
+#
 # $keyfile::                    DNS server keyfile path
 #
 # $realm::                      Enable realm management feature
@@ -407,6 +411,8 @@ class foreman_proxy (
   # lint:ignore:quoted_booleans
   String $bmc_ssh_poweron = 'false',
   # lint:endignore
+  Boolean $wol = false,
+  Foreman_proxy::ListenOn $wol_listen_on = 'https',
   Boolean $realm = false,
   Foreman_proxy::ListenOn $realm_listen_on = 'https',
   String $realm_provider = 'freeipa',

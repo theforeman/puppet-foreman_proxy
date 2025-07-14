@@ -65,6 +65,8 @@ class foreman_proxy::config {
 
   contain foreman_proxy::module::bmc
 
+  contain foreman_proxy::module::wol
+
   contain foreman_proxy::module::dhcp
   foreman_proxy::provider { ['dhcp_isc', 'dhcp_libvirt']:
   }

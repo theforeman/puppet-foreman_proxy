@@ -96,7 +96,7 @@ describe 'foreman_proxy' do
             'logs', 'httpboot', 'puppet', 'puppet_proxy_puppet_api',
             'puppetca', 'puppetca_http_api', 'puppetca_puppet_cert',
             'puppetca_hostname_whitelisting', 'puppetca_token_whitelisting',
-            'realm', 'templates', 'tftp'
+            'realm', 'templates', 'tftp', 'wol'
           ].each do |cfile|
             should contain_file("#{etc_dir}/foreman-proxy/settings.d/#{cfile}.yml")
               .with_owner('root')
@@ -148,6 +148,13 @@ describe 'foreman_proxy' do
             '---',
             ':enabled: false',
             ':bmc_default_provider: ipmitool',
+          ])
+        end
+
+        it 'should generate correct wol.yml' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/wol.yml", [
+            '---',
+            ':enabled: false',
           ])
         end
 
@@ -533,6 +540,17 @@ describe 'foreman_proxy' do
               ':redfish_verify_ssl: true',
             ])
           end
+        end
+      end
+
+      context 'with wol' do
+        let(:params) { super().merge(wol: true) }
+
+        it 'should enable wol' do
+          verify_exact_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/wol.yml", [
+            '---',
+            ':enabled: https',
+          ])
         end
       end
 
