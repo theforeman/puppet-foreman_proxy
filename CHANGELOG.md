@@ -1,6 +1,22 @@
 # Changelog
 
-## [28.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/28.1.0) (2025-05-11)
+## [28.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/28.2.0) (2025-08-08)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/28.1.0...28.2.0)
+
+**Implemented enhancements:**
+
+- Allow puppet-foreman 27.0.0 [\#875](https://github.com/theforeman/puppet-foreman_proxy/pull/875) ([ehelms](https://github.com/ehelms))
+- Allow puppet-tftp 10.0.0 [\#874](https://github.com/theforeman/puppet-foreman_proxy/pull/874) ([ehelms](https://github.com/ehelms))
+- Fixes [\#38567](https://projects.theforeman.org/issues/38567) - Support setting the DHCP key algorithm [\#869](https://github.com/theforeman/puppet-foreman_proxy/pull/869) ([ekohl](https://github.com/ekohl))
+- Add mmx64.efi file to tftp::netboot class [\#865](https://github.com/theforeman/puppet-foreman_proxy/pull/865) ([stejskalleos](https://github.com/stejskalleos))
+
+**Fixed bugs:**
+
+- Pin puppet-apt since it dropped Puppet 7 [\#872](https://github.com/theforeman/puppet-foreman_proxy/pull/872) ([ehelms](https://github.com/ehelms))
+- Replace deprecated ANSIBLE\_COLLECTIONS\_PATHS env var [\#871](https://github.com/theforeman/puppet-foreman_proxy/pull/871) ([ekohl](https://github.com/ekohl))
+
+## [28.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/28.1.0) (2025-05-09)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/28.0.1...28.1.0)
 
