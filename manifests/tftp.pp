@@ -15,7 +15,6 @@ class foreman_proxy::tftp (
 
   $dirs = pick($directories, prefix([
         'pxelinux.cfg',
-        'grub',
         'grub2',
         'boot',
         'ztp.cfg',
