@@ -1,5 +1,19 @@
 # Changelog
 
+## [29.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/29.0.0) (2025-11-06)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/28.2.0...29.0.0)
+
+**Breaking changes:**
+
+- Drop support for Puppet 7 [\#878](https://github.com/theforeman/puppet-foreman_proxy/pull/878) ([evgeni](https://github.com/evgeni))
+- Fixes [\#38791](https://projects.theforeman.org/issues/38791) - Do not create a directory for grub1 [\#876](https://github.com/theforeman/puppet-foreman_proxy/pull/876) ([stejskalleos](https://github.com/stejskalleos))
+
+**Implemented enhancements:**
+
+- Allow puppet-dns, puppet-foreman [\#879](https://github.com/theforeman/puppet-foreman_proxy/pull/879) ([ehelms](https://github.com/ehelms))
+- puppet/mosquitto: Allow 3.x [\#877](https://github.com/theforeman/puppet-foreman_proxy/pull/877) ([evgeni](https://github.com/evgeni))
+
 ## [28.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/28.2.0) (2025-08-08)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/28.1.0...28.2.0)
