@@ -1,0 +1,8 @@
+# OpenBolt Smart Proxy
+---
+:enabled: <%= @module_enabled %>
+:environment_path: <%= scope.lookupvar("foreman_proxy::plugin::openbolt::environment_path") %>
+:workers: <%= scope.lookupvar("foreman_proxy::plugin::openbolt::workers") %>
+:concurrency: <%= scope.lookupvar("foreman_proxy::plugin::openbolt::concurrency") %>
+:connect_timeout: <%= scope.lookupvar("foreman_proxy::plugin::openbolt::connect_timeout") %>
+:log_dir: <%= scope.lookupvar("foreman_proxy::plugin::openbolt::log_dir") %>
