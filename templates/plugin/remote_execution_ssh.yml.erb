@@ -10,7 +10,6 @@
 
 :cockpit_integration: <%= scope.lookupvar('::foreman_proxy::plugin::remote_execution::script::cockpit_integration') %>
 
-# Whether to run remote execution jobs asynchronously
 :mode: <%= scope.lookupvar("::foreman_proxy::plugin::remote_execution::script::mode") %>
 <% if scope.lookupvar("::foreman_proxy::plugin::remote_execution::script::mode") == 'pull-mqtt' -%>
 
