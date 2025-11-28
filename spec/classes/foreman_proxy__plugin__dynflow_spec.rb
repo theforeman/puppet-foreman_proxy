@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'foreman_proxy::plugin::dynflow' do
-  on_plugin_os.each do |os, facts|
+  on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
       let(:pre_condition) { 'include foreman_proxy' }

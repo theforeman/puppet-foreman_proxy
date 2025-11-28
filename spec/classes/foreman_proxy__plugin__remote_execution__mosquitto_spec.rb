@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'foreman_proxy::plugin::remote_execution::mosquitto' do
-  on_plugin_os.each do |os, os_facts|
+  on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
       let :params do {
