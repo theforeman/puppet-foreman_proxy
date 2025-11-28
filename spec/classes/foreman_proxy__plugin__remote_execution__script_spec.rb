@@ -54,7 +54,7 @@ describe 'foreman_proxy::plugin::remote_execution::script' do
           :ssh_identity_file  => 'id_rsa',
           :install_key        => true,
           :ssh_kerberos_auth  => true,
-          :mode               => 'ssh-async',
+          :mode               => 'pull-mqtt',
           :ssh_log_level      => 'debug',
           :cockpit_integration => false,
         } end
@@ -69,7 +69,7 @@ describe 'foreman_proxy::plugin::remote_execution::script' do
             with_content(%r{:local_working_dir: /tmp}).
             with_content(%r{:remote_working_dir: /tmp}).
             with_content(%r{:kerberos_auth: true}).
-            with_content(%r{:mode: ssh-async}).
+            with_content(%r{:mode: pull-mqtt}).
             with_content(%r{:ssh_log_level: debug}).
             with_content(%r{:cockpit_integration: false}).
             with({
