@@ -7,7 +7,9 @@ describe 'Scenario: install foreman-proxy with discovery plugin'  do
 
   it_behaves_like 'the default foreman proxy application'
 
-  describe command('curl -sk https://127.0.0.1:8443/features | grep -q discovery') do
+  cert_dir = '/etc/foreman-proxy'
+  describe curl_command("https://#{host_inventory['fqdn']}:8443/features", cacert: "#{cert_dir}/certificate.pem", cert: "#{cert_dir}/certificate.pem", key: "#{cert_dir}/key.pem") do
+    its(:stdout) { should match('discovery') }
     its(:exit_status) { should eq 0 }
   end
 end
