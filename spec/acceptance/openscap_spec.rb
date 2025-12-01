@@ -7,6 +7,8 @@ describe 'Scenario: install foreman-proxy with openscap plugin', if: ['redhat', 
 
   it_behaves_like 'the default foreman proxy application'
 
+  it_behaves_like 'the exposed feature', 'openscap'
+
   describe package('puppet-foreman_scap_client') do
     it { is_expected.to be_installed }
   end

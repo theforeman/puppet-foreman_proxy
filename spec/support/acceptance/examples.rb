@@ -12,3 +12,13 @@ shared_examples 'the default foreman proxy application' do
     it { is_expected.to be_listening }
   end
 end
+
+shared_examples 'the exposed feature' do |feature|
+  let(:feature) { feature }
+
+  cert_dir = '/etc/foreman-proxy'
+  describe curl_command("https://#{host_inventory['fqdn']}:8443/features", cacert: "#{cert_dir}/certificate.pem", cert: "#{cert_dir}/certificate.pem", key: "#{cert_dir}/key.pem") do
+    its(:stdout) { should include(feature) }
+    its(:exit_status) { should eq 0 }
+  end
+end
