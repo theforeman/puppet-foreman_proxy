@@ -7,6 +7,8 @@ describe 'Scenario: install foreman-proxy with remote_execution script plugin'  
 
   it_behaves_like 'the default foreman proxy application'
 
+  it_behaves_like 'the exposed feature', 'script'
+
   describe file('/etc/foreman-proxy/settings.d/remote_execution_ssh.yml') do
     its(:content) { is_expected.to_not match %r{:ssh_log_level:} }
   end
@@ -18,6 +20,8 @@ describe 'Scenario: install foreman-proxy with remote_execution script plugin an
   include_examples 'the example', 'remote_execution_script-ssh_log_level.pp'
 
   it_behaves_like 'the default foreman proxy application'
+
+  it_behaves_like 'the exposed feature', 'script'
 
   describe file('/etc/foreman-proxy/settings.d/remote_execution_ssh.yml') do
     its(:content) { is_expected.to match %r{:ssh_log_level: debug} }

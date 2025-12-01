@@ -7,6 +7,8 @@ describe 'Scenario: install foreman-proxy with ansible plugin'  do
 
   it_behaves_like 'the default foreman proxy application'
 
+  it_behaves_like 'the exposed feature', 'ansible'
+
   describe package('ansible-collection-theforeman-foreman') do
     it { is_expected.to be_installed }
   end
