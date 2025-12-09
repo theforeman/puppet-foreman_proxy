@@ -1,5 +1,14 @@
 # Changelog
 
+## [29.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/29.1.0) (2025-12-09)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/29.0.0...29.1.0)
+
+**Implemented enhancements:**
+
+- Implement openbolt plugin support [\#883](https://github.com/theforeman/puppet-foreman_proxy/pull/883) ([bastelfreak](https://github.com/bastelfreak))
+- Implement Rocky 9 support [\#882](https://github.com/theforeman/puppet-foreman_proxy/pull/882) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [29.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/29.0.0) (2025-11-06)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/28.2.0...29.0.0)
