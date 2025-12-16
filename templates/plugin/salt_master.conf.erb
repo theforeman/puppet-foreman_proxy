@@ -28,6 +28,16 @@ ext_pillar:
 
 
 ##
+# Minimum authentication version
+<% minimum_auth_version = scope.lookupvar('foreman_proxy::plugin::salt::minimum_auth_version') %>
+<% if [nil, :undefined, :undef].include?(minimum_auth_version) %>
+# use salt's default minimum_auth_version
+<% else %>
+minimum_auth_version: <%= minimum_auth_version %>
+<% end %>
+
+
+##
 # Salt API access
 external_auth:
   <%= scope.lookupvar('foreman_proxy::plugin::salt::api_auth') %>:

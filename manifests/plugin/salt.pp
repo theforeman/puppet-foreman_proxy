@@ -8,6 +8,8 @@
 #
 # $autosign_key_file:: File to use for salt autosign via grains
 #
+# $minimum_auth_version:: Minimum authentication version for salt minions
+#
 # $user::            User to run salt commands under
 #
 # $group::           Group to run salt commands and access configuration files
@@ -33,6 +35,7 @@
 class foreman_proxy::plugin::salt (
   Stdlib::Absolutepath $autosign_file = $foreman_proxy::plugin::salt::params::autosign_file,
   Stdlib::Absolutepath $autosign_key_file = $foreman_proxy::plugin::salt::params::autosign_key_file,
+  Optional[Integer] $minimum_auth_version = $foreman_proxy::plugin::salt::params::minimum_auth_version,
   Boolean $enabled = $foreman_proxy::plugin::salt::params::enabled,
   Foreman_proxy::ListenOn $listen_on = $foreman_proxy::plugin::salt::params::listen_on,
   String $user = $foreman_proxy::plugin::salt::params::user,
