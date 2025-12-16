@@ -8,6 +8,7 @@ class foreman_proxy::plugin::salt::params {
   $autosign_file = "${foreman_proxy::params::etc}/salt/autosign.conf"
   $autosign_grains_dir = '/var/lib/foreman-proxy/salt/grains'
   $autosign_key_file = "${autosign_grains_dir}/autosign_key"
+  $minimum_auth_version = undef
   $user          = 'root'
 
   $api           = false
