@@ -133,4 +133,60 @@ class foreman_proxy::config {
       }
     }
   }
+
+  if $foreman_proxy::manage_certificates {
+    file { "${foreman_proxy::config_dir}/ssl_ca.pem":
+      ensure => file,
+      source => $foreman_proxy::ssl_ca,
+      owner  => 'root',
+      group  => $foreman_proxy::group,
+      mode   => '0440',
+    }
+
+    file { "${foreman_proxy::config_dir}/ssl_cert.pem":
+      ensure => file,
+      source => $foreman_proxy::ssl_cert,
+      owner  => 'root',
+      group  => $foreman_proxy::group,
+      mode   => '0440',
+    }
+
+    file { "${foreman_proxy::config_dir}/ssl_key.pem":
+      ensure => file,
+      source => $foreman_proxy::ssl_key,
+      owner  => 'root',
+      group  => $foreman_proxy::group,
+      mode   => '0440',
+    }
+
+    if $foreman_proxy::foreman_ssl_ca {
+      file { "${foreman_proxy::config_dir}/foreman_ssl_ca.pem":
+        ensure => file,
+        source => $foreman_proxy::foreman_ssl_ca,
+        owner  => 'root',
+        group  => $foreman_proxy::group,
+        mode   => '0440',
+      }
+    }
+
+    if $foreman_proxy::foreman_ssl_cert {
+      file { "${foreman_proxy::config_dir}/foreman_ssl_cert.pem":
+        ensure => file,
+        source => $foreman_proxy::foreman_ssl_cert,
+        owner  => 'root',
+        group  => $foreman_proxy::group,
+        mode   => '0440',
+      }
+    }
+
+    if $foreman_proxy::foreman_ssl_key {
+      file { "${foreman_proxy::config_dir}/foreman_ssl_key.pem":
+        ensure => file,
+        source => $foreman_proxy::foreman_ssl_key,
+        owner  => 'root',
+        group  => $foreman_proxy::group,
+        mode   => '0440',
+      }
+    }
+  }
 }

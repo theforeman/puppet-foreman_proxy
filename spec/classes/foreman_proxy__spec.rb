@@ -1047,6 +1047,76 @@ describe 'foreman_proxy' do
 
         it { should contain_user("#{proxy_user_name}").with_shell('/dne/foo') }
       end
+
+      describe 'manage_certificates' do
+        let(:params) do
+          super().merge(
+            manage_certificates: true,
+          )
+        end
+
+        context 'when ssl_ca, ssl_cert and ssl_key are defined' do
+          it { should compile.with_all_deps }
+
+          it do
+            should contain_file("#{etc_dir}/foreman-proxy/ssl_ca.pem")
+                    .with_owner('root')
+                    .with_group('foreman-proxy')
+                    .with_mode('0440')
+          end
+          it do
+            should contain_file("#{etc_dir}/foreman-proxy/ssl_cert.pem")
+                    .with_owner('root')
+                    .with_group('foreman-proxy')
+                    .with_mode('0440')
+          end
+          it do
+            should contain_file("#{etc_dir}/foreman-proxy/ssl_key.pem")
+                    .with_owner('root')
+                    .with_group('foreman-proxy')
+                    .with_mode('0440')
+          end
+
+          it { should_not contain_file("#{etc_dir}/foreman-proxy/foreman_ssl_ca.pem") }
+          it { should_not contain_file("#{etc_dir}/foreman-proxy/foreman_ssl_cert.pem") }
+          it { should_not contain_file("#{etc_dir}/foreman-proxy/foreman_ssl_key.pem") }
+        end
+      end
+
+      context 'when foreman_ssl_ca, foreman_ssl_cert and foreman_ssl_key are defined' do
+        let(:params) do
+          super().merge(
+            manage_certificates: true,
+            foreman_ssl_ca: '/root/certificates/ca.pem',
+            foreman_ssl_cert: '/root/certificates/cert.pem',
+            foreman_ssl_key: '/root/certificates/key.pem',
+          )
+        end
+
+        it { should compile.with_all_deps }
+
+        it do
+          should contain_file("#{etc_dir}/foreman-proxy/foreman_ssl_ca.pem")
+                  .with_source('/root/certificates/ca.pem')
+                  .with_owner('root')
+                  .with_group('foreman-proxy')
+                  .with_mode('0440')
+        end
+        it do
+          should contain_file("#{etc_dir}/foreman-proxy/foreman_ssl_cert.pem")
+                  .with_source('/root/certificates/cert.pem')
+                  .with_owner('root')
+                  .with_group('foreman-proxy')
+                  .with_mode('0440')
+        end
+        it do
+          should contain_file("#{etc_dir}/foreman-proxy/foreman_ssl_key.pem")
+                  .with_source('/root/certificates/key.pem')
+                  .with_owner('root')
+                  .with_group('foreman-proxy')
+                  .with_mode('0440')
+        end
+      end
     end
   end
 end
