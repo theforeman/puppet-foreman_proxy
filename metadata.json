@@ -28,7 +28,7 @@
     },
     {
       "name": "theforeman/foreman",
-      "version_requirement": ">= 19.0.0 < 29.0.0"
+      "version_requirement": ">= 19.0.0 < 30.0.0"
     },
     {
       "name": "theforeman/tftp",
