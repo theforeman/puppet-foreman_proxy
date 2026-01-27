@@ -13,11 +13,11 @@
 case scope.lookupvar('foreman_proxy::plugin::container_gateway::database_backend')
 when 'postgres'
   uri = URI("postgres://")
-  uri.user = scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_user')
-  uri.password = scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_password')
   uri.host = scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_host')
   uri.port = scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_port')
   uri.path = "/#{scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_database')}"
+  uri.user = scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_user')
+  uri.password = scope.lookupvar('foreman_proxy::plugin::container_gateway::postgresql_password')
 when 'sqlite'
   uri = "sqlite://#{scope.lookupvar('foreman_proxy::plugin::container_gateway::sqlite_db_path')}"
 end
