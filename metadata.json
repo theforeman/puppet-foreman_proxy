@@ -1,6 +1,6 @@
 {
   "name": "theforeman-foreman_proxy",
-  "version": "29.0.0",
+  "version": "30.0.0",
   "author": "theforeman",
   "summary": "Foreman Smart Proxy configuration",
   "license": "GPL-3.0+",

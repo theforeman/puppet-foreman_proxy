@@ -1,5 +1,35 @@
 # Changelog
 
+## [30.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/30.0.0) (2026-01-28)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/29.1.0...30.0.0)
+
+**Breaking changes:**
+
+- Fixes [\#38841](https://projects.theforeman.org/issues/38841) - Remove ACD plugin [\#890](https://github.com/theforeman/puppet-foreman_proxy/pull/890) ([maximiliankolb](https://github.com/maximiliankolb))
+- Drop ssh-async rex mode [\#884](https://github.com/theforeman/puppet-foreman_proxy/pull/884) ([adamruzicka](https://github.com/adamruzicka))
+
+**Implemented enhancements:**
+
+- Add support for OpenVox [\#895](https://github.com/theforeman/puppet-foreman_proxy/pull/895) ([evgeni](https://github.com/evgeni))
+- Allow theforeman/foreman 29.x [\#892](https://github.com/theforeman/puppet-foreman_proxy/pull/892) ([evgeni](https://github.com/evgeni))
+- Fixes [\#38964](https://projects.theforeman.org/issues/38964) - Add salt minimum auth version [\#891](https://github.com/theforeman/puppet-foreman_proxy/pull/891) ([sbernhard](https://github.com/sbernhard))
+- Add openbolt acceptance test [\#885](https://github.com/theforeman/puppet-foreman_proxy/pull/885) ([bastelfreak](https://github.com/bastelfreak))
+- Introduce SSH cert support [\#867](https://github.com/theforeman/puppet-foreman_proxy/pull/867) ([adamlazik1](https://github.com/adamlazik1))
+
+**Fixed bugs:**
+
+- Set user and password last when constructing an URI [\#894](https://github.com/theforeman/puppet-foreman_proxy/pull/894) ([evgeni](https://github.com/evgeni))
+
+## [29.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/29.1.0) (2025-12-09)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/29.0.0...29.1.0)
+
+**Implemented enhancements:**
+
+- Implement openbolt plugin support [\#883](https://github.com/theforeman/puppet-foreman_proxy/pull/883) ([bastelfreak](https://github.com/bastelfreak))
+- Implement Rocky 9 support [\#882](https://github.com/theforeman/puppet-foreman_proxy/pull/882) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [29.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/29.0.0) (2025-11-06)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/28.2.0...29.0.0)
