@@ -30,7 +30,6 @@ actions:
 jobs:
   - job: copr_build
     trigger: pull_request
-    manual_trigger: true
     targets:
       rhel-9:
         additional_repos:
