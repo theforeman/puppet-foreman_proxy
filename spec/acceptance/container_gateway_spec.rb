@@ -7,6 +7,8 @@ describe 'Scenario: install foreman-proxy with container_gateway plugin', if: ['
 
   it_behaves_like 'the default foreman proxy application'
 
+  it_behaves_like 'the exposed feature', 'container_gateway'
+
   describe 'is created' do
     it { expect(package('rubygem-smart_proxy_container_gateway')).to be_installed }
     it { expect(file('/etc/foreman-proxy/settings.d/container_gateway.yml')).to be_file }
