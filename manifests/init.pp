@@ -17,6 +17,10 @@
 #
 # $ssl_port::                   HTTPS port to listen on (if ssl is enabled)
 #
+# $manage_user::                Manage to foreman-proxy user
+#
+# $manage_group::               Manage to foreman-proxy group
+#
 # $groups::                     Array of additional groups for the foreman proxy user
 #
 # $log::                        Foreman proxy log file, 'STDOUT', 'SYSLOG' or 'JOURNAL'
@@ -291,6 +295,8 @@ class foreman_proxy (
   Variant[Array[String], String] $bind_host = ['*'],
   Stdlib::Port $http_port = 8000,
   Stdlib::Port $ssl_port = 8443,
+  Boolean $manage_user = true,
+  Boolean $manage_group = true,
   Array[String] $groups = [],
   Variant[Enum['STDOUT', 'SYSLOG', 'JOURNAL'], Stdlib::Absolutepath] $log = '/var/log/foreman-proxy/proxy.log',
   Enum['WARN', 'DEBUG', 'ERROR', 'FATAL', 'INFO', 'UNKNOWN'] $log_level = 'INFO',
