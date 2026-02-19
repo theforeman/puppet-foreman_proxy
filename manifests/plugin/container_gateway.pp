@@ -18,6 +18,10 @@
 #
 # $postgresql_password::      User password for the postgres database
 #
+# $database_max_connections:: Maximum number of DB connections
+#
+# $database_pool_timeout::    Time in seconds to wait for DB connection
+#
 # $sqlite_db_path::           Absolute path for the SQLite DB file to exist at
 #
 # $sqlite_timeout::           Database busy timeout in milliseconds
@@ -48,6 +52,8 @@ class foreman_proxy::plugin::container_gateway (
   String $postgresql_database = 'container_gateway',
   Optional[String[1]] $postgresql_user = undef,
   Optional[String] $postgresql_password = undef,
+  Optional[Integer] $database_max_connections = undef,
+  Optional[Integer] $database_pool_timeout = undef,
   Optional[Stdlib::HTTPUrl] $client_endpoint = undef,
 ) {
   foreman_proxy::plugin::module { 'container_gateway':

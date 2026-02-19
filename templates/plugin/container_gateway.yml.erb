@@ -23,3 +23,9 @@ when 'sqlite'
 end
 -%>
 :db_connection_string: <%= uri %>
+<% if scope.lookupvar("foreman_proxy::plugin::container_gateway::database_max_connections") -%>
+:db_max_connections: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::database_max_connections") %>
+<% end -%>
+<% if scope.lookupvar("foreman_proxy::plugin::container_gateway::database_pool_timeout") -%>
+:db_pool_timeout: <%= scope.lookupvar("foreman_proxy::plugin::container_gateway::database_pool_timeout") %>
+<% end -%>
