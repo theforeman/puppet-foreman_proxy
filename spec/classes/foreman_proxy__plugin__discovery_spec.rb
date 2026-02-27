@@ -71,7 +71,7 @@ describe 'foreman_proxy::plugin::discovery' do
             'command' => 'tar xf fdi-image-latest.tar',
             'path' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
             'cwd' => "#{tftproot}/boot",
-            'creates' => "#{tftproot}/boot/fdi-image/initrd0.img",
+            'refreshonly' => true,
           })
         end
       end
