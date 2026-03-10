@@ -7,7 +7,5 @@ describe 'Scenario: install foreman-proxy with discovery plugin'  do
 
   it_behaves_like 'the default foreman proxy application'
 
-  describe command('curl -sk https://127.0.0.1:8443/features | grep -q discovery') do
-    its(:exit_status) { should eq 0 }
-  end
+  it_behaves_like 'the exposed feature', 'discovery'
 end
