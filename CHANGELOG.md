@@ -1,5 +1,13 @@
 # Changelog
 
+## [30.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/30.2.0) (2026-05-25)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/30.1.0...30.2.0)
+
+**Implemented enhancements:**
+
+- puppet/extlib: Allow 8.x [\#898](https://github.com/theforeman/puppet-foreman_proxy/pull/898) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [30.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/30.1.0) (2026-02-25)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/30.0.0...30.1.0)
