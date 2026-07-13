@@ -28,29 +28,23 @@
 #:ssl_private_key: ssl/private_keys/fqdn.key
 <% end -%>
 
-# Use this option only if you need to disable certain cipher suites.
-# Note: we use the OpenSSL suite name, such as "RC4-MD5".
-# The complete list of cipher suite names can be found at:
-# https://www.openssl.org/docs/manmaster/man1/ciphers.html#CIPHER-SUITE-NAMES
-<% if ciphers = scope.lookupvar("foreman_proxy::ssl_disabled_ciphers") and ciphers.any? -%>
-:ssl_disabled_ciphers:
-<% ciphers.each do |c| -%>
-<%= "  - #{c}" %>
-<% end -%>
+# TLS cipher string passed directly to OpenSSL. Accepts any valid OpenSSL cipher
+# string. When unset, foreman-proxy auto-detects: 'PROFILE=SYSTEM' is used if
+# /etc/crypto-policies/back-ends/opensslcnf.config, otherwise 'HIGH' is used
+# as a secure default.
+<% if (tls_ciphers = scope.lookupvar("foreman_proxy::tls_ciphers")) -%>
+:tls_ciphers: <%= tls_ciphers %>
 <% else -%>
-#:ssl_disabled_ciphers: [CIPHER-SUITE-1, CIPHER-SUITE-2]
+#:tls_ciphers: PROFILE=SYSTEM
 <% end -%>
 
-# Use this option only if you need to strictly specify TLS versions to be
-# disabled. SSLv3 and TLS v1.0 are always disabled and cannot be configured.
-# Specify versions like: '1.1', or '1.2'
-<% if versions = scope.lookupvar("foreman_proxy::tls_disabled_versions") and versions.any? -%>
-:tls_disabled_versions:
-<% versions.each do |v| -%>
-<%= "  - #{v}" %>
-<% end -%>
+# Minimum TLS protocol version to accept. When unset, the minimum version is
+# determined by the system's OpenSSL configuration (crypto-policies).
+# Valid values: '1.0', '1.1', '1.2', '1.3'.
+<% if (tls_min_version = scope.lookupvar("foreman_proxy::tls_min_version")) -%>
+:tls_min_version: '<%= tls_min_version %>'
 <% else -%>
-#:tls_disabled_versions: []
+#:tls_min_version: '1.2'
 <% end -%>
 
 # Hosts which the proxy accepts connections from

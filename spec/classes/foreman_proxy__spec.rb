@@ -951,25 +951,22 @@ describe 'foreman_proxy' do
         end
       end
 
-      context 'with ssl_disabled_ciphers' do
-        let(:params) { super().merge(ssl_disabled_ciphers: ['CIPHER-SUITE-1', 'CIPHER-SUITE-2']) }
+      context 'with tls_ciphers' do
+        let(:params) { super().merge(tls_ciphers: 'HIGH:!aNULL') }
 
-        it 'should set ssl_disabled_ciphers to YAML array in settings.yml' do
+        it 'should set tls_ciphers in settings.yml' do
           verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            ':ssl_disabled_ciphers:',
-            '  - CIPHER-SUITE-1',
-            '  - CIPHER-SUITE-2',
+            ':tls_ciphers: HIGH:!aNULL',
           ])
         end
       end
 
-      context 'with tls_disabled_versions' do
-        let(:params) { super().merge(tls_disabled_versions: ['1.1']) }
+      context 'with tls_min_version' do
+        let(:params) { super().merge(tls_min_version: '1.2') }
 
-        it 'should set tls_disabled_versions to YAML array in settings.yml' do
+        it 'should set tls_min_version in settings.yml' do
           verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            ':tls_disabled_versions:',
-            '  - 1.1'
+            ":tls_min_version: '1.2'",
           ])
         end
       end

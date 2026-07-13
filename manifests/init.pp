@@ -42,9 +42,11 @@
 # $foreman_ssl_key::            Corresponding key to a foreman_ssl_cert certificate
 #                               When not specified, the ssl_key is used instead.
 #
-# $ssl_disabled_ciphers::       List of OpenSSL cipher suite names that will be disabled from the default
+# $tls_ciphers::                TLS cipher string passed directly to OpenSSL. When unset, auto-detects:
+#                               'PROFILE=SYSTEM' if crypto-policies are present, otherwise 'HIGH'.
 #
-# $tls_disabled_versions::      List of TLS versions that will be disabled from the default
+# $tls_min_version::            Minimum TLS version to accept. When unset, determined by system OpenSSL
+#                               configuration. Valid values: '1.0', '1.1', '1.2', '1.3'.
 #
 # $trusted_hosts::              Only hosts listed will be permitted, empty array to disable authorization
 #
@@ -305,8 +307,8 @@ class foreman_proxy (
   Optional[Stdlib::Absolutepath] $foreman_ssl_cert = undef,
   Optional[Stdlib::Absolutepath] $foreman_ssl_key = undef,
   Array[String] $trusted_hosts = $foreman_proxy::params::trusted_hosts,
-  Array[String] $ssl_disabled_ciphers = [],
-  Array[String] $tls_disabled_versions = [],
+  Optional[String] $tls_ciphers = undef,
+  Optional[Enum['1.0', '1.1', '1.2', '1.3']] $tls_min_version = undef,
   Boolean $puppetca = true,
   Foreman_proxy::ListenOn $puppetca_listen_on = 'https',
   Stdlib::Absolutepath $ssldir = $foreman_proxy::params::ssldir,
