@@ -73,12 +73,14 @@ class foreman_proxy::plugin::container_gateway (
           $_postgresql_user,
           $postgresql_password
         ),
+        owner    => $_postgresql_user,
         encoding => 'utf8',
         locale   => 'C.utf8',
       }
     } else {
       postgresql::server::db { $postgresql_database:
         user     => $_postgresql_user,
+        owner    => $_postgresql_user,
         encoding => 'utf8',
         locale   => 'C.utf8',
       }
