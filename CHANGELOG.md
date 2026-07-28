@@ -1,6 +1,22 @@
 # Changelog
 
-## [30.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/30.2.0) (2026-05-25)
+## [31.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/31.0.0) (2026-07-28)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/30.2.0...31.0.0)
+
+**Breaking changes:**
+
+- TLS option changes [\#901](https://github.com/theforeman/puppet-foreman_proxy/pull/901) ([adamruzicka](https://github.com/adamruzicka))
+
+**Implemented enhancements:**
+
+- theforeman/foreman: Allow 30.x [\#903](https://github.com/theforeman/puppet-foreman_proxy/pull/903) ([arvind4501](https://github.com/arvind4501))
+
+**Fixed bugs:**
+
+- Set database owner to fix PG 15+ schema permissions [\#902](https://github.com/theforeman/puppet-foreman_proxy/pull/902) ([ogajduse](https://github.com/ogajduse))
+
+## [30.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/30.2.0) (2026-05-26)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/30.1.0...30.2.0)
 
