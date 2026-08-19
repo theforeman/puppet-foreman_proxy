@@ -27,7 +27,7 @@
 #
 # $ansible_module::             Ensure the Ansible module
 #
-# $puppet_module::              Ensure the Puppet module. This only makes sense if Puppetserver runs on the same machine.
+# $puppet_module::              Ensure the Puppet module. This only makes sense if OpenVox server runs on the same machine.
 #
 # === Advanced parameters:
 #

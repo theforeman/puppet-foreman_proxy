@@ -1,11 +1,11 @@
 ---
-# URL of the puppet master itself for API requests.
+# URL of the OpenVox server itself for API requests.
 :puppet_url: <%= scope.lookupvar("foreman_proxy::puppet_url") %>
 #
-# SSL certificates used to access the puppet API
+# SSL certificates used to access the OpenVox server API
 :puppet_ssl_ca: <%= scope.lookupvar("foreman_proxy::puppet_ssl_ca") %>
 :puppet_ssl_cert: <%= scope.lookupvar("foreman_proxy::puppet_ssl_cert") %>
 :puppet_ssl_key: <%= scope.lookupvar("foreman_proxy::puppet_ssl_key") %>
 #
-# Smart Proxy api timeout when Puppet's environment classes api is used and classes cache is disabled
+# Smart Proxy api timeout when OpenVox's environment classes api is used and classes cache is disabled
 :api_timeout: <%= scope.lookupvar("foreman_proxy::puppet_api_timeout") %>
