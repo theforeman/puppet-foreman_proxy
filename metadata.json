@@ -65,13 +65,15 @@
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "9"
+        "9",
+        "10"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "9"
+        "9",
+        "10"
       ]
     },
     {
@@ -102,7 +104,8 @@
     {
       "operatingsystem": "AlmaLinux",
       "operatingsystemrelease": [
-        "9"
+        "9",
+        "10"
       ]
     },
     {
