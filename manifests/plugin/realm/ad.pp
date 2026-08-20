@@ -22,7 +22,7 @@
 #                            can be set to specific version number, 'latest', 'present' etc.
 #
 class foreman_proxy::plugin::realm::ad (
-  String $realm = undef,
+  Optional[String] $realm = undef,
   Optional[String] $domain_controller = undef,
   Optional[String] $ou = undef,
   Optional[String] $computername_prefix = undef,

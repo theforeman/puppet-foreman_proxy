@@ -17,8 +17,8 @@
 # $used_ips_search_type:: The search type for used ips
 #
 class foreman_proxy::plugin::dhcp::infoblox (
-  String $username = undef,
-  String $password = undef,
+  Optional[String] $username = undef,
+  Optional[String] $password = undef,
   Enum['host', 'fixedaddress'] $record_type = 'fixedaddress',
   String $dns_view = 'default',
   String $network_view = 'default',

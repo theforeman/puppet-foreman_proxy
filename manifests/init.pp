@@ -356,7 +356,7 @@ class foreman_proxy (
   String $dhcp_interface = $foreman_proxy::params::dhcp_interface,
   Array[String] $dhcp_additional_interfaces = [],
   Optional[String] $dhcp_gateway = undef,
-  Variant[Undef, Boolean, String] $dhcp_range = undef,
+  Optional[Variant[Boolean, String]] $dhcp_range = undef,
   Optional[Stdlib::IP::Address::V4::Nosubnet] $dhcp_pxeserver = undef,
   String $dhcp_pxefilename = 'pxelinux.0',
   Optional[String[1]] $dhcp_ipxefilename = undef,
