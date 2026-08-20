@@ -8,6 +8,8 @@ describe 'Scenario: install foreman-proxy with remote_execution script plugin wi
 
     it_behaves_like 'the default foreman proxy application'
 
+    it_behaves_like 'the exposed feature', 'script'
+
     describe port(1883) do
       it { is_expected.to be_listening }
     end
@@ -69,6 +71,8 @@ describe 'Scenario: install foreman-proxy with remote_execution script plugin wi
     include_examples 'the example', 'remote_execution_script.pp'
 
     it_behaves_like 'the default foreman proxy application'
+
+    it_behaves_like 'the exposed feature', 'script'
 
     describe port(1883) do
       it { is_expected.not_to be_listening }

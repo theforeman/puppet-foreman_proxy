@@ -9,6 +9,8 @@ describe 'Scenario: install foreman-proxy', unless: broken_pid_file do
 
   it_behaves_like 'the default foreman proxy application'
 
+  it_behaves_like 'the exposed feature', 'dns'
+
   describe port(53) do
     it { is_expected.to be_listening }
   end

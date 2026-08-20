@@ -7,6 +7,8 @@ describe 'Scenario: install foreman-proxy with openscap plugin', if: ['redhat', 
 
   it_behaves_like 'the default foreman proxy application'
 
+  it_behaves_like 'the exposed feature', 'salt'
+
   specify { expect(file('/etc/salt/master.d')).to be_directory }
   specify { expect(file('/etc/salt/master.d/foreman.conf')).to be_file.and(have_attributes(owner: 'root', group: 'foreman-proxy')) }
 end
