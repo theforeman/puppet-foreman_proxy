@@ -1,7 +1,7 @@
 # @summary Configure the foreman proxy
 # @api private
 class foreman_proxy::config {
-  # Ensure SSL certs from the puppetmaster are available
+  # Ensure SSL certs from the OpenVox server are available
   # Relationship is duplicated there as defined() is parse-order dependent
   if $foreman_proxy::ssl and defined(Class['puppet::server::config']) {
     Class['puppet::server::config'] ~> Class['foreman_proxy::config']
@@ -31,7 +31,7 @@ class foreman_proxy::config {
     $dns_groups = []
   }
 
-  # uses the certs to connect to puppetserver
+  # uses the certs to connect to OpenVox server
   if $foreman_proxy::puppet or $foreman_proxy::puppetca or ($foreman_proxy::manage_puppet_group and $foreman_proxy::ssl) {
     $puppet_groups = [$foreman_proxy::puppet_group]
   } else {
