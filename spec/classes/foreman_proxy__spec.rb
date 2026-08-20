@@ -339,11 +339,10 @@ describe 'foreman_proxy' do
         end
 
         it 'should generate correct settings.yml' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            ":foreman_ssl_ca: /etc/pki/ca.pem",
-            ":foreman_ssl_cert: /etc/pki/cert.pem",
-            ":foreman_ssl_key: /etc/pki/key.pem"
-          ])
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.yml")
+            .with_content(%r{:foreman_ssl_ca: /etc/pki/ca\.pem})
+            .with_content(%r{:foreman_ssl_cert: /etc/pki/cert\.pem})
+            .with_content(%r{:foreman_ssl_key: /etc/pki/key\.pem})
         end
       end
 
@@ -540,13 +539,12 @@ describe 'foreman_proxy' do
         let(:params) { super().merge(ssl: false, http: true) }
 
         it 'should comment out ssl configuration items' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            '#:ssl_ca_file: ssl/certs/ca.pem',
-            '#:ssl_certificate: ssl/certs/fqdn.pem',
-            '#:ssl_private_key: ssl/private_keys/fqdn.key',
-            '#:https_port: 8443',
-            ':http_port: 8000',
-          ])
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.yml")
+            .with_content(%r{#:ssl_ca_file: ssl/certs/ca\.pem})
+            .with_content(%r{#:ssl_certificate: ssl/certs/fqdn\.pem})
+            .with_content(%r{#:ssl_private_key: ssl/private_keys/fqdn\.key})
+            .with_content(/#:https_port: 8443/)
+            .with_content(/:http_port: 8000/)
         end
       end
 
@@ -561,10 +559,9 @@ describe 'foreman_proxy' do
         end
 
         it 'should configure both http and ssl on their respective ports' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            ':https_port: 867',
-            ':http_port: 5309',
-          ])
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.yml")
+            .with_content(/:https_port: 867/)
+            .with_content(/:http_port: 5309/)
         end
       end
 
@@ -572,9 +569,8 @@ describe 'foreman_proxy' do
         let(:params) { super().merge(bind_host: '*') }
 
         it 'should set bind_host to a string' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            ':bind_host: \'*\'',
-          ])
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.yml")
+            .with_content(/:bind_host: '\*'/)
         end
       end
 
@@ -582,11 +578,10 @@ describe 'foreman_proxy' do
         let(:params) { super().merge(bind_host: ["eth0", "192.168.0.1"]) }
 
         it 'should set bind_host to an array' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            ':bind_host:',
-            '  - "eth0"',
-            '  - "192.168.0.1"',
-          ])
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.yml")
+            .with_content(/:bind_host:/)
+            .with_content(/  - "eth0"/)
+            .with_content(/  - "192\.168\.0\.1"/)
         end
       end
 
@@ -776,9 +771,8 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(templates_listen_on: 'http') }
 
           it 'should set enabled to http' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/templates.yml", [
-              ':enabled: http',
-            ])
+            is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/templates.yml")
+              .with_content(/:enabled: http/)
           end
         end
 
@@ -786,9 +780,8 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(templates_listen_on: 'https') }
 
           it 'should set enabled to https' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/templates.yml", [
-              ':enabled: https',
-            ])
+            is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/templates.yml")
+              .with_content(/:enabled: https/)
           end
         end
 
@@ -796,9 +789,8 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(templates_listen_on: 'both') }
 
           it 'should set enabled to true' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/templates.yml", [
-              ':enabled: true',
-            ])
+            is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/templates.yml")
+              .with_content(/:enabled: true/)
           end
         end
       end
@@ -810,9 +802,8 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(registration_listen_on: 'http') }
 
           it 'should set enabled to http' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/registration.yml", [
-              ':enabled: http',
-            ])
+            is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/registration.yml")
+              .with_content(/:enabled: http/)
           end
         end
 
@@ -820,9 +811,8 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(registration_listen_on: 'https') }
 
           it 'should set enabled to https' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/registration.yml", [
-              ':enabled: https',
-            ])
+            is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/registration.yml")
+              .with_content(/:enabled: https/)
           end
         end
 
@@ -830,9 +820,8 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(registration_listen_on: 'both') }
 
           it 'should set enabled to true' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/registration.yml", [
-              ':enabled: true',
-            ])
+            is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/registration.yml")
+              .with_content(/:enabled: true/)
           end
         end
 
@@ -840,9 +829,8 @@ describe 'foreman_proxy' do
           let(:params) { super().merge(registration_url: 'https://loadbalancer.example.com') }
 
           it 'should set enabled to true' do
-            verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.d/registration.yml", [
-              ':registration_url: https://loadbalancer.example.com',
-            ])
+            is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.d/registration.yml")
+              .with_content(%r{:registration_url: https://loadbalancer\.example\.com})
           end
         end
       end
@@ -851,9 +839,8 @@ describe 'foreman_proxy' do
         let(:params) { super().merge(log_level: 'DEBUG') }
 
         it 'should set log_level to DEBUG in setting.yml' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            ':log_level: DEBUG',
-          ])
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.yml")
+            .with_content(/:log_level: DEBUG/)
         end
       end
 
@@ -955,9 +942,8 @@ describe 'foreman_proxy' do
         let(:params) { super().merge(tls_ciphers: 'HIGH:!aNULL') }
 
         it 'should set tls_ciphers in settings.yml' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            ':tls_ciphers: HIGH:!aNULL',
-          ])
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.yml")
+            .with_content(/:tls_ciphers: HIGH:!aNULL/)
         end
       end
 
@@ -965,9 +951,8 @@ describe 'foreman_proxy' do
         let(:params) { super().merge(tls_min_version: '1.2') }
 
         it 'should set tls_min_version in settings.yml' do
-          verify_contents(catalogue, "#{etc_dir}/foreman-proxy/settings.yml", [
-            ":tls_min_version: '1.2'",
-          ])
+          is_expected.to contain_file("#{etc_dir}/foreman-proxy/settings.yml")
+            .with_content(/:tls_min_version: '1\.2'/)
         end
       end
 
