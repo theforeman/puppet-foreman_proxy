@@ -274,6 +274,7 @@ describe 'foreman_proxy' do
             '---',
             ':enabled: false',
             ":tftproot: #{tftp_root}",
+            ':tftp_system_image_root: /var/lib/foreman-proxy/tftp/system_images',
           ])
         end
 
@@ -433,6 +434,7 @@ describe 'foreman_proxy' do
             '---',
             ':enabled: https',
             ":tftproot: #{tftp_root}",
+            ':tftp_system_image_root: /var/lib/foreman-proxy/tftp/system_images',
           ])
         end
 
@@ -461,7 +463,8 @@ describe 'foreman_proxy' do
               '---',
               ':enabled: https',
               ':tftproot: /tftproot',
-              ':tftp_servername: 127.0.1.1'
+              ':tftp_servername: 127.0.1.1',
+              ':tftp_system_image_root: /var/lib/foreman-proxy/tftp/system_images',
             ])
           end
         end
