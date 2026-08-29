@@ -38,18 +38,22 @@ class foreman_proxy::config {
     $puppet_groups = []
   }
 
-  user { $foreman_proxy::user:
-    ensure  => 'present',
-    shell   => $foreman_proxy::shell,
-    comment => 'Foreman Proxy daemon user',
-    gid     => $foreman_proxy::group,
-    groups  => $foreman_proxy::groups + $dns_groups + $puppet_groups,
-    home    => $foreman_proxy::dir,
-    system  => true,
+  if $foreman_proxy::manage_user {
+    user { $foreman_proxy::user:
+      ensure  => 'present',
+      shell   => $foreman_proxy::shell,
+      comment => 'Foreman Proxy daemon user',
+      gid     => $foreman_proxy::group,
+      groups  => $foreman_proxy::groups + $dns_groups + $puppet_groups,
+      home    => $foreman_proxy::dir,
+      system  => true,
+    }
   }
 
-  group { $foreman_proxy::group:
-    system => true,
+  if $foreman_proxy::manage_group {
+    group { $foreman_proxy::group:
+      system => true,
+    }
   }
 
   # Provided by packaging, defined here to allow autorequire for files
