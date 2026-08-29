@@ -18,6 +18,18 @@ describe 'foreman_proxy::plugin::salt' do
               :content => /:enabled: https/
             })
         end
+
+        it 'should configure master.d/foreman.conf' do
+          should contain_file('/etc/salt/master.d/foreman.conf').
+            with_mode('0640').
+            with_owner('root').
+            with_group('foreman-proxy').
+            with_content(%r{user: root}).
+            with_content(%r{autosign_grains_dir: /var/lib/foreman-proxy/salt/grains}).
+            with_content(%r{autosign_file: /etc/salt/autosign.conf}).
+            with_content(%r{netapi_enable_clients:\n  - runner}).
+            with_content(%r{external_auth:\n  pam:\n    saltuser:\n      - '@runner'})
+        end
       end
 
       describe 'with overwritten parameters' do
@@ -30,6 +42,7 @@ describe 'foreman_proxy::plugin::salt' do
           :api_auth      => 'ldap',
           :api_username  => 'saltapi',
           :api_password  => 'letmein',
+          :api_interfaces => ['runner', 'local', 'ssh', 'wheel'],
           :saltfile      => '/etc/salt/Saltfile',
         } end
 
@@ -44,6 +57,18 @@ describe 'foreman_proxy::plugin::salt' do
             with_content(%r{:api_username: saltapi}).
             with_content(%r{:api_password: letmein}).
             with_content(%r{:saltfile: /etc/salt/Saltfile})
+        end
+
+        it 'should change master.d/foreman.conf parameters' do
+          should contain_file('/etc/salt/master.d/foreman.conf').
+            with_mode('0640').
+            with_owner('example').
+            with_group('foreman-proxy').
+            with_content(%r{user: example}).
+            with_content(%r{autosign_grains_dir: /var/lib/foreman-proxy/salt/grains}).
+            with_content(%r{autosign_file: /etc/salt/example.conf}).
+            with_content(%r{netapi_enable_clients:\n  - runner\n  - local\n  - ssh\n  - wheel}).
+            with_content(%r{external_auth:\n  ldap:\n    saltapi:\n      - '@runner'})
         end
       end
     end
