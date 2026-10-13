@@ -47,7 +47,17 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $dhcp_manage_acls = true
 
       $keyfile  = '/etc/bind/rndc.key'
-      $nsupdate = 'dnsutils'
+      $nsupdate = $facts['os']['name'] ? {
+        'Debian' => versioncmp($facts['os']['release']['major'], '13') < 0 ? {
+          true    => 'dnsutils',
+          default => 'bind9-dnsutils',
+        },
+        'Ubuntu' => versioncmp($facts['os']['release']['full'], '24.04') < 0 ? {
+          true    => 'dnsutils',
+          default => 'bind9-dnsutils',
+        },
+        default => 'bind9-dnsutils',
+      }
 
       $_tftp_syslinux_filenames = [
         '/usr/lib/PXELINUX/pxelinux.0',

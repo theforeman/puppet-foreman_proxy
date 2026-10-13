@@ -4,7 +4,17 @@ class { 'foreman::repo':
 
 # This provides dig which we use in our tests
 $dig_package = $facts['os']['family'] ? {
-  'Debian' => 'dnsutils',
+  'Debian' => $facts['os']['name'] ? {
+    'Debian' => versioncmp($facts['os']['release']['major'], '13') < 0 ? {
+      true    => 'dnsutils',
+      default => 'bind9-dnsutils',
+    },
+    'Ubuntu' => versioncmp($facts['os']['release']['full'], '24.04') < 0 ? {
+      true    => 'dnsutils',
+      default => 'bind9-dnsutils',
+    },
+    default => 'bind9-dnsutils',
+  },
   default  => 'bind-utils',
 }
 
