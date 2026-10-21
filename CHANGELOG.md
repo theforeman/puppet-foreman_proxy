@@ -1,5 +1,19 @@
 # Changelog
 
+## [32.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/32.0.0) (2026-10-21)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/31.0.0...32.0.0)
+
+**Breaking changes:**
+
+- Drop EoL puppet support [\#911](https://github.com/theforeman/puppet-foreman_proxy/pull/911) ([bastelfreak](https://github.com/bastelfreak))
+- Drop testing on puppet [\#908](https://github.com/theforeman/puppet-foreman_proxy/pull/908) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add OpenVox 9 support [\#912](https://github.com/theforeman/puppet-foreman_proxy/pull/912) ([bastelfreak](https://github.com/bastelfreak))
+- theforeman/dhcp: Allow 10.x & puppetlabs/stdlib: Allow 10.x [\#910](https://github.com/theforeman/puppet-foreman_proxy/pull/910) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [31.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/31.0.0) (2026-07-28)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/30.2.0...31.0.0)
