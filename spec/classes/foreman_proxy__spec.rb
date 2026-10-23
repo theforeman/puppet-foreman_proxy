@@ -596,7 +596,14 @@ describe 'foreman_proxy' do
           when 'FreeBSD', 'DragonFly'
             'bind-tools'
           else
-            'dnsutils'
+            case facts[:os]['name']
+            when 'Debian'
+              facts[:os]['release']['major'].to_i < 13 ? 'dnsutils' : 'bind9-dnsutils'
+            when 'Ubuntu'
+              Gem::Version.new(facts[:os]['release']['full']) < Gem::Version.new('24.04') ? 'dnsutils' : 'bind9-dnsutils'
+            else
+              'bind9-dnsutils'
+            end
           end
         end
 
