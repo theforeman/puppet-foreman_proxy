@@ -1,6 +1,14 @@
 # Changelog
 
-## [32.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/32.0.0) (2026-10-21)
+## [32.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/32.1.0) (2026-10-23)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/32.0.0...32.1.0)
+
+**Implemented enhancements:**
+
+- theforeman/foreman: Allow 31.x [\#914](https://github.com/theforeman/puppet-foreman_proxy/pull/914) ([bastelfreak](https://github.com/bastelfreak))
+
+## [32.0.0](https://github.com/theforeman/puppet-foreman_proxy/tree/32.0.0) (2026-10-23)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/31.0.0...32.0.0)
 
