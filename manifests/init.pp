@@ -50,19 +50,19 @@
 #
 # $trusted_hosts::              Only hosts listed will be permitted, empty array to disable authorization
 #
-# $puppetca::                   Enable Puppet CA feature
+# $puppetca::                   Enable OpenVox CA feature
 #
-# $puppetca_listen_on::         Protocols for the Puppet CA feature to listen on
+# $puppetca_listen_on::         Protocols for the OpenVox CA feature to listen on
 #
-# $ssldir::                     Puppet CA SSL directory
+# $ssldir::                     OpenVox CA SSL directory
 #
 # $httpboot::                   Enable HTTPBoot feature. In most deployments this requires HTTP to be enabled as well.
 #
-# $puppetdir::                  Puppet var directory
+# $puppetdir::                  OpenVox var directory
 #
 # $puppet_group::               Groups of Foreman proxy user
 #
-# $autosignfile::               Hostname-Whitelisting only: Location of puppets autosign.conf
+# $autosignfile::               Hostname-Whitelisting only: Location of OpenVoxs autosign.conf
 #
 # $puppetca_tokens_file::       Token-Whitelisting only: Location of the tokens.yaml
 #
@@ -73,15 +73,15 @@
 #
 # $puppet_listen_on::           Protocols for the Puppet feature to listen on
 #
-# $puppet_url::                 URL of the Puppet master itself for API requests
+# $puppet_url::                 URL of the OpenVox server itself for API requests
 #
-# $puppet_ssl_ca::              SSL CA used to verify connections when accessing the Puppet master API
+# $puppet_ssl_ca::              SSL CA used to verify connections when accessing the OpenVox server API
 #
-# $puppet_ssl_cert::            SSL certificate used when accessing the Puppet master API
+# $puppet_ssl_cert::            SSL certificate used when accessing the OpenVox server API
 #
-# $puppet_ssl_key::             SSL private key used when accessing the Puppet master API
+# $puppet_ssl_key::             SSL private key used when accessing the OpenVox server API
 #
-# $puppet_api_timeout::         Timeout in seconds when accessing Puppet environment classes API
+# $puppet_api_timeout::         Timeout in seconds when accessing OpenVox environment classes API
 #
 # $templates::                  Enable templates feature
 #
