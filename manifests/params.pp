@@ -47,7 +47,7 @@ class foreman_proxy::params inherits foreman_proxy::globals {
       $dhcp_manage_acls = true
 
       $keyfile  = '/etc/bind/rndc.key'
-      $nsupdate = 'dnsutils'
+      $nsupdate = 'bind9-dnsutils'
 
       $_tftp_syslinux_filenames = [
         '/usr/lib/PXELINUX/pxelinux.0',
