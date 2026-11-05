@@ -596,7 +596,7 @@ describe 'foreman_proxy' do
           when 'FreeBSD', 'DragonFly'
             'bind-tools'
           else
-            'dnsutils'
+            'bind9-dnsutils'
           end
         end
 
