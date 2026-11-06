@@ -1,3 +1,8 @@
+# Used to test which TLS versions are enabled
+package { 'nmap':
+  ensure => installed,
+}
+
 class { 'foreman::repo':
   repo => 'nightly',
 }
