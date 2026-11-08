@@ -42,10 +42,10 @@ class foreman_proxy::plugin::discovery (
       remote_location => "${source_url}${image_name}",
       mode            => '0644',
     } ~> exec { "untar ${image_name}":
-      command => "tar xf ${image_name}",
-      path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-      cwd     => "${tftp_root_clean}/boot",
-      creates => "${tftp_root_clean}/boot/fdi-image/initrd0.img",
+      command     => "tar xf ${image_name}",
+      path        => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+      cwd         => "${tftp_root_clean}/boot",
+      refreshonly => true,
     }
   }
 }
