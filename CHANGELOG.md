@@ -1,5 +1,14 @@
 # Changelog
 
+## [32.2.0](https://github.com/theforeman/puppet-foreman_proxy/tree/32.2.0) (2026-11-10)
+
+[Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/32.1.0...32.2.0)
+
+**Implemented enhancements:**
+
+- Allow theforeman/dns 13.x, theforeman/foreman 32.x, and theforeman/tftp 11.x [\#918](https://github.com/theforeman/puppet-foreman_proxy/pull/918) ([lzap](https://github.com/lzap))
+- Add support for Debian 13 and Ubuntu 24.04 [\#916](https://github.com/theforeman/puppet-foreman_proxy/pull/916) ([evgeni](https://github.com/evgeni))
+
 ## [32.1.0](https://github.com/theforeman/puppet-foreman_proxy/tree/32.1.0) (2026-10-23)
 
 [Full Changelog](https://github.com/theforeman/puppet-foreman_proxy/compare/32.0.0...32.1.0)
